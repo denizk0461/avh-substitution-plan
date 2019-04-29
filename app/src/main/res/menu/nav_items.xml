@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/plan"
+        android:icon="@drawable/ic_writing"
+        android:title="@string/plan"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/personal"
+        android:icon="@drawable/ic_idea"
+        android:title="@string/personal"
+        android:enabled="true"/>
+    <!--<item-->
+        <!--android:id="@+id/search"-->
+        <!--android:icon="@drawable/ic_magnifying_glass"-->
+        <!--android:title="@string/search"-->
+        <!--android:enabled="true"/>-->
+    <item
+        android:id="@+id/menu"
+        android:icon="@drawable/ic_tomato"
+        android:title="@string/menu"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_cogwheel"
+        android:title="@string/settings"
+        android:enabled="true"/>
+
+</menu>

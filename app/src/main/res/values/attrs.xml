@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ds">
+        <attr name="colorPrimary" format="color"/>
+        <attr name="colorPrimaryDark" format="color"/>
+        <attr name="colorAccent" format="color"/>
+        <attr name="colorBackground" format="color"/>
+        <attr name="colorBackgroundCard" format="color"/>
+        <attr name="colorText" format="color"/>
+        <attr name="colorHint" format="color"/>
+        <attr name="colorHintDark" format="color"/>
+        <attr name="colorHintLight" format="color"/>
+
+        <attr name="referenceTextColor" format="reference"/>
+        <attr name="colorChip" format="color"/>
+
+    </declare-styleable>
+</resources>

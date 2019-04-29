@@ -1,0 +1,118 @@
+<resources>
+    <string name="app_name">AvH Plan</string>
+    <string name="subst">Substitution Plan</string>
+    <string name="filter">Filters</string>
+    <string name="lastupdated">Last updated</string>
+    <string name="nointernet">No internet connection</string>
+    <string name="general">General</string>
+    <string name="classes">Grade</string>
+    <string name="courses">Courses</string>
+
+    <string name="personal">Personal</string>
+    <string name="settings">Settings</string>
+    <string name="plan">Plan</string>
+
+    <!-- for Settings fragment -->
+    <string name="darkbg">Dark background</string>
+    <string name="restart">App restart required</string>
+    <string name="notifications">Enable notifications</string>
+    <string name="notifiedabout">Also enables background sync</string>
+
+    <string name="personalplan">Personal Plan</string>
+    <string name="keyphrase">Enter a keyphrase</string>
+    <string name="personalise">Personalise</string>
+    <string name="misc">Miscellaneous</string>
+    <string name="personalised">Set personalised plan as default</string>
+    <string name="defplan">Defaults to normal plan otherwise</string>
+    <string name="visitweb">Visit the school\'s website</string>
+    <string name="butwhy">In case you need to</string>
+    <string name="menu">Menu</string>
+    <string name="foodmenu">Food Menu</string>
+    <string name="bestclass">17a is the best profile</string>
+    <string name="letsgo">Let\'s Go!</string>
+    <string name="welcome">Welcome!</string>
+    <string name="firstsomethings">First, let\'s setup some things.</string>
+    <string name="tellmename">Tell me your name.</string>
+    <string name="yourname">Your name</string>
+    <string name="nextclass">Next, tell me which grade you\'re in.</string>
+    <string name="yourclass">Your grade</string>
+    <string name="seniorsetup">If you\'re in senior phase, please also tell me which courses you\'re enrolled in.</string>
+    <string name="yourcourses">Your courses</string>
+    <string name="moresettings">Lastly, just a few more settings.</string>
+    <string name="wantnotif">Receive notifications and enable background sync</string>
+    <string name="enabledarkmode">Enable dark mode</string>
+    <string name="havefun">Have fun!</string>
+
+    <string name="greeting0">Hello, %s!</string>
+    <string name="greeting1">How are you, %s?</string>
+    <string name="greeting2">Greetings, %s.</string>
+    <string name="greeting3">Hey, %s!</string>
+    <string name="greeting4">How\'s your day, %s?</string>
+    <string name="greeting5">Nice to see you, %s.</string>
+    <string name="greeting6">You alright, %s?</string>
+    <string name="greeting7">What\'s up, %s?</string>
+    <string-array name="greeting8_array">
+        <item>"Good morning, "</item>
+        <item>"Good day, "</item>
+        <item>"Good evening, "</item>
+    </string-array>
+    <string name="disablegreeting">Enable greeting</string>
+    <string name="justnice">If you want me to be nice :)</string>
+    <string name="splan">\'s Plan</string>
+    <string name="nosplan">\' Plan</string>
+
+    <string name="licences">Licences</string>
+    <string name="whatittook">What it took to create this app</string>
+    <string name="version">Version Number</string>
+
+    <string name="tac">Terms &amp; Conditions</string>
+    <string name="tactwo">Review this app\'s Terms &amp; Conditions</string>
+    <string name="privacy">Privacy Policy</string>
+    <string name="privacytwo">Review this app\'s Privacy Policy</string>
+    <string name="noinfo">No information available</string>
+    <string name="information">Information</string>
+
+    <string name="devby">Made by Deniz :)</string>
+
+    <string name="openInfo">Open info panel on startup</string>
+    <string name="openInfoTwo">Opens automatically without user input</string>
+    <string name="autoRefresh">Refresh on startup</string>
+    <string name="autoRefreshTwo">In case the background sync doesn\'t work</string>
+
+    <string name="helpClassesTitle">How to enter your grade</string>
+    <string name="helpClasses">Enter your current grade to have it appear in your personal plan and be notified about any information.\n\nNote:\n\nIn junior phase, put the number and letter together, as in \"5a\".\n\nIn E-Phase, separate them by a space, as in \"18 a\".\n\nIn Q1/Q2, only put in the number, as in \"17\".\n\nMultiple grades can only be entered when no courses have been entered.</string>
+    <string name="helpCoursesTitle">How to enter your courses</string>
+    <string name="helpCourses">You need to enter the course abbreviation for every course you want in your personal plan and want to be notified about. You can find them on your time table.\n\nHere\'s a few examples:\n\nMathematics in 5th grade (juniors) would be MAT.\n\nAdvanced English in E-Phase (seniors) for the English profile may be ENP1.\n\nBasic Biology in Q1 could be bio1.\n\nIn most cases, entering courses while in junior phase is redundant.\nSeparate multiple courses by spaces, commas are optional.\nCapitalisation is required.</string>
+    <string name="donttell">Don\'t tell him :0</string>
+    <string name="experimentalmenu">Experimental Menu</string>
+    <string name="diagnosticsmenu">Diagnostics Menu</string>
+    <string name="fortest">This menu is currently intended for testing only. Additional features may be added in the future. Feel free to try arbitrary codes.</string>
+    <string name="positivebutton">Apply</string>
+    <string name="nothinghappened">Nothing happened.</string>
+    <string name="calculate">Calculate</string>
+    <string name="boy">Boy</string>
+    <string name="girl">Girl</string>
+    <string name="dating">Q1 Matchmaker</string>
+    <string name="error">An error occurred!</string>
+    <string name="nosubst">No substitutions for you</string>
+
+    <string name="chinaNotif">Not supported this device</string>
+    <string name="chinaAuto">Automatically enabled on your device</string>
+
+    <string name="chinaTitle">Information regarding your device</string>
+    <string name="chinaDialog">Some Chinese manufacturers, such as Huawei/Honor and Xiaomi, heavily suppress background services, which results in notifications and background synchronisation not working.\n\nFrom my current research, I have determined that there\'s no easy workaround I can implement.\n\nYou can, however, try to disable power optimisation for this app in the settings. Click the button to be directed to a search and follow the instructions provided by one of the results.</string>
+    <string name="orbuy">Or, you know, buy a good device</string>
+
+    <string name="searchonline">Search online</string>
+
+    <!--<string name="avhblue">AvH-Blue</string>-->
+    <!--<string name="rosered">AvH-Blue</string>-->
+    <!--<string name="sunsetorange">AvH-Blue</string>-->
+    <!--<string name="datingsimpink">AvH-Blue</string>-->
+    <!--<string name="deepviolet">AvH-Blue</string>-->
+    <!--<string name="lessdeepviolet">AvH-Blue</string>-->
+    <!--<string name="mathematicalblue">AvH-Blue</string>-->
+    <!--<string name="forestgreen">AvH-Blue</string>-->
+    <!--<string name="grassgreen">AvH-Blue</string>-->
+
+</resources>
