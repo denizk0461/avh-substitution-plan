@@ -556,8 +556,8 @@ public class FragmentSettings extends Fragment {
                             alertDialogDev.setView(dialogView);
                             alertDialogDev.show();
 
-                        } else if (dialogEditText.getText().toString().equals("Tim Bergling")) {
-                            Toast.makeText(getActivity(), "◢◤",
+                        } else if (dialogEditText.getText().toString().equals("2018-04-20")) {
+                            Toast.makeText(getActivity(), "◢ ◤",
                                     Toast.LENGTH_LONG).show();
 
                         } else if (dialogEditText.getText().toString().equals("Q1 Matchmaker")) {
