@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 //        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 //        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
@@ -130,7 +131,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
+//                bottomSheetCloser.setVisibility(View.VISIBLE);
+//                bottomSheetCloser.setAlpha(slideOffset);
             }
         });
 
@@ -181,15 +183,15 @@ public class MainActivity extends AppCompatActivity {
                         TextView dialogText = dialogView.findViewById(R.id.dialogtext);
                         dialogText.setText(R.string.chinaDialog);
                         secretText.setText(R.string.orbuy);
-                        Button searchbtn = dialogView.findViewById(R.id.searchbtn);
-                        searchbtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-                                intent.putExtra(SearchManager.QUERY, marketName + " disable power optimisation");
-                                startActivity(intent);
-                            }
-                        });
+//                        Button searchbtn = dialogView.findViewById(R.id.searchbtn);
+//                        searchbtn.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+//                                intent.putExtra(SearchManager.QUERY, marketName + " disable power optimisation");
+//                                startActivity(intent);
+//                            }
+//                        });
                         alertDialog.setView(dialogView);
                         alertDialog.show();
 

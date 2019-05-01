@@ -88,7 +88,7 @@
     <string name="nosubst">Kein Entfall für dich</string>
     <string name="chinaNotif">Auf diesem Gerät nicht unterstützt</string>
     <string name="chinaAuto">Auf diesem Gerät automatisch aktiviert</string>
-    <string name="chinaDialog">Einige chinesische Hersteller, wie Huawei/Honor und Xiaomi, unterdrücken Hintergrund-Services, weshalb Benachrichtungen und Hintergrund-Synchronisation nicht funktionieren.\n\nIch habe feststellen müssen, dass es keine einfache Lösung dafür gibt, die ich einbauen könnte.\n\nStattdessen kannst du jedoch versuchen, App-Optimierungen für diese App zu deaktivieren. Der Knopf bringt eine Google-Suche für das Problem auf, folge bitte einem der Links.</string>
+    <string name="chinaDialog">Einige chinesische Hersteller, wie Huawei/Honor und Xiaomi, unterdrücken Hintergrund-Services, weshalb Benachrichtungen und Hintergrund-Synchronisation nicht funktionieren.\n\nIch habe feststellen müssen, dass es keine einfache Lösung dafür gibt, die ich einbauen könnte.\n\nStattdessen kannst du jedoch versuchen, App-Optimierungen für diese App zu deaktivieren:\n\nSchließe die App und öffne \"Einstellungen\" -> \"Apps\" -> \"AvH-Plan\" -> \"Akku\" -> \"App-Start\" -> \"Automatisch verwalten\" deaktivieren, \"Im Hintergrund ausführen\" aktivieren.\n\nDies kann unter Umständen keinen Einfluss haben.</string>
     <string name="orbuy">Oder kauf dir ein gutes Smartphone</string>
     <string name="chinaTitle">Informationen bezüglich deines Gerätes</string>
     <string name="searchonline">Suche online</string>

@@ -1,6 +1,7 @@
 package com.denizd.substitutionplan;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -522,109 +523,121 @@ public class FragmentSettings extends Fragment {
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (dialogEditText.getText().toString().equals("@DEV_DIAGNOSTICS")) {
-                            AlertDialog.Builder alertDialogDev;
-                            if (prefs.getInt("themeInt", 0) == 1) {
-                                alertDialogDev = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomDark);
-                            } else {
-                                alertDialogDev = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomLight);
-                            }
-                            alertDialogDev.setTitle(getString(R.string.diagnosticsmenu));
-                            View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.diagnostics_dialog, null);
-                            final TextView dialogText = dialogView.findViewById(R.id.dialogtext);
-                            setDiagnosticsText(dialogText, prefs);
-                            Button launch = dialogView.findViewById(R.id.btnResetLaunch);
-                            Button notif = dialogView.findViewById(R.id.btnResetNotif);
-                            launch.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    edit.putInt("launchDev", 0);
-                                    edit.apply();
-                                    setDiagnosticsText(dialogText, prefs);
+                        switch (dialogEditText.getText().toString()) {
+                            case "@DIAGNOSTICS": {
+                                AlertDialog.Builder alertDialogDev;
+                                if (prefs.getInt("themeInt", 0) == 1) {
+                                    alertDialogDev = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomDark);
+                                } else {
+                                    alertDialogDev = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomLight);
                                 }
-                            });
-                            notif.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    edit.putInt("notificationTestNumberDev", 0);
-                                    edit.apply();
-                                    setDiagnosticsText(dialogText, prefs);
-                                }
-                            });
-
-
-                            alertDialogDev.setView(dialogView);
-                            alertDialogDev.show();
-
-                        } else if (dialogEditText.getText().toString().equals("2018-04-20")) {
-                            Toast.makeText(getActivity(), "◢ ◤",
-                                    Toast.LENGTH_LONG).show();
-
-                        } else if (dialogEditText.getText().toString().equals("Q1 Matchmaker")) {
-                            final Random gen = new Random();
-                            AlertDialog.Builder alertDialogDev;
-                            if (prefs.getInt("themeInt", 0) == 1) {
-                                alertDialogDev = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomDark);
-                            } else {
-                                alertDialogDev = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomLight);
-                            }
-                            alertDialogDev.setTitle(getString(R.string.dating));
-                            View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dating_dialog, null);
-
-                            Button datingBtn = dialogView.findViewById(R.id.dating_btn);
-                            final EditText boyT = dialogView.findViewById(R.id.dating_txt1);
-                            final EditText girlT = dialogView.findViewById(R.id.dating_txt2);
-                            final CheckBox boy = dialogView.findViewById(R.id.cb1);
-                            final CheckBox girl = dialogView.findViewById(R.id.cb2);
-                            final TextView percentage = dialogView.findViewById(R.id.dating_txtp);
-                            datingBtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    try {
-                                        double boyP = 0, girlP = 0, perc = 0;
-                                        if (boyT.getText().toString().isEmpty() || boy.isChecked()) {
-                                            boyT.setText(names.boy[gen.nextInt(names.boy.length)]);
-                                        }
-                                        if (girlT.getText().toString().isEmpty() || girl.isChecked()) {
-                                            girlT.setText(names.girl[gen.nextInt(names.girl.length)]);
-                                        }
-                                        for (int i = 0; i < boyT.getText().length(); i++) {
-                                            boyP++;
-                                        }
-                                        for (int i = 0; i < girlT.getText().length(); i++) {
-                                            girlP++;
-                                        }
-                                        if (girlP < boyP) {
-                                            perc = (girlP / boyP) * 100;
-                                        }
-                                        if (girlP > boyP) {
-                                            perc = (boyP / girlP) * 100;
-                                        }
-                                        char multiplyTempBoy = boyT.getText().charAt(boyT.getText().length() - 1);
-                                        char multiplyTempGirl = girlT.getText().charAt(girlT.getText().length() - 1);
-                                        double multiply = Character.getNumericValue(multiplyTempBoy) + Character.getNumericValue(multiplyTempGirl);
-                                        multiply = multiply / 1.2;
-                                        if (perc == 0) {
-                                            perc += 30;
-                                        }
-                                        DecimalFormat df = new DecimalFormat("#.##");
-                                        if (perc * (multiply / 40) > 100) {
-                                            percentage.setText("100.00%");
-                                        } else {
-                                            percentage.setText(df.format(perc * (multiply / 40)) + "%");
-                                        }
-                                    } catch (NullPointerException e) {
-                                        Toast.makeText(getActivity(), getString(R.string.error),
-                                                Toast.LENGTH_SHORT).show();
+                                alertDialogDev.setTitle(getString(R.string.diagnosticsmenu));
+                                View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.diagnostics_dialog, null);
+                                final TextView dialogText = dialogView.findViewById(R.id.dialogtext);
+                                setDiagnosticsText(dialogText, prefs);
+                                Button launch = dialogView.findViewById(R.id.btnResetLaunch);
+                                Button notif = dialogView.findViewById(R.id.btnResetNotif);
+                                launch.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        edit.putInt("launchDev", 0);
+                                        edit.apply();
+                                        setDiagnosticsText(dialogText, prefs);
                                     }
-                                }
-                            });
-                            alertDialogDev.setView(dialogView);
-                            alertDialogDev.show();
+                                });
+                                notif.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        edit.putInt("notificationTestNumberDev", 0);
+                                        edit.apply();
+                                        setDiagnosticsText(dialogText, prefs);
+                                    }
+                                });
 
-                        } else {
-                            Toast.makeText(getActivity(), getString(R.string.nothinghappened),
-                                    Toast.LENGTH_LONG).show();
+
+                                alertDialogDev.setView(dialogView);
+                                alertDialogDev.show();
+
+                                break;
+                            }
+                            case "2018-04-20":
+                                Toast.makeText(getActivity(), getEmojiByUnicode(0x1F494),
+                                        Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=ynHYW1iTcq0")); // FTL
+
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.setPackage("com.google.android.youtube");
+                                startActivity(intent);
+
+                                break;
+                            case "Q1 Matchmaker": {
+                                final Random gen = new Random();
+                                AlertDialog.Builder alertDialogDev;
+                                if (prefs.getInt("themeInt", 0) == 1) {
+                                    alertDialogDev = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomDark);
+                                } else {
+                                    alertDialogDev = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomLight);
+                                }
+                                alertDialogDev.setTitle(getString(R.string.dating));
+                                View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dating_dialog, null);
+
+                                Button datingBtn = dialogView.findViewById(R.id.dating_btn);
+                                final EditText boyT = dialogView.findViewById(R.id.dating_txt1);
+                                final EditText girlT = dialogView.findViewById(R.id.dating_txt2);
+                                final CheckBox boy = dialogView.findViewById(R.id.cb1);
+                                final CheckBox girl = dialogView.findViewById(R.id.cb2);
+                                final TextView percentage = dialogView.findViewById(R.id.dating_txtp);
+                                datingBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        try {
+                                            double boyP = 0, girlP = 0, perc = 0;
+                                            if (boyT.getText().toString().isEmpty() || boy.isChecked()) {
+                                                boyT.setText(names.boy[gen.nextInt(names.boy.length)]);
+                                            }
+                                            if (girlT.getText().toString().isEmpty() || girl.isChecked()) {
+                                                girlT.setText(names.girl[gen.nextInt(names.girl.length)]);
+                                            }
+                                            for (int i = 0; i < boyT.getText().length(); i++) {
+                                                boyP++;
+                                            }
+                                            for (int i = 0; i < girlT.getText().length(); i++) {
+                                                girlP++;
+                                            }
+                                            if (girlP < boyP) {
+                                                perc = (girlP / boyP) * 100;
+                                            }
+                                            if (girlP > boyP) {
+                                                perc = (boyP / girlP) * 100;
+                                            }
+                                            char multiplyTempBoy = boyT.getText().charAt(boyT.getText().length() - 1);
+                                            char multiplyTempGirl = girlT.getText().charAt(girlT.getText().length() - 1);
+                                            double multiply = Character.getNumericValue(multiplyTempBoy) + Character.getNumericValue(multiplyTempGirl);
+                                            multiply = multiply / 1.2;
+                                            if (perc == 0) {
+                                                perc += 30;
+                                            }
+                                            DecimalFormat df = new DecimalFormat("#.##");
+                                            if (perc * (multiply / 40) > 100) {
+                                                percentage.setText("100.00%");
+                                            } else {
+                                                percentage.setText(df.format(perc * (multiply / 40)) + "%");
+                                            }
+                                        } catch (NullPointerException e) {
+                                            Toast.makeText(getActivity(), getString(R.string.error),
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                                alertDialogDev.setView(dialogView);
+                                alertDialogDev.show();
+
+                                break;
+                            }
+                            default:
+                                Toast.makeText(getActivity(), getString(R.string.nothinghappened),
+                                        Toast.LENGTH_LONG).show();
+                                break;
                         }
                     }
                 });
@@ -633,6 +646,10 @@ public class FragmentSettings extends Fragment {
                 return true;
             }
         });
+    }
+
+    private String getEmojiByUnicode(int unicode){
+        return new String(Character.toChars(unicode));
     }
 
     private void setDiagnosticsText(TextView dialogText, SharedPreferences prefs) {

@@ -18,9 +18,9 @@ class FoodFragment : Fragment(R.layout.food_layout) {
     private lateinit var recyclerView: RecyclerView
     private val mAdapter = FoodAdapter(foodArrayList)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.food_layout, null)
-    }
+//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+//        return inflater.inflate(R.layout.food_layout, null)
+//    } // TODO do I need this?
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

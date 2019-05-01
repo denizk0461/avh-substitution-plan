@@ -100,7 +100,7 @@
     <string name="chinaAuto">Automatically enabled on your device</string>
 
     <string name="chinaTitle">Information regarding your device</string>
-    <string name="chinaDialog">Some Chinese manufacturers, such as Huawei/Honor and Xiaomi, heavily suppress background services, which results in notifications and background synchronisation not working.\n\nFrom my current research, I have determined that there\'s no easy workaround I can implement.\n\nYou can, however, try to disable power optimisation for this app in the settings. Click the button to be directed to a search and follow the instructions provided by one of the results.</string>
+    <string name="chinaDialog">Some Chinese manufacturers, such as Huawei/Honor and Xiaomi, heavily suppress background services, which results in notifications and background synchronisation not working.\n\nFrom my current research, I have determined that there\'s no easy workaround I can implement.\n\nYou can, however, try to disable power optimisation for this app in the settings:\n\nClose the app and open \"Settings\" -> \"Apps\" -> \"AvH Plan\" -> \"Battery\" -> \"Launch\" -> disable \"Manage automatically\", enable \"Run in background\"\n\nThis is not guaranteed to work.</string>
     <string name="orbuy">Or, you know, buy a good device</string>
 
     <string name="searchonline">Search online</string>
