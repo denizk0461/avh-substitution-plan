@@ -13,6 +13,8 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.widget.RemoteViews;
+import android.widget.TextView;
 
 import com.madapps.prefrences.EasyPrefrences;
 
@@ -261,13 +263,19 @@ public class ScheduledJobService extends JobService {
                     openApp.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     PendingIntent openAppPending = PendingIntent.getActivity(mContext, 0, openApp, 0);
 
+                RemoteViews notificationLayout = new RemoteViews(getPackageName(), R.layout.notification);
+                notificationLayout.setTextViewText(R.id.notification_title, getString(R.string.subst));
+                notificationLayout.setTextViewText(R.id.notification_textview, notifText);
+
                     if (!notifText.isEmpty()) {
                         Notification notification = null;
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             notification = new NotificationCompat.Builder(mContext)
-                                    .setContentTitle(getString(R.string.subst))
-                                    .setStyle(new NotificationCompat.BigTextStyle()
-                                            .bigText(notifText))
+//                                    .setContentTitle(getString(R.string.subst))
+//                                    .setStyle(new NotificationCompat.BigTextStyle()
+//                                            .bigText(notifText))
+                                    .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+                                    .setCustomContentView(notificationLayout)
                                     .setSmallIcon(R.drawable.ic_avh)
                                     .setChannelId(channelId)
                                     .setContentIntent(openAppPending)
@@ -275,9 +283,11 @@ public class ScheduledJobService extends JobService {
                                     .build();
                         } else {
                             notification = new NotificationCompat.Builder(mContext)
-                                    .setContentTitle(getString(R.string.subst))
-                                    .setStyle(new NotificationCompat.BigTextStyle()
-                                            .bigText(notifText))
+//                                    .setContentTitle(getString(R.string.subst))
+//                                    .setStyle(new NotificationCompat.BigTextStyle()
+//                                            .bigText(notifText))
+                                    .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+                                    .setCustomContentView(notificationLayout)
                                     .setSmallIcon(R.drawable.ic_avh)
                                     .setContentIntent(openAppPending)
                                     .setAutoCancel(true)

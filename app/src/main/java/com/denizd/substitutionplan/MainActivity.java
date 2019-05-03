@@ -171,18 +171,14 @@ public class MainActivity extends AppCompatActivity {
 
                         AlertDialog.Builder alertDialog;
                         View dialogView = LayoutInflater.from(context).inflate(R.layout.secret_dialog, null);
-                        TextView secretText = dialogView.findViewById(R.id.secrettext);
                         if (prefs.getInt("themeInt", 0) == 1) {
-                            secretText.setTextColor(getResources().getColor(R.color.hintdark));
                             alertDialog = new AlertDialog.Builder(context, R.style.AlertDialogCustomDark);
                         } else {
-                            secretText.setTextColor(getResources().getColor(R.color.hint));
                             alertDialog = new AlertDialog.Builder(context, R.style.AlertDialogCustomLight);
                         }
                         alertDialog.setTitle(R.string.chinaTitle);
                         TextView dialogText = dialogView.findViewById(R.id.dialogtext);
                         dialogText.setText(R.string.chinaDialog);
-                        secretText.setText(R.string.orbuy);
 //                        Button searchbtn = dialogView.findViewById(R.id.searchbtn);
 //                        searchbtn.setOnClickListener(new View.OnClickListener() {
 //                            @Override

@@ -634,6 +634,13 @@ public class FragmentSettings extends Fragment {
 
                                 break;
                             }
+                            case "@NOTIFICATION": {
+                                edit.putString("time", "");
+                                edit.apply();
+                                Toast.makeText(getActivity(), "Dummy notification sent",
+                                        Toast.LENGTH_LONG).show();
+                                break;
+                            }
                             default:
                                 Toast.makeText(getActivity(), getString(R.string.nothinghappened),
                                         Toast.LENGTH_LONG).show();
