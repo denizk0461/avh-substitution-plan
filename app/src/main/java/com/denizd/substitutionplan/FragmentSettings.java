@@ -1,6 +1,7 @@
 package com.denizd.substitutionplan;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
@@ -27,20 +29,24 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.jaredrummler.android.device.DeviceName;
+
+import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.util.Random;
 
-public class FragmentSettings extends Fragment {
+public class FragmentSettings extends Fragment implements View.OnClickListener {
     CoordinatorLayout coordinatorLayout;
-    private int cs = 7;
+    private int cs = 7, i = 0;
     private String manufacturer, name, model;
 
     @Nullable
@@ -71,6 +77,7 @@ public class FragmentSettings extends Fragment {
         final EditText txtName = getView().findViewById(R.id.txtName);
         final Switch greeting = getView().findViewById(R.id.switchDisableGreeting);
         final Switch darkmode = getView().findViewById(R.id.switchDark);
+        final LinearLayout customiseColours = getView().findViewById(R.id.btnCustomiseColours);
 
         final EditText txtClasses = getView().findViewById(R.id.txtClasses);
         final EditText txtCourses = getView().findViewById(R.id.txtCourses);
@@ -185,6 +192,292 @@ public class FragmentSettings extends Fragment {
                 edit.apply();
             }
         });
+
+        final String[] coursesNoLang = {"German", "Maths", "English", "PhysEd", "Politics", "Theatre",
+        "Physics", "Biology", "Chemistry", "Philosophy", "Latin", "Spanish", "French", "CompSci",
+        "History", "Religion", "Geography", "Arts", "Music", "Turkish", "Chinese", "GLL", "WAT", "Forder", "WP"};
+        final String[] courses = {getString(R.string.courseDeu), getString(R.string.courseMat), getString(R.string.courseEng),
+                getString(R.string.courseSpo), getString(R.string.coursePol), getString(R.string.courseDar),
+                getString(R.string.coursePhy), getString(R.string.courseBio), getString(R.string.courseChe),
+                getString(R.string.coursePhi), getString(R.string.courseLat), getString(R.string.courseSpa),
+                getString(R.string.courseFra), getString(R.string.courseInf), getString(R.string.courseGes),
+                getString(R.string.courseRel), getString(R.string.courseGeg), getString(R.string.courseKun),
+                getString(R.string.courseMus), getString(R.string.courseTue), getString(R.string.courseChi),
+                getString(R.string.courseGll), getString(R.string.courseWat), getString(R.string.courseFor),
+                getString(R.string.courseWp)};
+        final int[] coursesIcons = {R.drawable.ic_german, R.drawable.ic_maths, R.drawable.ic_english,
+                R.drawable.ic_pe, R.drawable.ic_politics, R.drawable.ic_drama, R.drawable.ic_physics,
+                R.drawable.ic_biology, R.drawable.ic_chemistry, R.drawable.ic_philosophy, R.drawable.ic_latin,
+                R.drawable.ic_spanish, R.drawable.ic_french, R.drawable.ic_compsci, R.drawable.ic_history,
+                R.drawable.ic_religion, R.drawable.ic_geography, R.drawable.ic_arts, R.drawable.ic_music,
+                R.drawable.ic_turkish, R.drawable.ic_chinese, R.drawable.ic_gll, R.drawable.ic_wat,
+                R.drawable.ic_help, R.drawable.ic_pencil};
+        customiseColours.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder alertDialog;
+                if (prefs.getInt("themeInt", 0) == 1) {
+                    alertDialog = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomDark);
+                } else {
+                    alertDialog = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomLight);
+                }
+                alertDialog.setTitle(getString(R.string.customisecolor1));
+                View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.empty_dialog, null);
+                LinearLayout emptyLayout = dialogView.findViewById(R.id.empty_linearlayout);
+                for (i = 0; i < coursesNoLang.length; i++) {
+                    View item = LayoutInflater.from(getContext()).inflate(R.layout.list_item, null);
+                    TextView itemText = item.findViewById(R.id.item_text);
+                    ImageView itemImage = item.findViewById(R.id.item_image);
+                    LinearLayout layout = item.findViewById(R.id.item_layout);
+                    itemText.setText(courses[i]);
+                    itemImage.setImageDrawable(getResources().getDrawable(coursesIcons[i]));
+
+                    final String title = courses[i];
+                    final String titleNoLang = coursesNoLang[i];
+
+                    if (prefs.getInt("col" + titleNoLang, 0) != 0) {
+                        itemText.setTextColor(ContextCompat.getColor(getContext(), prefs.getInt("col" + titleNoLang, 0)));
+                        itemImage.getDrawable().setTint(ContextCompat.getColor(getContext(), prefs.getInt("col" + titleNoLang, 0)));
+                    }
+
+
+                    layout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final AlertDialog.Builder alertDialog;
+                            if (prefs.getInt("themeInt", 0) == 1) {
+                                alertDialog = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomDark);
+                            } else {
+                                alertDialog = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomLight);
+                            }
+                            alertDialog.setTitle(title);
+                            View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.empty_dialog, null);
+                            LinearLayout emptyLayout = dialogView.findViewById(R.id.empty_linearlayout);
+                            View picker = LayoutInflater.from(getContext()).inflate(R.layout.colour_picker, null);
+                            emptyLayout.addView(picker);
+                            alertDialog.setView(dialogView);
+                            final AlertDialog dialog = alertDialog.create();
+                            dialog.show();
+
+                            MaterialButton red = picker.findViewById(R.id.colourRed);
+                            MaterialButton pink = picker.findViewById(R.id.colourPink);
+                            MaterialButton purple = picker.findViewById(R.id.colourPurple);
+                            MaterialButton deeppurple = picker.findViewById(R.id.colourDeepPurple);
+                            MaterialButton lavender = picker.findViewById(R.id.colourLavender);
+                            MaterialButton indigo = picker.findViewById(R.id.colourIndigo);
+                            MaterialButton blue = picker.findViewById(R.id.colourBlue);
+                            MaterialButton lightblue = picker.findViewById(R.id.colourLightBlue);
+                            MaterialButton teal = picker.findViewById(R.id.colourTeal);
+                            MaterialButton green = picker.findViewById(R.id.colourGreen);
+                            MaterialButton yellow = picker.findViewById(R.id.colourYellow);
+                            MaterialButton orange = picker.findViewById(R.id.colourOrange);
+                            MaterialButton neonred = picker.findViewById(R.id.colourNeonRed);
+                            MaterialButton neonpink = picker.findViewById(R.id.colourNeonPink);
+                            MaterialButton neonpurple = picker.findViewById(R.id.colourNeonPurple);
+                            MaterialButton neondeeppurple = picker.findViewById(R.id.colourNeonDeepPurple);
+                            MaterialButton neonblue = picker.findViewById(R.id.colourNeonBlue);
+                            MaterialButton neongreen = picker.findViewById(R.id.colourNeonGreen);
+                            MaterialButton neonyellow = picker.findViewById(R.id.colourNeonYellow);
+                            MaterialButton neonorange = picker.findViewById(R.id.colourNeonOrange);
+                            MaterialButton nocolour = picker.findViewById(R.id.colourNone);
+                            red.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.red);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            pink.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.pink);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            purple.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.purple);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            deeppurple.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.deeppurple);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            lavender.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.lavender);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            indigo.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.indigo);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            blue.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.blue);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            lightblue.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.lightblue);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            teal.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.teal);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            green.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.green);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            yellow.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.yellow);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            orange.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.orange);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            neonred.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.neonred);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            neonpink.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.neonpink);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            neonpurple.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.neonpurple);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            neondeeppurple.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.neondeeppurple);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            neonblue.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.neonblue);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            neongreen.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.neongreen);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            neonyellow.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.neonyellow);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            neonorange.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, R.color.neonorange);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+                            nocolour.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    edit.putInt("col" + titleNoLang, 0);
+                                    edit.apply();
+                                    dialog.dismiss();
+                                }
+                            });
+
+                        }
+                    });
+                    emptyLayout.addView(item);
+                }
+                View button = LayoutInflater.from(getContext()).inflate(R.layout.forever_alone_button, null);
+                MaterialButton buttonclearallcolours = button.findViewById(R.id.buttonclearallcolours);
+                emptyLayout.addView(button);
+                alertDialog.setView(dialogView);
+                final AlertDialog dialog = alertDialog.create();
+                buttonclearallcolours.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for (String courses : coursesNoLang) {
+                            edit.putInt("col" + courses, 0);
+                        }
+                        edit.apply();
+                        Toast.makeText(getActivity(), getString(R.string.allcolourscleared),
+                                Toast.LENGTH_LONG).show();
+                        dialog.cancel();
+                    }
+                });
+//                alertDialog.setPositiveButton(R.string.finish, null);
+                dialog.show();
+            }
+        });
+
+
+
+        // ------
 
         txtClasses.setText(prefs.getString("classes", ""));
         txtCourses.setText(prefs.getString("courses", ""));
@@ -637,7 +930,7 @@ public class FragmentSettings extends Fragment {
                             case "@NOTIFICATION": {
                                 edit.putString("time", "");
                                 edit.apply();
-                                Toast.makeText(getActivity(), "Dummy notification sent",
+                                Toast.makeText(getActivity(), "Notification time cleared",
                                         Toast.LENGTH_LONG).show();
                                 break;
                             }
@@ -666,5 +959,11 @@ public class FragmentSettings extends Fragment {
                 "\n\nDevice Name: " + name +
                 "\n\nDevice Model: " + model +
                 "\n\nAndroid Version: " + Build.VERSION.RELEASE);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+        }
     }
 }

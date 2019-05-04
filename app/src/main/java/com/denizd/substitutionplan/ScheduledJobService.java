@@ -270,7 +270,7 @@ public class ScheduledJobService extends JobService {
                     if (!notifText.isEmpty()) {
                         Notification notification = null;
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            notification = new NotificationCompat.Builder(mContext)
+                            notification = new NotificationCompat.Builder(mContext) // TODO switch out the deprecated notification delivery method
 //                                    .setContentTitle(getString(R.string.subst))
 //                                    .setStyle(new NotificationCompat.BigTextStyle()
 //                                            .bigText(notifText))

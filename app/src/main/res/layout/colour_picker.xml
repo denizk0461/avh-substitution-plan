@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="8dp">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourRed"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/red"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourPink"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/pink"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourPurple"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/purple"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourDeepPurple"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/deeppurple"/>
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourLavender"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/lavender"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourIndigo"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/indigo"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourBlue"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/blue"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourLightBlue"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/lightblue"/>
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourTeal"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/teal"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourGreen"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/green"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourYellow"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/yellow"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourOrange"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/orange"/>
+
+    </TableRow>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/neoncolours"
+        android:textColor="?attr/colorText"
+        android:layout_marginStart="8dp"/>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourNeonRed"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/neonred"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourNeonPink"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/neonpink"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourNeonPurple"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/neonpurple"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourNeonDeepPurple"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/neondeeppurple"/>
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourNeonBlue"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/neonblue"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourNeonGreen"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/neongreen"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourNeonYellow"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/neonyellow"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/colourNeonOrange"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/neonorange"/>
+
+    </TableRow>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/colourNone"
+        android:layout_margin="8dp"
+        android:backgroundTint="?attr/colorText"
+        android:text="@string/clearcolour"
+        android:textColor="?attr/colorBackground"/>
+
+</TableLayout>

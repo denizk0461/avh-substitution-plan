@@ -98,6 +98,11 @@ public class FragmentPlan extends Fragment {
 //                recyclerView.setLayoutAnimation(animationOut);
 //                recyclerView.scheduleLayoutAnimation();
                 mAdapter.setSubst(substs);
+
+                for (int i = 0; i < mAdapter.getItemCount(); i++) {
+
+                }
+
 //                recyclerView.setLayoutAnimation(animationIn);
                 recyclerView.scheduleLayoutAnimation();
                 bottomSheetText.setText(prefs.getString("informational", getString(R.string.noinfo)));

@@ -130,6 +130,43 @@
                 app:layout_constraintTop_toTopOf="@+id/txtDark" />
 
             <TextView
+                android:id="@+id/txtCustomiseColours1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/customisecolor1"
+                android:textColor="?attr/colorText"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/txtRestart"
+                app:layout_constraintTop_toBottomOf="@+id/txtRestart" />
+
+            <TextView
+                android:id="@+id/txtCustomiseColours2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/customisecolor2"
+                android:textColor="?attr/colorHint"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@+id/txtCustomiseColours1"
+                app:layout_constraintTop_toBottomOf="@+id/txtCustomiseColours1" />
+
+            <LinearLayout
+                android:id="@+id/btnCustomiseColours"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/SelectableItemBackground"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/txtFilter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtRestart" />
+
+            <TextView
                 android:id="@+id/txtFilter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -138,7 +175,7 @@
                 android:text="@string/filter"
                 android:textColor="?attr/colorAccent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/switchDark" />
+                app:layout_constraintTop_toBottomOf="@+id/txtCustomiseColours2" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtLayoutClasses"
@@ -404,6 +441,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:clickable="true"
+                android:focusable="true"
                 style="@style/SelectableItemBackground"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="@+id/txtWeb"
@@ -440,6 +478,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:clickable="true"
+                android:focusable="true"
                 style="@style/SelectableItemBackground"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@+id/txtTerms"
@@ -473,9 +512,10 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="0dp"
                 android:layout_marginBottom="8dp"
                 android:clickable="true"
+                android:focusable="true"
                 style="@style/SelectableItemBackground"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@+id/txtPrivacyP"
@@ -509,9 +549,10 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="0dp"
                 android:layout_marginBottom="8dp"
                 android:clickable="true"
+                android:focusable="true"
                 style="@style/SelectableItemBackground"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@+id/txtVersion"
@@ -545,9 +586,10 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="0dp"
                 android:layout_marginBottom="56dp"
                 android:clickable="true"
+                android:focusable="true"
                 style="@style/SelectableItemBackground"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@+id/btnHiddenENP"
@@ -575,6 +617,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:clickable="true"
+                android:focusable="false"
                 style="@style/SelectableItemBackground"
                 android:backgroundTint="@android:color/transparent"
                 app:layout_constraintBottom_toBottomOf="@+id/txtMeee"

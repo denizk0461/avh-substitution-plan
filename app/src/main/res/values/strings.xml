@@ -105,6 +105,43 @@
 
     <string name="searchonline">Search online</string>
 
+    <string name="customisecolor1">Customise colours</string>
+    <string name="customisecolor2">Customise every subject individually</string>
+
+    <string name="courseDeu">German (+ as a second language)</string>
+    <string name="courseMat">Mathematics</string>
+    <string name="courseEng">English (+ for beginners)</string>
+    <string name="courseSpo">Physical Education</string>
+    <string name="coursePol">Politics</string>
+    <string name="courseDar">Theatre</string>
+    <string name="coursePhy">Physics</string>
+    <string name="courseBio">Biology &amp; Natural Sciences</string>
+    <string name="courseChe">Chemistry</string>
+    <string name="coursePhi">Philosophy</string>
+    <string name="courseLat">Latin</string>
+    <string name="courseSpa">Spanish</string>
+    <string name="courseFra">French</string>
+    <string name="courseInf">Computer Science</string>
+    <string name="courseGes">History</string>
+    <string name="courseRel">Religion</string>
+    <string name="courseGeg">Geography &amp; WUK</string>
+    <string name="courseKun">Arts</string>
+    <string name="courseMus">Music</string>
+    <string name="courseTue">Turkish</string>
+    <string name="courseChi">Chinese</string>
+    <string name="courseGll">GLL</string>
+    <string name="courseWat">WAT</string>
+    <string name="courseFor">Special Education</string>
+    <string name="courseWp">WP &amp; "Methodenstunde"</string>
+
+    <string name="neoncolours">Neon colours</string>
+
+    <string name="clearall">Clear all</string>
+    <string name="clearcolour">Clear colour</string>
+    <string name="allcolourscleared">Colours for all courses have been cleared</string>
+    <string name="finish">Finish</string>
+
+
     <!--<string name="avhblue">AvH-Blue</string>-->
     <!--<string name="rosered">AvH-Blue</string>-->
     <!--<string name="sunsetorange">AvH-Blue</string>-->
