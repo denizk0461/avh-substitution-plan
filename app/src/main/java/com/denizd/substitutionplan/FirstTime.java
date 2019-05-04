@@ -116,8 +116,9 @@ public class FirstTime extends AppCompatActivity {
             public void onClick(View view) {
                 AlertDialog.Builder alertDialog;
                 alertDialog = new AlertDialog.Builder(context, R.style.AlertDialogCustomLight);
-                alertDialog.setTitle(getString(R.string.helpCoursesTitle));
                 View dialogView = LayoutInflater.from(context).inflate(R.layout.simple_dialog, null);
+                TextView title = dialogView.findViewById(R.id.textviewtitle);
+                title.setText(R.string.helpCoursesTitle);
                 TextView dialogText = dialogView.findViewById(R.id.dialogtext);
                 dialogText.setText(getString(R.string.helpCourses));
                 alertDialog.setView(dialogView);
@@ -130,8 +131,9 @@ public class FirstTime extends AppCompatActivity {
             public void onClick(View view) {
                 AlertDialog.Builder alertDialog;
                 alertDialog = new AlertDialog.Builder(context, R.style.AlertDialogCustomLight);
-                alertDialog.setTitle(getString(R.string.helpClassesTitle));
                 View dialogView = LayoutInflater.from(context).inflate(R.layout.simple_dialog, null);
+                TextView title = dialogView.findViewById(R.id.textviewtitle);
+                title.setText(R.string.helpClassesTitle);
                 TextView dialogText = dialogView.findViewById(R.id.dialogtext);
                 dialogText.setText(getString(R.string.helpClasses));
                 alertDialog.setView(dialogView);

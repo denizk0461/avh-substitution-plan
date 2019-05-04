@@ -171,12 +171,13 @@ public class MainActivity extends AppCompatActivity {
 
                         AlertDialog.Builder alertDialog;
                         View dialogView = LayoutInflater.from(context).inflate(R.layout.secret_dialog, null);
+                        TextView title = dialogView.findViewById(R.id.textviewtitle);
+                        title.setText(R.string.chinaTitle);
                         if (prefs.getInt("themeInt", 0) == 1) {
                             alertDialog = new AlertDialog.Builder(context, R.style.AlertDialogCustomDark);
                         } else {
                             alertDialog = new AlertDialog.Builder(context, R.style.AlertDialogCustomLight);
                         }
-                        alertDialog.setTitle(R.string.chinaTitle);
                         TextView dialogText = dialogView.findViewById(R.id.dialogtext);
                         dialogText.setText(R.string.chinaDialog);
 //                        Button searchbtn = dialogView.findViewById(R.id.searchbtn);

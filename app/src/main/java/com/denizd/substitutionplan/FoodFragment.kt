@@ -26,7 +26,7 @@ class FoodFragment : Fragment(R.layout.food_layout) {
         super.onViewCreated(view, savedInstanceState)
         val pullToRefresh = getView()?.findViewById(R.id.pullToRefresh) as SwipeRefreshLayout
         val prefs = PreferenceManager.getDefaultSharedPreferences(activity) as SharedPreferences
-        val edit = prefs.edit() as SharedPreferences.Editor
+//        val edit = prefs.edit() as SharedPreferences.Editor
         val easyPrefs = EasyPrefrences(context!!)
         val foodListPopulation = ArrayList<String>(easyPrefs.getListString("foodListPrefs"))
 
