@@ -141,6 +141,12 @@
     <string name="allcolourscleared">Colours for all courses have been cleared</string>
     <string name="finish">Finish</string>
 
+    <string name="chromecompatible">No Chrome-compatible browser found</string>
+    <string name="noyoutube">YouTube app not found</string>
+
+    <string name="showinfo">Show info tab in navigation bar</string>
+    <string name="swipeindependent">Independent of swipe gesture</string>
+
 
     <!--<string name="avhblue">AvH-Blue</string>-->
     <!--<string name="rosered">AvH-Blue</string>-->

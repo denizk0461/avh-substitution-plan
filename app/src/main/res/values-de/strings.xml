@@ -124,4 +124,8 @@
     <string name="allcolourscleared">Farben für alle Kurse wurden gelöscht</string>
     <string name="clearcolour">Farbe löschen</string>
     <string name="finish">Fertigstellen</string>
+    <string name="chromecompatible">Kein Chrome-kompatibler Browser gefunden</string>
+    <string name="noyoutube">YouTube-App nicht gefunden</string>
+    <string name="swipeindependent">Unabhängig von Wischgeste</string>
+    <string name="showinfo">Zeige Info-Tab in Navigationsleisete</string>
 </resources>

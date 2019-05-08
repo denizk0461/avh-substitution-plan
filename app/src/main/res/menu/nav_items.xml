@@ -22,9 +22,13 @@
         android:title="@string/menu"
         android:enabled="true"/>
     <item
+        android:id="@+id/openinfopanel"
+        android:icon="@drawable/ic_information"
+        android:title=""
+        android:enabled="true"/>
+    <item
         android:id="@+id/settings"
         android:icon="@drawable/ic_cogwheel"
         android:title="@string/settings"
         android:enabled="true"/>
-
 </menu>

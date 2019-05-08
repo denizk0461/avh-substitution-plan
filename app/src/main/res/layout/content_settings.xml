@@ -7,6 +7,7 @@
     android:background="?attr/colorBackground">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsvsettings"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -129,6 +130,40 @@
                 app:layout_constraintStart_toStartOf="@+id/txtDark"
                 app:layout_constraintTop_toTopOf="@+id/txtDark" />
 
+<!--            a-->
+            <TextView
+                android:id="@+id/txtHideInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/showinfo"
+                android:textColor="?attr/colorText"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/txtRestart"
+                app:layout_constraintTop_toBottomOf="@+id/txtRestart" />
+
+            <TextView
+                android:id="@+id/txtHideInfo2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/swipeindependent"
+                android:textColor="?attr/colorHint"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@+id/txtHideInfo"
+                app:layout_constraintTop_toBottomOf="@+id/txtHideInfo" />
+
+            <Switch
+                android:id="@+id/switchHideInfo"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="end|center"
+                app:layout_constraintBottom_toBottomOf="@+id/txtHideInfo2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/txtHideInfo"
+                app:layout_constraintTop_toTopOf="@+id/txtHideInfo" />
+<!--            a-->
+
             <TextView
                 android:id="@+id/txtCustomiseColours1"
                 android:layout_width="wrap_content"
@@ -137,8 +172,8 @@
                 android:text="@string/customisecolor1"
                 android:textColor="?attr/colorText"
                 android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/txtRestart"
-                app:layout_constraintTop_toBottomOf="@+id/txtRestart" />
+                app:layout_constraintStart_toStartOf="@+id/txtHideInfo2"
+                app:layout_constraintTop_toBottomOf="@+id/txtHideInfo2" />
 
             <TextView
                 android:id="@+id/txtCustomiseColours2"
@@ -164,7 +199,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/txtFilter"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtRestart" />
+                app:layout_constraintTop_toBottomOf="@+id/txtHideInfo2" />
 
             <TextView
                 android:id="@+id/txtFilter"

@@ -15,25 +15,29 @@
             android:id="@+id/colourRed"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/red"/>
+            android:backgroundTint="@color/red"
+            app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/colourPink"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/pink"/>
+            android:backgroundTint="@color/pink"
+            app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/colourPurple"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/purple"/>
+            android:backgroundTint="@color/purple"
+            app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/colourDeepPurple"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/deeppurple"/>
+            android:backgroundTint="@color/deeppurple"
+            app:cornerRadius="16dp"/>
 
     </TableRow>
 
@@ -45,25 +49,29 @@
             android:id="@+id/colourLavender"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/lavender"/>
+            android:backgroundTint="@color/lavender"
+            app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/colourIndigo"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/indigo"/>
+            android:backgroundTint="@color/indigo"
+            app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/colourBlue"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/blue"/>
+            android:backgroundTint="@color/blue"
+            app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/colourLightBlue"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/lightblue"/>
+            android:backgroundTint="@color/lightblue"
+            app:cornerRadius="16dp"/>
 
     </TableRow>
 
@@ -75,25 +83,29 @@
             android:id="@+id/colourTeal"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/teal"/>
+            android:backgroundTint="@color/teal"
+            app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/colourGreen"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/green"/>
+            android:backgroundTint="@color/green"
+            app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/colourYellow"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/yellow"/>
+            android:backgroundTint="@color/yellow"
+            app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/colourOrange"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/orange"/>
+            android:backgroundTint="@color/orange"
+            app:cornerRadius="16dp"/>
 
     </TableRow>
 
@@ -112,25 +124,29 @@
             android:id="@+id/colourNeonRed"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/neonred"/>
+            android:backgroundTint="@color/neonred"
+            app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/colourNeonPink"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/neonpink"/>
+            android:backgroundTint="@color/neonpink"
+            app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/colourNeonPurple"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/neonpurple"/>
+            android:backgroundTint="@color/neonpurple"
+            app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/colourNeonDeepPurple"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/neondeeppurple"/>
+            android:backgroundTint="@color/neondeeppurple"
+            app:cornerRadius="16dp"/>
 
     </TableRow>
 
@@ -142,25 +158,29 @@
             android:id="@+id/colourNeonBlue"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/neonblue"/>
+            android:backgroundTint="@color/neonblue"
+            app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/colourNeonGreen"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/neongreen"/>
+            android:backgroundTint="@color/neongreen"
+            app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/colourNeonYellow"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/neonyellow"/>
+            android:backgroundTint="@color/neonyellow"
+            app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/colourNeonOrange"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/neonorange"/>
+            android:backgroundTint="@color/neonorange"
+            app:cornerRadius="16dp"/>
 
     </TableRow>
 

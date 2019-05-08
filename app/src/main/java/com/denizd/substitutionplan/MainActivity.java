@@ -2,7 +2,6 @@ package com.denizd.substitutionplan;
 
 import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.app.SearchManager;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
@@ -28,6 +27,7 @@ import com.jaredrummler.android.device.DeviceName;
 
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
 
@@ -36,13 +36,13 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -82,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
+        final Context context = this;
+
         edit.putInt("launchDev", prefs.getInt("launchDev", 0) + 1);
         edit.apply();
 
@@ -109,6 +111,10 @@ public class MainActivity extends AppCompatActivity {
         final BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
         final Chip chip = findViewById(R.id.chip);
 
+        if (!prefs.getBoolean("showinfotab", true)) {
+            bottomNav.getMenu().removeItem(R.id.openinfopanel);
+        }
+
         final CoordinatorLayout fragmentContainer = findViewById(R.id.fragment_container);
         fragmentContainer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (bottomSheetBehaviour.getState() == BottomSheetBehavior.STATE_EXPANDED) { // 2 = expanded, 4 = collapsed
                     bottomSheetCloser.setVisibility(View.VISIBLE);
+
                 }
                 if (bottomSheetBehaviour.getState() == BottomSheetBehavior.STATE_COLLAPSED) { // 2 = expanded, 4 = collapsed
                     bottomSheetCloser.setVisibility(View.GONE);
@@ -152,8 +159,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
-
-        final Context context = this;
 
         // TODO Huawei dialog
 
@@ -268,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
                 final Animation animationOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.chip_slide_out);
                 final Random generator = new Random();
                 Resources res = getResources();
-                String greetings[] = res.getStringArray(R.array.greeting8_array);
+                String[] greetings = res.getStringArray(R.array.greeting8_array);
                 Calendar rightNow = Calendar.getInstance();
                 int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
 
@@ -397,24 +402,51 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 Fragment fragment = null;
+                boolean switcher = false;
 
                 switch (item.getItemId()) {
                     case R.id.plan:
-                        fragment = new FragmentPlan();
-                        toolbarTxt.setText(getString(R.string.app_name));
+                        if (getCurrentFragment().toString().contains("FragmentPlan")) {
+                            final RecyclerView recyclerView = findViewById(R.id.linearRecycler);
+                            recyclerView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    recyclerView.smoothScrollToPosition(0);
+                                    appbarlayout.setExpanded(true);
+                                    bottomSheetBehaviour.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                                }
+                            });
+                        } else {
+                            fragment = new FragmentPlan();
+                            toolbarTxt.setText(getString(R.string.app_name));
+                            switcher = true;
+                        }
                         break;
                     case R.id.personal:
-                        fragment = new FragmentPersonal();
-                        if (!prefs.getString("username", "").isEmpty()) {
-                            if (Character.toString(prefs.getString("username", "").charAt(prefs.getString("username", "").length() - 1)).toLowerCase().equals("s")
-                                    || Character.toString(prefs.getString("username", "").charAt(prefs.getString("username", "").length() - 1)).toLowerCase().equals("x")
-                                    || Character.toString(prefs.getString("username", "").charAt(prefs.getString("username", "").length() - 1)).toLowerCase().equals("z")) {
-                                toolbarTxt.setText(prefs.getString("username", "") + getString(R.string.nosplan));
-                            } else {
-                                toolbarTxt.setText(prefs.getString("username", "") + getString(R.string.splan));
-                            }
+                        if (getCurrentFragment().toString().contains("FragmentPersonal")) {
+                            final RecyclerView recyclerView = findViewById(R.id.linearRecycler);
+                            recyclerView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    recyclerView.smoothScrollToPosition(0);
+                                    appbarlayout.setExpanded(true);
+                                    bottomSheetBehaviour.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                                }
+                            });
                         } else {
-                            toolbarTxt.setText(getString(R.string.personalplan));
+                            fragment = new FragmentPersonal();
+                            if (!prefs.getString("username", "").isEmpty()) {
+                                if (Character.toString(prefs.getString("username", "").charAt(prefs.getString("username", "").length() - 1)).toLowerCase().equals("s")
+                                        || Character.toString(prefs.getString("username", "").charAt(prefs.getString("username", "").length() - 1)).toLowerCase().equals("x")
+                                        || Character.toString(prefs.getString("username", "").charAt(prefs.getString("username", "").length() - 1)).toLowerCase().equals("z")) {
+                                    toolbarTxt.setText(prefs.getString("username", "") + getString(R.string.nosplan));
+                                } else {
+                                    toolbarTxt.setText(prefs.getString("username", "") + getString(R.string.splan));
+                                }
+                            } else {
+                                toolbarTxt.setText(getString(R.string.personalplan));
+                            }
+                            switcher = true;
                         }
                         break;
 //                    case R.id.search:
@@ -422,20 +454,63 @@ public class MainActivity extends AppCompatActivity {
 //                        toolbarTxt.setText(getString(R.string.search));
 //                        break;
                     case R.id.menu:
-                        fragment = new FragmentFood();
-                        toolbarTxt.setText(getString(R.string.foodmenu));
+                        if (getCurrentFragment().toString().contains("FragmentFood")) {
+                            final RecyclerView recyclerView = findViewById(R.id.linear_food);
+                            recyclerView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    recyclerView.smoothScrollToPosition(0);
+                                    appbarlayout.setExpanded(true);
+                                    bottomSheetBehaviour.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                                }
+                            });
+                        } else {
+                            fragment = new FragmentFood();
+                            toolbarTxt.setText(getString(R.string.foodmenu));
+                            switcher = true;
+                        }
                         break;
                     case R.id.settings:
-                        fragment = new FragmentSettings();
-                        toolbarTxt.setText(getString(R.string.settings));
+                        if (getCurrentFragment().toString().contains("FragmentSettings")) {
+                            final NestedScrollView nsv = findViewById(R.id.nsvsettings);
+                            nsv.post(new Runnable() {
+                                @Override
+                                public void run() {
+//                                    recyclerView.fling(0);
+                                    nsv.smoothScrollTo(0, 0);
+                                    appbarlayout.setExpanded(true);
+                                    bottomSheetBehaviour.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                                }
+                            });
+                        } else {
+                            fragment = new FragmentSettings();
+                            toolbarTxt.setText(getString(R.string.settings));
+                            switcher = true;
+                        }
                         break;
+                    case R.id.openinfopanel:
+                        if (bottomSheetBehaviour.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                            bottomSheetBehaviour.setState(BottomSheetBehavior.STATE_EXPANDED);
+                            break;
+                        } else if (bottomSheetBehaviour.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                            bottomSheetBehaviour.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                            break;
+                        }
                 }
-                appbarlayout.setExpanded(true);
-                bottomSheetBehaviour.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                return loadFragment(fragment);
+                if (switcher) {
+                    appbarlayout.setExpanded(true);
+                    bottomSheetBehaviour.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    return loadFragment(fragment);
+                } else {
+                    return false;
+                }
             }
 
         });
+    }
+
+    private Fragment getCurrentFragment() {
+        return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
     }
 
     private boolean loadFragment(Fragment fragment) {
