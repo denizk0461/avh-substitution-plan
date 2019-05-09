@@ -147,15 +147,4 @@
     <string name="showinfo">Show info tab in navigation bar</string>
     <string name="swipeindependent">Independent of swipe gesture</string>
 
-
-    <!--<string name="avhblue">AvH-Blue</string>-->
-    <!--<string name="rosered">AvH-Blue</string>-->
-    <!--<string name="sunsetorange">AvH-Blue</string>-->
-    <!--<string name="datingsimpink">AvH-Blue</string>-->
-    <!--<string name="deepviolet">AvH-Blue</string>-->
-    <!--<string name="lessdeepviolet">AvH-Blue</string>-->
-    <!--<string name="mathematicalblue">AvH-Blue</string>-->
-    <!--<string name="forestgreen">AvH-Blue</string>-->
-    <!--<string name="grassgreen">AvH-Blue</string>-->
-
 </resources>

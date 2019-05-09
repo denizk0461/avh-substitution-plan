@@ -90,11 +90,13 @@
         android:layout_height="56dp"
         android:layout_marginBottom="0dp"
         app:elevation="0dp"
-        app:itemIconTint="@color/bottom_nav_color_avhblue"
-        app:itemTextColor="@color/bottom_nav_color_avhblue"
         app:layout_anchor="@+id/bottom_sheet"
         android:layout_gravity="bottom"
         app:menu="@menu/nav_items"/>
+
+
+<!--    app:itemIconTint="@drawable/tintlist_light"-->
+<!--    app:itemTextColor="@drawable/tintlist_light"-->
 
     <View
         android:id="@+id/bottom_nav_divider"

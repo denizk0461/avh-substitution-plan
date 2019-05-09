@@ -198,9 +198,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         } finally {
             if (colour == 0) {
                 if (prefs.getInt("themeInt", 0) == 1) {
-                    colour = R.color.lightgrey;
+                    colour = R.color.textLight;
                 } else {
-                    colour = R.color.lessdark;
+                    colour = R.color.textDark;
                 }
             }
             holder.mImageView.getDrawable().setTint(ContextCompat.getColor(holder.mImageView.getContext(), colour));

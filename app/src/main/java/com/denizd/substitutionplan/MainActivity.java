@@ -43,6 +43,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -57,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
     BottomSheetBehavior bottomSheetBehaviour;
     private String manufacturer;
-    private String marketName;
 
     protected void job() {
         ComponentName componentName = new ComponentName(this, ScheduledJobService.class);
@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
         final SharedPreferences.Editor edit = prefs.edit();
         final Intent firstTime = new Intent(this, FirstTime.class);
         if (prefs.getBoolean("firstTime", true)) {
-//        if (true) {
             startActivity(firstTime);
             finish();
         }
@@ -104,9 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         final BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
         final Chip chip = findViewById(R.id.chip);
@@ -160,19 +156,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        // TODO Huawei dialog
-
         if (prefs.getBoolean("huaweiDeviceDialog", true)) {
-//        if (true) {
             DeviceName.with(this).request(new DeviceName.Callback() {
                 @Override
                 public void onFinished(DeviceName.DeviceInfo info, Exception error) {
                     manufacturer = info.manufacturer;
-                    marketName = info.marketName;
                 if (manufacturer.contains("Huawei") ||
                         manufacturer.contains("Honor") ||
                         manufacturer.contains("Xiaomi")) {
-//                    if (true) {
 
                         AlertDialog.Builder alertDialog;
                         View dialogView = LayoutInflater.from(context).inflate(R.layout.secret_dialog, null);
@@ -185,15 +176,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                         TextView dialogText = dialogView.findViewById(R.id.dialogtext);
                         dialogText.setText(R.string.chinaDialog);
-//                        Button searchbtn = dialogView.findViewById(R.id.searchbtn);
-//                        searchbtn.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-//                                intent.putExtra(SearchManager.QUERY, marketName + " disable power optimisation");
-//                                startActivity(intent);
-//                            }
-//                        });
                         alertDialog.setView(dialogView);
                         alertDialog.show();
 
@@ -220,31 +202,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ImageView iconinfo = findViewById(R.id.info_icon);
+
         // theme change
         if (prefs.getInt("themeInt", 0) == 0) {
             setTheme(R.style.AppTheme0);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                window.setStatusBarColor(ContextCompat.getColor(this, R.color.white));
+                window.setStatusBarColor(ContextCompat.getColor(this, R.color.darkwhite));
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
-                window.setNavigationBarColor(ContextCompat.getColor(this, R.color.white));
+                toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.darkwhite));
+                window.setNavigationBarColor(ContextCompat.getColor(this, R.color.darkwhite));
             } else {
                 window.setStatusBarColor(ContextCompat.getColor(this, R.color.black));
                 window.setNavigationBarColor(ContextCompat.getColor(this, R.color.black));
             }
 
             toolbarTxt.setTextColor(ContextCompat.getColor(this, R.color.accent));
-            bottomNav.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+            bottomNav.setBackgroundColor(ContextCompat.getColor(this, R.color.darkwhite));
+            bottomNav.setItemIconTintList(ContextCompat.getColorStateList(this, R.color.tintlist_light));
+            bottomNav.setItemTextColor(ContextCompat.getColorStateList(this, R.color.tintlist_light));
             chip.setChipBackgroundColor(getResources().getColorStateList(R.color.chip_state_list));
             chip.setTextColor(ContextCompat.getColor(this, R.color.lessdark));
-            bottomSheet.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+            bottomSheet.setBackgroundColor(ContextCompat.getColor(this, R.color.darkwhite));
             bottomSheetHeader.setTextColor(ContextCompat.getColor(this, R.color.lessdark));
             bottomSheetText.setTextColor(ContextCompat.getColor(this, R.color.lessdark));
             bottomNavDivider.setBackgroundColor(ContextCompat.getColor(this, R.color.lightgrey));
+            iconinfo.setColorFilter(ContextCompat.getColor(context, R.color.lessdark), android.graphics.PorterDuff.Mode.SRC_IN);
 
             Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-            ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(getString(R.string.app_name), bm, ContextCompat.getColor(this, R.color.white));
+            ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(getString(R.string.app_name), bm, ContextCompat.getColor(this, R.color.darkwhite));
             setTaskDescription(taskDesc);
         }
         if (prefs.getInt("themeInt", 0) == 1) {
@@ -252,8 +239,10 @@ public class MainActivity extends AppCompatActivity {
             window.setStatusBarColor(ContextCompat.getColor(this, R.color.background));
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
             toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.dark));
-            toolbarTxt.setTextColor(ContextCompat.getColor(this, R.color.accent));
+            toolbarTxt.setTextColor(ContextCompat.getColor(this, R.color.accentPastel));
             bottomNav.setBackgroundColor(ContextCompat.getColor(this, R.color.dark));
+            bottomNav.setItemIconTintList(ContextCompat.getColorStateList(this, R.color.tintlist_dark));
+            bottomNav.setItemTextColor(ContextCompat.getColorStateList(this, R.color.tintlist_dark));
             window.setNavigationBarColor(getResources().getColor(R.color.background));
             chip.setChipBackgroundColor(getResources().getColorStateList(R.color.chip_state_list_dark));
             chip.setTextColor(ContextCompat.getColor(this, R.color.lightgrey));
@@ -261,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
             bottomSheetHeader.setTextColor(ContextCompat.getColor(this, R.color.lightgrey));
             bottomSheetText.setTextColor(ContextCompat.getColor(this, R.color.lightgrey));
             bottomNavDivider.setBackgroundColor(ContextCompat.getColor(this, R.color.darkdivider));
+            iconinfo.setColorFilter(ContextCompat.getColor(context, R.color.lightgrey), android.graphics.PorterDuff.Mode.SRC_IN);
 
             Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
             ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(getString(R.string.app_name), bm, getResources().getColor(R.color.background));
@@ -345,7 +335,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (prefs.getInt("firstTimeOpening", 0) < 2) {
-//            if (true) {
             final Handler bsbIn = new Handler();
             bsbIn.postDelayed(new Runnable() {
                 @Override
@@ -449,10 +438,6 @@ public class MainActivity extends AppCompatActivity {
                             switcher = true;
                         }
                         break;
-//                    case R.id.search:
-//                        fragment = new FragmentSearch();
-//                        toolbarTxt.setText(getString(R.string.search));
-//                        break;
                     case R.id.menu:
                         if (getCurrentFragment().toString().contains("FragmentFood")) {
                             final RecyclerView recyclerView = findViewById(R.id.linear_food);

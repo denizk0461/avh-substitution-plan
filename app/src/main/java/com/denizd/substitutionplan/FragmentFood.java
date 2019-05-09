@@ -22,19 +22,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static com.google.android.material.snackbar.Snackbar.make;
 
 public class FragmentFood extends Fragment {
@@ -55,9 +51,6 @@ public class FragmentFood extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final SwipeRefreshLayout pullToRefresh = getView().findViewById(R.id.pullToRefreshFood);
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        final SharedPreferences.Editor edit = prefs.edit();
-        final LayoutAnimationController animationIn = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_fall_down);
-        final LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
 
         EasyPrefrences easyPrefs = new EasyPrefrences(getContext());
         ArrayList<String> foodListPopulation = new ArrayList<>(easyPrefs.getListString("foodListPrefs"));
@@ -69,12 +62,6 @@ public class FragmentFood extends Fragment {
             recyclerView.setLayoutManager(layoutManager);
             mAdapter = new FoodAdapter(foodArrayList);
             recyclerView.setAdapter(mAdapter);
-
-//            try {
-//                recyclerView.removeAllViews();
-//            } catch (NullPointerException e) {
-//
-//            }
 
             for (int i = 0; i < foodListPopulation.size(); i++) {
                 foodArrayList.add(new Food(foodListPopulation.get(i)));
@@ -104,8 +91,6 @@ public class FragmentFood extends Fragment {
         boolean attempt = false, npe = false;
         Elements foodElements;
         Document docFood;
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        final SharedPreferences.Editor edit = prefs.edit();
         final SwipeRefreshLayout pullToRefresh = getView().findViewById(R.id.pullToRefreshFood);
 
         protected fetcher() {
@@ -122,7 +107,6 @@ public class FragmentFood extends Fragment {
 
                 progressBar.setProgress(0);
                 progressBar.setMax(foodElements.size());
-//                progressBar.incrementProgressBy(paragraphs[0].size());
             } catch (IOException e1) {
                 npe = true;
             } catch (NullPointerException e1) {
@@ -197,9 +181,6 @@ public class FragmentFood extends Fragment {
 
                     ArrayList<String> foodListPopulation = new ArrayList<>(easyPrefs.getListString("foodListPrefs"));
 
-                    final LayoutAnimationController animationIn = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_fall_down);
-                    final LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
-
                     for (int i = 0; i < foodListPopulation.size(); i++) {
                         foodArrayList.add(new Food(foodListPopulation.get(i)));
                         mAdapter.setFood(foodArrayList);
@@ -240,7 +221,6 @@ public class FragmentFood extends Fragment {
                     }
 
                 } catch (NullPointerException e) {
-//                    pullToRefresh.setRefreshing(false);
                 }
             } else if (npe) {
                 pullToRefresh.setRefreshing(false);

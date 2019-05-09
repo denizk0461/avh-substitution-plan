@@ -2,16 +2,13 @@ package com.denizd.substitutionplan;
 
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.browser.customtabs.CustomTabsIntent;
@@ -21,7 +18,6 @@ import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,9 +34,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.jaredrummler.android.device.DeviceName;
-
-import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.util.Random;
@@ -48,7 +43,7 @@ import java.util.Random;
 public class FragmentSettings extends Fragment implements View.OnClickListener {
     CoordinatorLayout coordinatorLayout;
     private int cs = 7, i = 0;
-    private String manufacturer, name, model;
+    private String name, model;
 
     @Nullable
     @Override
@@ -75,14 +70,14 @@ public class FragmentSettings extends Fragment implements View.OnClickListener {
         builder.setToolbarColor(getResources().getColor(R.color.white));
         final CustomTabsIntent customTabsIntent = builder.build();
 
-        final EditText txtName = getView().findViewById(R.id.txtName);
+        final TextInputEditText txtName = getView().findViewById(R.id.txtName);
         final Switch greeting = getView().findViewById(R.id.switchDisableGreeting);
         final Switch darkmode = getView().findViewById(R.id.switchDark);
         final Switch showinfo = getView().findViewById(R.id.switchHideInfo);
         final LinearLayout customiseColours = getView().findViewById(R.id.btnCustomiseColours);
 
-        final EditText txtClasses = getView().findViewById(R.id.txtClasses);
-        final EditText txtCourses = getView().findViewById(R.id.txtCourses);
+        final TextInputEditText txtClasses = getView().findViewById(R.id.txtClasses);
+        final TextInputEditText txtCourses = getView().findViewById(R.id.txtCourses);
         final ImageButton helpClasses = getView().findViewById(R.id.chipHelpClasses);
         final ImageButton helpCourses = getView().findViewById(R.id.chipHelpCourses);
 
@@ -98,11 +93,6 @@ public class FragmentSettings extends Fragment implements View.OnClickListener {
         final LinearLayout tac = getView().findViewById(R.id.btnTerms);
         final LinearLayout privacy = getView().findViewById(R.id.btnPrivacyP);
         final LinearLayout version = getView().findViewById(R.id.btnVersion);
-
-        final TextView notif1 = getView().findViewById(R.id.txtNotifications);
-        final TextView auto1 = getView().findViewById(R.id.txtAutoRefresh);
-        final TextView notif2 = getView().findViewById(R.id.txtNotifiedAbout);
-        final TextView auto2 = getView().findViewById(R.id.txtAutoRefreshTwo);
 
         helpCourses.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,7 +236,6 @@ public class FragmentSettings extends Fragment implements View.OnClickListener {
                 } else {
                     colourCustomiserBuilder = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomLight);
                 }
-//                colourCustomiserBuilder.setTitle(getString(R.string.customisecolor1));
                 View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.empty_dialog, null);
                 TextView titleText = dialogView.findViewById(R.id.empty_textviewtitle);
                 titleText.setText(R.string.customisecolor1);
@@ -276,7 +265,6 @@ public class FragmentSettings extends Fragment implements View.OnClickListener {
                             } else {
                                 colourPickerBuilder = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomLight);
                             }
-//                            colourPickerBuilder.setTitle(title);
                             View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.empty_dialog, null);
                             TextView titleText = dialogView.findViewById(R.id.empty_textviewtitle);
                             titleText.setText(title);
@@ -336,7 +324,6 @@ public class FragmentSettings extends Fragment implements View.OnClickListener {
                         colourCustomiserDialog.cancel();
                     }
                 });
-//                alertDialog.setPositiveButton(R.string.finish, null);
                 colourCustomiserDialog.show();
             }
         });
@@ -456,46 +443,6 @@ public class FragmentSettings extends Fragment implements View.OnClickListener {
             }
         });
 
-        // TODO check whether Huawei devices actually support background services
-
-//        DeviceName.with(getContext()).request(new DeviceName.Callback() {
-//            @Override
-//            public void onFinished(DeviceName.DeviceInfo info, Exception error) {
-//                manufacturer = info.manufacturer;
-//                if (manufacturer.contains("Huawei") ||
-//                        manufacturer.contains("Honor")) {
-////                if (true) {
-//                    notifswitch.setChecked(false);
-//                    autoRefresh.setChecked(true);
-//                    notifswitch.setEnabled(false);
-//                    autoRefresh.setEnabled(false);
-//
-//                    @ColorInt int color;
-//                    if (prefs.getInt("themeInt", 0) == 1) {
-//                        TypedValue typedValue = new TypedValue();
-//                        Resources.Theme theme = getContext().getTheme();
-//                        theme.resolveAttribute(R.attr.colorHintDark, typedValue, true);
-//                        color = typedValue.data;
-//                        notif2.setTextColor(color);
-//                        auto2.setTextColor(color);
-//                    } else {
-//                        TypedValue typedValue = new TypedValue();
-//                        Resources.Theme theme = getContext().getTheme();
-//                        theme.resolveAttribute(R.attr.colorHint, typedValue, true);
-//                        color = typedValue.data;
-//                    }
-//
-//                    notif1.setTextColor(color);
-//                    auto1.setTextColor(color);
-//                    edit.putBoolean("notif", false);
-//                    edit.putBoolean("autoRefresh", true);
-//                    edit.apply();
-//                    notif2.setText(R.string.chinaNotif);
-//                    auto2.setText(R.string.chinaAuto);
-//                }
-//            }
-//        });
-
         website.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -519,12 +466,12 @@ public class FragmentSettings extends Fragment implements View.OnClickListener {
                 }
                 View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.simple_dialog, null);
                 TextView title = dialogView.findViewById(R.id.textviewtitle);
-                title.setText("Licenses");
+                title.setText("Licences");
                 TextView dialogText = dialogView.findViewById(R.id.dialogtext);
-                dialogText.setText("Libraries:\n • Android Device Names © 2015 Jared Rummler, licensed under the Apache License, Version 2.0" +
-                        "\n • EasyPreferences © 2018 Mukesh Solanki, licensed under the MIT License" +
-                        "\n • jsoup HTML parser © 2009-2018 Jonathan Hedley, licensed under the open source MIT License" +
-                        "\n\nFont:\n • Manrope © 2018-2019 Michael Sharanda, licensed under the SIL Open Font License 1.1" +
+                dialogText.setText("Libraries:\n • Android Device Names © 2015 Jared Rummler, licensed under the Apache Licence, Version 2.0" +
+                        "\n • EasyPreferences © 2018 Mukesh Solanki, licensed under the MIT Licence" +
+                        "\n • jsoup HTML parser © 2009-2018 Jonathan Hedley, licensed under the open source MIT Licence" +
+                        "\n\nFont:\n • Manrope © 2018-2019 Michael Sharanda, licensed under the SIL Open Font Licence 1.1" +
                         "\n\nIcons:\n • bqlqn\n • fjstudio\n • Freepik\n • Smashicons\n • © 2013-2019 Freepik Company S.L., licensed under Creative Commons BY 3.0" +
                         "\n\nMarketing & Publishing:\n • Leon Becker\n • Alex Lick\n • Batuhan Özcan\n • Erich Kerkesner");
                 alertDialog.setView(dialogView);
@@ -758,8 +705,8 @@ public class FragmentSettings extends Fragment implements View.OnClickListener {
                                 title.setText(R.string.dating);
 
                                 Button datingBtn = dialogView.findViewById(R.id.dating_btn);
-                                final EditText boyT = dialogView.findViewById(R.id.dating_txt1);
-                                final EditText girlT = dialogView.findViewById(R.id.dating_txt2);
+                                final TextInputEditText boyT = dialogView.findViewById(R.id.dating_txt1);
+                                final TextInputEditText girlT = dialogView.findViewById(R.id.dating_txt2);
                                 final CheckBox boy = dialogView.findViewById(R.id.cb1);
                                 final CheckBox girl = dialogView.findViewById(R.id.cb2);
                                 final TextView percentage = dialogView.findViewById(R.id.dating_txtp);
@@ -769,10 +716,10 @@ public class FragmentSettings extends Fragment implements View.OnClickListener {
                                         try {
                                             double boyP = 0, girlP = 0, perc = 0;
                                             if (boyT.getText().toString().isEmpty() || boy.isChecked()) {
-                                                boyT.setText(names.boy[gen.nextInt(names.boy.length)]);
+                                                boyT.setText(DataGetter.boy[gen.nextInt(DataGetter.boy.length)]);
                                             }
                                             if (girlT.getText().toString().isEmpty() || girl.isChecked()) {
-                                                girlT.setText(names.girl[gen.nextInt(names.girl.length)]);
+                                                girlT.setText(DataGetter.girl[gen.nextInt(DataGetter.girl.length)]);
                                             }
                                             for (int i = 0; i < boyT.getText().length(); i++) {
                                                 boyP++;

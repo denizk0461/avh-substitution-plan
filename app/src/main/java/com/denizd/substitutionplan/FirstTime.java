@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Animatable;
@@ -14,13 +13,11 @@ import android.os.Build;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 
-import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -36,13 +33,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.jaredrummler.android.device.DeviceName;
 
 import java.util.Calendar;
 
 public class FirstTime extends AppCompatActivity {
-
-    private String manufacturer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,32 +78,6 @@ public class FirstTime extends AppCompatActivity {
         final CheckBox pers = findViewById(R.id.cbPersonalised);
         final ImageButton helpClasses = findViewById(R.id.chipHelpClasses);
         final ImageButton helpCourses = findViewById(R.id.chipHelpCourses);
-
-        // TODO Huawei
-
-//        DeviceName.with(context).request(new DeviceName.Callback() {
-//            @Override
-//            public void onFinished(DeviceName.DeviceInfo info, Exception error) {
-//                manufacturer = info.manufacturer;
-//                if (manufacturer.contains("Huawei") ||
-//                        manufacturer.contains("Honor")) {
-////                if (true) {
-//                    notif.setEnabled(false);
-//
-//                    @ColorInt int color;
-//
-//                    TypedValue typedValue = new TypedValue();
-//                    Resources.Theme theme = context.getTheme();
-//                    theme.resolveAttribute(R.attr.colorHint, typedValue, true);
-//                    color = typedValue.data;
-//
-//                    notif.setTextColor(color);
-//                    edit.putBoolean("notif", false);
-//                    edit.putBoolean("autoRefresh", true);
-//                    edit.apply();
-//                }
-//            }
-//        });
 
         helpCourses.setOnClickListener(new View.OnClickListener() {
             @Override

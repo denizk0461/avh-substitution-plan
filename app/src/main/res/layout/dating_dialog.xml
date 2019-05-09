@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
@@ -40,16 +42,28 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/dating_txt1"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:boxStrokeColor="@color/datingPink"
+                    app:boxStrokeWidth="2dp"
                     android:layout_width="0px"
                     android:layout_weight="7"
-                    android:backgroundTint="?attr/colorText"
                     android:layout_height="wrap_content"
-                    android:hint="@string/boy"
-                    android:inputType="textNoSuggestions"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
                     android:textColorHint="?attr/colorHint"
-                    android:textColor="?attr/colorText"/>
+                    android:hint="@string/boy"
+                    android:importantForAutofill="no">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/dating_txt1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textNoSuggestions"
+                        android:textColor="?attr/colorText"
+                        android:singleLine="true"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <CheckBox
                     android:id="@+id/cb1"
@@ -66,16 +80,28 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/dating_txt2"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:boxStrokeColor="@color/datingPink"
+                    app:boxStrokeWidth="2dp"
                     android:layout_width="0px"
                     android:layout_weight="7"
-                    android:backgroundTint="?attr/colorText"
                     android:layout_height="wrap_content"
-                    android:hint="@string/girl"
-                    android:inputType="textNoSuggestions"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
                     android:textColorHint="?attr/colorHint"
-                    android:textColor="?attr/colorText"/>
+                    android:hint="@string/girl"
+                    android:importantForAutofill="no">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/dating_txt2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textNoSuggestions"
+                        android:textColor="?attr/colorText"
+                        android:singleLine="true"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <CheckBox
                     android:id="@+id/cb2"
@@ -97,10 +123,11 @@
                     android:layout_width="0px"
                     android:layout_weight="5"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/datingPink"
                     android:text="@string/calculate"
-                    android:textColor="@color/white"
-                    android:layout_gravity="start|center_vertical"/>
+                    android:textColor="@color/datingPink"
+                    app:strokeColor="@color/datingPink"
+                    android:layout_gravity="start|center_vertical"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
                 <TextView
                     android:id="@+id/dating_txtp"

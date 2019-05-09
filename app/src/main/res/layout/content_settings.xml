@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorBackground">
@@ -10,7 +9,8 @@
         android:id="@+id/nsvsettings"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:scrollbars="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -32,6 +32,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtLayoutName"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="?attr/colorAccent"
+                app:boxStrokeWidth="2dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -44,25 +46,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtPersonalise"
                 android:importantForAutofill="no">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
                     android:animateLayoutChanges="true"
                     android:ems="10"
                     android:gravity="start"
                     android:imeOptions="flagNoExtractUi"
                     android:inputType="textNoSuggestions"
                     android:singleLine="true"
-                    android:textAlignment="textStart"
-                    android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textColor="?attr/colorText"
-                    android:textCursorDrawable="@null"
-                    android:textSize="14sp"
-                    android:theme="@style/EditTextTheme" />
+                    android:textSize="14sp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -215,6 +210,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtLayoutClasses"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="?attr/colorAccent"
+                app:boxStrokeWidth="2dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -227,24 +224,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtFilter"
                 android:importantForAutofill="no">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtClasses"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="8dp"
                     android:animateLayoutChanges="true"
                     android:ems="10"
                     android:gravity="start"
                     android:imeOptions="flagNoExtractUi"
                     android:inputType="textNoSuggestions"
                     android:singleLine="true"
-                    android:textAlignment="textStart"
-                    android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textColor="?attr/colorText"
-                    android:textSize="14sp"
-                    android:theme="@style/EditTextTheme" />
+                    android:textSize="14sp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -265,34 +256,29 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:hint="@string/courses"
+                android:importantForAutofill="no"
                 android:textColorHint="?attr/colorHint"
+                app:boxStrokeColor="?attr/colorAccent"
+                app:boxStrokeWidth="2dp"
                 app:layout_constraintEnd_toStartOf="@+id/chipHelpCourses"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtLayoutClasses"
-                android:importantForAutofill="no">
+                app:layout_constraintStart_toStartOf="@+id/txtLayoutClasses"
+                app:layout_constraintTop_toBottomOf="@+id/txtLayoutClasses">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtCourses"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
                     android:animateLayoutChanges="true"
                     android:ems="10"
                     android:gravity="start"
                     android:imeOptions="flagNoExtractUi"
                     android:inputType="textNoSuggestions"
                     android:singleLine="true"
-                    android:textAlignment="textStart"
-                    android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textColor="?attr/colorText"
-                    android:textSize="14sp"
-                    android:theme="@style/EditTextTheme" />
+                    android:textSize="14sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
