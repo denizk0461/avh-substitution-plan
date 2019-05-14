@@ -223,10 +223,10 @@ public class MainActivity extends AppCompatActivity {
             bottomNav.setItemIconTintList(ContextCompat.getColorStateList(this, R.color.tintlist_light));
             bottomNav.setItemTextColor(ContextCompat.getColorStateList(this, R.color.tintlist_light));
             chip.setChipBackgroundColor(getResources().getColorStateList(R.color.chip_state_list));
-            chip.setTextColor(ContextCompat.getColor(this, R.color.lessdark));
+            chip.setTextColor(ContextCompat.getColor(this, R.color.textDark));
             bottomSheet.setBackgroundColor(ContextCompat.getColor(this, R.color.darkwhite));
-            bottomSheetHeader.setTextColor(ContextCompat.getColor(this, R.color.lessdark));
-            bottomSheetText.setTextColor(ContextCompat.getColor(this, R.color.lessdark));
+            bottomSheetHeader.setTextColor(ContextCompat.getColor(this, R.color.textDark));
+            bottomSheetText.setTextColor(ContextCompat.getColor(this, R.color.textDark));
             bottomNavDivider.setBackgroundColor(ContextCompat.getColor(this, R.color.lightgrey));
             iconinfo.setColorFilter(ContextCompat.getColor(context, R.color.lessdark), android.graphics.PorterDuff.Mode.SRC_IN);
 
@@ -245,10 +245,10 @@ public class MainActivity extends AppCompatActivity {
             bottomNav.setItemTextColor(ContextCompat.getColorStateList(this, R.color.tintlist_dark));
             window.setNavigationBarColor(getResources().getColor(R.color.background));
             chip.setChipBackgroundColor(getResources().getColorStateList(R.color.chip_state_list_dark));
-            chip.setTextColor(ContextCompat.getColor(this, R.color.lightgrey));
+            chip.setTextColor(ContextCompat.getColor(this, R.color.textLight));
             bottomSheet.setBackgroundColor(ContextCompat.getColor(this, R.color.dark));
-            bottomSheetHeader.setTextColor(ContextCompat.getColor(this, R.color.lightgrey));
-            bottomSheetText.setTextColor(ContextCompat.getColor(this, R.color.lightgrey));
+            bottomSheetHeader.setTextColor(ContextCompat.getColor(this, R.color.textLight));
+            bottomSheetText.setTextColor(ContextCompat.getColor(this, R.color.textLight));
             bottomNavDivider.setBackgroundColor(ContextCompat.getColor(this, R.color.darkdivider));
             iconinfo.setColorFilter(ContextCompat.getColor(context, R.color.lightgrey), android.graphics.PorterDuff.Mode.SRC_IN);
 
