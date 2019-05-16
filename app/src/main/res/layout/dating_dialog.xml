@@ -126,6 +126,7 @@
                     android:text="@string/calculate"
                     android:textColor="@color/datingPink"
                     app:strokeColor="@color/datingPink"
+                    app:strokeWidth="1dp"
                     android:layout_gravity="start|center_vertical"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 

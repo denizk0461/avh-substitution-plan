@@ -1,6 +1,9 @@
 package com.denizd.substitutionplan
 
 import android.app.ActivityManager
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -53,6 +56,8 @@ class Main : AppCompatActivity(R.layout.activity_main) {
         } else {
             edit.putInt("launchDev", prefs.getInt("launchDev", 0) + 1)
             edit.apply()
+
+            notificationJob()
 
             val handler = Handler()
 
@@ -284,7 +289,7 @@ class Main : AppCompatActivity(R.layout.activity_main) {
                 }, 600)
             }
 
-            val userPlan: String = when (prefs.getString("username", "")[prefs.getString("username", "").length - 1].toString().toLowerCase() as String) {
+            val userPlan: String = when (prefs.getString("username", "")[prefs.getString("username", "").length - 1].toString().toLowerCase()) {
                 "s", "x", "z" -> prefs.getString("username", "") + getString(R.string.nosplan)
                 else -> prefs.getString("username", "") + getString(R.string.splan)
             }
@@ -365,6 +370,17 @@ class Main : AppCompatActivity(R.layout.activity_main) {
     private fun loadFragment(fragment: Fragment): Boolean {
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
         return true
+    }
+
+    private fun notificationJob() {
+        val componentName = ComponentName(this, ScheduledJobService::class.java)
+        val info = JobInfo.Builder(42, componentName)
+                .setRequiresCharging(false)
+                .setPersisted(true)
+                .setPeriodic(900000)
+                .build()
+        val scheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+        scheduler.schedule(info)
     }
 
     override fun onBackPressed() {

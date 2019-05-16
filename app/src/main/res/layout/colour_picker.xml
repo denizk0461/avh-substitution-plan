@@ -190,6 +190,7 @@
         android:layout_margin="8dp"
         android:text="@string/clearcolour"
         android:textColor="?attr/colorText"
-        app:strokeColor="?attr/colorText"/>
+        app:strokeColor="?attr/colorText"
+        app:strokeWidth="1dp"/>
 
 </TableLayout>

@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:strokeColor="?attr/colorText"
+        app:strokeWidth="1dp"
         android:textColor="?attr/colorText"
         android:text="@string/clearall"
         android:layout_marginTop="8dp"

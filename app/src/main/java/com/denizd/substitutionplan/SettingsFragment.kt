@@ -133,7 +133,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         }
 
         hiddenBtn.setOnLongClickListener {
-            hiddenMenu()
+            debugMenu()
         }
     }
 
@@ -338,7 +338,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
 
     }
 
-    private fun hiddenMenu(): Boolean {
+    private fun debugMenu(): Boolean {
 
         DeviceName.with(mContext).request { deviceInfo, _ ->
             name = deviceInfo.marketName
@@ -350,13 +350,11 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
             else -> AlertDialog.Builder(mContext, R.style.AlertDialogCustomLight)
         }
         val dialogView = LayoutInflater.from(mContext).inflate(R.layout.edittext_dialog, null)
-        val title = dialogView.findViewById<TextView>(R.id.textviewtitle)
-        val dialogText = dialogView.findViewById<TextView>(R.id.dialogtext)
         val dialogEditText = dialogView.findViewById<EditText>(R.id.dialog_edittext)
         val dialogButton = dialogView.findViewById<Button>(R.id.dialog_button)
 
-        title.text = getString(R.string.experimentalmenu)
-        dialogText.text = getString(R.string.fortest)
+        dialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.experimentalmenu)
+        dialogView.findViewById<TextView>(R.id.dialogtext).text = getString(R.string.fortest)
         dialogButton.setOnClickListener {
             when (dialogEditText.text.toString()) {
                 "@DIAGNOSTICS" -> {
@@ -365,12 +363,11 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                         else -> AlertDialog.Builder(mContext, R.style.AlertDialogCustomLight)
                     }
                     val devDialogView = LayoutInflater.from(mContext).inflate(R.layout.diagnostics_dialog, null)
-                    val devTitle = devDialogView.findViewById<TextView>(R.id.textviewtitle)
                     val devDialogText = devDialogView.findViewById<TextView>(R.id.dialogtext)
                     val resetLaunchBtn = devDialogView.findViewById<Button>(R.id.btnResetLaunch)
                     val resetNotifBtn = devDialogView.findViewById<Button>(R.id.btnResetNotif)
 
-                    devTitle.text = getString(R.string.diagnosticsmenu)
+                    devDialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.diagnosticsmenu)
                     devDialogText.text = getDiagnosticsText(prefs)
 
                     resetLaunchBtn.setOnClickListener {
@@ -402,7 +399,6 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                         else -> AlertDialog.Builder(mContext, R.style.AlertDialogCustomLight)
                     }
                     val dateDialogView = LayoutInflater.from(mContext).inflate(R.layout.dating_dialog, null)
-                    val dateTitle = dateDialogView.findViewById<TextView>(R.id.textviewtitle)
                     val datingBtn = dateDialogView.findViewById<Button>(R.id.dating_btn)
                     val boyTxt = dateDialogView.findViewById<TextInputEditText>(R.id.dating_txt1)
                     val girlTxt = dateDialogView.findViewById<TextInputEditText>(R.id.dating_txt2)
@@ -410,14 +406,10 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                     val girlCb = dateDialogView.findViewById<CheckBox>(R.id.cb2)
                     val percentage = dateDialogView.findViewById<TextView>(R.id.dating_txtp)
 
-                    dateTitle.text = getString(R.string.dating)
+                    dateDialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.dating)
 
                     datingBtn.setOnClickListener {
                         try {
-                            var boyP: Double = 0.0
-                            var girlP: Double = 0.0
-                            var perc: Double = 0.0
-
                             if (boyTxt.text.toString().isEmpty() || boyCb.isChecked) {
                                 boyTxt.setText(DataGetter.boy[gen.nextInt(DataGetter.boy.size)])
                             }
@@ -425,10 +417,10 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                                 girlTxt.setText(DataGetter.girl[gen.nextInt(DataGetter.girl.size)])
                             }
 
-                            boyP = boyTxt.text!!.length.toDouble()
-                            girlP = girlTxt.text!!.length.toDouble()
+                            val boyP = boyTxt.text!!.length.toDouble()
+                            val girlP = girlTxt.text!!.length.toDouble()
 
-                            perc = when {
+                            var perc = when {
                                 girlP < boyP -> (girlP / boyP) * 100
                                 else -> (boyP / girlP) * 100
                             }
