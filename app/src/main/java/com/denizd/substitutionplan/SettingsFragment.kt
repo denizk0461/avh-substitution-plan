@@ -115,7 +115,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                edit.putString("classes", txtName.text.toString()).apply()
+                edit.putString("classes", txtClasses.text.toString()).apply()
             }
         })
 
@@ -124,7 +124,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                edit.putString("courses", txtName.text.toString()).apply()
+                edit.putString("courses", txtCourses.text.toString()).apply()
             }
         })
 
@@ -451,10 +451,15 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                 else -> Toast.makeText(mContext, getString(R.string.nothinghappened), Toast.LENGTH_LONG).show()
             }
         }
-        alertDialog.setView(dialogView);
-        alertDialog.show();
+        alertDialog.setView(dialogView)
+        alertDialog.show()
         return true
     }
+
+//    override fun onDetach() {
+//        super.onDetach()
+//        edit.apply()
+//    }
 
     private fun getDiagnosticsText(prefs: SharedPreferences): String {
         return "First Launch: " + prefs.getString("firstTimeDev", "") +

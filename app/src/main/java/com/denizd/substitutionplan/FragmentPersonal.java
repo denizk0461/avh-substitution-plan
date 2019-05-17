@@ -1,6 +1,7 @@
 package com.denizd.substitutionplan;
 
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import com.madapps.prefrences.EasyPrefrences;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -49,7 +51,9 @@ public class FragmentPersonal extends Fragment {
 
     private RecyclerView recyclerView;
     private CardAdapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext()),
+            linearLayoutManager = new LinearLayoutManager(getContext()),
+            gridLayoutManager = new GridLayoutManager(getContext(), 2);
     private ArrayList<Subst> planCardList;
     private TextView bottomSheetText;
     private SubstViewModel substViewModel;
@@ -60,6 +64,19 @@ public class FragmentPersonal extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.plan, null);
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            layoutManager = linearLayoutManager;
+            recyclerView.setLayoutManager(layoutManager);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            layoutManager = gridLayoutManager;
+            recyclerView.setLayoutManager(layoutManager);
+        }
     }
 
     @Override
@@ -75,8 +92,15 @@ public class FragmentPersonal extends Fragment {
 
         planCardList = new ArrayList<>();
         recyclerView = getView().findViewById(R.id.linearRecycler);
-        layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setHasFixedSize(true);
+
+        int orientation = getResources().getConfiguration().orientation;
+
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            layoutManager = linearLayoutManager;
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            layoutManager = gridLayoutManager;
+        }
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new CardAdapter(planCardList);
         recyclerView.setAdapter(mAdapter);

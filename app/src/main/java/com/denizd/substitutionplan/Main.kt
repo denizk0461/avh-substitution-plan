@@ -289,9 +289,13 @@ class Main : AppCompatActivity(R.layout.activity_main) {
                 }, 600)
             }
 
-            val userPlan: String = when (prefs.getString("username", "")[prefs.getString("username", "").length - 1].toString().toLowerCase()) {
-                "s", "x", "z" -> prefs.getString("username", "") + getString(R.string.nosplan)
-                else -> prefs.getString("username", "") + getString(R.string.splan)
+            val userPlan: String = if (prefs.getString("username", "").toString().isNotEmpty()) {
+                when (prefs.getString("username", "")[prefs.getString("username", "").length - 1].toString().toLowerCase()) {
+                    "s", "x", "z" -> prefs.getString("username", "") + getString(R.string.nosplan)
+                    else -> prefs.getString("username", "") + getString(R.string.splan)
+                }
+            } else {
+                getString(R.string.personalplan)
             }
 
             if (prefs.getBoolean("defaultPersonalised", false)) {
