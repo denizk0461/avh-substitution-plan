@@ -113,7 +113,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:text="@string/neoncolours"
-        android:textColor="?attr/colorText"
+        android:textColor="@color/textcolor"
         android:layout_marginStart="8dp"/>
 
     <TableRow
@@ -189,8 +189,8 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_margin="8dp"
         android:text="@string/clearcolour"
-        android:textColor="?attr/colorText"
-        app:strokeColor="?attr/colorText"
-        app:strokeWidth="1dp"/>
+        android:textColor="@color/textcolor"
+        app:strokeColor="@color/textcolor"
+        app:strokeWidth="2dp"/>
 
 </TableLayout>

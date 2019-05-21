@@ -12,7 +12,7 @@
         android:layout_marginTop="16dp"
         android:textSize="22sp"
         android:layout_gravity="center_horizontal"
-        android:textColor="?attr/colorText"/>
+        android:textColor="@color/textcolor"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="wrap_content"
@@ -23,7 +23,7 @@
             android:id="@+id/dialogtext"
             android:layout_height="match_parent"
             android:layout_width="wrap_content"
-            android:textColor="?attr/colorText"
+            android:textColor="@color/textcolor"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
             android:paddingBottom="24dp"

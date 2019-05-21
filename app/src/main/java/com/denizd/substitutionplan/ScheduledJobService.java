@@ -217,7 +217,8 @@ public class ScheduledJobService extends JobService {
                         roomS[i] = cols.get(4).text();
                         additionalS[i] = cols.get(5).text();
 
-                        int drawable = DataGetter.getIcon(courseS[i]);
+                        DataGetter dg = new DataGetter();
+                        int drawable = dg.getIcon(courseS[i]);
                         Subst subst = new Subst(drawable, groupS[i], dateS[i], timeS[i], courseS[i], roomS[i], additionalS[i], priority);
                         priority--;
                         substViewModel.insert(subst);

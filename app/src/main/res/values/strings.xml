@@ -151,4 +151,6 @@
 
     <string name="lastupdatedK">"Last updated: "</string>
 
+    <string name="darkmode2">Enables night mode</string>
+
 </resources>

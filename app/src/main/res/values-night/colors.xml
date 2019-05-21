@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#121212</color>
+    <color name="lightbackground">#1E1E1E</color>
+    <color name="accent">#64b5f6</color>
+    <color name="textcolor">#e0e0e0</color>
+    <color name="hintcolor">#9e9e9e</color>
+    <color name="lighthintcolor">#313131</color>
+</resources>

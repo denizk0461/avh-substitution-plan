@@ -205,57 +205,57 @@ public class MainActivity extends AppCompatActivity {
         ImageView iconinfo = findViewById(R.id.info_icon);
 
         // theme change
-        if (prefs.getInt("themeInt", 0) == 0) {
-            setTheme(R.style.AppTheme0);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                window.setStatusBarColor(ContextCompat.getColor(this, R.color.darkwhite));
-                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.darkwhite));
-                window.setNavigationBarColor(ContextCompat.getColor(this, R.color.darkwhite));
-            } else {
-                window.setStatusBarColor(ContextCompat.getColor(this, R.color.black));
-                window.setNavigationBarColor(ContextCompat.getColor(this, R.color.black));
-            }
-
-            toolbarTxt.setTextColor(ContextCompat.getColor(this, R.color.accent));
-            bottomNav.setBackgroundColor(ContextCompat.getColor(this, R.color.darkwhite));
-            bottomNav.setItemIconTintList(ContextCompat.getColorStateList(this, R.color.tintlist_light));
-            bottomNav.setItemTextColor(ContextCompat.getColorStateList(this, R.color.tintlist_light));
-            chip.setChipBackgroundColor(getResources().getColorStateList(R.color.chip_state_list));
-            chip.setTextColor(ContextCompat.getColor(this, R.color.textDark));
-            bottomSheet.setBackgroundColor(ContextCompat.getColor(this, R.color.darkwhite));
-            bottomSheetHeader.setTextColor(ContextCompat.getColor(this, R.color.textDark));
-            bottomSheetText.setTextColor(ContextCompat.getColor(this, R.color.textDark));
-            bottomNavDivider.setBackgroundColor(ContextCompat.getColor(this, R.color.lightgrey));
-            iconinfo.setColorFilter(ContextCompat.getColor(context, R.color.lessdark), android.graphics.PorterDuff.Mode.SRC_IN);
-
-            Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-            ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(getString(R.string.app_name), bm, ContextCompat.getColor(this, R.color.darkwhite));
-            setTaskDescription(taskDesc);
-        }
-        if (prefs.getInt("themeInt", 0) == 1) {
-            setTheme(R.style.AppTheme0Dark);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.background));
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-            toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.dark));
-            toolbarTxt.setTextColor(ContextCompat.getColor(this, R.color.accentPastel));
-            bottomNav.setBackgroundColor(ContextCompat.getColor(this, R.color.dark));
-            bottomNav.setItemIconTintList(ContextCompat.getColorStateList(this, R.color.tintlist_dark));
-            bottomNav.setItemTextColor(ContextCompat.getColorStateList(this, R.color.tintlist_dark));
-            window.setNavigationBarColor(getResources().getColor(R.color.background));
-            chip.setChipBackgroundColor(getResources().getColorStateList(R.color.chip_state_list_dark));
-            chip.setTextColor(ContextCompat.getColor(this, R.color.textLight));
-            bottomSheet.setBackgroundColor(ContextCompat.getColor(this, R.color.dark));
-            bottomSheetHeader.setTextColor(ContextCompat.getColor(this, R.color.textLight));
-            bottomSheetText.setTextColor(ContextCompat.getColor(this, R.color.textLight));
-            bottomNavDivider.setBackgroundColor(ContextCompat.getColor(this, R.color.darkdivider));
-            iconinfo.setColorFilter(ContextCompat.getColor(context, R.color.lightgrey), android.graphics.PorterDuff.Mode.SRC_IN);
-
-            Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-            ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(getString(R.string.app_name), bm, getResources().getColor(R.color.background));
-            setTaskDescription(taskDesc);
-        }
+//        if (prefs.getInt("themeInt", 0) == 0) {
+//            setTheme(R.style.AppTheme0);
+//
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                window.setStatusBarColor(ContextCompat.getColor(this, R.color.darkwhite));
+//                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+//                toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.darkwhite));
+//                window.setNavigationBarColor(ContextCompat.getColor(this, R.color.darkwhite));
+//            } else {
+//                window.setStatusBarColor(ContextCompat.getColor(this, R.color.black));
+//                window.setNavigationBarColor(ContextCompat.getColor(this, R.color.black));
+//            }
+//
+//            toolbarTxt.setTextColor(ContextCompat.getColor(this, R.color.accent));
+//            bottomNav.setBackgroundColor(ContextCompat.getColor(this, R.color.darkwhite));
+//            bottomNav.setItemIconTintList(ContextCompat.getColorStateList(this, R.color.tintlist_light));
+//            bottomNav.setItemTextColor(ContextCompat.getColorStateList(this, R.color.tintlist_light));
+//            chip.setChipBackgroundColor(getResources().getColorStateList(R.color.chip_state_list));
+//            chip.setTextColor(ContextCompat.getColor(this, R.color.textDark));
+//            bottomSheet.setBackgroundColor(ContextCompat.getColor(this, R.color.darkwhite));
+//            bottomSheetHeader.setTextColor(ContextCompat.getColor(this, R.color.textDark));
+//            bottomSheetText.setTextColor(ContextCompat.getColor(this, R.color.textDark));
+//            bottomNavDivider.setBackgroundColor(ContextCompat.getColor(this, R.color.lightgrey));
+//            iconinfo.setColorFilter(ContextCompat.getColor(context, R.color.lessdark), android.graphics.PorterDuff.Mode.SRC_IN);
+//
+//            Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+//            ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(getString(R.string.app_name), bm, ContextCompat.getColor(this, R.color.darkwhite));
+//            setTaskDescription(taskDesc);
+//        }
+//        if (prefs.getInt("themeInt", 0) == 1) {
+//            setTheme(R.style.AppTheme0Dark);
+//            window.setStatusBarColor(ContextCompat.getColor(this, R.color.background));
+//            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+//            toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.dark));
+//            toolbarTxt.setTextColor(ContextCompat.getColor(this, R.color.accentPastel));
+//            bottomNav.setBackgroundColor(ContextCompat.getColor(this, R.color.dark));
+//            bottomNav.setItemIconTintList(ContextCompat.getColorStateList(this, R.color.tintlist_dark));
+//            bottomNav.setItemTextColor(ContextCompat.getColorStateList(this, R.color.tintlist_dark));
+//            window.setNavigationBarColor(getResources().getColor(R.color.background));
+//            chip.setChipBackgroundColor(getResources().getColorStateList(R.color.chip_state_list_dark));
+//            chip.setTextColor(ContextCompat.getColor(this, R.color.textLight));
+//            bottomSheet.setBackgroundColor(ContextCompat.getColor(this, R.color.dark));
+//            bottomSheetHeader.setTextColor(ContextCompat.getColor(this, R.color.textLight));
+//            bottomSheetText.setTextColor(ContextCompat.getColor(this, R.color.textLight));
+//            bottomNavDivider.setBackgroundColor(ContextCompat.getColor(this, R.color.darkdivider));
+//            iconinfo.setColorFilter(ContextCompat.getColor(context, R.color.lightgrey), android.graphics.PorterDuff.Mode.SRC_IN);
+//
+//            Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+//            ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(getString(R.string.app_name), bm, getResources().getColor(R.color.background));
+//            setTaskDescription(taskDesc);
+//        }
 
         if (prefs.getBoolean("greeting", false)) {
             if (!prefs.getString("username", "").isEmpty()) {

@@ -67,7 +67,7 @@ public class FragmentSettings extends Fragment implements View.OnClickListener {
         final SharedPreferences.Editor edit = prefs.edit();
 
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-        builder.setToolbarColor(getResources().getColor(R.color.white));
+        builder.setToolbarColor(getResources().getColor(R.color.background));
         final CustomTabsIntent customTabsIntent = builder.build();
 
         final TextInputEditText txtName = getView().findViewById(R.id.txtName);
@@ -713,43 +713,45 @@ public class FragmentSettings extends Fragment implements View.OnClickListener {
                                 datingBtn.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        try {
-                                            double boyP = 0, girlP = 0, perc = 0;
-                                            if (boyT.getText().toString().isEmpty() || boy.isChecked()) {
-                                                boyT.setText(DataGetter.boy[gen.nextInt(DataGetter.boy.length)]);
-                                            }
-                                            if (girlT.getText().toString().isEmpty() || girl.isChecked()) {
-                                                girlT.setText(DataGetter.girl[gen.nextInt(DataGetter.girl.length)]);
-                                            }
-                                            for (int i = 0; i < boyT.getText().length(); i++) {
-                                                boyP++;
-                                            }
-                                            for (int i = 0; i < girlT.getText().length(); i++) {
-                                                girlP++;
-                                            }
-                                            if (girlP < boyP) {
-                                                perc = (girlP / boyP) * 100;
-                                            }
-                                            if (girlP > boyP) {
-                                                perc = (boyP / girlP) * 100;
-                                            }
-                                            char multiplyTempBoy = boyT.getText().charAt(boyT.getText().length() - 1);
-                                            char multiplyTempGirl = girlT.getText().charAt(girlT.getText().length() - 1);
-                                            double multiply = Character.getNumericValue(multiplyTempBoy) + Character.getNumericValue(multiplyTempGirl);
-                                            multiply = multiply / 1.2;
-                                            if (perc == 0) {
-                                                perc += 30;
-                                            }
-                                            DecimalFormat df = new DecimalFormat("#.##");
-                                            if (perc * (multiply / 40) > 100) {
-                                                percentage.setText("100.00%");
-                                            } else {
-                                                percentage.setText(df.format(perc * (multiply / 40)) + "%");
-                                            }
-                                        } catch (NullPointerException e) {
-                                            Toast.makeText(getActivity(), getString(R.string.error),
+//                                        try {
+//                                            double boyP = 0, girlP = 0, perc = 0;
+//                                            if (boyT.getText().toString().isEmpty() || boy.isChecked()) {
+//                                                boyT.setText(DataGetter.boy[gen.nextInt(DataGetter.boy.length)]);
+//                                            }
+//                                            if (girlT.getText().toString().isEmpty() || girl.isChecked()) {
+//                                                girlT.setText(DataGetter.girl[gen.nextInt(DataGetter.girl.length)]);
+//                                            }
+//                                            for (int i = 0; i < boyT.getText().length(); i++) {
+//                                                boyP++;
+//                                            }
+//                                            for (int i = 0; i < girlT.getText().length(); i++) {
+//                                                girlP++;
+//                                            }
+//                                            if (girlP < boyP) {
+//                                                perc = (girlP / boyP) * 100;
+//                                            }
+//                                            if (girlP > boyP) {
+//                                                perc = (boyP / girlP) * 100;
+//                                            }
+//                                            char multiplyTempBoy = boyT.getText().charAt(boyT.getText().length() - 1);
+//                                            char multiplyTempGirl = girlT.getText().charAt(girlT.getText().length() - 1);
+//                                            double multiply = Character.getNumericValue(multiplyTempBoy) + Character.getNumericValue(multiplyTempGirl);
+//                                            multiply = multiply / 1.2;
+//                                            if (perc == 0) {
+//                                                perc += 30;
+//                                            }
+//                                            DecimalFormat df = new DecimalFormat("#.##");
+//                                            if (perc * (multiply / 40) > 100) {
+//                                                percentage.setText("100.00%");
+//                                            } else {
+//                                                percentage.setText(df.format(perc * (multiply / 40)) + "%");
+//                                            }
+//                                        } catch (NullPointerException e) {
+//                                            Toast.makeText(getActivity(), getString(R.string.error),
+//                                                    Toast.LENGTH_SHORT).show();
+//                                        }
+                                            Toast.makeText(getActivity(), "Deprecated",
                                                     Toast.LENGTH_SHORT).show();
-                                        }
                                     }
                                 });
                                 alertDialogDev.setView(dialogView);

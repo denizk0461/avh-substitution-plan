@@ -18,9 +18,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorBackground"
+            android:background="@color/background"
             app:popupTheme="@style/AppThemeLight.PopupOverlay"
-            app:titleTextColor="?attr/colorAccent"
+            app:titleTextColor="@color/accent"
             app:contentInsetStart="0dp"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
@@ -38,7 +38,7 @@
                     android:layoutAnimation="@anim/layout_animation_fall_down"
                     android:text="@string/app_name"
                     android:textAlignment="center"
-                    android:textColor="?attr/colorAccent"
+                    android:textColor="@color/accent"
                     android:textSize="22sp"
                     android:singleLine="true"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -51,7 +51,7 @@
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="0dp"
                     android:layout_height="2dp"
-                    android:progressTint="?attr/colorAccent"
+                    android:progressTint="@color/accent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +66,9 @@
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:elevation="4dp"/>
+                    android:elevation="4dp"
+                    android:background="@color/lightbackground"
+                    android:textColor="@color/textcolor"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -93,11 +95,11 @@
         app:elevation="0dp"
         app:layout_anchor="@+id/bottom_sheet"
         android:layout_gravity="bottom"
-        app:menu="@menu/nav_items"/>
-
-
-<!--    app:itemIconTint="@drawable/tintlist_light"-->
-<!--    app:itemTextColor="@drawable/tintlist_light"-->
+        app:menu="@menu/nav_items"
+        android:background="@color/background"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
+        app:itemRippleColor="@color/accent"/>
 
     <View
         android:id="@+id/bottom_nav_divider"
@@ -106,9 +108,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         app:layout_anchor="@+id/bottom_sheet"
-        android:layout_gravity="top"/>
+        android:layout_gravity="top"
+        android:background="@color/lighthintcolor"/>
 
-    <!-- include bottom sheet -->
     <include layout="@layout/bottom_sheet" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

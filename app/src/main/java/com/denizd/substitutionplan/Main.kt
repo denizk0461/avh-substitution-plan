@@ -23,6 +23,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
@@ -65,90 +66,35 @@ class Main : AppCompatActivity(R.layout.activity_main) {
             val appbarlayout = findViewById<AppBarLayout>(R.id.appbarlayout)
             val toolbarTxt = findViewById<TextView>(R.id.toolbarTxt)
             val bottomSheetRoot = findViewById<LinearLayout>(R.id.bottom_sheet)
-            val bottomSheet = findViewById<LinearLayout>(R.id.bottom_sheet_linear)
-            val bottomSheetHeader = findViewById<TextView>(R.id.bottom_sheet_header)
-            val bottomSheetText = findViewById<TextView>(R.id.bottom_sheet_text)
-            val bottomNavDivider = findViewById<View>(R.id.bottom_nav_divider)
             bottomSheetBehaviour = BottomSheetBehavior.from(bottomSheetRoot)
             val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
             val fragmentContainer = findViewById<CoordinatorLayout>(R.id.fragment_container)
             val bottomSheetCloser = findViewById<LinearLayout>(R.id.bottom_sheet_closer)
             val chip = findViewById<Chip>(R.id.chip)
             val contextView = findViewById<View>(R.id.coordination)
-            val iconinfo = findViewById<ImageView>(R.id.info_icon)
             val window = this.window as Window
-
-            val darkwhite = ContextCompat.getColor(this, R.color.darkwhite)
-            val black = ContextCompat.getColor(this, R.color.black)
-            val accent = ContextCompat.getColor(this, R.color.accent)
-            val tintlistLight = ContextCompat.getColorStateList(this, R.color.tintlist_light)
-            val tintlistDark = ContextCompat.getColorStateList(this, R.color.tintlist_dark)
-            val chipstatelistLight = resources.getColorStateList(R.color.chip_state_list)
-            val chipstatelistDark = resources.getColorStateList(R.color.chip_state_list_dark)
-            val textLight = ContextCompat.getColor(this, R.color.textLight)
-            val textDark = ContextCompat.getColor(this, R.color.textDark)
-            val lightgrey = ContextCompat.getColor(this, R.color.lightgrey)
-            val lessdark = ContextCompat.getColor(context, R.color.lessdark)
-            val background = ContextCompat.getColor(this, R.color.background)
-            val accentPastel = ContextCompat.getColor(this, R.color.accentPastel)
-            val dark = ContextCompat.getColor(this, R.color.dark)
-            val darkdivider = ContextCompat.getColor(this, R.color.darkdivider)
-
-            setSupportActionBar(toolbar)
-            supportActionBar?.setDisplayShowTitleEnabled(false)
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
 
             bottomSheetExpanded = bottomSheetBehaviour.state == BottomSheetBehavior.STATE_EXPANDED
 
-            if (prefs.getInt("themeInt", 0) == 0) {
-                setTheme(R.style.AppTheme0)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    window.statusBarColor = darkwhite
-                    window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                    toolbar.setBackgroundColor(darkwhite)
-                    window.navigationBarColor = darkwhite
-                } else {
-                    window.statusBarColor = black
-                    window.navigationBarColor = black
+            setTheme(R.style.AppTheme0)
+
+            when (prefs.getInt("themeInt", 0)) {
+                0 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                        window.navigationBarColor = ContextCompat.getColor(this, R.color.background)
+                    }
                 }
-                toolbarTxt.setTextColor(accent)
-                bottomNav.setBackgroundColor(darkwhite)
-                bottomNav.itemIconTintList = tintlistLight
-                bottomNav.itemTextColor = tintlistLight
-                chip.chipBackgroundColor = chipstatelistLight
-                chip.setTextColor(textDark)
-                bottomSheet.setBackgroundColor(darkwhite)
-                bottomSheetHeader.setTextColor(textDark)
-                bottomSheetText.setTextColor(textDark)
-                bottomNavDivider.setBackgroundColor(lightgrey)
-                iconinfo.setColorFilter(lessdark, android.graphics.PorterDuff.Mode.SRC_IN)
-
-                val bm = BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher)
-                val taskDesc = ActivityManager.TaskDescription(getString(R.string.app_name), bm, ContextCompat.getColor(this, R.color.darkwhite))
-                setTaskDescription(taskDesc)
-
-            } else if (prefs.getInt("themeInt", 0) == 1) {
-                setTheme(R.style.AppTheme0Dark)
-                window.statusBarColor = background
-                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
-                toolbar.setBackgroundColor(dark)
-                toolbarTxt.setTextColor(accentPastel)
-                bottomNav.setBackgroundColor(dark)
-                bottomNav.itemIconTintList = tintlistDark
-                bottomNav.itemTextColor = tintlistDark
-                window.navigationBarColor = background
-                chip.chipBackgroundColor = chipstatelistDark
-                chip.setTextColor(textLight)
-                bottomSheet.setBackgroundColor(dark)
-                bottomSheetHeader.setTextColor(textLight)
-                bottomSheetText.setTextColor(textLight)
-                bottomNavDivider.setBackgroundColor(darkdivider)
-                iconinfo.setColorFilter(lightgrey, android.graphics.PorterDuff.Mode.SRC_IN)
-
-                val bm = BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher)
-                val taskDesc = ActivityManager.TaskDescription(getString(R.string.app_name), bm, resources.getColor(R.color.background))
-                setTaskDescription(taskDesc)
+                else -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    window.navigationBarColor = ContextCompat.getColor(this, R.color.background)
+                }
             }
+
+            val bm = BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher)
+            val taskDesc = ActivityManager.TaskDescription(getString(R.string.app_name), bm, ContextCompat.getColor(this, R.color.background))
+            setTaskDescription(taskDesc)
 
             if (!prefs.getBoolean("showinfotab", true)) {
                 bottomNav.menu.removeItem(R.id.openinfopanel)
@@ -309,6 +255,7 @@ class Main : AppCompatActivity(R.layout.activity_main) {
             }
 
             bottomNav.setOnNavigationItemSelectedListener { item: MenuItem ->
+                var fragmentLoading = true
                 lateinit var fragment: Fragment
                 when (item.itemId) {
                     R.id.plan -> {
@@ -329,15 +276,20 @@ class Main : AppCompatActivity(R.layout.activity_main) {
                         } else if (bottomSheetBehaviour.state == BottomSheetBehavior.STATE_EXPANDED) {
                             bottomSheetBehaviour.state = BottomSheetBehavior.STATE_COLLAPSED
                         }
+                        fragmentLoading = false
                     }
                     R.id.settings -> {
                         fragment = SettingsFragment()
                         toolbarTxt.text = getString(R.string.settings)
                     }
                 }
-                bottomSheetBehaviour.state = BottomSheetBehavior.STATE_COLLAPSED
-                appbarlayout.setExpanded(true)
-                loadFragment(fragment)
+                if (fragmentLoading) {
+                    bottomSheetBehaviour.state = BottomSheetBehavior.STATE_COLLAPSED
+                    appbarlayout.setExpanded(true)
+                    loadFragment(fragment)
+                } else {
+                    false
+                }
             }
 
             bottomNav.setOnNavigationItemReselectedListener { item: MenuItem ->

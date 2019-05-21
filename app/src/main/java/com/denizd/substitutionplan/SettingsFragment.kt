@@ -12,11 +12,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.jaredrummler.android.device.DeviceName
@@ -35,18 +38,21 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
     private val builder = CustomTabsIntent.Builder()
     private val customTabsIntent = builder.build() as CustomTabsIntent
     private var cs: Int = 7
+    var window: Window? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
         prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
         edit = prefs.edit()
+
+       window = activity?.window
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        builder.setToolbarColor(resources.getColor(R.color.white))
+//        builder.setToolbarColor(resources.getColor(R.color.white))
 
         val txtName = view.findViewById<TextInputEditText>(R.id.txtName)
         val txtClasses = view.findViewById<TextInputEditText>(R.id.txtClasses)
@@ -147,7 +153,26 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
             }
             R.id.switchDark -> {
                 val switchDark = v.findViewById<Switch>(R.id.switchDark)
-                if (switchDark.isChecked) edit.putInt("themeInt", 1) else edit.putInt("themeInt", 0)
+                val bottomNav = v.rootView.findViewById<BottomNavigationView>(R.id.bottom_nav)
+                if (switchDark.isChecked) {
+                    edit.putInt("themeInt", 1)
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+                    window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.background)
+
+                } else {
+                    edit.putInt("themeInt", 0)
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                        window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.background)
+                    }
+                }
+                if (prefs.getBoolean("defaultPersonalised", false)) {
+                    bottomNav.selectedItemId = R.id.personal
+                } else {
+                    bottomNav.selectedItemId = R.id.plan
+                }
             }
             R.id.switchHideInfo -> {
                 val switchHideInfo = v.findViewById<Switch>(R.id.switchHideInfo)
@@ -410,11 +435,12 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
 
                     datingBtn.setOnClickListener {
                         try {
+                            val dg = DataGetter()
                             if (boyTxt.text.toString().isEmpty() || boyCb.isChecked) {
-                                boyTxt.setText(DataGetter.boy[gen.nextInt(DataGetter.boy.size)])
+                                boyTxt.setText(dg.boy[gen.nextInt(dg.boy.size)])
                             }
                             if (girlTxt.text.toString().isEmpty() || girlCb.isChecked) {
-                                girlTxt.setText(DataGetter.girl[gen.nextInt(DataGetter.girl.size)])
+                                girlTxt.setText(dg.girl[gen.nextInt(dg.girl.size)])
                             }
 
                             val boyP = boyTxt.text!!.length.toDouble()

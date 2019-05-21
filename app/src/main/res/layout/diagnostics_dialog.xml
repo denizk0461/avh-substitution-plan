@@ -14,7 +14,7 @@
         android:layout_marginTop="16dp"
         android:textSize="22sp"
         android:layout_gravity="center_horizontal"
-        android:textColor="?attr/colorText"/>
+        android:textColor="@color/textcolor"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                 android:id="@+id/dialogtext"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textColor="?attr/colorText"
+                android:textColor="@color/textcolor"
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp"
                 android:paddingBottom="24dp"
@@ -40,9 +40,9 @@
                 android:id="@+id/btnResetLaunch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorAccent"
-                app:strokeColor="?attr/colorAccent"
-                app:strokeWidth="1dp"
+                android:textColor="@color/accent"
+                app:strokeColor="@color/accent"
+                app:strokeWidth="2dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:text="Reset launch counter"
@@ -52,9 +52,9 @@
                 android:id="@+id/btnResetNotif"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorAccent"
-                app:strokeColor="?attr/colorAccent"
-                app:strokeWidth="1dp"
+                android:textColor="@color/accent"
+                app:strokeColor="@color/accent"
+                app:strokeWidth="2dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="16dp"

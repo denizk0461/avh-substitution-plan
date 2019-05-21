@@ -50,15 +50,15 @@ public class FirstTime extends AppCompatActivity {
         window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.white));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.white));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.background));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.background));
         } else {
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.black));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.black));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.background));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.background));
         }
         window.setBackgroundDrawable(getDrawable(R.drawable.white));
         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(getString(R.string.app_name), bm, ContextCompat.getColor(this, R.color.white));
+        ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(getString(R.string.app_name), bm, ContextCompat.getColor(this, R.color.background));
         setTaskDescription(taskDesc);
 
         final Context context = this;

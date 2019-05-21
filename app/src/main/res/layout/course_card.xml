@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:backgroundTint="?attr/colorBackgroundCard"
+    android:backgroundTint="@color/lightbackground"
     app:cardCornerRadius="8dp"
     android:clickable="true"
     android:focusable="true"
@@ -14,8 +14,6 @@
     android:layout_marginTop="3dp"
     android:layout_marginBottom="3dp"
     app:cardElevation="2dp">
-
-    <!--app:cardUseCompatPadding="true"-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,7 +29,7 @@
             app:layout_constraintEnd_toStartOf="@+id/date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:textColor="?attr/colorText"/>
+            android:textColor="@color/textcolor"/>
 
         <TextView
             android:id="@+id/date"
@@ -40,7 +38,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:textAlignment="textEnd"
-            android:textColor="?attr/colorText"
+            android:textColor="@color/textcolor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,7 +51,7 @@
             app:layout_constraintEnd_toEndOf="@+id/date"
             app:layout_constraintStart_toStartOf="@+id/date"
             app:layout_constraintTop_toBottomOf="@+id/date"
-            android:textColor="?attr/colorText" />
+            android:textColor="@color/textcolor" />
 
         <TextView
             android:id="@+id/course"
@@ -62,7 +60,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:textColor="?attr/colorText"
+            android:textColor="@color/textcolor"
             app:layout_constraintEnd_toStartOf="@+id/time"
             app:layout_constraintStart_toEndOf="@+id/iconView"
             app:layout_constraintTop_toBottomOf="@+id/group" />
@@ -76,7 +74,7 @@
             app:layout_constraintEnd_toEndOf="@+id/time"
             app:layout_constraintStart_toStartOf="@+id/time"
             app:layout_constraintTop_toBottomOf="@+id/time"
-            android:textColor="?attr/colorText" />
+            android:textColor="@color/textcolor" />
 
         <TextView
             android:id="@+id/additional"
@@ -86,7 +84,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
-            android:textColor="?attr/colorText"
+            android:textColor="@color/textcolor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/room"
             app:layout_constraintStart_toStartOf="parent"
@@ -102,9 +100,7 @@
             app:layout_constraintBottom_toTopOf="@+id/room"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/group"
-            android:tint="?attr/colorText"/>
-
-        <!--tools:srcCompat="@tools:sample/avatars"-->
+            android:tint="@color/textcolor"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

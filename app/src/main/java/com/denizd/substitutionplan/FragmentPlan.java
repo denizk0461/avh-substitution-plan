@@ -69,7 +69,7 @@ public class FragmentPlan extends Fragment {
             recyclerView.setLayoutManager(layoutManager);
         } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             layoutManager = gridLayoutManager;
-            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setLayoutManager(layoutManager); // TODO grid layout but change an integer value instead
         }
     }
 
@@ -206,7 +206,8 @@ public class FragmentPlan extends Fragment {
                         additionalS[i] = cols.get(5).text();
                         progressBar.incrementProgressBy(1);
 
-                        int drawable = DataGetter.getIcon(courseS[i]);
+                        DataGetter dg = new DataGetter();
+                        int drawable = dg.getIcon(courseS[i]);
                         Subst subst = new Subst(drawable, groupS[i], dateS[i], timeS[i], courseS[i], roomS[i], additionalS[i], priority);
                         substViewModel.insert(subst);
                         priority--;
