@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class CardAdapter (var mSubst: List<Subst>) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
+class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
     var colour = 0
     var colorCheck = ""
@@ -33,7 +33,7 @@ class CardAdapter (var mSubst: List<Subst>) : RecyclerView.Adapter<CardAdapter.C
         return CardViewHolder(v)
     }
 
-    public fun getSubstAt(i: Int): Subst {
+    fun getSubstAt(i: Int): Subst {
         return mSubst[i]
     }
 
@@ -102,7 +102,7 @@ class CardAdapter (var mSubst: List<Subst>) : RecyclerView.Adapter<CardAdapter.C
 
     override fun getItemCount(): Int = mSubst.size
 
-    public fun setSubst(subst: List<Subst>) {
+    fun setSubst(subst: List<Subst>) {
         mSubst = subst
         notifyDataSetChanged()
     }

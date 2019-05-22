@@ -14,6 +14,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
+import android.util.AttributeSet
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -62,7 +63,6 @@ class Main : AppCompatActivity(R.layout.activity_main) {
 
             val handler = Handler()
 
-            val toolbar = findViewById<Toolbar>(R.id.toolbar)
             val appbarlayout = findViewById<AppBarLayout>(R.id.appbarlayout)
             val toolbarTxt = findViewById<TextView>(R.id.toolbarTxt)
             val bottomSheetRoot = findViewById<LinearLayout>(R.id.bottom_sheet)
@@ -148,7 +148,7 @@ class Main : AppCompatActivity(R.layout.activity_main) {
                             AlertDialog.Builder(context, R.style.AlertDialogCustomDark)
                         } else {
                             AlertDialog.Builder(context, R.style.AlertDialogCustomLight)
-                        }
+                        } // TODO dialogue theming
                         val dialogView = LayoutInflater.from(context).inflate(R.layout.secret_dialog, null)
                         val title = dialogView.findViewById<TextView>(R.id.textviewtitle)
                         title.text = getString(R.string.chinaTitle)
@@ -173,8 +173,7 @@ class Main : AppCompatActivity(R.layout.activity_main) {
                     val animationIn = AnimationUtils.loadAnimation(context, R.anim.chip_slide_in)
                     val animationOut = AnimationUtils.loadAnimation(context, R.anim.chip_slide_out)
                     val generator = Random()
-                    val res = resources
-                    val greetings = res.getStringArray(R.array.greeting8_array)
+                    val greetings = resources.getStringArray(R.array.greeting8_array)
                     val rightNow = Calendar.getInstance()
                     val currentHour = rightNow.get(Calendar.HOUR_OF_DAY)
 

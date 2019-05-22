@@ -101,7 +101,7 @@ public class FragmentPlan extends Fragment {
         if (prefs.getInt("firstTimeOpening", 0) == 2) {
             if (!prefs.getBoolean("notif", false)) {
                 pullToRefresh.setRefreshing(true);
-                new fetcher().execute();
+                new DataFetcher(false, getContext(), getActivity().getApplication(), getView().getRootView()).execute();
                 edit.putInt("firstTimeOpening", 3);
                 edit.apply();
             }
@@ -109,7 +109,7 @@ public class FragmentPlan extends Fragment {
 
         if (prefs.getBoolean("autoRefresh", false)) {
             pullToRefresh.setRefreshing(true);
-            new fetcher().execute();
+            new DataFetcher(false, getContext(), getActivity().getApplication(), getView().getRootView()).execute();
             bottomSheetText.setText(prefs.getString("informational", getString(R.string.noinfo)));
         }
         substViewModel = ViewModelProviders.of(getActivity()).get(SubstViewModel.class);
@@ -127,7 +127,7 @@ public class FragmentPlan extends Fragment {
             @Override
             public void onRefresh() {
                 pullToRefresh.setRefreshing(true);
-                new fetcher().execute();
+                new DataFetcher(true, getContext(), getActivity().getApplication(), getView().getRootView()).execute(); // TODO test for notification
                 bottomSheetText.setText(prefs.getString("informational", getString(R.string.noinfo)));
             }
         });
@@ -206,7 +206,7 @@ public class FragmentPlan extends Fragment {
                         additionalS[i] = cols.get(5).text();
                         progressBar.incrementProgressBy(1);
 
-                        DataGetter dg = new DataGetter();
+                        MiscData dg = new MiscData();
                         int drawable = dg.getIcon(courseS[i]);
                         Subst subst = new Subst(drawable, groupS[i], dateS[i], timeS[i], courseS[i], roomS[i], additionalS[i], priority);
                         substViewModel.insert(subst);
@@ -267,9 +267,7 @@ public class FragmentPlan extends Fragment {
                             .setAction("Action", null);
                     snackbar.show();
                 }
-            } catch (NullPointerException e) {
-
-            }
+            } catch (NullPointerException ignored) {}
         }
 
 

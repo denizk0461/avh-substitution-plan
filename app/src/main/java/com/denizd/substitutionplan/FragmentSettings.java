@@ -716,10 +716,10 @@ public class FragmentSettings extends Fragment implements View.OnClickListener {
 //                                        try {
 //                                            double boyP = 0, girlP = 0, perc = 0;
 //                                            if (boyT.getText().toString().isEmpty() || boy.isChecked()) {
-//                                                boyT.setText(DataGetter.boy[gen.nextInt(DataGetter.boy.length)]);
+//                                                boyT.setText(MiscData.boy[gen.nextInt(MiscData.boy.length)]);
 //                                            }
 //                                            if (girlT.getText().toString().isEmpty() || girl.isChecked()) {
-//                                                girlT.setText(DataGetter.girl[gen.nextInt(DataGetter.girl.length)]);
+//                                                girlT.setText(MiscData.girl[gen.nextInt(MiscData.girl.length)]);
 //                                            }
 //                                            for (int i = 0; i < boyT.getText().length(); i++) {
 //                                                boyP++;

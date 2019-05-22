@@ -435,7 +435,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
 
                     datingBtn.setOnClickListener {
                         try {
-                            val dg = DataGetter()
+                            val dg = MiscData()
                             if (boyTxt.text.toString().isEmpty() || boyCb.isChecked) {
                                 boyTxt.setText(dg.boy[gen.nextInt(dg.boy.size)])
                             }
@@ -473,7 +473,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                 "@NOTIFICATION" -> {
                     edit.putString("time", "").apply()
                     Toast.makeText(mContext, "Notification time cleared", Toast.LENGTH_LONG).show()
-                }
+                } // TODO add option to clear database
                 else -> Toast.makeText(mContext, getString(R.string.nothinghappened), Toast.LENGTH_LONG).show()
             }
         }

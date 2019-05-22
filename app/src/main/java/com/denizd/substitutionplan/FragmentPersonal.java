@@ -263,7 +263,7 @@ public class FragmentPersonal extends Fragment {
                         additionalS[i] = cols.get(5).text();
                         progressBar.incrementProgressBy(1);
 
-                        DataGetter dg = new DataGetter();
+                        MiscData dg = new MiscData();
                         int drawable = dg.getIcon(courseS[i]);
                         Subst subst = new Subst(drawable, groupS[i], dateS[i], timeS[i], courseS[i], roomS[i], additionalS[i], priority);
                         substViewModel.insert(subst);
@@ -290,49 +290,49 @@ public class FragmentPersonal extends Fragment {
 
         @Override
         protected void onPostExecute(Void result) {
-            if (attempt) {
-                final Animation fadeOut = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
+            try {
+                if (attempt) {
+                    final Animation fadeOut = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
 
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBar.startAnimation(fadeOut);
-                    }
-                }, 200);
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.startAnimation(fadeOut);
+                        }
+                    }, 200);
 
-                fadeOut.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation arg0) {
-                    }
+                    fadeOut.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation arg0) {
+                        }
 
-                    @Override
-                    public void onAnimationRepeat(Animation arg0) {
-                    }
+                        @Override
+                        public void onAnimationRepeat(Animation arg0) {
+                        }
 
-                    @Override
-                    public void onAnimationEnd(Animation arg0) {
-                        progressBar.setProgress(0);
-                    }
-                });
+                        @Override
+                        public void onAnimationEnd(Animation arg0) {
+                            progressBar.setProgress(0);
+                        }
+                    });
 
-                sdf.applyPattern(NEW_FORMAT);
-                newDateString = sdf.format(d);
-                View contextView = getView().getRootView().findViewById(R.id.coordination);
-                Snackbar snackbar = make(contextView, getText(R.string.lastupdated) + ": " + newDateString, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null);
-                snackbar.show();
+                    sdf.applyPattern(NEW_FORMAT);
+                    newDateString = sdf.format(d);
+                    View contextView = getView().getRootView().findViewById(R.id.coordination);
+                    Snackbar snackbar = make(contextView, getText(R.string.lastupdated) + ": " + newDateString, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null);
+                    snackbar.show();
 
-                pullToRefresh.setRefreshing(false);
-            } else if (npe) {
-                pullToRefresh.setRefreshing(false);
-                View contextView = getView().getRootView().findViewById(R.id.coordination);
-                Snackbar snackbar = make(contextView, getText(R.string.nointernet), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null);
-                snackbar.show();
-            }
+                    pullToRefresh.setRefreshing(false);
+                } else if (npe) {
+                    pullToRefresh.setRefreshing(false);
+                    View contextView = getView().getRootView().findViewById(R.id.coordination);
+                    Snackbar snackbar = make(contextView, getText(R.string.nointernet), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null);
+                    snackbar.show();
+                }
+            } catch (NullPointerException ignored) {}
         }
-
-
     }
 }
