@@ -608,176 +608,176 @@ public class FragmentSettings extends Fragment implements View.OnClickListener {
             versionNumber.setText(BuildConfig.VERSION_NAME);
 //        }
 
-        final LinearLayout hiddenBtn = getView().findViewById(R.id.btnHiddenENP);
-        hiddenBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getActivity(), getString(R.string.bestclass),
-                        Toast.LENGTH_LONG).show();
-            }
-        });
-        hiddenBtn.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                DeviceName.with(getContext()).request(new DeviceName.Callback() {
-                    @Override
-                    public void onFinished(DeviceName.DeviceInfo info, Exception error) {
-                        name = info.marketName;            // "Galaxy S8+"
-                        model = info.model;                // "SM-G955W"
-                    }
-                });
-                AlertDialog.Builder alertDialog;
-                if (prefs.getInt("themeInt", 0) == 1) {
-                    alertDialog = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomDark);
-                } else {
-                    alertDialog = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomLight);
-                }
-                View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.edittext_dialog, null);
-                TextView title = dialogView.findViewById(R.id.textviewtitle);
-                title.setText(R.string.experimentalmenu);
-                TextView dialogText = dialogView.findViewById(R.id.dialogtext);
-                dialogText.setText(getString(R.string.fortest));
-                final EditText dialogEditText = dialogView.findViewById(R.id.dialog_edittext);
-                final Button dialogButton = dialogView.findViewById(R.id.dialog_button);
-                dialogButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        switch (dialogEditText.getText().toString()) {
-                            case "@DIAGNOSTICS": {
-                                AlertDialog.Builder alertDialogDev;
-                                if (prefs.getInt("themeInt", 0) == 1) {
-                                    alertDialogDev = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomDark);
-                                } else {
-                                    alertDialogDev = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomLight);
-                                }
-                                View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.diagnostics_dialog, null);
-                                TextView title = dialogView.findViewById(R.id.textviewtitle);
-                                title.setText(R.string.diagnosticsmenu);
-                                final TextView dialogText = dialogView.findViewById(R.id.dialogtext);
-                                setDiagnosticsText(dialogText, prefs);
-                                Button launch = dialogView.findViewById(R.id.btnResetLaunch);
-                                Button notif = dialogView.findViewById(R.id.btnResetNotif);
-                                launch.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        edit.putInt("launchDev", 0);
-                                        edit.apply();
-                                        setDiagnosticsText(dialogText, prefs);
-                                    }
-                                });
-                                notif.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        edit.putInt("notificationTestNumberDev", 0);
-                                        edit.apply();
-                                        setDiagnosticsText(dialogText, prefs);
-                                    }
-                                });
-
-
-                                alertDialogDev.setView(dialogView);
-                                alertDialogDev.show();
-
-                                break;
-                            }
-                            case "2018-04-20":
-                                try {
-                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=u8tdT5pAE34")); // SOS
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    intent.setPackage("com.google.android.youtube");
-                                    startActivity(intent);
-                                    Toast.makeText(getActivity(), getEmojiByUnicode(0x1F494),
-                                            Toast.LENGTH_LONG).show();
-                                } catch (ActivityNotFoundException e) {
-                                    Toast.makeText(getActivity(), R.string.noyoutube, Toast.LENGTH_LONG).show();
-                                }
-                                break;
-                            case "Q1 Matchmaker": {
-                                final Random gen = new Random();
-                                AlertDialog.Builder alertDialogDev;
-                                if (prefs.getInt("themeInt", 0) == 1) {
-                                    alertDialogDev = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomDark);
-                                } else {
-                                    alertDialogDev = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomLight);
-                                }
-                                View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dating_dialog, null);
-                                TextView title = dialogView.findViewById(R.id.textviewtitle);
-                                title.setText(R.string.dating);
-
-                                Button datingBtn = dialogView.findViewById(R.id.dating_btn);
-                                final TextInputEditText boyT = dialogView.findViewById(R.id.dating_txt1);
-                                final TextInputEditText girlT = dialogView.findViewById(R.id.dating_txt2);
-                                final CheckBox boy = dialogView.findViewById(R.id.cb1);
-                                final CheckBox girl = dialogView.findViewById(R.id.cb2);
-                                final TextView percentage = dialogView.findViewById(R.id.dating_txtp);
-                                datingBtn.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-//                                        try {
-//                                            double boyP = 0, girlP = 0, perc = 0;
-//                                            if (boyT.getText().toString().isEmpty() || boy.isChecked()) {
-//                                                boyT.setText(MiscData.boy[gen.nextInt(MiscData.boy.length)]);
-//                                            }
-//                                            if (girlT.getText().toString().isEmpty() || girl.isChecked()) {
-//                                                girlT.setText(MiscData.girl[gen.nextInt(MiscData.girl.length)]);
-//                                            }
-//                                            for (int i = 0; i < boyT.getText().length(); i++) {
-//                                                boyP++;
-//                                            }
-//                                            for (int i = 0; i < girlT.getText().length(); i++) {
-//                                                girlP++;
-//                                            }
-//                                            if (girlP < boyP) {
-//                                                perc = (girlP / boyP) * 100;
-//                                            }
-//                                            if (girlP > boyP) {
-//                                                perc = (boyP / girlP) * 100;
-//                                            }
-//                                            char multiplyTempBoy = boyT.getText().charAt(boyT.getText().length() - 1);
-//                                            char multiplyTempGirl = girlT.getText().charAt(girlT.getText().length() - 1);
-//                                            double multiply = Character.getNumericValue(multiplyTempBoy) + Character.getNumericValue(multiplyTempGirl);
-//                                            multiply = multiply / 1.2;
-//                                            if (perc == 0) {
-//                                                perc += 30;
-//                                            }
-//                                            DecimalFormat df = new DecimalFormat("#.##");
-//                                            if (perc * (multiply / 40) > 100) {
-//                                                percentage.setText("100.00%");
-//                                            } else {
-//                                                percentage.setText(df.format(perc * (multiply / 40)) + "%");
-//                                            }
-//                                        } catch (NullPointerException e) {
-//                                            Toast.makeText(getActivity(), getString(R.string.error),
+//        final LinearLayout hiddenBtn = getView().findViewById(R.id.btnHiddenENP);
+//        hiddenBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(getActivity(), getString(R.string.bestclass),
+//                        Toast.LENGTH_LONG).show();
+//            }
+//        });
+//        hiddenBtn.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                DeviceName.with(getContext()).request(new DeviceName.Callback() {
+//                    @Override
+//                    public void onFinished(DeviceName.DeviceInfo info, Exception error) {
+//                        name = info.marketName;            // "Galaxy S8+"
+//                        model = info.model;                // "SM-G955W"
+//                    }
+//                });
+//                AlertDialog.Builder alertDialog;
+//                if (prefs.getInt("themeInt", 0) == 1) {
+//                    alertDialog = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomDark);
+//                } else {
+//                    alertDialog = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomLight);
+//                }
+//                View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.edittext_dialog, null);
+//                TextView title = dialogView.findViewById(R.id.textviewtitle);
+//                title.setText(R.string.experimentalmenu);
+//                TextView dialogText = dialogView.findViewById(R.id.dialogtext);
+//                dialogText.setText(getString(R.string.fortest));
+//                final EditText dialogEditText = dialogView.findViewById(R.id.dialog_edittext);
+//                final Button dialogButton = dialogView.findViewById(R.id.dialog_button);
+//                dialogButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        switch (dialogEditText.getText().toString()) {
+//                            case "@DIAGNOSTICS": {
+//                                AlertDialog.Builder alertDialogDev;
+//                                if (prefs.getInt("themeInt", 0) == 1) {
+//                                    alertDialogDev = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomDark);
+//                                } else {
+//                                    alertDialogDev = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomLight);
+//                                }
+//                                View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.diagnostics_dialog, null);
+//                                TextView title = dialogView.findViewById(R.id.textviewtitle);
+//                                title.setText(R.string.diagnosticsmenu);
+//                                final TextView dialogText = dialogView.findViewById(R.id.dialogtext);
+//                                setDiagnosticsText(dialogText, prefs);
+//                                Button launch = dialogView.findViewById(R.id.btnResetLaunch);
+//                                Button notif = dialogView.findViewById(R.id.btnResetNotif);
+//                                launch.setOnClickListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//                                        edit.putInt("launchDev", 0);
+//                                        edit.apply();
+//                                        setDiagnosticsText(dialogText, prefs);
+//                                    }
+//                                });
+//                                notif.setOnClickListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//                                        edit.putInt("notificationTestNumberDev", 0);
+//                                        edit.apply();
+//                                        setDiagnosticsText(dialogText, prefs);
+//                                    }
+//                                });
+//
+//
+//                                alertDialogDev.setView(dialogView);
+//                                alertDialogDev.show();
+//
+//                                break;
+//                            }
+//                            case "2018-04-20":
+//                                try {
+//                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=u8tdT5pAE34")); // SOS
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                    intent.setPackage("com.google.android.youtube");
+//                                    startActivity(intent);
+//                                    Toast.makeText(getActivity(), getEmojiByUnicode(0x1F494),
+//                                            Toast.LENGTH_LONG).show();
+//                                } catch (ActivityNotFoundException e) {
+//                                    Toast.makeText(getActivity(), R.string.noyoutube, Toast.LENGTH_LONG).show();
+//                                }
+//                                break;
+//                            case "Q1 Matchmaker": {
+//                                final Random gen = new Random();
+//                                AlertDialog.Builder alertDialogDev;
+//                                if (prefs.getInt("themeInt", 0) == 1) {
+//                                    alertDialogDev = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomDark);
+//                                } else {
+//                                    alertDialogDev = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustomLight);
+//                                }
+//                                View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dating_dialog, null);
+//                                TextView title = dialogView.findViewById(R.id.textviewtitle);
+//                                title.setText(R.string.dating);
+//
+//                                Button datingBtn = dialogView.findViewById(R.id.dating_btn);
+//                                final TextInputEditText boyT = dialogView.findViewById(R.id.dating_txt1);
+//                                final TextInputEditText girlT = dialogView.findViewById(R.id.dating_txt2);
+//                                final CheckBox boy = dialogView.findViewById(R.id.cb1);
+//                                final CheckBox girl = dialogView.findViewById(R.id.cb2);
+//                                final TextView percentage = dialogView.findViewById(R.id.dating_txtp);
+//                                datingBtn.setOnClickListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+////                                        try {
+////                                            double boyP = 0, girlP = 0, perc = 0;
+////                                            if (boyT.getText().toString().isEmpty() || boy.isChecked()) {
+////                                                boyT.setText(MiscData.boy[gen.nextInt(MiscData.boy.length)]);
+////                                            }
+////                                            if (girlT.getText().toString().isEmpty() || girl.isChecked()) {
+////                                                girlT.setText(MiscData.girl[gen.nextInt(MiscData.girl.length)]);
+////                                            }
+////                                            for (int i = 0; i < boyT.getText().length(); i++) {
+////                                                boyP++;
+////                                            }
+////                                            for (int i = 0; i < girlT.getText().length(); i++) {
+////                                                girlP++;
+////                                            }
+////                                            if (girlP < boyP) {
+////                                                perc = (girlP / boyP) * 100;
+////                                            }
+////                                            if (girlP > boyP) {
+////                                                perc = (boyP / girlP) * 100;
+////                                            }
+////                                            char multiplyTempBoy = boyT.getText().charAt(boyT.getText().length() - 1);
+////                                            char multiplyTempGirl = girlT.getText().charAt(girlT.getText().length() - 1);
+////                                            double multiply = Character.getNumericValue(multiplyTempBoy) + Character.getNumericValue(multiplyTempGirl);
+////                                            multiply = multiply / 1.2;
+////                                            if (perc == 0) {
+////                                                perc += 30;
+////                                            }
+////                                            DecimalFormat df = new DecimalFormat("#.##");
+////                                            if (perc * (multiply / 40) > 100) {
+////                                                percentage.setText("100.00%");
+////                                            } else {
+////                                                percentage.setText(df.format(perc * (multiply / 40)) + "%");
+////                                            }
+////                                        } catch (NullPointerException e) {
+////                                            Toast.makeText(getActivity(), getString(R.string.error),
+////                                                    Toast.LENGTH_SHORT).show();
+////                                        }
+//                                            Toast.makeText(getActivity(), "Deprecated",
 //                                                    Toast.LENGTH_SHORT).show();
-//                                        }
-                                            Toast.makeText(getActivity(), "Deprecated",
-                                                    Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                                alertDialogDev.setView(dialogView);
-                                alertDialogDev.show();
-
-                                break;
-                            }
-                            case "@NOTIFICATION": {
-                                edit.putString("time", "");
-                                edit.apply();
-                                Toast.makeText(getActivity(), "Notification time cleared",
-                                        Toast.LENGTH_LONG).show();
-                                break;
-                            }
-                            default:
-                                Toast.makeText(getActivity(), getString(R.string.nothinghappened),
-                                        Toast.LENGTH_LONG).show();
-                                break;
-                        }
-                    }
-                });
-                alertDialog.setView(dialogView);
-                alertDialog.show();
-                return true;
-            }
-        });
+//                                    }
+//                                });
+//                                alertDialogDev.setView(dialogView);
+//                                alertDialogDev.show();
+//
+//                                break;
+//                            }
+//                            case "@NOTIFICATION": {
+//                                edit.putString("time", "");
+//                                edit.apply();
+//                                Toast.makeText(getActivity(), "Notification time cleared",
+//                                        Toast.LENGTH_LONG).show();
+//                                break;
+//                            }
+//                            default:
+//                                Toast.makeText(getActivity(), getString(R.string.nothinghappened),
+//                                        Toast.LENGTH_LONG).show();
+//                                break;
+//                        }
+//                    }
+//                });
+//                alertDialog.setView(dialogView);
+//                alertDialog.show();
+//                return true;
+//            }
+//        });
     }
 
     private String getEmojiByUnicode(int unicode){

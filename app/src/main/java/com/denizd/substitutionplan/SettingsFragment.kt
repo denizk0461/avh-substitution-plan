@@ -52,8 +52,6 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        builder.setToolbarColor(resources.getColor(R.color.white))
-
         val txtName = view.findViewById<TextInputEditText>(R.id.txtName)
         val txtClasses = view.findViewById<TextInputEditText>(R.id.txtClasses)
         val txtCourses = view.findViewById<TextInputEditText>(R.id.txtCourses)
@@ -65,9 +63,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         val switchDefaultPlan = view.findViewById<Switch>(R.id.switchDefaultPlan)
         val switchOpenInfo = view.findViewById<Switch>(R.id.switchOpenInfo)
         val switchAutoRefresh = view.findViewById<Switch>(R.id.switchAutoRefresh)
-
         val versionNumber = view.findViewById<TextView>(R.id.txtVersionTwo)
-        val hiddenBtn = view.findViewById<LinearLayout>(R.id.btnHiddenENP)
 
         val helpCourses = view.findViewById<ImageButton>(R.id.chipHelpCourses)
         val helpClasses = view.findViewById<ImageButton>(R.id.chipHelpClasses)
@@ -134,11 +130,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
             }
         })
 
-        hiddenBtn.setOnClickListener {
-            Toast.makeText(mContext, getString(R.string.bestclass), Toast.LENGTH_LONG).show()
-        }
-
-        hiddenBtn.setOnLongClickListener {
+        btnVersion.setOnLongClickListener {
             debugMenu()
         }
     }
@@ -252,6 +244,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
             R.id.btnVersion -> {
                 if (cs > 0) {
                     cs--
+                    Toast.makeText(mContext, getString(R.string.devby), Toast.LENGTH_LONG).show()
                 } else {
                     try {
                         cs = 7

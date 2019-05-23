@@ -33,9 +33,9 @@ import kotlin.collections.ArrayList
 
 class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, context: Context, application: Application, parentview: View?) : AsyncTask<Void, Void, Void>() {
 
-    var jobservice = isjobservice
-    var plan = isplan
-    var menu = ismenu
+    private var jobservice = isjobservice
+    private var plan = isplan
+    private var menu = ismenu
 
     /*  booleans to improve performance when fetching data
         "plan" is required to fetch the substitution data
@@ -44,35 +44,35 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
         "jobservice" = true has no effect unless "plan" is also true
      */
 
-    var mContext = context
-    var mApplication = application
-    var mView = parentview
-    var priority = 200
-    var notifText = ""
-    var informational = ""
-    var foodList = ArrayList<String>()
-    lateinit var connection: URLConnection
-    lateinit var rows: Elements
-    lateinit var paragraphs: Elements
-    lateinit var foodElements: Elements
-    lateinit var doc: Document
-    lateinit var docFood: Document
-    var manager = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    val channelId = "general"
-    var channelName = mContext.getString(R.string.general)
-    val importance = NotificationManager.IMPORTANCE_DEFAULT
-    lateinit var channel: NotificationChannel
-    lateinit var notification: Notification
-    val prefs = PreferenceManager.getDefaultSharedPreferences(mContext) as SharedPreferences
-    val edit = prefs.edit() as SharedPreferences.Editor
-    lateinit var pullToRefresh: SwipeRefreshLayout
-    lateinit var progressBar: ProgressBar
-    val easyPrefs = EasyPrefrences(mContext)
-    val substViewModel = SubstViewModel(mApplication)
-    val oldDateFormat = "EEE, dd MMM yyyy HH:mm:ss zzz"
-    val newDateFormat = "yyyy-MM-dd, HH:mm:ss"
-    var sdf = SimpleDateFormat(oldDateFormat)
-    lateinit var d: Date
+    private var mContext = context
+    private var mApplication = application
+    private var mView = parentview
+    private var priority = 200
+    private var notifText = ""
+    private var informational = ""
+    private var foodList = ArrayList<String>()
+    private lateinit var connection: URLConnection
+    private lateinit var rows: Elements
+    private lateinit var paragraphs: Elements
+    private lateinit var foodElements: Elements
+    private lateinit var doc: Document
+    private lateinit var docFood: Document
+    private var manager = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    private val channelId = "general"
+    private var channelName = mContext.getString(R.string.general)
+    private val importance = NotificationManager.IMPORTANCE_DEFAULT
+    private lateinit var channel: NotificationChannel
+    private lateinit var notification: Notification
+    private val prefs = PreferenceManager.getDefaultSharedPreferences(mContext) as SharedPreferences
+    private val edit = prefs.edit() as SharedPreferences.Editor
+    private lateinit var pullToRefresh: SwipeRefreshLayout
+    private lateinit var progressBar: ProgressBar
+    private val easyPrefs = EasyPrefrences(mContext)
+    private val substViewModel = SubstViewModel(mApplication)
+    private val oldDateFormat = "EEE, dd MMM yyyy HH:mm:ss zzz"
+    private val newDateFormat = "yyyy-MM-dd, HH:mm:ss"
+    private var sdf = SimpleDateFormat(oldDateFormat)
+    private lateinit var d: Date
 
     override fun doInBackground(vararg params: Void?): Void? {
 

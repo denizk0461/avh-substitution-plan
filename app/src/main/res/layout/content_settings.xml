@@ -12,641 +12,677 @@
         android:fillViewport="true"
         android:scrollbars="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layoutAnimation="@anim/layout_animation_fall_down_quick"
-            android:paddingBottom="8dp">
+            android:layoutAnimation="@anim/layout_animation_fall_down"
+            android:paddingBottom="8dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txtPersonalise"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/personalise"
-                android:textColor="@color/accent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtLayoutName"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxStrokeColor="@color/accent"
-                app:boxStrokeWidth="1dp"
-                android:layout_width="0dp"
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:hint="@string/yourname"
-                android:textColorHint="@color/hintcolor"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtPersonalise"
-                android:importantForAutofill="no">
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                app:cardElevation="2dp"
+                android:backgroundTint="@color/lightbackground"
+                app:cardCornerRadius="8dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtName"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:animateLayoutChanges="true"
-                    android:ems="10"
-                    android:gravity="start"
-                    android:imeOptions="flagNoExtractUi"
-                    android:inputType="textNoSuggestions"
-                    android:singleLine="true"
-                    android:textColor="@color/textcolor"
-                    android:textSize="14sp"/>
+                    android:layout_height="wrap_content">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <TextView
+                        android:id="@+id/txtPersonalise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/personalise"
+                        android:textColor="@color/accent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/txtGreeting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/disablegreeting"
-                android:textColor="@color/textcolor"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/txtPersonalise"
-                app:layout_constraintTop_toBottomOf="@+id/txtLayoutName" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtLayoutName"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        app:boxStrokeColor="@color/accent"
+                        app:boxStrokeWidth="1dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:hint="@string/yourname"
+                        android:textColorHint="@color/hintcolor"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtPersonalise"
+                        android:importantForAutofill="no">
 
-            <TextView
-                android:id="@+id/txtJustnice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/justnice"
-                android:textColor="@color/hintcolor"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/txtGreeting"
-                app:layout_constraintTop_toBottomOf="@+id/txtGreeting" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:animateLayoutChanges="true"
+                            android:ems="10"
+                            android:gravity="start"
+                            android:imeOptions="flagNoExtractUi"
+                            android:inputType="textNoSuggestions"
+                            android:singleLine="true"
+                            android:textColor="@color/textcolor"
+                            android:textSize="14sp"/>
 
-            <Switch
-                android:id="@+id/switchDisableGreeting"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="16dp"
-                android:gravity="end|center"
-                app:layout_constraintBottom_toBottomOf="@+id/txtJustnice"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/txtGreeting"
-                app:layout_constraintTop_toTopOf="@+id/txtGreeting"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/txtDark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/darkbg"
-                android:textColor="@color/textcolor"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/txtGreeting"
-                app:layout_constraintTop_toBottomOf="@+id/txtJustnice" />
+                    <TextView
+                        android:id="@+id/txtGreeting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/disablegreeting"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtPersonalise"
+                        app:layout_constraintTop_toBottomOf="@+id/txtLayoutName" />
 
-            <TextView
-                android:id="@+id/txtRestart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/darkmode2"
-                android:textColor="@color/hintcolor"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/txtDark"
-                app:layout_constraintTop_toBottomOf="@+id/txtDark" />
+                    <TextView
+                        android:id="@+id/txtJustnice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/justnice"
+                        android:textColor="@color/hintcolor"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtGreeting"
+                        app:layout_constraintTop_toBottomOf="@+id/txtGreeting" />
 
-            <Switch
-                android:id="@+id/switchDark"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="16dp"
-                android:gravity="end|center"
-                app:layout_constraintBottom_toBottomOf="@+id/txtRestart"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/txtDark"
-                app:layout_constraintTop_toTopOf="@+id/txtDark" />
+                    <Switch
+                        android:id="@+id/switchDisableGreeting"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="end|center"
+                        app:layout_constraintBottom_toBottomOf="@+id/txtJustnice"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/txtGreeting"
+                        app:layout_constraintTop_toTopOf="@+id/txtGreeting"/>
 
-<!--            a-->
-            <TextView
-                android:id="@+id/txtHideInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/showinfo"
-                android:textColor="@color/textcolor"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/txtRestart"
-                app:layout_constraintTop_toBottomOf="@+id/txtRestart" />
+                    <TextView
+                        android:id="@+id/txtDark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/darkbg"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtGreeting"
+                        app:layout_constraintTop_toBottomOf="@+id/txtJustnice" />
 
-            <TextView
-                android:id="@+id/txtHideInfo2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/swipeindependent"
-                android:textColor="@color/hintcolor"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/txtHideInfo"
-                app:layout_constraintTop_toBottomOf="@+id/txtHideInfo" />
+                    <TextView
+                        android:id="@+id/txtRestart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/darkmode2"
+                        android:textColor="@color/hintcolor"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtDark"
+                        app:layout_constraintTop_toBottomOf="@+id/txtDark" />
 
-            <Switch
-                android:id="@+id/switchHideInfo"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="16dp"
-                android:gravity="end|center"
-                app:layout_constraintBottom_toBottomOf="@+id/txtHideInfo2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/txtHideInfo"
-                app:layout_constraintTop_toTopOf="@+id/txtHideInfo" />
-<!--            a-->
+                    <Switch
+                        android:id="@+id/switchDark"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="end|center"
+                        app:layout_constraintBottom_toBottomOf="@+id/txtRestart"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/txtDark"
+                        app:layout_constraintTop_toTopOf="@+id/txtDark" />
 
-            <TextView
-                android:id="@+id/txtCustomiseColours1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/customisecolor1"
-                android:textColor="@color/textcolor"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/txtHideInfo2"
-                app:layout_constraintTop_toBottomOf="@+id/txtHideInfo2" />
+        <!--            a-->
+                    <TextView
+                        android:id="@+id/txtHideInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/showinfo"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtRestart"
+                        app:layout_constraintTop_toBottomOf="@+id/txtRestart" />
 
-            <TextView
-                android:id="@+id/txtCustomiseColours2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/customisecolor2"
-                android:textColor="@color/hintcolor"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/txtCustomiseColours1"
-                app:layout_constraintTop_toBottomOf="@+id/txtCustomiseColours1" />
+                    <TextView
+                        android:id="@+id/txtHideInfo2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/swipeindependent"
+                        android:textColor="@color/hintcolor"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtHideInfo"
+                        app:layout_constraintTop_toBottomOf="@+id/txtHideInfo" />
 
-            <LinearLayout
-                android:id="@+id/btnCustomiseColours"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                style="@style/SelectableItemBackground"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@+id/txtFilter"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtHideInfo2" />
+                    <Switch
+                        android:id="@+id/switchHideInfo"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="end|center"
+                        app:layout_constraintBottom_toBottomOf="@+id/txtHideInfo2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/txtHideInfo"
+                        app:layout_constraintTop_toTopOf="@+id/txtHideInfo" />
+        <!--            a-->
 
-            <TextView
-                android:id="@+id/txtFilter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:text="@string/filter"
-                android:textColor="@color/accent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtCustomiseColours2" />
+                    <TextView
+                        android:id="@+id/txtCustomiseColours1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/customisecolor1"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtHideInfo2"
+                        app:layout_constraintTop_toBottomOf="@+id/txtHideInfo2" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtLayoutClasses"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxStrokeColor="@color/accent"
-                app:boxStrokeWidth="1dp"
-                android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/txtCustomiseColours2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/customisecolor2"
+                        android:textColor="@color/hintcolor"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/txtCustomiseColours1"
+                        app:layout_constraintTop_toBottomOf="@+id/txtCustomiseColours1" />
+
+                    <LinearLayout
+                        android:id="@+id/btnCustomiseColours"
+                        style="@style/SelectableItemBackground"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtHideInfo2" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:hint="@string/classes"
-                android:textColorHint="@color/hintcolor"
-                app:layout_constraintEnd_toStartOf="@+id/chipHelpClasses"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtFilter"
-                android:importantForAutofill="no">
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                app:cardElevation="2dp"
+                android:backgroundTint="@color/lightbackground"
+                app:cardCornerRadius="8dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtClasses"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:animateLayoutChanges="true"
-                    android:ems="10"
-                    android:gravity="start"
-                    android:imeOptions="flagNoExtractUi"
-                    android:inputType="textNoSuggestions"
-                    android:singleLine="true"
-                    android:textColor="@color/textcolor"
-                    android:textSize="14sp"/>
+                    android:layout_height="wrap_content">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <TextView
+                        android:id="@+id/txtFilter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/filter"
+                        android:textColor="@color/accent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/chipHelpClasses"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/ic_qmark"
-                android:tint="@color/textcolor"
-                android:backgroundTint="@android:color/transparent"
-                app:layout_constraintBottom_toBottomOf="@+id/txtLayoutClasses"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txtLayoutClasses" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtLayoutClasses"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        app:boxStrokeColor="@color/accent"
+                        app:boxStrokeWidth="1dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:hint="@string/classes"
+                        android:textColorHint="@color/hintcolor"
+                        app:layout_constraintEnd_toStartOf="@+id/chipHelpClasses"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtFilter"
+                        android:importantForAutofill="no">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtLayoutCourses"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:hint="@string/courses"
-                android:importantForAutofill="no"
-                android:textColorHint="@color/hintcolor"
-                app:boxStrokeColor="@color/accent"
-                app:boxStrokeWidth="1dp"
-                app:layout_constraintEnd_toStartOf="@+id/chipHelpCourses"
-                app:layout_constraintStart_toStartOf="@+id/txtLayoutClasses"
-                app:layout_constraintTop_toBottomOf="@+id/txtLayoutClasses">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtClasses"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:animateLayoutChanges="true"
+                            android:ems="10"
+                            android:gravity="start"
+                            android:imeOptions="flagNoExtractUi"
+                            android:inputType="textNoSuggestions"
+                            android:singleLine="true"
+                            android:textColor="@color/textcolor"
+                            android:textSize="14sp"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtCourses"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:animateLayoutChanges="true"
-                    android:ems="10"
-                    android:gravity="start"
-                    android:imeOptions="flagNoExtractUi"
-                    android:inputType="textNoSuggestions"
-                    android:singleLine="true"
-                    android:textColor="@color/textcolor"
-                    android:textSize="14sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <ImageButton
+                        android:id="@+id/chipHelpClasses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/ic_qmark"
+                        android:tint="@color/textcolor"
+                        android:backgroundTint="@android:color/transparent"
+                        app:layout_constraintBottom_toBottomOf="@+id/txtLayoutClasses"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/txtLayoutClasses" />
 
-            <ImageButton
-                android:id="@+id/chipHelpCourses"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/ic_qmark"
-                android:tint="@color/textcolor"
-                android:backgroundTint="@android:color/transparent"
-                app:layout_constraintBottom_toBottomOf="@+id/txtLayoutCourses"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txtLayoutCourses" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtLayoutCourses"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:hint="@string/courses"
+                        android:importantForAutofill="no"
+                        android:textColorHint="@color/hintcolor"
+                        app:boxStrokeColor="@color/accent"
+                        app:boxStrokeWidth="1dp"
+                        app:layout_constraintEnd_toStartOf="@+id/chipHelpCourses"
+                        app:layout_constraintStart_toStartOf="@+id/txtLayoutClasses"
+                        app:layout_constraintTop_toBottomOf="@+id/txtLayoutClasses">
 
-            <TextView
-                android:id="@+id/txtNotifications"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/notifications"
-                android:textColor="@color/textcolor"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/txtFilter"
-                app:layout_constraintTop_toBottomOf="@+id/txtLayoutCourses" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtCourses"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:animateLayoutChanges="true"
+                            android:ems="10"
+                            android:gravity="start"
+                            android:imeOptions="flagNoExtractUi"
+                            android:inputType="textNoSuggestions"
+                            android:singleLine="true"
+                            android:textColor="@color/textcolor"
+                            android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/txtNotifiedAbout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/notifiedabout"
-                android:textAlignment="textStart"
-                android:textColor="@color/hintcolor"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/txtNotifications"
-                app:layout_constraintTop_toBottomOf="@+id/txtNotifications" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <Switch
-                android:id="@+id/switchNotifications"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="16dp"
-                android:gravity="end|center"
-                app:layout_constraintBottom_toBottomOf="@+id/txtNotifiedAbout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/txtNotifications"
-                app:layout_constraintTop_toTopOf="@+id/txtNotifications" />
+                    <ImageButton
+                        android:id="@+id/chipHelpCourses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/ic_qmark"
+                        android:tint="@color/textcolor"
+                        android:backgroundTint="@android:color/transparent"
+                        app:layout_constraintBottom_toBottomOf="@+id/txtLayoutCourses"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/txtLayoutCourses" />
 
-            <TextView
-                android:id="@+id/txtMisc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:text="@string/misc"
-                android:textColor="@color/accent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtNotifiedAbout" />
+                    <TextView
+                        android:id="@+id/txtNotifications"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/notifications"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtFilter"
+                        app:layout_constraintTop_toBottomOf="@+id/txtLayoutCourses" />
 
-            <TextView
-                android:id="@+id/txtPersonalised"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/personalised"
-                android:textColor="@color/textcolor"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/txtMisc"
-                app:layout_constraintTop_toBottomOf="@+id/txtMisc" />
+                    <TextView
+                        android:id="@+id/txtNotifiedAbout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/notifiedabout"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/hintcolor"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtNotifications"
+                        app:layout_constraintTop_toBottomOf="@+id/txtNotifications"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <TextView
-                android:id="@+id/txtDefaultsTo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/defplan"
-                android:textColor="@color/hintcolor"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/txtPersonalised"
-                app:layout_constraintTop_toBottomOf="@+id/txtPersonalised" />
+                    <Switch
+                        android:id="@+id/switchNotifications"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:gravity="end|center"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/txtNotifications"
+                        app:layout_constraintTop_toTopOf="@+id/txtNotifications" />
 
-            <Switch
-                android:id="@+id/switchDefaultPlan"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="16dp"
-                android:gravity="end|center"
-                app:layout_constraintBottom_toBottomOf="@+id/txtDefaultsTo"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/txtPersonalised"
-                app:layout_constraintTop_toTopOf="@+id/txtPersonalised"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/txtOpenInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/openInfo"
-                android:textColor="@color/textcolor"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/txtDefaultsTo"
-                app:layout_constraintTop_toBottomOf="@+id/txtDefaultsTo" />
+            </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/txtOpenInfoTwo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/openInfoTwo"
-                android:textColor="@color/hintcolor"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/txtOpenInfo"
-                app:layout_constraintTop_toBottomOf="@+id/txtOpenInfo" />
-
-            <Switch
-                android:id="@+id/switchOpenInfo"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="16dp"
-                android:gravity="end|center"
-                app:layout_constraintBottom_toBottomOf="@+id/txtOpenInfoTwo"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/txtOpenInfo"
-                app:layout_constraintTop_toTopOf="@+id/txtOpenInfo"/>
-
-            <TextView
-                android:id="@+id/txtAutoRefresh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/autoRefresh"
-                android:textColor="@color/textcolor"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/txtOpenInfoTwo"
-                app:layout_constraintTop_toBottomOf="@+id/txtOpenInfoTwo" />
-
-            <TextView
-                android:id="@+id/txtAutoRefreshTwo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/autoRefreshTwo"
-                android:textColor="@color/hintcolor"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/txtAutoRefresh"
-                app:layout_constraintTop_toBottomOf="@+id/txtAutoRefresh" />
-
-            <Switch
-                android:id="@+id/switchAutoRefresh"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="16dp"
-                android:gravity="end|center"
-                app:layout_constraintBottom_toBottomOf="@+id/txtAutoRefreshTwo"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/txtAutoRefresh"
-                app:layout_constraintTop_toTopOf="@+id/txtAutoRefresh"/>
-
-            <TextView
-                android:id="@+id/txtVisitWeb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/visitweb"
-                android:textColor="@color/textcolor"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/txtAutoRefreshTwo"
-                app:layout_constraintTop_toBottomOf="@+id/txtAutoRefreshTwo" />
-
-            <TextView
-                android:id="@+id/txtWeb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/butwhy"
-                android:textColor="@color/hintcolor"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/txtVisitWeb"
-                app:layout_constraintTop_toBottomOf="@+id/txtVisitWeb" />
-
-            <LinearLayout
-                android:id="@+id/btnWebsite"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                style="@style/SelectableItemBackground"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@+id/txtWeb"
-                app:layout_constraintBottom_toTopOf="@+id/txtLicences"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtAutoRefreshTwo" />
-
-            <TextView
-                android:id="@+id/txtLicences"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/licences"
-                android:textColor="@color/textcolor"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/txtWeb"
-                app:layout_constraintTop_toBottomOf="@+id/txtWeb" />
-
-            <TextView
-                android:id="@+id/txtWhatittook"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/whatittook"
-                android:textColor="@color/hintcolor"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/txtLicences"
-                app:layout_constraintTop_toBottomOf="@+id/txtLicences" />
-
-            <LinearLayout
-                android:id="@+id/btnLicences"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                style="@style/SelectableItemBackground"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@+id/txtTerms"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtWeb" />
-
-            <TextView
-                android:id="@+id/txtTerms"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/tac"
-                android:textColor="@color/textcolor"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/txtLicences"
-                app:layout_constraintTop_toBottomOf="@+id/txtWhatittook" />
-
-            <TextView
-                android:id="@+id/txtTermsTwo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tactwo"
-                android:textColor="@color/hintcolor"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/txtTerms"
-                app:layout_constraintTop_toBottomOf="@+id/txtTerms" />
-
-            <LinearLayout
-                android:id="@+id/btnTerms"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                style="@style/SelectableItemBackground"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@+id/txtPrivacyP"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtWhatittook" />
-
-            <TextView
-                android:id="@+id/txtPrivacyP"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/privacy"
-                android:textColor="@color/textcolor"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/txtTermsTwo"
-                app:layout_constraintTop_toBottomOf="@+id/txtTermsTwo" />
-
-            <TextView
-                android:id="@+id/txtPrivacyPTwo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/privacytwo"
-                android:textColor="@color/hintcolor"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/txtPrivacyP"
-                app:layout_constraintTop_toBottomOf="@+id/txtPrivacyP" />
-
-            <LinearLayout
-                android:id="@+id/btnPrivacyP"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                style="@style/SelectableItemBackground"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@+id/txtVersion"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtTermsTwo" />
-
-            <TextView
-                android:id="@+id/txtVersion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/version"
-                android:textColor="@color/textcolor"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/txtPrivacyPTwo"
-                app:layout_constraintTop_toBottomOf="@+id/txtPrivacyPTwo" />
-
-            <TextView
-                android:id="@+id/txtVersionTwo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/hintcolor"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/txtVersion"
-                app:layout_constraintTop_toBottomOf="@+id/txtVersion" />
-
-            <LinearLayout
-                android:id="@+id/btnVersion"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="56dp"
-                android:clickable="true"
-                android:focusable="true"
-                style="@style/SelectableItemBackground"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@+id/btnHiddenENP"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtPrivacyPTwo" />
-
-            <TextView
-                android:id="@+id/txtMeee"
-                android:layout_width="wrap_content"
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="64dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/devby"
-                android:textColor="@color/textcolor"
-                android:textSize="10sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtVersionTwo" />
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                app:cardElevation="2dp"
+                android:backgroundTint="@color/lightbackground"
+                app:cardCornerRadius="8dp">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:id="@+id/btnHiddenENP"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:clickable="true"
-                android:focusable="false"
-                style="@style/SelectableItemBackground"
-                android:backgroundTint="@android:color/transparent"
-                app:layout_constraintBottom_toBottomOf="@+id/txtMeee"
-                app:layout_constraintEnd_toEndOf="@+id/txtMeee"
-                app:layout_constraintStart_toStartOf="@+id/txtMeee"
-                app:layout_constraintTop_toTopOf="@+id/txtMeee"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/txtMisc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/misc"
+                        android:textColor="@color/accent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/txtPersonalised"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/personalised"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtMisc"
+                        app:layout_constraintTop_toBottomOf="@+id/txtMisc" />
+
+                    <TextView
+                        android:id="@+id/txtDefaultsTo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/defplan"
+                        android:textColor="@color/hintcolor"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtPersonalised"
+                        app:layout_constraintTop_toBottomOf="@+id/txtPersonalised" />
+
+                    <Switch
+                        android:id="@+id/switchDefaultPlan"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="end|center"
+                        app:layout_constraintBottom_toBottomOf="@+id/txtDefaultsTo"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/txtPersonalised"
+                        app:layout_constraintTop_toTopOf="@+id/txtPersonalised"/>
+
+                    <TextView
+                        android:id="@+id/txtOpenInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/openInfo"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtDefaultsTo"
+                        app:layout_constraintTop_toBottomOf="@+id/txtDefaultsTo" />
+
+                    <TextView
+                        android:id="@+id/txtOpenInfoTwo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/openInfoTwo"
+                        android:textColor="@color/hintcolor"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtOpenInfo"
+                        app:layout_constraintTop_toBottomOf="@+id/txtOpenInfo" />
+
+                    <Switch
+                        android:id="@+id/switchOpenInfo"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="end|center"
+                        app:layout_constraintBottom_toBottomOf="@+id/txtOpenInfoTwo"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/txtOpenInfo"
+                        app:layout_constraintTop_toTopOf="@+id/txtOpenInfo"/>
+
+                    <TextView
+                        android:id="@+id/txtAutoRefresh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/autoRefresh"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtOpenInfoTwo"
+                        app:layout_constraintTop_toBottomOf="@+id/txtOpenInfoTwo" />
+
+                    <TextView
+                        android:id="@+id/txtAutoRefreshTwo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/autoRefreshTwo"
+                        android:textColor="@color/hintcolor"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtAutoRefresh"
+                        app:layout_constraintTop_toBottomOf="@+id/txtAutoRefresh" />
+
+                    <Switch
+                        android:id="@+id/switchAutoRefresh"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="end|center"
+                        app:layout_constraintBottom_toBottomOf="@+id/txtAutoRefreshTwo"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/txtAutoRefresh"
+                        app:layout_constraintTop_toTopOf="@+id/txtAutoRefresh"/>
+
+                    <TextView
+                        android:id="@+id/txtVisitWeb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/visitweb"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtAutoRefreshTwo"
+                        app:layout_constraintTop_toBottomOf="@+id/txtAutoRefreshTwo" />
+
+                    <TextView
+                        android:id="@+id/txtWeb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/butwhy"
+                        android:textColor="@color/hintcolor"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtVisitWeb"
+                        app:layout_constraintTop_toBottomOf="@+id/txtVisitWeb" />
+
+                    <LinearLayout
+                        android:id="@+id/btnWebsite"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        style="@style/SelectableItemBackground"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="@+id/txtWeb"
+                        app:layout_constraintBottom_toTopOf="@+id/txtLicences"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtAutoRefreshTwo" />
+
+                    <TextView
+                        android:id="@+id/txtLicences"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/licences"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtWeb"
+                        app:layout_constraintTop_toBottomOf="@+id/txtWeb" />
+
+                    <TextView
+                        android:id="@+id/txtWhatittook"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/whatittook"
+                        android:textColor="@color/hintcolor"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtLicences"
+                        app:layout_constraintTop_toBottomOf="@+id/txtLicences" />
+
+                    <LinearLayout
+                        android:id="@+id/btnLicences"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        style="@style/SelectableItemBackground"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toTopOf="@+id/txtTerms"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtWeb" />
+
+                    <TextView
+                        android:id="@+id/txtTerms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/tac"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtLicences"
+                        app:layout_constraintTop_toBottomOf="@+id/txtWhatittook" />
+
+                    <TextView
+                        android:id="@+id/txtTermsTwo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tactwo"
+                        android:textColor="@color/hintcolor"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtTerms"
+                        app:layout_constraintTop_toBottomOf="@+id/txtTerms" />
+
+                    <LinearLayout
+                        android:id="@+id/btnTerms"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginBottom="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        style="@style/SelectableItemBackground"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toTopOf="@+id/txtPrivacyP"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtWhatittook" />
+
+                    <TextView
+                        android:id="@+id/txtPrivacyP"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/privacy"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtTermsTwo"
+                        app:layout_constraintTop_toBottomOf="@+id/txtTermsTwo" />
+
+                    <TextView
+                        android:id="@+id/txtPrivacyPTwo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/privacytwo"
+                        android:textColor="@color/hintcolor"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtPrivacyP"
+                        app:layout_constraintTop_toBottomOf="@+id/txtPrivacyP" />
+
+                    <LinearLayout
+                        android:id="@+id/btnPrivacyP"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginBottom="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        style="@style/SelectableItemBackground"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toTopOf="@+id/txtVersion"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtTermsTwo" />
+
+                    <TextView
+                        android:id="@+id/txtVersion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/version"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtPrivacyPTwo"
+                        app:layout_constraintTop_toBottomOf="@+id/txtPrivacyPTwo" />
+
+                    <TextView
+                        android:id="@+id/txtVersionTwo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text=""
+                        android:textColor="@color/hintcolor"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtVersion"
+                        app:layout_constraintTop_toBottomOf="@+id/txtVersion"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <LinearLayout
+                        android:id="@+id/btnVersion"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginBottom="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        style="@style/SelectableItemBackground"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtPrivacyPTwo" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
