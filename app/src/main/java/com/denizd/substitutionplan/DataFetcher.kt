@@ -21,9 +21,19 @@ import java.lang.NullPointerException
 import java.net.URL
 import java.net.URLConnection
 
-class DataFetcher(isjobservice: Boolean, context: Context, application: Application, view: View) : AsyncTask<Void, Void, Void>() {
+class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, context: Context, application: Application, view: View) : AsyncTask<Void, Void, Void>() {
 
     var jobservice = isjobservice
+    var plan = isplan
+    var menu = ismenu
+
+    /*  booleans to improve performance when fetching data
+        "plan" is required to fetch the substitution data
+        "menu" is required to fetch the food menu
+        "jobservice" is required to send a notification
+        "jobservice" = true has no effect unless "plan" is also true
+     */
+
     var mContext = context
     var mApplication = application
     var mView = view
@@ -81,89 +91,82 @@ class DataFetcher(isjobservice: Boolean, context: Context, application: Applicat
             edit.putString("informational", informational).apply()
 
             if (successfulAttempt) {
-                var foodInt = 0
-                while (foodInt in 0 until foodElements.size) {
-                    try { // what a mess this is!
-                        if (foodElements[foodInt].text().contains("Montag") ||
-                            foodElements[foodInt].text().contains("Dienstag") ||
-                            foodElements[foodInt].text().contains("Mittwoch") ||
-                            foodElements[foodInt].text().contains("Donnerstag") ||
-                            foodElements[foodInt].text().contains("Freitag")) {
+                if (menu) {
+                    var foodInt = 0
+                    while (foodInt in 0 until foodElements.size) {
+                        try { // what a mess this is!
+                            if (foodElements[foodInt].text().contains("Montag") ||
+                                    foodElements[foodInt].text().contains("Dienstag") ||
+                                    foodElements[foodInt].text().contains("Mittwoch") ||
+                                    foodElements[foodInt].text().contains("Donnerstag") ||
+                                    foodElements[foodInt].text().contains("Freitag")) {
 
-                            if (foodElements[foodInt + 3].text().contains("Montag") ||
-                                    foodElements[foodInt + 3].text().contains("Dienstag") ||
-                                    foodElements[foodInt + 3].text().contains("Mittwoch") ||
-                                    foodElements[foodInt + 3].text().contains("Donnerstag") ||
-                                    foodElements[foodInt + 3].text().contains("Freitag") ||
-                                    foodElements[foodInt + 3].text().contains("von")) {
+                                if (foodElements[foodInt + 3].text().contains("Montag") ||
+                                        foodElements[foodInt + 3].text().contains("Dienstag") ||
+                                        foodElements[foodInt + 3].text().contains("Mittwoch") ||
+                                        foodElements[foodInt + 3].text().contains("Donnerstag") ||
+                                        foodElements[foodInt + 3].text().contains("Freitag") ||
+                                        foodElements[foodInt + 3].text().contains("von")) {
+                                    foodList.add(foodElements[foodInt].text() + "\n"
+                                            + foodElements[foodInt + 1].text() + "\n"
+                                            + foodElements[foodInt + 2].text())
+                                    foodInt += 2
+                                } else if (foodElements[foodInt + 2].text().contains("Montag") ||
+                                        foodElements[foodInt + 2].text().contains("Dienstag") ||
+                                        foodElements[foodInt + 2].text().contains("Mittwoch") ||
+                                        foodElements[foodInt + 2].text().contains("Donnerstag") ||
+                                        foodElements[foodInt + 2].text().contains("Freitag") ||
+                                        foodElements[foodInt + 2].text().contains("von")) {
+                                    foodList.add(foodElements[foodInt].text() + "\n"
+                                            + foodElements[foodInt + 1].text())
+                                    foodInt += 1
+                                }
+
+                            } else {
+                                foodList.add(foodElements[foodInt].text())
+                            }
+                        } catch (e: IndexOutOfBoundsException) {
+                            try {
                                 foodList.add(foodElements[foodInt].text() + "\n"
                                         + foodElements[foodInt + 1].text() + "\n"
                                         + foodElements[foodInt + 2].text())
-                                foodInt += 2
-                            } else if (foodElements[foodInt + 2].text().contains("Montag") ||
-                                    foodElements[foodInt + 2].text().contains("Dienstag") ||
-                                    foodElements[foodInt + 2].text().contains("Mittwoch") ||
-                                    foodElements[foodInt + 2].text().contains("Donnerstag") ||
-                                    foodElements[foodInt + 2].text().contains("Freitag") ||
-                                    foodElements[foodInt + 2].text().contains("von")) {
+                                break
+                            } catch (e1: IndexOutOfBoundsException) {
                                 foodList.add(foodElements[foodInt].text() + "\n"
                                         + foodElements[foodInt + 1].text())
-                                foodInt += 1
+                                break
                             }
-
-                        } else {
-                            foodList.add(foodElements[foodInt].text())
                         }
-                    } catch (e: IndexOutOfBoundsException) {
-                        try {
-                            foodList.add(foodElements[foodInt].text() + "\n"
-                                    + foodElements[foodInt + 1].text() + "\n"
-                                    + foodElements[foodInt + 2].text())
-                            break
-                        } catch (e1: IndexOutOfBoundsException) {
-                            foodList.add(foodElements[foodInt].text() + "\n"
-                                    + foodElements[foodInt + 1].text())
-                            break
-                        }
+                        foodInt++
                     }
-                    foodInt++
+
+                    easyPrefs.putListString("foodListPrefs", foodList)
                 }
 
-                easyPrefs.putListString("foodListPrefs", foodList)
+                if (plan) {
+                    substViewModel.deleteAllSubst()
 
-                substViewModel.deleteAllSubst()
+                    for (i in 0 until rows.size) {
+                        val row = rows[i]
+                        val cols = row.select("th") as Elements
 
-                for (i in 0 until rows.size) {
-                    val row = rows[i]
-                    val cols = row.select("th") as Elements
+                        groupS[i] = cols[0].text()
+                        dateS[i] = cols[1].text()
+                        timeS[i] = cols[2].text()
+                        courseS[i] = cols[3].text()
+                        roomS[i] = cols[4].text()
+                        additionalS[i] = cols[5].text()
 
-                    groupS[i] = cols[0].text()
-                    dateS[i] = cols[1].text()
-                    timeS[i] = cols[2].text()
-                    courseS[i] = cols[3].text()
-                    roomS[i] = cols[4].text()
-                    additionalS[i] = cols[5].text()
+                        val md = MiscData()
+                        val drawable = md.getIcon(courseS[i].toString())
+                        val subst = Subst(drawable, groupS[i].toString(), dateS[i].toString(), timeS[i].toString(), courseS[i].toString(),
+                                roomS[i].toString(), additionalS[i].toString(), priority)
+                        priority--
+                        substViewModel.insert(subst)
 
-                    val md = MiscData()
-                    val drawable = md.getIcon(courseS[i].toString())
-                    val subst = Subst(drawable, groupS[i].toString(), dateS[i].toString(), timeS[i].toString(), courseS[i].toString(),
-                            roomS[i].toString(), additionalS[i].toString(), priority)
-                    priority--
-                    substViewModel.insert(subst)
-
-                    if (jobservice) {
-                        if (prefs.getString("courses", "").isEmpty() && prefs.getString("classes", "").isNotEmpty()) {
-                            if (groupS[i].toString().isNotEmpty() && !groupS[i].equals("")) {
-                                if (prefs.getString("classes", "").contains(groupS[i].toString()) || groupS[i].toString().contains(prefs.getString("classes", "").toString())) {
-                                    if (notifText.isNotEmpty()) {
-                                        notifText += ", "
-                                    }
-                                    notifText += courseS[i] + ": " + additionalS[i]
-                                }
-                            }
-                        } else if (prefs.getString("classes", "").isNotEmpty() && prefs.getString("courses", "").isNotEmpty()) {
-                            if (!groupS[i].equals("") && !courseS[i].equals("")) {
-                                if (prefs.getString("courses", "").contains(courseS[i].toString())) {
+                        if (jobservice) {
+                            if (prefs.getString("courses", "").isEmpty() && prefs.getString("classes", "").isNotEmpty()) {
+                                if (groupS[i].toString().isNotEmpty() && !groupS[i].equals("")) {
                                     if (prefs.getString("classes", "").contains(groupS[i].toString()) || groupS[i].toString().contains(prefs.getString("classes", "").toString())) {
                                         if (notifText.isNotEmpty()) {
                                             notifText += ", "
@@ -171,9 +174,21 @@ class DataFetcher(isjobservice: Boolean, context: Context, application: Applicat
                                         notifText += courseS[i] + ": " + additionalS[i]
                                     }
                                 }
+                            } else if (prefs.getString("classes", "").isNotEmpty() && prefs.getString("courses", "").isNotEmpty()) {
+                                if (!groupS[i].equals("") && !courseS[i].equals("")) {
+                                    if (prefs.getString("courses", "").contains(courseS[i].toString())) {
+                                        if (prefs.getString("classes", "").contains(groupS[i].toString()) || groupS[i].toString().contains(prefs.getString("classes", "").toString())) {
+                                            if (notifText.isNotEmpty()) {
+                                                notifText += ", "
+                                            }
+                                            notifText += courseS[i] + ": " + additionalS[i]
+                                        }
+                                    }
+                                }
                             }
                         }
-
+                    }
+                    if (jobservice) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             channel = NotificationChannel(channelId, channelName, importance)
                             channel.enableLights(true)
@@ -212,7 +227,6 @@ class DataFetcher(isjobservice: Boolean, context: Context, application: Applicat
                             notification.sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
                             manager.notify(1, notification) // TODO notification plays multiple times
                         }
-
                     }
                 }
             }

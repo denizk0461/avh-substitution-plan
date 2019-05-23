@@ -101,7 +101,7 @@ public class FragmentPlan extends Fragment {
         if (prefs.getInt("firstTimeOpening", 0) == 2) {
             if (!prefs.getBoolean("notif", false)) {
                 pullToRefresh.setRefreshing(true);
-                new DataFetcher(false, getContext(), getActivity().getApplication(), getView().getRootView()).execute();
+                new DataFetcher(true, false, false, getContext(), getActivity().getApplication(), getView().getRootView()).execute();
                 edit.putInt("firstTimeOpening", 3);
                 edit.apply();
             }
@@ -109,7 +109,7 @@ public class FragmentPlan extends Fragment {
 
         if (prefs.getBoolean("autoRefresh", false)) {
             pullToRefresh.setRefreshing(true);
-            new DataFetcher(false, getContext(), getActivity().getApplication(), getView().getRootView()).execute();
+            new DataFetcher(true, false, false, getContext(), getActivity().getApplication(), getView().getRootView()).execute();
             bottomSheetText.setText(prefs.getString("informational", getString(R.string.noinfo)));
         }
         substViewModel = ViewModelProviders.of(getActivity()).get(SubstViewModel.class);
@@ -127,7 +127,7 @@ public class FragmentPlan extends Fragment {
             @Override
             public void onRefresh() {
                 pullToRefresh.setRefreshing(true);
-                new DataFetcher(true, getContext(), getActivity().getApplication(), getView().getRootView()).execute(); // TODO test for notification
+                new DataFetcher(true, false, true, getContext(), getActivity().getApplication(), getView().getRootView()).execute(); // TODO test for notification
                 bottomSheetText.setText(prefs.getString("informational", getString(R.string.noinfo)));
             }
         });
