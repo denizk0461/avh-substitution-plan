@@ -38,7 +38,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
     private val builder = CustomTabsIntent.Builder()
     private val customTabsIntent = builder.build() as CustomTabsIntent
     private var cs: Int = 7
-    var window: Window? = null
+    private var window: Window? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -46,7 +46,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
         edit = prefs.edit()
 
-       window = activity?.window
+        window = activity?.window
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -131,6 +131,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         })
 
         btnVersion.setOnLongClickListener {
+            Toast.makeText(mContext, getString(R.string.devby), Toast.LENGTH_LONG).show()
             debugMenu()
         }
     }
@@ -244,7 +245,6 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
             R.id.btnVersion -> {
                 if (cs > 0) {
                     cs--
-                    Toast.makeText(mContext, getString(R.string.devby), Toast.LENGTH_LONG).show()
                 } else {
                     try {
                         cs = 7
@@ -467,6 +467,10 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                     edit.putString("time", "").apply()
                     Toast.makeText(mContext, "Notification time cleared", Toast.LENGTH_LONG).show()
                 } // TODO add option to clear database
+                "@FIRSTTIME" -> {
+                    edit.putBoolean("firstTime", true).apply()
+                    Toast.makeText(mContext, "First time flag cleared", Toast.LENGTH_LONG).show()
+                }
                 else -> Toast.makeText(mContext, getString(R.string.nothinghappened), Toast.LENGTH_LONG).show()
             }
         }
@@ -474,11 +478,6 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         alertDialog.show()
         return true
     }
-
-//    override fun onDetach() {
-//        super.onDetach()
-//        edit.apply()
-//    }
 
     private fun getDiagnosticsText(prefs: SharedPreferences): String {
         return "First Launch: " + prefs.getString("firstTimeDev", "") +
