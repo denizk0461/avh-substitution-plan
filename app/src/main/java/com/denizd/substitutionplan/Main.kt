@@ -144,11 +144,10 @@ class Main : AppCompatActivity(R.layout.activity_main) {
                     if (info.manufacturer.contains("Huawei") ||
                             info.manufacturer.contains("Honor") ||
                             info.manufacturer.contains("Xiaomi")) {
-                        val alertDialog: AlertDialog.Builder = if (prefs.getInt("themeInt", 0) == 1) {
-                            AlertDialog.Builder(context, R.style.AlertDialogCustomDark)
-                        } else {
-                            AlertDialog.Builder(context, R.style.AlertDialogCustomLight)
-                        } // TODO dialogue theming
+                        val alertDialog = when (prefs.getInt("themeInt", 0)) {
+                            1 -> AlertDialog.Builder(context, R.style.AlertDialogCustomDark)
+                            else -> AlertDialog.Builder(context, R.style.AlertDialogCustomLight)
+                        }
                         val dialogView = LayoutInflater.from(context).inflate(R.layout.secret_dialog, null)
                         val title = dialogView.findViewById<TextView>(R.id.textviewtitle)
                         title.text = getString(R.string.chinaTitle)
@@ -242,27 +241,28 @@ class Main : AppCompatActivity(R.layout.activity_main) {
             } else {
                 getString(R.string.personalplan)
             }
-
+            lateinit var fragment: Fragment
             if (prefs.getBoolean("defaultPersonalised", false)) {
-                loadFragment(FragmentPersonal())
+                fragment = mPlanFragment(true)
                 bottomNav.selectedItemId = R.id.personal
                 toolbarTxt.text = userPlan
             } else {
-                loadFragment(FragmentPlan())
+                fragment = mPlanFragment(false)
                 bottomNav.selectedItemId = R.id.plan
                 toolbarTxt.text = getString(R.string.app_name)
             }
+            loadFragment(fragment)
 
             bottomNav.setOnNavigationItemSelectedListener { item: MenuItem ->
                 var fragmentLoading = true
                 lateinit var fragment: Fragment
                 when (item.itemId) {
                     R.id.plan -> {
-                        fragment = PlanFragment(false)
+                        fragment = mPlanFragment(false)
                         toolbarTxt.text = getString(R.string.app_name)
                     }
                     R.id.personal -> {
-                        fragment = PlanFragment(true)
+                        fragment = mPlanFragment(true)
                         toolbarTxt.text = userPlan
                     }
                     R.id.menu -> {
@@ -318,6 +318,14 @@ class Main : AppCompatActivity(R.layout.activity_main) {
                 appbarlayout.setExpanded(true)
             }
         }
+    }
+
+    private fun mPlanFragment(ispersonal: Boolean): PlanFragment {
+        val f = PlanFragment()
+        val bdl = Bundle(1)
+        bdl.putBoolean("ispersonal", ispersonal)
+        f.arguments = bdl
+        return f
     }
 
     private fun loadFragment(fragment: Fragment): Boolean {

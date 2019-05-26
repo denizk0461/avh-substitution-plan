@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">AvH-Plan</string>
     <string name="filter">Filter</string>
-    <string name="lastupdated">Zuletzt aktualisiert</string>
     <string name="nointernet">Keine Internetverbindung</string>
     <string name="general">Allgemein</string>
     <string name="classes">Klasse</string>
@@ -12,11 +11,9 @@
     <string name="settings">Einstellungen</string>
     <string name="plan">Plan</string>
     <string name="darkbg">Dunkler Hintergrund</string>
-    <string name="restart">App-Neustart erforderlich</string>
     <string name="notifications">Aktiviere Benachrichtigungen</string>
     <string name="notifiedabout">Aktiviert ebenfalls Hintergrund-Sync</string>
     <string name="personalplan">Persönlicher Plan</string>
-    <string name="keyphrase">Gib ein Stichwort ein</string>
     <string name="personalise">Personalisieren</string>
     <string name="misc">Diverses</string>
     <string name="defplan">Standardmäßig ansonsten normaler Plan</string>
@@ -25,7 +22,6 @@
     <string name="butwhy">Falls nötig</string>
     <string name="menu">Menü</string>
     <string name="foodmenu">Speiseplan</string>
-    <string name="bestclass">17a ist das beste Profil</string>
     <string name="letsgo">Los geht\'s!</string>
     <string name="welcome">Willkommen!</string>
     <string name="firstsomethings">Lass uns erst einige Sachen einrichten.</string>
@@ -86,12 +82,8 @@
     <string name="error">Ein Fehler ist aufgetreten!</string>
     <string name="wantnotif">Benachrichtigungen und Hintergrund-Synchronisation aktivieren</string>
     <string name="nosubst">Kein Entfall für dich</string>
-    <string name="chinaNotif">Auf diesem Gerät nicht unterstützt</string>
-    <string name="chinaAuto">Auf diesem Gerät automatisch aktiviert</string>
     <string name="chinaDialog">Einige chinesische Hersteller, wie Huawei/Honor und Xiaomi, unterdrücken Hintergrund-Services, weshalb Benachrichtungen und Hintergrund-Synchronisation nicht funktionieren.\n\nIch habe feststellen müssen, dass es keine einfache Lösung dafür gibt, die ich einbauen könnte.\n\nStattdessen kannst du jedoch versuchen, App-Optimierungen für diese App zu deaktivieren:\n\nSchließe die App und öffne \"Einstellungen\" -> \"Apps\" -> \"AvH-Plan\" -> \"Akku\" -> \"App-Start\" -> \"Automatisch verwalten\" deaktivieren, \"Im Hintergrund ausführen\" aktivieren.\n\nDies kann unter Umständen keinen Einfluss haben.</string>
-    <string name="orbuy">Oder kauf dir ein gutes Smartphone</string>
     <string name="chinaTitle">Informationen bezüglich deines Gerätes</string>
-    <string name="searchonline">Suche online</string>
     <string name="customisecolor1">Benutzerdefinierte Farben</string>
     <string name="customisecolor2">Farben für jedes Fach einstellen</string>
     <string name="courseDeu">Deutsch (+ DAZ)</string>
@@ -123,7 +115,6 @@
     <string name="clearall">Alle löschen</string>
     <string name="allcolourscleared">Farben für alle Kurse wurden gelöscht</string>
     <string name="clearcolour">Farbe löschen</string>
-    <string name="finish">Fertigstellen</string>
     <string name="chromecompatible">Kein Chrome-kompatibler Browser gefunden</string>
     <string name="noyoutube">YouTube-App nicht gefunden</string>
     <string name="swipeindependent">Unabhängig von Wischgeste</string>

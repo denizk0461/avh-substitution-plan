@@ -12,11 +12,10 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.madapps.prefrences.EasyPrefrences
-import kotlinx.android.synthetic.main.plan.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
@@ -49,7 +48,7 @@ class FoodFragment : Fragment(R.layout.food_layout) {
         try {
             recyclerView = view.findViewById(R.id.linear_food)
             recyclerView.hasFixedSize()
-            recyclerView.layoutManager = LinearLayoutManager(mContext, RecyclerView.VERTICAL,false)
+            recyclerView.layoutManager = GridLayoutManager(mContext, 1) // , RecyclerView.VERTICAL,false
             recyclerView.adapter = mAdapter
 
             try {
@@ -96,10 +95,6 @@ class FoodFragment : Fragment(R.layout.food_layout) {
         override fun doInBackground(vararg params: Void?): Void? {
             docFood = Jsoup.connect("https://djd4rkn355.github.io/food.html").get()
             foodElements = docFood.select("th")
-
-            try {
-                mFoodArrayList.removeAll(mFoodArrayList)
-            } catch (ignored: NullPointerException) {}
 
             progressBar = mRootView.findViewById(R.id.progressBar)
 
@@ -165,10 +160,7 @@ class FoodFragment : Fragment(R.layout.food_layout) {
 
             try {
                 mRecyclerView.removeAllViews()
-            } catch (ignored: NullPointerException) {}
-
-            try {
-                mRecyclerView.removeAllViews()
+                mFoodArrayList.removeAll(mFoodArrayList)
             } catch (ignored: NullPointerException) {}
 
             val foodListPopulation = ArrayList(mEasyPrefs.getListString("foodListPrefs"))
@@ -176,9 +168,9 @@ class FoodFragment : Fragment(R.layout.food_layout) {
             for (i in 0 until foodListPopulation.size) {
                 mFoodArrayList.add(Food(foodListPopulation[i]))
                 mAdapter.setFood(mFoodArrayList)
-                mRecyclerView.scheduleLayoutAnimation()
             }
 
+            mRecyclerView.scheduleLayoutAnimation()
             pullToRefresh.isRefreshing = false
 
             handler.postDelayed({ progressBar.startAnimation(fadeOut) }, 200)

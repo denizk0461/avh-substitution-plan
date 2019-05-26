@@ -2,7 +2,6 @@
     <string name="app_name">AvH Plan</string>
     <string name="subst">Substitution Plan</string>
     <string name="filter">Filters</string>
-    <string name="lastupdated">Last updated</string>
     <string name="nointernet">No internet connection</string>
     <string name="general">General</string>
     <string name="classes">Grade</string>
@@ -14,12 +13,10 @@
 
     <!-- for Settings fragment -->
     <string name="darkbg">Dark background</string>
-    <string name="restart">App restart required</string>
     <string name="notifications">Enable notifications</string>
     <string name="notifiedabout">Also enables background sync</string>
 
     <string name="personalplan">Personal Plan</string>
-    <string name="keyphrase">Enter a keyphrase</string>
     <string name="personalise">Personalise</string>
     <string name="misc">Miscellaneous</string>
     <string name="personalised">Set personalised plan as default</string>
@@ -28,7 +25,6 @@
     <string name="butwhy">In case you need to</string>
     <string name="menu">Menu</string>
     <string name="foodmenu">Food Menu</string>
-    <string name="bestclass">17a is the best profile</string>
     <string name="letsgo">Let\'s Go!</string>
     <string name="welcome">Welcome!</string>
     <string name="firstsomethings">First, let\'s setup some things.</string>
@@ -96,14 +92,8 @@
     <string name="error">An error occurred!</string>
     <string name="nosubst">No substitutions for you</string>
 
-    <string name="chinaNotif">Not supported this device</string>
-    <string name="chinaAuto">Automatically enabled on your device</string>
-
     <string name="chinaTitle">Information regarding your device</string>
     <string name="chinaDialog">Some Chinese manufacturers, such as Huawei/Honor and Xiaomi, heavily suppress background services, which results in notifications and background synchronisation not working.\n\nFrom my current research, I have determined that there\'s no easy workaround I can implement.\n\nYou can, however, try to disable power optimisation for this app in the settings:\n\nClose the app and open \"Settings\" -> \"Apps\" -> \"AvH Plan\" -> \"Battery\" -> \"Launch\" -> disable \"Manage automatically\", enable \"Run in background\"\n\nThis is not guaranteed to work.</string>
-    <string name="orbuy">Or, you know, buy a good device</string>
-
-    <string name="searchonline">Search online</string>
 
     <string name="customisecolor1">Customise colours</string>
     <string name="customisecolor2">Customise every subject individually</string>
@@ -139,7 +129,6 @@
     <string name="clearall">Clear all</string>
     <string name="clearcolour">Clear colour</string>
     <string name="allcolourscleared">Colours for all courses have been cleared</string>
-    <string name="finish">Finish</string>
 
     <string name="chromecompatible">No Chrome-compatible browser found</string>
     <string name="noyoutube">YouTube app not found</string>

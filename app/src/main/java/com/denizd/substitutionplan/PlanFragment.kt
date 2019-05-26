@@ -18,7 +18,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PlanFragment(isPersonal: Boolean) : Fragment(R.layout.plan) {
+class PlanFragment() : Fragment(R.layout.plan) { // isPersonal: Boolean
     private lateinit var recyclerView: RecyclerView
     private lateinit var mAdapter: CardAdapter
     private lateinit var layoutManager: GridLayoutManager
@@ -28,7 +28,7 @@ class PlanFragment(isPersonal: Boolean) : Fragment(R.layout.plan) {
     private lateinit var mContext: Context
     private lateinit var prefs: SharedPreferences
     private lateinit var edit: SharedPreferences.Editor
-    private val personal = isPersonal
+    private var personal = false
 
     private lateinit var smileydown: TextView
     private lateinit var smileydowntext: TextView
@@ -51,6 +51,11 @@ class PlanFragment(isPersonal: Boolean) : Fragment(R.layout.plan) {
         }
         layoutManager = GridLayoutManager(mContext, grid)
         recyclerView.layoutManager = layoutManager
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        personal = arguments!!.getBoolean("ispersonal")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -92,8 +97,8 @@ class PlanFragment(isPersonal: Boolean) : Fragment(R.layout.plan) {
             DataFetcher(true, false, false, mContext, activity!!.application, view.rootView).execute()
             bottomSheetText.text = prefs.getString("informational", getString(R.string.noinfo))
         }
-        substViewModel = ViewModelProviders.of(activity!!).get(SubstViewModel::class.java)
-        substViewModel.allSubst.observe(this, Observer<List<Subst>> {
+        substViewModel = ViewModelProviders.of(this).get(SubstViewModel::class.java)
+        substViewModel.allSubst?.observe(this, Observer<List<Subst>> {
             if (personal) {
                 planCardList.clear()
                 smileydown.visibility = View.GONE
@@ -103,16 +108,16 @@ class PlanFragment(isPersonal: Boolean) : Fragment(R.layout.plan) {
                 recyclerView.visibility = View.VISIBLE
                 for (i in 0 until it.size) {
                     if (prefs.getString("courses", "").isEmpty() && prefs.getString("classes", "").isNotEmpty()) {
-                        if (it[i].group.toString().isNotEmpty() && !it[i].group.equals("")) {
-                            if (prefs.getString("classes", "").contains(it[i].group.toString()) || it[i].group.toString().contains(prefs.getString("classes", "").toString())) {
+                        if (it[i].group.isNotEmpty() && !it[i].group.equals("")) {
+                            if (prefs.getString("classes", "").contains(it[i].group) || it[i].group.contains(prefs.getString("classes", "").toString())) {
                                 planCardList.add(it[i])
                                 persPlanEmpty = false
                             }
                         }
                     } else if (prefs.getString("classes", "").isNotEmpty() && prefs.getString("courses", "").isNotEmpty()) {
                         if (!it[i].group.equals("") && !it[i].course.equals("")) {
-                            if (prefs.getString("courses", "").contains(it[i].course.toString())) {
-                                if (prefs.getString("classes", "").contains(it[i].group.toString()) || it[i].group.toString().contains(prefs.getString("classes", "").toString())) {
+                            if (prefs.getString("courses", "").contains(it[i].course)) {
+                                if (prefs.getString("classes", "").contains(it[i].group) || it[i].group.contains(prefs.getString("classes", "").toString())) {
                                     planCardList.add(it[i])
                                     persPlanEmpty = false
                                 }
