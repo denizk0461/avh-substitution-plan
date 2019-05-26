@@ -73,6 +73,8 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
     private val newDateFormat = "yyyy-MM-dd, HH:mm:ss"
     private var sdf = SimpleDateFormat(oldDateFormat)
     private lateinit var d: Date
+    private val fadeOut = AnimationUtils.loadAnimation(mContext, R.anim.fade_out)
+    private val handler = Handler(Looper.getMainLooper())
 
     override fun doInBackground(vararg params: Void?): Void? {
 
@@ -137,8 +139,20 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     }
                     foodInt++
                     mView?.let {
-                        progressBar.incrementProgressBy(1)
+                        progressBar.progress = foodInt
                     }
+                }
+
+                mView?.let {
+                    progressBar.progress = 100
+                    handler.postDelayed({ progressBar.startAnimation(fadeOut) }, 200)
+                    fadeOut.setAnimationListener(object: Animation.AnimationListener {
+                        override fun onAnimationStart(arg0: Animation) {}
+                        override fun onAnimationRepeat(arg0: Animation) {}
+                        override fun onAnimationEnd(arg0: Animation) {
+                            progressBar.progress = 0
+                        }
+                    })
                 }
 
                 easyPrefs.putListString("foodListPrefs", foodList)
@@ -258,21 +272,15 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                                     .build()
                         }
                         notification.sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-                        manager.notify(1, notification) // TODO notification plays multiple times
+                        manager.notify(1, notification)
                     }
                 }
 
                 mView?.let { v: View ->
-                    val fadeOut = AnimationUtils.loadAnimation(mContext, R.anim.fade_out)
-
-                    val handler = Handler(Looper.getMainLooper())
                     handler.postDelayed({ progressBar.startAnimation(fadeOut) }, 200)
-
                     fadeOut.setAnimationListener(object: Animation.AnimationListener {
                         override fun onAnimationStart(arg0: Animation) {}
-
                         override fun onAnimationRepeat(arg0: Animation) {}
-
                         override fun onAnimationEnd(arg0: Animation) {
                             progressBar.progress = 0
                         }

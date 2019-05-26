@@ -119,11 +119,9 @@ class PlanFragment(isPersonal: Boolean) : Fragment(R.layout.plan) {
                             }
                         }
                     }
-//                    recyclerView.adapter!!.notifyDataSetChanged() // TODO check whether this is necessary
                     planCardList.sortWith(Comparator { lhs, rhs -> Integer.compare(rhs.priority, lhs.priority) })
                     recyclerView.scheduleLayoutAnimation()
                     mAdapter.setSubst(planCardList)
-                    bottomSheetText.text = prefs.getString("informational", getString(R.string.noinfo))
 
                     handler.postDelayed({
                         if (persPlanEmpty) {
@@ -138,8 +136,8 @@ class PlanFragment(isPersonal: Boolean) : Fragment(R.layout.plan) {
             } else {
                 mAdapter.setSubst(it)
                 recyclerView.scheduleLayoutAnimation()
-                bottomSheetText.text = prefs.getString("informational", getString(R.string.noinfo))
             }
+            bottomSheetText.text = prefs.getString("informational", getString(R.string.noinfo))
         })
 
         pullToRefresh.setOnRefreshListener {
