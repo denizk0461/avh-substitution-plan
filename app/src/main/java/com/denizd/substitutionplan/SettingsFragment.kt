@@ -424,8 +424,6 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                     val girlCb = dateDialogView.findViewById<CheckBox>(R.id.cb2)
                     val percentage = dateDialogView.findViewById<TextView>(R.id.dating_txtp)
 
-                    dateDialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.dating)
-
                     datingBtn.setOnClickListener {
                         try {
                             val dg = MiscData()

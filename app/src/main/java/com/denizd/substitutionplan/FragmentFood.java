@@ -49,7 +49,7 @@ public class FragmentFood extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final SwipeRefreshLayout pullToRefresh = getView().findViewById(R.id.pullToRefreshFood);
+        final SwipeRefreshLayout pullToRefresh = getView().findViewById(R.id.pullToRefresh);
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         EasyPrefrences easyPrefs = new EasyPrefrences(getContext());
@@ -91,7 +91,7 @@ public class FragmentFood extends Fragment {
         boolean attempt = false, npe = false;
         Elements foodElements;
         Document docFood;
-        final SwipeRefreshLayout pullToRefresh = getView().findViewById(R.id.pullToRefreshFood);
+        final SwipeRefreshLayout pullToRefresh = getView().findViewById(R.id.pullToRefresh);
 
         protected fetcher() {
         }

@@ -258,15 +258,15 @@ class Main : AppCompatActivity(R.layout.activity_main) {
                 lateinit var fragment: Fragment
                 when (item.itemId) {
                     R.id.plan -> {
-                        fragment = FragmentPlan()
+                        fragment = PlanFragment(false)
                         toolbarTxt.text = getString(R.string.app_name)
                     }
                     R.id.personal -> {
-                        fragment = FragmentPersonal()
+                        fragment = PlanFragment(true)
                         toolbarTxt.text = userPlan
                     }
                     R.id.menu -> {
-                        fragment = FragmentFood()
+                        fragment = FoodFragment()
                         toolbarTxt.text = getString(R.string.foodmenu)
                     }
                     R.id.openinfopanel -> {
@@ -317,9 +317,7 @@ class Main : AppCompatActivity(R.layout.activity_main) {
                 }
                 appbarlayout.setExpanded(true)
             }
-
         }
-
     }
 
     private fun loadFragment(fragment: Fragment): Boolean {
@@ -328,7 +326,7 @@ class Main : AppCompatActivity(R.layout.activity_main) {
     }
 
     private fun notificationJob() {
-        val componentName = ComponentName(this, ScheduledJobService::class.java)
+        val componentName = ComponentName(this, NotificationService::class.java)
         val info = JobInfo.Builder(42, componentName)
                 .setRequiresCharging(false)
                 .setPersisted(true)

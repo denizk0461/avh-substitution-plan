@@ -1,5 +1,6 @@
 package com.denizd.substitutionplan
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -12,47 +13,53 @@ import com.madapps.prefrences.EasyPrefrences
 
 class FoodFragment : Fragment(R.layout.food_layout) {
 
-    private lateinit var foodArrayList: ArrayList<Food>
-    private lateinit var recyclerView: RecyclerView
+    public val foodArrayList = ArrayList<Food>()
     private val mAdapter = FoodAdapter(foodArrayList)
+    private lateinit var mContext: Context
+    private lateinit var prefs: SharedPreferences
+//    private lateinit var edit: SharedPreferences.Editor
+    private lateinit var easyPrefs: EasyPrefrences
+    private lateinit var foodListPopulation: ArrayList<String>
+    private lateinit var recyclerView: RecyclerView
 
-//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        return inflater.inflate(R.layout.food_layout, null)
-//    } // TODO do I need this?
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
+        prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
+//        edit = prefs.edit()
+        easyPrefs = EasyPrefrences(mContext)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val pullToRefresh = getView()?.findViewById(R.id.pullToRefresh) as SwipeRefreshLayout
-        val prefs = PreferenceManager.getDefaultSharedPreferences(activity) as SharedPreferences
-//        val edit = prefs.edit() as SharedPreferences.Editor
-        val easyPrefs = EasyPrefrences(context!!)
-        val foodListPopulation = ArrayList<String>(easyPrefs.getListString("foodListPrefs"))
+        val pullToRefresh = view.findViewById<SwipeRefreshLayout>(R.id.pullToRefresh)
+        foodListPopulation = ArrayList(easyPrefs.getListString("foodListPrefs"))
 
         try {
-            recyclerView = getView()?.findViewById(R.id.linear_food) as RecyclerView
+            recyclerView = view.findViewById(R.id.linear_food)
             recyclerView.hasFixedSize()
-            recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL ,false)
+            recyclerView.layoutManager = LinearLayoutManager(mContext, RecyclerView.VERTICAL,false)
             recyclerView.adapter = mAdapter
 
             try {
                 recyclerView.removeAllViews()
-            } catch (e: NullPointerException) {}
+            } catch (ignored: NullPointerException) {}
 
-            for (i in 0..foodListPopulation.size) {
+            for (i in 0 until foodListPopulation.size) {
                 foodArrayList.add(Food(foodListPopulation[i]))
                 mAdapter.setFood(foodArrayList)
                 recyclerView.scheduleLayoutAnimation()
             }
-        } catch (e: NullPointerException) {}
+        } catch (ignored: NullPointerException) {}
 
         if (prefs.getBoolean("autoRefresh", false)) {
             pullToRefresh.isRefreshing = true
-            // coroutines
+            DataFetcher(false, true, false, mContext, activity!!.application, view.rootView).execute()
         }
 
         pullToRefresh.setOnRefreshListener {
             pullToRefresh.isRefreshing = true
-            // coroutines
+            DataFetcher(false, true, false, mContext, activity!!.application, view.rootView).execute()
         }
 
     }
