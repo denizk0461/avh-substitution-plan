@@ -38,9 +38,9 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
     private var menu = ismenu
 
     /*  booleans to improve performance when fetching data
-        "plan" is required to fetch the substitution data
-        "menu" is required to fetch the food menu
-        "jobservice" is required to send a notification
+        "plan" = true is required to fetch the substitution data
+        "menu" = true is required to fetch the food menu
+        "jobservice" = true is required to send a notification
         "jobservice" = true has no effect unless "plan" is also true
      */
 
@@ -77,7 +77,6 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
     private val handler = Handler(Looper.getMainLooper())
 
     override fun doInBackground(vararg params: Void?): Void? {
-
         try {
             mView?.let { v: View ->
                 pullToRefresh = v.findViewById(R.id.pullToRefresh)
@@ -209,7 +208,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     val subst = Subst(drawable, groupS[i].toString(), dateS[i].toString(), timeS[i].toString(), courseS[i].toString(),
                             roomS[i].toString(), additionalS[i].toString(), priority)
                     priority--
-                    substViewModel.insert(subst)
+                    substViewModel.insertSubst(subst)
 
                     if (jobservice) {
                         if (prefs.getString("courses", "").isEmpty() && prefs.getString("classes", "").isNotEmpty()) {
@@ -296,9 +295,11 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
 
             }
 
-        } catch (e: NullPointerException) {
+        } catch (e: Exception) {
             mView?.let { v: View ->
-                pullToRefresh.isRefreshing = false
+                try {
+                    pullToRefresh.isRefreshing = false
+                } catch (ignored: Exception) {}
                 val snackbarview = v.findViewById<View>(R.id.coordination)
                 Snackbar.make(snackbarview, mContext.getText(R.string.nointernet), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show()

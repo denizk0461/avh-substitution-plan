@@ -10,29 +10,18 @@
 
     <color name="datingPink">#d81b60</color>
 
-    <color name="red">#e53935</color>
-    <color name="pink">#E91E63</color>
-    <color name="purple">#9C27B0</color>
-    <color name="deeppurple">#673AB7</color>
-    <color name="lavender">#AB47BC</color>
-    <color name="indigo">#3F51B5</color>
-    <color name="blue">#1976D2</color>
-    <color name="lightblue">#2196F3</color>
-    <color name="teal">#009688</color>
-    <color name="green">#43A047</color>
-    <color name="yellow">#FDD835</color>
-    <color name="orange">#F4511E</color>
-
-    <color name="neonred">#ff1744</color>
-    <color name="neonpink">#F50057</color>
-    <color name="neonpurple">#D500F9</color>
-    <color name="neondeeppurple">#651FFF</color>
-    <color name="neonblue">#2979FF</color>
-    <color name="neongreen">#00E676</color>
-    <color name="neonyellow">#FFEA00</color>
-    <color name="neonorange">#FF3D00</color>
+    <color name="bgred">#F28B82</color>
+    <color name="bgorange">#FBBC04</color>
+    <color name="bgyellow">#FFF475</color>
+    <color name="bggreen">#CCFF90</color>
+    <color name="bgteal">#A7FFEB</color>
+    <color name="bgcyan">#CBF0F8</color>
+    <color name="bgblue">#AECBFA</color>
+    <color name="bgpurple">#D7AEFB</color>
+    <color name="bgpink">#FDCFE8</color>
+    <color name="bgbrown">#E6C9A8</color>
+    <color name="bggrey">#BDBDBD</color>
 
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#757575</color>
-
 
 </resources>

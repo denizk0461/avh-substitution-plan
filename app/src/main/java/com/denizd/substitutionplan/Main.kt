@@ -42,8 +42,8 @@ import java.util.*
 
 class Main : AppCompatActivity(R.layout.activity_main) {
 
-    var bottomSheetExpanded = false
-    lateinit var bottomSheetBehaviour: BottomSheetBehavior<*>
+    private var bottomSheetExpanded = false
+    private lateinit var bottomSheetBehaviour: BottomSheetBehavior<*>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -144,10 +144,7 @@ class Main : AppCompatActivity(R.layout.activity_main) {
                     if (info.manufacturer.contains("Huawei") ||
                             info.manufacturer.contains("Honor") ||
                             info.manufacturer.contains("Xiaomi")) {
-                        val alertDialog = when (prefs.getInt("themeInt", 0)) {
-                            1 -> AlertDialog.Builder(context, R.style.AlertDialogCustomDark)
-                            else -> AlertDialog.Builder(context, R.style.AlertDialogCustomLight)
-                        }
+                        val alertDialog = AlertDialog.Builder(context, R.style.AlertDialog)
                         val dialogView = LayoutInflater.from(context).inflate(R.layout.secret_dialog, null)
                         val title = dialogView.findViewById<TextView>(R.id.textviewtitle)
                         title.text = getString(R.string.chinaTitle)
@@ -158,13 +155,6 @@ class Main : AppCompatActivity(R.layout.activity_main) {
                         edit.putBoolean("huaweiDeviceDialog", false).apply()
                     }
                 }
-            }
-
-            val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val statusMobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).state
-            val statusWifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).state
-            if (statusMobile != NetworkInfo.State.CONNECTED && statusWifi != NetworkInfo.State.CONNECTED) {
-                Snackbar.make(contextView, getText(R.string.nointernet), Snackbar.LENGTH_LONG).show()
             }
 
             if (prefs.getBoolean("greeting", false)) {
@@ -192,7 +182,7 @@ class Main : AppCompatActivity(R.layout.activity_main) {
                                 else -> greetings[1] + prefs.getString("username", "") + "."
                             }
                         }
-                        else -> getString(R.string.error)
+                        else -> ";)" // getString(R.string.error)
                     }
 
                     handler.postDelayed({
@@ -293,26 +283,32 @@ class Main : AppCompatActivity(R.layout.activity_main) {
 
             bottomNav.setOnNavigationItemReselectedListener { item: MenuItem ->
                 when (item.itemId) {
-                    R.id.plan, R.id.personal-> {
-                        val recyclerView = findViewById<RecyclerView>(R.id.linearRecycler)
-                        recyclerView.post {
-                            recyclerView.smoothScrollToPosition(0)
-                            bottomSheetBehaviour.state = BottomSheetBehavior.STATE_COLLAPSED
-                        }
+                    R.id.plan, R.id.personal -> {
+                        try {
+                            val recyclerView = findViewById<RecyclerView>(R.id.linearRecycler)
+                            recyclerView.post {
+                                recyclerView.smoothScrollToPosition(0)
+                                bottomSheetBehaviour.state = BottomSheetBehavior.STATE_COLLAPSED
+                            }
+                        } catch (e: NullPointerException) {}
                     }
                     R.id.menu -> {
-                        val recyclerView = findViewById<RecyclerView>(R.id.linear_food)
-                        recyclerView.post {
-                            recyclerView.smoothScrollToPosition(0)
-                            bottomSheetBehaviour.state = BottomSheetBehavior.STATE_COLLAPSED
-                        }
+                        try {
+                            val recyclerView = findViewById<RecyclerView>(R.id.linear_food)
+                            recyclerView.post {
+                                recyclerView.smoothScrollToPosition(0)
+                                bottomSheetBehaviour.state = BottomSheetBehavior.STATE_COLLAPSED
+                            }
+                        } catch (e: NullPointerException) {}
                     }
                     R.id.settings -> {
-                        val nsv = findViewById<NestedScrollView>(R.id.nsvsettings)
-                        nsv.post {
-                            nsv.smoothScrollTo(0, 0)
-                            bottomSheetBehaviour.state = BottomSheetBehavior.STATE_COLLAPSED
-                        }
+                        try {
+                            val nsv = findViewById<NestedScrollView>(R.id.nsvsettings)
+                            nsv.post {
+                                nsv.smoothScrollTo(0, 0)
+                                bottomSheetBehaviour.state = BottomSheetBehavior.STATE_COLLAPSED
+                            }
+                        } catch (e: NullPointerException) {}
                     }
                 }
                 appbarlayout.setExpanded(true)

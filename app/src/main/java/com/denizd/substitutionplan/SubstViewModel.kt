@@ -14,15 +14,15 @@ public class SubstViewModel(application: Application) : AndroidViewModel(applica
         allSubst = repository.allSubst
     }
 
-    fun insert(subst: Subst) {
+    fun insertSubst(subst: Subst) {
         repository.insert(subst)
     }
 
-    fun update(subst: Subst) {
+    fun updateSubst(subst: Subst) {
         repository.update(subst)
     }
 
-    fun delete(subst: Subst) {
+    fun deleteSubst(subst: Subst) {
         repository.delete(subst)
     }
 

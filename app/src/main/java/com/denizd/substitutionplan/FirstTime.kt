@@ -129,11 +129,7 @@ class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
     }
 
     private fun createDialog(title: String, text: String) {
-        val alertDialog = if (prefs.getInt("themeInt", 0) == 1) {
-            AlertDialog.Builder(context, R.style.AlertDialogCustomDark)
-        } else {
-            AlertDialog.Builder(context, R.style.AlertDialogCustomLight)
-        }
+        val alertDialog = AlertDialog.Builder(context, R.style.AlertDialog)
         val dialogView = LayoutInflater.from(context).inflate(R.layout.simple_dialog, null)
         val dialogTitle = dialogView.findViewById<TextView>(R.id.textviewtitle)
         val dialogText = dialogView.findViewById<TextView>(R.id.dialogtext)

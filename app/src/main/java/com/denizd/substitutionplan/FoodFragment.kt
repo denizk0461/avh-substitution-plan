@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.snackbar.Snackbar
 import com.madapps.prefrences.EasyPrefrences
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -79,6 +80,7 @@ class FoodFragment : Fragment(R.layout.food_layout) {
                          adapter: FoodAdapter, foodArrayList: ArrayList<Food>,
                          swipeRefreshLayout: SwipeRefreshLayout, rootView: View) : AsyncTask<Void, Void, Void>() {
 
+        private val mContext = context
         private val mRecyclerView = recyclerView
         private val mEasyPrefs = easyPrefs
         private val mAdapter = adapter
@@ -91,96 +93,107 @@ class FoodFragment : Fragment(R.layout.food_layout) {
         val mRootView = rootView
         private val fadeOut = AnimationUtils.loadAnimation(context, R.anim.fade_out)
         private val handler = Handler(Looper.getMainLooper())
+        private var exceptionOccured = false
 
         override fun doInBackground(vararg params: Void?): Void? {
-            docFood = Jsoup.connect("https://djd4rkn355.github.io/food.html").get()
-            foodElements = docFood.select("th")
+            try {
+                docFood = Jsoup.connect("https://djd4rkn355.github.io/food.html").get()
+                foodElements = docFood.select("th")
 
-            progressBar = mRootView.findViewById(R.id.progressBar)
+                progressBar = mRootView.findViewById(R.id.progressBar)
 
-            progressBar.max = foodElements.size
+                progressBar.max = foodElements.size
 
-            var foodInt = 0
-            while (foodInt in 0 until foodElements.size) {
-                try { // what a mess this is!
-                    if (foodElements[foodInt].text().contains("Montag") ||
-                            foodElements[foodInt].text().contains("Dienstag") ||
-                            foodElements[foodInt].text().contains("Mittwoch") ||
-                            foodElements[foodInt].text().contains("Donnerstag") ||
-                            foodElements[foodInt].text().contains("Freitag")) {
+                var foodInt = 0
+                while (foodInt in 0 until foodElements.size) {
+                    try { // what a mess this is!
+                        if (foodElements[foodInt].text().contains("Montag") ||
+                                foodElements[foodInt].text().contains("Dienstag") ||
+                                foodElements[foodInt].text().contains("Mittwoch") ||
+                                foodElements[foodInt].text().contains("Donnerstag") ||
+                                foodElements[foodInt].text().contains("Freitag")) {
 
-                        if (foodElements[foodInt + 3].text().contains("Montag") ||
-                                foodElements[foodInt + 3].text().contains("Dienstag") ||
-                                foodElements[foodInt + 3].text().contains("Mittwoch") ||
-                                foodElements[foodInt + 3].text().contains("Donnerstag") ||
-                                foodElements[foodInt + 3].text().contains("Freitag") ||
-                                foodElements[foodInt + 3].text().contains("von")) {
+                            if (foodElements[foodInt + 3].text().contains("Montag") ||
+                                    foodElements[foodInt + 3].text().contains("Dienstag") ||
+                                    foodElements[foodInt + 3].text().contains("Mittwoch") ||
+                                    foodElements[foodInt + 3].text().contains("Donnerstag") ||
+                                    foodElements[foodInt + 3].text().contains("Freitag") ||
+                                    foodElements[foodInt + 3].text().contains("von")) {
+                                foodList.add(foodElements[foodInt].text() + "\n"
+                                        + foodElements[foodInt + 1].text() + "\n"
+                                        + foodElements[foodInt + 2].text())
+                                foodInt += 2
+                            } else if (foodElements[foodInt + 2].text().contains("Montag") ||
+                                    foodElements[foodInt + 2].text().contains("Dienstag") ||
+                                    foodElements[foodInt + 2].text().contains("Mittwoch") ||
+                                    foodElements[foodInt + 2].text().contains("Donnerstag") ||
+                                    foodElements[foodInt + 2].text().contains("Freitag") ||
+                                    foodElements[foodInt + 2].text().contains("von")) {
+                                foodList.add(foodElements[foodInt].text() + "\n"
+                                        + foodElements[foodInt + 1].text())
+                                foodInt += 1
+                            }
+
+                        } else {
+                            foodList.add(foodElements[foodInt].text())
+                        }
+                    } catch (e: IndexOutOfBoundsException) {
+                        try {
                             foodList.add(foodElements[foodInt].text() + "\n"
                                     + foodElements[foodInt + 1].text() + "\n"
                                     + foodElements[foodInt + 2].text())
-                            foodInt += 2
-                        } else if (foodElements[foodInt + 2].text().contains("Montag") ||
-                                foodElements[foodInt + 2].text().contains("Dienstag") ||
-                                foodElements[foodInt + 2].text().contains("Mittwoch") ||
-                                foodElements[foodInt + 2].text().contains("Donnerstag") ||
-                                foodElements[foodInt + 2].text().contains("Freitag") ||
-                                foodElements[foodInt + 2].text().contains("von")) {
+                            break
+                        } catch (e1: IndexOutOfBoundsException) {
                             foodList.add(foodElements[foodInt].text() + "\n"
                                     + foodElements[foodInt + 1].text())
-                            foodInt += 1
+                            break
                         }
-
-                    } else {
-                        foodList.add(foodElements[foodInt].text())
                     }
-                } catch (e: IndexOutOfBoundsException) {
-                    try {
-                        foodList.add(foodElements[foodInt].text() + "\n"
-                                + foodElements[foodInt + 1].text() + "\n"
-                                + foodElements[foodInt + 2].text())
-                        break
-                    } catch (e1: IndexOutOfBoundsException) {
-                        foodList.add(foodElements[foodInt].text() + "\n"
-                                + foodElements[foodInt + 1].text())
-                        break
-                    }
+                    foodInt++
+                    progressBar.progress = foodInt
                 }
-                foodInt++
-                progressBar.progress = foodInt
-            }
 
-            progressBar.progress = 100
+                progressBar.progress = 100
 
-            mEasyPrefs.putListString("foodListPrefs", foodList)
+                mEasyPrefs.putListString("foodListPrefs", foodList)
+            } catch (e: Exception) { exceptionOccured = true }
             return null
         }
 
         override fun onPostExecute(result: Void?) {
             super.onPostExecute(result)
 
-            try {
-                mRecyclerView.removeAllViews()
-                mFoodArrayList.removeAll(mFoodArrayList)
-            } catch (ignored: NullPointerException) {}
+            if (!exceptionOccured) {
+                try {
+                    mRecyclerView.removeAllViews()
+                    mFoodArrayList.removeAll(mFoodArrayList)
+                } catch (ignored: NullPointerException) {}
 
-            val foodListPopulation = ArrayList(mEasyPrefs.getListString("foodListPrefs"))
+                val foodListPopulation = ArrayList(mEasyPrefs.getListString("foodListPrefs"))
 
-            for (i in 0 until foodListPopulation.size) {
-                mFoodArrayList.add(Food(foodListPopulation[i]))
-                mAdapter.setFood(mFoodArrayList)
-            }
-
-            mRecyclerView.scheduleLayoutAnimation()
-            pullToRefresh.isRefreshing = false
-
-            handler.postDelayed({ progressBar.startAnimation(fadeOut) }, 200)
-            fadeOut.setAnimationListener(object: Animation.AnimationListener {
-                override fun onAnimationStart(arg0: Animation) {}
-                override fun onAnimationRepeat(arg0: Animation) {}
-                override fun onAnimationEnd(arg0: Animation) {
-                    progressBar.progress = 0
+                for (i in 0 until foodListPopulation.size) {
+                    mFoodArrayList.add(Food(foodListPopulation[i]))
+                    mAdapter.setFood(mFoodArrayList)
                 }
-            })
+
+                mRecyclerView.scheduleLayoutAnimation()
+                pullToRefresh.isRefreshing = false
+
+                handler.postDelayed({ progressBar.startAnimation(fadeOut) }, 200)
+                fadeOut.setAnimationListener(object: Animation.AnimationListener {
+                    override fun onAnimationStart(arg0: Animation) {}
+                    override fun onAnimationRepeat(arg0: Animation) {}
+                    override fun onAnimationEnd(arg0: Animation) {
+                        progressBar.progress = 0
+                    }
+                })
+            } else {
+                pullToRefresh.isRefreshing = false
+                val snackbarview = mRootView.findViewById<View>(R.id.coordination)
+                Snackbar.make(snackbarview, mContext.getText(R.string.nointernet), Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+
+            }
         }
     }
 

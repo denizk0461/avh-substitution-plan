@@ -2,7 +2,11 @@ package com.denizd.substitutionplan
 
 import android.app.job.JobParameters
 import android.app.job.JobService
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.preference.PreferenceManager
+import com.google.android.material.snackbar.Snackbar
 import java.io.IOException
 import java.lang.NullPointerException
 import java.net.MalformedURLException
@@ -26,9 +30,14 @@ class NotificationService : JobService() {
     private fun doBackgroundWork(params: JobParameters) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val edit = prefs.edit()
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val statusMobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).state
+        val statusWifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).state
 
         Thread(Runnable {
             if (jobCancelled) {
+                return@Runnable
+            } else if (statusMobile != NetworkInfo.State.CONNECTED && statusWifi != NetworkInfo.State.CONNECTED) {
                 return@Runnable
             }
             if (prefs.getBoolean("notif", false)) {
@@ -40,9 +49,7 @@ class NotificationService : JobService() {
                         DataFetcher(true, true, true, context, application, null).execute()
                         edit.putString("time", connection.getHeaderField("Last-Modified")).apply()
                     }
-                } catch (ignored: NullPointerException) {}
-                catch (ignored: IOException) {}
-                catch (ignored: MalformedURLException) {}
+                } catch (ignored: Exception) {}
             }
             jobFinished(params, false)
         }).start()

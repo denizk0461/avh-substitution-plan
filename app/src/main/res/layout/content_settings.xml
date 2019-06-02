@@ -655,9 +655,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        android:text=""
                         android:textColor="@color/hintcolor"
                         android:textSize="12sp"
+                        android:fontFeatureSettings="tnum"
                         app:layout_constraintStart_toStartOf="@+id/txtVersion"
                         app:layout_constraintTop_toBottomOf="@+id/txtVersion"
                         app:layout_constraintBottom_toBottomOf="parent"/>

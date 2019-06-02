@@ -18,7 +18,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PlanFragment() : Fragment(R.layout.plan) { // isPersonal: Boolean
+
+
+class PlanFragment : Fragment(R.layout.plan) {
     private lateinit var recyclerView: RecyclerView
     private lateinit var mAdapter: CardAdapter
     private lateinit var layoutManager: GridLayoutManager
@@ -45,10 +47,19 @@ class PlanFragment() : Fragment(R.layout.plan) { // isPersonal: Boolean
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        val grid = when (newConfig.orientation) {
-            Configuration.ORIENTATION_PORTRAIT -> 1
-            else -> 2
+        val tabletSize = resources.getBoolean(R.bool.isTablet)
+        val grid = if (tabletSize) {
+            when (newConfig.orientation) {
+                Configuration.ORIENTATION_PORTRAIT -> 2
+                else -> 3
+            }
+        } else {
+            when (newConfig.orientation) {
+                Configuration.ORIENTATION_PORTRAIT -> 1
+                else -> 2
+            }
         }
+
         layoutManager = GridLayoutManager(mContext, grid)
         recyclerView.layoutManager = layoutManager
     }
@@ -68,10 +79,19 @@ class PlanFragment() : Fragment(R.layout.plan) { // isPersonal: Boolean
         recyclerView = view.findViewById(R.id.linearRecycler)
         recyclerView.hasFixedSize()
 
-        val grid = when (resources.configuration.orientation) {
-            Configuration.ORIENTATION_PORTRAIT -> 1
-            else -> 2
+        val tabletSize = resources.getBoolean(R.bool.isTablet)
+        val grid = if (tabletSize) {
+            when (resources.configuration.orientation) {
+                Configuration.ORIENTATION_PORTRAIT -> 2
+                else -> 3
+            }
+        } else {
+            when (resources.configuration.orientation) {
+                Configuration.ORIENTATION_PORTRAIT -> 1
+                else -> 2
+            }
         }
+
         layoutManager = GridLayoutManager(mContext, grid)
         recyclerView.layoutManager = layoutManager
 

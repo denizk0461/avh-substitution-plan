@@ -10,13 +10,13 @@ public interface SubstDao {
     val allSubst: LiveData<List<Subst>>
 
     @Insert
-    fun insert(subst: Subst)
+    fun insertSubst(subst: Subst)
 
     @Update
-    fun update(subst: Subst)
+    fun updateSubst(subst: Subst)
 
     @Delete
-    fun delete(subst: Subst)
+    fun deleteSubst(subst: Subst)
 
     @Query("DELETE FROM subst_table")
     fun deleteAllSubst()
