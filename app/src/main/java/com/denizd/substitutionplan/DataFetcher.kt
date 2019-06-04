@@ -57,12 +57,6 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
     private lateinit var foodElements: Elements
     private lateinit var doc: Document
     private lateinit var docFood: Document
-    private var manager = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    private val channelId = "general"
-    private var channelName = mContext.getString(R.string.general)
-    private val importance = NotificationManager.IMPORTANCE_DEFAULT
-    private lateinit var channel: NotificationChannel
-    private lateinit var notification: Notification
     private val prefs = PreferenceManager.getDefaultSharedPreferences(mContext) as SharedPreferences
     private val edit = prefs.edit() as SharedPreferences.Editor
     private lateinit var pullToRefresh: SwipeRefreshLayout
@@ -235,13 +229,6 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     }
                 }
                 if (jobservice) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        channel = NotificationChannel(channelId, channelName, importance)
-                        channel.enableLights(true)
-                        channel.lightColor = Color.BLUE
-                        manager.createNotificationChannel(channel)
-                    }
-
                     val openApp = Intent(mContext, Main::class.java)
                     openApp.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     openApp.flags += Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -252,8 +239,21 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     notificationLayout.setTextViewText(R.id.notification_textview, notifText)
 
                     if (notifText.isNotEmpty()) {
+                        val manager = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                        val channelId = "general"
+                        val channelName = mContext.getString(R.string.general)
+                        val importance = NotificationManager.IMPORTANCE_DEFAULT
+                        lateinit var channel: NotificationChannel
+
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            notification = NotificationCompat.Builder(mContext) // TODO switch out the deprecated notification delivery method
+                            channel = NotificationChannel(channelId, channelName, importance)
+                            channel.enableLights(true)
+                            channel.lightColor = Color.BLUE
+                            manager.createNotificationChannel(channel)
+                        }
+
+                        val notification = when (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            true -> NotificationCompat.Builder(mContext) // TODO switch out the deprecated notification delivery method
                                     .setStyle(NotificationCompat.DecoratedCustomViewStyle())
                                     .setCustomContentView(notificationLayout)
                                     .setSmallIcon(R.drawable.ic_avh)
@@ -261,8 +261,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                                     .setContentIntent(openAppPending)
                                     .setAutoCancel(true)
                                     .build()
-                        } else {
-                            notification = NotificationCompat.Builder(mContext)
+                            false -> NotificationCompat.Builder(mContext)
                                     .setStyle(NotificationCompat.DecoratedCustomViewStyle())
                                     .setCustomContentView(notificationLayout)
                                     .setSmallIcon(R.drawable.ic_avh)

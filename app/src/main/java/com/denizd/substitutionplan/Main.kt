@@ -7,6 +7,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
@@ -90,6 +91,21 @@ class Main : AppCompatActivity(R.layout.activity_main) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                     window.navigationBarColor = ContextCompat.getColor(this, R.color.background)
                 }
+//                else -> {
+//                    when (context.resources.configuration.uiMode) {
+//                        Configuration.UI_MODE_NIGHT_YES, Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+//                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+//                                window.navigationBarColor = ContextCompat.getColor(this, R.color.background)
+//                            }
+//                        }
+//                        Configuration.UI_MODE_NIGHT_NO -> {
+//                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//                            window.navigationBarColor = ContextCompat.getColor(this, R.color.background)
+//                        }
+//                    }
+//                } // TODO theming based on system settings for Android Q
             }
 
             val bm = BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher)

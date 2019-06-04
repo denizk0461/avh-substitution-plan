@@ -28,8 +28,8 @@ import java.util.*
 
 class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
 
-    lateinit var context: Context
-    lateinit var prefs: SharedPreferences
+    private lateinit var context: Context
+    private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,14 +47,10 @@ class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
         setTaskDescription(taskDesc)
 
         context = this
-
         prefs = PreferenceManager.getDefaultSharedPreferences(context) as SharedPreferences
         val edit = prefs.edit()
-
         val fab = findViewById<ExtendedFloatingActionButton>(R.id.efab)
-
         val start = Intent(this, Main::class.java)
-
         val name = findViewById<EditText>(R.id.txtName)
         val grade = findViewById<EditText>(R.id.txtClasses)
         val courses = findViewById<EditText>(R.id.txtCourses)
@@ -110,9 +106,7 @@ class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
             }, 400)
             animOut.setAnimationListener(object: Animation.AnimationListener {
                 override fun onAnimationStart(arg0: Animation) {}
-
                 override fun onAnimationRepeat(arg0: Animation) {}
-
                 override fun onAnimationEnd(arg0: Animation) {
                     colour.visibility = View.GONE
                 }
