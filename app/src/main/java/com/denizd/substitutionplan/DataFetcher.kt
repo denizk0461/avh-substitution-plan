@@ -181,6 +181,8 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
 
                 substViewModel.deleteAllSubst()
 
+                val md = MiscData()
+
                 for (i in 0 until rows.size) {
                     val row = rows[i]
                     val cols = row.select("th") as Elements
@@ -197,7 +199,6 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                         }
                     }
 
-                    val md = MiscData()
                     val drawable = md.getIcon(courseS[i].toString())
                     val subst = Subst(drawable, groupS[i].toString(), dateS[i].toString(), timeS[i].toString(), courseS[i].toString(),
                             roomS[i].toString(), additionalS[i].toString(), priority)
