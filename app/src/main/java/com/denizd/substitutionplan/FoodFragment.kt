@@ -93,7 +93,7 @@ class FoodFragment : Fragment(R.layout.food_layout) {
         val mRootView = rootView
         private val fadeOut = AnimationUtils.loadAnimation(context, R.anim.fade_out)
         private val handler = Handler(Looper.getMainLooper())
-        private var exceptionOccured = false
+        private var exceptionOccurred = false
 
         override fun doInBackground(vararg params: Void?): Void? {
             try {
@@ -156,14 +156,14 @@ class FoodFragment : Fragment(R.layout.food_layout) {
                 progressBar.progress = 100
 
                 mEasyPrefs.putListString("foodListPrefs", foodList)
-            } catch (e: Exception) { exceptionOccured = true }
+            } catch (e: Exception) { exceptionOccurred = true }
             return null
         }
 
         override fun onPostExecute(result: Void?) {
             super.onPostExecute(result)
 
-            if (!exceptionOccured) {
+            if (!exceptionOccurred) {
                 try {
                     mRecyclerView.removeAllViews()
                     mFoodArrayList.removeAll(mFoodArrayList)
@@ -196,6 +196,4 @@ class FoodFragment : Fragment(R.layout.food_layout) {
             }
         }
     }
-
-
 }

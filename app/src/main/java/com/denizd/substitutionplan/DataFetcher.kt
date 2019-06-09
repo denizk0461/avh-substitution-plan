@@ -24,7 +24,6 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
 import java.lang.IndexOutOfBoundsException
-import java.lang.NullPointerException
 import java.net.URL
 import java.net.URLConnection
 import java.text.SimpleDateFormat

@@ -19,7 +19,7 @@
     <item
         android:id="@+id/openinfopanel"
         android:icon="@drawable/ic_information"
-        android:title=""
+        android:title="@string/news"
         android:enabled="true"/>
     <item
         android:id="@+id/settings"

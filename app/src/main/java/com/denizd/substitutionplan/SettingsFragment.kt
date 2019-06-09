@@ -199,6 +199,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                 createDialog("Licences", "Libraries:\n • Android Device Names © 2015 Jared Rummler, licensed under the Apache Licence, Version 2.0" +
                         "\n • EasyPreferences © 2018 Mukesh Solanki, licensed under the MIT Licence" +
                         "\n • jsoup HTML parser © 2009-2018 Jonathan Hedley, licensed under the open source MIT Licence" +
+                        "\n • PageIndicatorView © 2017 Roman Danylyk, licensed under the Apache Licence, Version 2.0" +
                         "\n\nFont:\n • Manrope © 2018-2019 Michael Sharanda, licensed under the SIL Open Font Licence 1.1" +
                         "\n\nIcons:\n • bqlqn\n • fjstudio\n • Freepik\n • Smashicons\n • © 2013-2019 Freepik Company S.L., licensed under Creative Commons BY 3.0" +
                         "\n\nMarketing & Publishing:\n • Leon Becker\n • Alex Lick\n • Batuhan Özcan\n • Erich Kerkesner")
@@ -387,7 +388,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                 }
                 "2018-04-20" -> {
                     try {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=u8tdT5pAE34"))
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=Jc2xfYuLWgE"))
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).setPackage("com.google.android.youtube")
                         startActivity(intent)
                     } catch (e: ActivityNotFoundException) {
