@@ -275,14 +275,12 @@ class Main : AppCompatActivity(R.layout.activity_main) {
                         toolbarTxt.text = getString(R.string.foodmenu)
                     }
                     R.id.openinfopanel -> {
-//                        if (bottomSheetBehaviour.state == BottomSheetBehavior.STATE_COLLAPSED) {
-//                            bottomSheetBehaviour.state = BottomSheetBehavior.STATE_EXPANDED
-//                        } else if (bottomSheetBehaviour.state == BottomSheetBehavior.STATE_EXPANDED) {
-//                            bottomSheetBehaviour.state = BottomSheetBehavior.STATE_COLLAPSED
-//                        }
-//                        fragmentLoading = false
-                        fragment = NewsFragment()
-                        toolbarTxt.text = getString(R.string.news)
+                        if (bottomSheetBehaviour.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                            bottomSheetBehaviour.state = BottomSheetBehavior.STATE_EXPANDED
+                        } else if (bottomSheetBehaviour.state == BottomSheetBehavior.STATE_EXPANDED) {
+                            bottomSheetBehaviour.state = BottomSheetBehavior.STATE_COLLAPSED
+                        }
+                        fragmentLoading = false
                     }
                     R.id.settings -> {
                         fragment = SettingsFragment()
@@ -314,15 +312,6 @@ class Main : AppCompatActivity(R.layout.activity_main) {
                             val recyclerView = findViewById<RecyclerView>(R.id.linear_food)
                             recyclerView.post {
                                 recyclerView.smoothScrollToPosition(0)
-                                bottomSheetBehaviour.state = BottomSheetBehavior.STATE_COLLAPSED
-                            }
-                        } catch (e: NullPointerException) {}
-                    }
-                    R.id.openinfopanel -> {
-                        try {
-                            val nsvnewscard = findViewById<NestedScrollView>(R.id.nsvnewscard)
-                            nsvnewscard.post {
-                                nsvnewscard.smoothScrollTo(0, 0)
                                 bottomSheetBehaviour.state = BottomSheetBehavior.STATE_COLLAPSED
                             }
                         } catch (e: NullPointerException) {}
