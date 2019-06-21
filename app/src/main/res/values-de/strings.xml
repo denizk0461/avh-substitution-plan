@@ -72,7 +72,7 @@
     <string name="donttell">Er darf das nicht erfahren :0</string>
     <string name="fortest">Dieses Menü ist derzeit nur für Tests gedacht. Zusätzliche Funktionalität könnte in der Zukunft hinzugefügt werden. Probier\' gerne zufällige Codes aus.</string>
     <string name="positivebutton">Anwenden</string>
-    <string name="nothinghappened">Nichts ist geschehen.</string>
+    <string name="nothinghappened">Ungültiger Code</string>
     <string name="experimentalmenu">Experimentalmenü</string>
     <string name="diagnosticsmenu">Diagnosemenü</string>
     <string name="calculate">Berechnen</string>

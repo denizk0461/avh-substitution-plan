@@ -18,4 +18,6 @@
     <color name="bgpink">#5A2345</color>
     <color name="bgbrown">#442F1B</color>
     <color name="bggrey">#3C3F43</color>
+
+    <color name="splash_logo">@color/textcolor</color>
 </resources>

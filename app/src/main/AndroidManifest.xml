@@ -3,10 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.denizd.substitutionplan">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" android:required="true"/>
+    <uses-permission android:name="android.permission.INTERNET" android:required="true"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" android:required="true"/>
 
     <application
         android:allowBackup="true"
@@ -39,7 +38,8 @@
 
         <service
             android:name=".NotificationService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:required="true"/>
     </application>
 
 </manifest>

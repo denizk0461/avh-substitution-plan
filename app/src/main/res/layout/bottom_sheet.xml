@@ -6,15 +6,41 @@
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
     android:orientation="vertical"
-    android:paddingTop="56dp"
+    android:paddingTop="0dp"
     app:behavior_hideable="false"
     app:behavior_peekHeight="56dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-    <androidx.core.widget.NestedScrollView
+    <View
+        android:id="@+id/bottom_nav_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_anchor="@+id/bottom_sheet"
+        android:layout_gravity="top"
+        android:background="@color/lighthintcolor"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginBottom="0dp"
+        app:elevation="0dp"
+        app:layout_anchor="@+id/bottom_sheet"
+        android:layout_gravity="bottom"
+        app:menu="@menu/nav_items"
+        android:background="@color/background"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
+        app:itemRippleColor="@color/accent"/>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical">
+        android:scrollbars="vertical"
+        android:clickable="true"
+        android:focusable="true">
 
         <LinearLayout
             android:id="@+id/bottom_sheet_linear"
@@ -23,32 +49,18 @@
             android:layout_height="wrap_content"
             android:background="@color/background">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/bottom_sheet_header"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="4dp">
-
-                <ImageView
-                    android:id="@+id/info_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_information"
-                    android:tint="@color/textcolor"/>
-
-                <TextView
-                    android:id="@+id/bottom_sheet_header"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:gravity="top|start"
-                    android:text="@string/information"
-                    android:textSize="16sp"
-                    android:textColor="@color/textcolor"/>
-
-            </LinearLayout>
+                android:drawableStart="@drawable/ic_information"
+                android:drawableTint="@color/textcolor"
+                android:paddingStart="16dp"
+                android:drawablePadding="8dp"
+                android:gravity="top|start"
+                android:text="@string/information"
+                android:textSize="16sp"
+                android:textColor="@color/textcolor"/>
 
             <TextView
                 android:id="@+id/bottom_sheet_text"
@@ -62,6 +74,6 @@
 
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
 </LinearLayout>

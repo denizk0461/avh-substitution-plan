@@ -84,7 +84,7 @@
     <string name="diagnosticsmenu">Diagnostics Menu</string>
     <string name="fortest">This menu is currently intended for testing only. Additional features may be added in the future. Feel free to try arbitrary codes.</string>
     <string name="positivebutton">Apply</string>
-    <string name="nothinghappened">Nothing happened.</string>
+    <string name="nothinghappened">Invalid code</string>
     <string name="calculate">Calculate</string>
     <string name="boy">Boy</string>
     <string name="girl">Girl</string>
