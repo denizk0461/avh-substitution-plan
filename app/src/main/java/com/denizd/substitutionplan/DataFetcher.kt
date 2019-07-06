@@ -19,7 +19,6 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
-import com.madapps.prefrences.EasyPrefrences
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
@@ -60,8 +59,8 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
     private val edit = prefs.edit() as SharedPreferences.Editor
     private lateinit var pullToRefresh: SwipeRefreshLayout
     private lateinit var progressBar: ProgressBar
-    private val easyPrefs = EasyPrefrences(mContext)
     private val substViewModel = SubstViewModel(mApplication)
+    private val foodViewModel = FoodViewModel(mApplication)
     private val oldDateFormat = "EEE, dd MMM yyyy HH:mm:ss zzz"
     private val newDateFormat = "yyyy-MM-dd, HH:mm:ss"
     private var sdf = SimpleDateFormat(oldDateFormat)
@@ -85,6 +84,8 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                 }
 
                 var foodInt = 0
+                var priority = 0
+                foodViewModel.deleteAll()
                 while (foodInt in 0 until foodElements.size) {
                     try { // what a mess this is!
                         if (foodElements[foodInt].text().contains("Montag") ||
@@ -99,9 +100,9 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                                     foodElements[foodInt + 3].text().contains("Donnerstag") ||
                                     foodElements[foodInt + 3].text().contains("Freitag") ||
                                     foodElements[foodInt + 3].text().contains("von")) {
-                                foodList.add(foodElements[foodInt].text() + "\n"
+                                foodViewModel.insert(Food(foodElements[foodInt].text() + "\n"
                                         + foodElements[foodInt + 1].text() + "\n"
-                                        + foodElements[foodInt + 2].text())
+                                        + foodElements[foodInt + 2].text(), priority))
                                 foodInt += 2
                             } else if (foodElements[foodInt + 2].text().contains("Montag") ||
                                     foodElements[foodInt + 2].text().contains("Dienstag") ||
@@ -109,27 +110,28 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                                     foodElements[foodInt + 2].text().contains("Donnerstag") ||
                                     foodElements[foodInt + 2].text().contains("Freitag") ||
                                     foodElements[foodInt + 2].text().contains("von")) {
-                                foodList.add(foodElements[foodInt].text() + "\n"
-                                        + foodElements[foodInt + 1].text())
+                                foodViewModel.insert(Food(foodElements[foodInt].text() + "\n"
+                                        + foodElements[foodInt + 1].text(), priority))
                                 foodInt += 1
                             }
 
                         } else {
-                            foodList.add(foodElements[foodInt].text())
+                            foodViewModel.insert(Food(foodElements[foodInt].text(), priority))
                         }
                     } catch (e: IndexOutOfBoundsException) {
                         try {
-                            foodList.add(foodElements[foodInt].text() + "\n"
+                            foodViewModel.insert(Food(foodElements[foodInt].text() + "\n"
                                     + foodElements[foodInt + 1].text() + "\n"
-                                    + foodElements[foodInt + 2].text())
+                                    + foodElements[foodInt + 2].text(), priority))
                             break
                         } catch (e1: IndexOutOfBoundsException) {
-                            foodList.add(foodElements[foodInt].text() + "\n"
-                                    + foodElements[foodInt + 1].text())
+                            foodViewModel.insert(Food(foodElements[foodInt].text() + "\n"
+                                    + foodElements[foodInt + 1].text(), priority))
                             break
                         }
                     }
                     foodInt++
+                    priority++
                     mView?.let {
                         progressBar.progress = foodInt
                     }
@@ -146,8 +148,6 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                         }
                     })
                 }
-
-                easyPrefs.putListString("foodListPrefs", foodList)
             }
 
             if (plan) {
@@ -273,7 +273,8 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                         manager.notify(1, notification)
                     }
                 }
-
+            }
+            if (plan || menu) {
                 mView?.let { v: View ->
                     handler.postDelayed({ progressBar.startAnimation(fadeOut) }, 200)
                     fadeOut.setAnimationListener(object: Animation.AnimationListener {
@@ -284,14 +285,15 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                         }
                     })
                     pullToRefresh.isRefreshing = false
-                    val snackbarview = v.findViewById<View>(R.id.coordination)
-                    sdf.applyPattern(newDateFormat)
-                    val sb = StringBuilder()
-                    val lastupdated = sb.append(mContext.getText(R.string.lastupdatedK)).append(sdf.format(d)).toString()
-                    Snackbar.make(snackbarview, lastupdated, Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show()
+                    if (plan) {
+                        val snackbarview = v.findViewById<View>(R.id.coordination)
+                        sdf.applyPattern(newDateFormat)
+                        val sb = StringBuilder()
+                        val lastupdated = sb.append(mContext.getText(R.string.lastupdatedK)).append(sdf.format(d)).toString()
+                        Snackbar.make(snackbarview, lastupdated, Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show()
+                    }
                 }
-
             }
 
         } catch (e: Exception) {

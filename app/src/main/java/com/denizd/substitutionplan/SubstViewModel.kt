@@ -6,11 +6,10 @@ import androidx.lifecycle.LiveData
 
 public class SubstViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository: SubstRepository
+    private val repository: SubstRepository = SubstRepository(application)
     val allSubst: LiveData<List<Subst>>?
 
     init {
-        repository = SubstRepository(application)
         allSubst = repository.allSubst
     }
 

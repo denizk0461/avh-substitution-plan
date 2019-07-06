@@ -20,4 +20,13 @@ public interface SubstDao {
 
     @Query("DELETE FROM subst_table")
     fun deleteAllSubst()
+
+    @get:Query("SELECT * FROM food_table ORDER BY priority ASC")
+    val allFoods: LiveData<List<Food>>
+
+    @Insert
+    fun insertFood(food: Food)
+
+    @Query("DELETE FROM food_table")
+    fun deleteAllFoods()
 }

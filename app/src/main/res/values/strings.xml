@@ -124,10 +124,7 @@
     <string name="courseFor">Special Education</string>
     <string name="courseWp">WP &amp; "Methodenstunde"</string>
 
-    <string name="neoncolours">Neon colours</string>
-
     <string name="clearall">Clear all</string>
-    <string name="clearcolour">Clear colour</string>
     <string name="allcolourscleared">Colours for all courses have been cleared</string>
 
     <string name="chromecompatible">No Chrome-compatible browser found</string>

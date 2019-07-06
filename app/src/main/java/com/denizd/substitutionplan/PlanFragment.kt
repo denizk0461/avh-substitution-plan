@@ -18,8 +18,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import java.util.*
 import kotlin.collections.ArrayList
 
-
-
 class PlanFragment : Fragment(R.layout.plan) {
     private lateinit var recyclerView: RecyclerView
     private lateinit var mAdapter: CardAdapter

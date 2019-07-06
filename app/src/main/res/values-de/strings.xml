@@ -111,10 +111,8 @@
     <string name="courseWat">WAT</string>
     <string name="courseFor">Förderunterricht</string>
     <string name="courseWp">WP &amp; Methodenstunde</string>
-    <string name="neoncolours">Neonfarben</string>
     <string name="clearall">Alle löschen</string>
     <string name="allcolourscleared">Farben für alle Kurse wurden gelöscht</string>
-    <string name="clearcolour">Farbe löschen</string>
     <string name="chromecompatible">Kein Chrome-kompatibler Browser gefunden</string>
     <string name="noyoutube">YouTube-App nicht gefunden</string>
     <string name="swipeindependent">Unabhängig von Wischgeste</string>

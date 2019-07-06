@@ -109,10 +109,6 @@ class Main : AppCompatActivity(R.layout.activity_main) {
 //                } // TODO theming based on system settings for Android Q
             }
 
-            val bm = BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher)
-            val taskDesc = ActivityManager.TaskDescription(getString(R.string.app_name), bm, ContextCompat.getColor(this, R.color.background))
-            setTaskDescription(taskDesc)
-
             if (!prefs.getBoolean("showinfotab", true)) {
                 bottomNav.menu.removeItem(R.id.openinfopanel)
             }
