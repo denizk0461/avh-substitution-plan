@@ -18,23 +18,22 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PlanFragment : Fragment(R.layout.plan) {
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var mAdapter: CardAdapter
+open class PlanFragment : Fragment(R.layout.plan) {
+    lateinit var recyclerView: RecyclerView
+    lateinit var mAdapter: CardAdapter
     private lateinit var layoutManager: GridLayoutManager
-    private val planCardList = ArrayList<Subst>()
-    private lateinit var bottomSheetText: TextView
-    private lateinit var substViewModel: SubstViewModel
-    private lateinit var mContext: Context
-    private lateinit var prefs: SharedPreferences
-    private lateinit var edit: SharedPreferences.Editor
-    private var personal = false
+    val planCardList = ArrayList<Subst>()
+    lateinit var bottomSheetText: TextView
+    lateinit var substViewModel: SubstViewModel
+    lateinit var mContext: Context
+    lateinit var prefs: SharedPreferences
+    lateinit var edit: SharedPreferences.Editor
 
-    private lateinit var smileydown: TextView
-    private lateinit var smileydowntext: TextView
-    private lateinit var linearsmiley: LinearLayout
-    private var persPlanEmpty: Boolean = true
-    private val handler = Handler()
+    lateinit var smileydown: TextView
+    lateinit var smileydowntext: TextView
+    lateinit var linearsmiley: LinearLayout
+    var persPlanEmpty: Boolean = true
+    val handler = Handler()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -62,16 +61,10 @@ class PlanFragment : Fragment(R.layout.plan) {
         recyclerView.layoutManager = layoutManager
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        personal = arguments!!.getBoolean("ispersonal")
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val pullToRefresh = view.findViewById<SwipeRefreshLayout>(R.id.pullToRefresh)
         bottomSheetText = view.rootView.findViewById(R.id.bottom_sheet_text)
-
         bottomSheetText.text = prefs.getString("informational", getString(R.string.noinfo))
 
         recyclerView = view.findViewById(R.id.linearRecycler)
@@ -96,12 +89,6 @@ class PlanFragment : Fragment(R.layout.plan) {
         mAdapter = CardAdapter(planCardList)
         recyclerView.adapter = mAdapter
 
-        if (personal) {
-            smileydown = view.findViewById(R.id.smileydown)
-            smileydowntext = view.findViewById(R.id.smileydowntext)
-            linearsmiley = view.findViewById(R.id.linearsmiley)
-        }
-
         if (prefs.getInt("firstTimeOpening", 0) == 2) {
             if (!prefs.getBoolean("notif", false)) {
                 pullToRefresh.isRefreshing = true
@@ -116,52 +103,6 @@ class PlanFragment : Fragment(R.layout.plan) {
             bottomSheetText.text = prefs.getString("informational", getString(R.string.noinfo))
         }
         substViewModel = ViewModelProviders.of(this).get(SubstViewModel::class.java)
-        substViewModel.allSubst?.observe(this, Observer<List<Subst>> {
-            if (personal) {
-                planCardList.clear()
-                smileydown.visibility = View.GONE
-                smileydowntext.visibility = View.GONE
-                linearsmiley.visibility = View.GONE
-                persPlanEmpty = true
-                recyclerView.visibility = View.VISIBLE
-                for (i in 0 until it.size) {
-                    if (prefs.getString("courses", "").isEmpty() && prefs.getString("classes", "").isNotEmpty()) {
-                        if (it[i].group.isNotEmpty() && !it[i].group.equals("")) {
-                            if (prefs.getString("classes", "").contains(it[i].group) || it[i].group.contains(prefs.getString("classes", "").toString())) {
-                                planCardList.add(it[i])
-                                persPlanEmpty = false
-                            }
-                        }
-                    } else if (prefs.getString("classes", "").isNotEmpty() && prefs.getString("courses", "").isNotEmpty()) {
-                        if (!it[i].group.equals("") && !it[i].course.equals("")) {
-                            if (prefs.getString("courses", "").contains(it[i].course)) {
-                                if (prefs.getString("classes", "").contains(it[i].group) || it[i].group.contains(prefs.getString("classes", "").toString())) {
-                                    planCardList.add(it[i])
-                                    persPlanEmpty = false
-                                }
-                            }
-                        }
-                    }
-                    planCardList.sortWith(Comparator { lhs, rhs -> Integer.compare(rhs.priority, lhs.priority) })
-                    recyclerView.scheduleLayoutAnimation()
-                    mAdapter.setSubst(planCardList)
-
-                    handler.postDelayed({
-                        if (persPlanEmpty) {
-                            recyclerView.visibility = View.GONE
-                            smileydown.visibility = View.VISIBLE
-                            smileydowntext.visibility = View.VISIBLE
-                            linearsmiley.visibility = View.VISIBLE
-                            linearsmiley.scheduleLayoutAnimation()
-                        }
-                    }, 64)
-                }
-            } else {
-                mAdapter.setSubst(it)
-                recyclerView.scheduleLayoutAnimation()
-            }
-            bottomSheetText.text = prefs.getString("informational", getString(R.string.noinfo))
-        })
 
         pullToRefresh.setOnRefreshListener {
             pullToRefresh.isRefreshing = true

@@ -200,7 +200,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                         "\n • jsoup HTML parser © 2009-2018 Jonathan Hedley, licensed under the open source MIT Licence" +
                         "\n\nFont:\n • Manrope © 2018-2019 Michael Sharanda, licensed under the SIL Open Font Licence 1.1" +
                         "\n\nIcons:\n • bqlqn\n • fjstudio\n • Freepik\n • Smashicons\n • © 2013-2019 Freepik Company S.L., licensed under Creative Commons BY 3.0" +
-                        "\n\nMarketing & Publishing:\n • Leon Becker\n • Alex Lick\n • Batuhan Özcan\n • Erich Kerkesner")
+                        "\n\nAdditional help:\n • Leon Becker\n • Alex Lick\n • Batuhan Özcan\n • Erich Kerkesner")
             }
             R.id.btnTerms -> {
                 createDialog("Terms & Conditions", "These terms automatically apply to anyone using this app - therefore, please make sure to read them carefully before using the app. Copying or modifying parts of the app or the entire app, as well as creating derivative versions, is prohibited without permission. This app is intellectual property of the developer.\n" +

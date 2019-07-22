@@ -244,11 +244,11 @@ class Main : AppCompatActivity(R.layout.activity_main) {
             }
             lateinit var fragment: Fragment
             if (prefs.getBoolean("defaultPersonalised", false)) {
-                fragment = mPlanFragment(true)
+                fragment = PersonalPlanFragment()
                 bottomNav.selectedItemId = R.id.personal
                 toolbarTxt.text = userPlan
             } else {
-                fragment = mPlanFragment(false)
+                fragment = GeneralPlanFragment()
                 bottomNav.selectedItemId = R.id.plan
                 toolbarTxt.text = getString(R.string.app_name)
             }
@@ -259,11 +259,11 @@ class Main : AppCompatActivity(R.layout.activity_main) {
                 lateinit var fragment: Fragment
                 when (item.itemId) {
                     R.id.plan -> {
-                        fragment = mPlanFragment(false)
+                        fragment = GeneralPlanFragment()
                         toolbarTxt.text = getString(R.string.app_name)
                     }
                     R.id.personal -> {
-                        fragment = mPlanFragment(true)
+                        fragment = PersonalPlanFragment()
                         toolbarTxt.text = userPlan
                     }
                     R.id.menu -> {
@@ -325,14 +325,6 @@ class Main : AppCompatActivity(R.layout.activity_main) {
                 appbarlayout.setExpanded(true)
             }
         }
-    }
-
-    private fun mPlanFragment(ispersonal: Boolean): PlanFragment {
-        val f = PlanFragment()
-        val bdl = Bundle(1)
-        bdl.putBoolean("ispersonal", ispersonal)
-        f.arguments = bdl
-        return f
     }
 
     private fun loadFragment(fragment: Fragment): Boolean {

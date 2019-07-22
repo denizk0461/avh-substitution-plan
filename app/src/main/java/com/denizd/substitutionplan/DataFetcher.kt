@@ -290,8 +290,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                         sdf.applyPattern(newDateFormat)
                         val sb = StringBuilder()
                         val lastupdated = sb.append(mContext.getText(R.string.lastupdatedK)).append(sdf.format(d)).toString()
-                        Snackbar.make(snackbarview, lastupdated, Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show()
+                        Snackbar.make(snackbarview, lastupdated, Snackbar.LENGTH_LONG).show()
                     }
                 }
             }
@@ -302,8 +301,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     pullToRefresh.isRefreshing = false
                 } catch (ignored: Exception) {}
                 val snackbarview = v.findViewById<View>(R.id.coordination)
-                Snackbar.make(snackbarview, mContext.getText(R.string.nointernet), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show()
+                Snackbar.make(snackbarview, mContext.getText(R.string.nointernet), Snackbar.LENGTH_LONG).show()
             }
         }
         return null
