@@ -23,9 +23,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.jaredrummler.android.device.DeviceName
-import java.lang.NullPointerException
-import java.text.DecimalFormat
-import java.util.*
 
 class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListener {
 
@@ -288,7 +285,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
             val layout = item.findViewById<LinearLayout>(R.id.item_layout)
 
             itemText.text = courses[i]
-            itemImage.setImageDrawable(resources.getDrawable(coursesIcons[i]))
+            itemImage.setImageDrawable(ContextCompat.getDrawable(mContext, coursesIcons[i]))
 
             val courseNoLangTxt = coursesNoLang[i]
             val courseTxt = courses[i]
@@ -392,54 +389,6 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                     } catch (e: ActivityNotFoundException) {
                         Toast.makeText(mContext, R.string.noyoutube, Toast.LENGTH_LONG).show()
                     }
-                }
-                "Q1 Matchmaker" -> {
-                    val gen = Random()
-                    val alertDialogDate = AlertDialog.Builder(mContext, R.style.AlertDialog)
-                    val dateDialogView = LayoutInflater.from(mContext).inflate(R.layout.dating_dialog, null)
-                    val datingBtn = dateDialogView.findViewById<Button>(R.id.dating_btn)
-                    val boyTxt = dateDialogView.findViewById<TextInputEditText>(R.id.dating_txt1)
-                    val girlTxt = dateDialogView.findViewById<TextInputEditText>(R.id.dating_txt2)
-                    val boyCb = dateDialogView.findViewById<CheckBox>(R.id.cb1)
-                    val girlCb = dateDialogView.findViewById<CheckBox>(R.id.cb2)
-                    val percentage = dateDialogView.findViewById<TextView>(R.id.dating_txtp)
-
-                    datingBtn.setOnClickListener {
-                        try {
-                            val dg = MiscData()
-                            if (boyTxt.text.toString().isEmpty() || boyCb.isChecked) {
-                                boyTxt.setText(dg.boy[gen.nextInt(dg.boy.size)])
-                            }
-                            if (girlTxt.text.toString().isEmpty() || girlCb.isChecked) {
-                                girlTxt.setText(dg.girl[gen.nextInt(dg.girl.size)])
-                            }
-
-                            val boyP = boyTxt.text!!.length.toDouble()
-                            val girlP = girlTxt.text!!.length.toDouble()
-
-                            var perc = when {
-                                girlP < boyP -> (girlP / boyP) * 100
-                                else -> (boyP / girlP) * 100
-                            }
-
-                            val boyChar = boyTxt.text.toString()[boyTxt.text.toString().length - 1]
-                            val girlChar = girlTxt.text.toString()[girlTxt.text.toString().length - 1]
-                            val multiply = (Character.getNumericValue(boyChar) + Character.getNumericValue(girlChar)) / 1.2
-                            if (perc == 0.0) {
-                                perc += 30.0
-                            }
-                            val df = DecimalFormat("#.##")
-                            percentage.text = when {
-                                perc * (multiply / 40) > 100 -> "100.00%"
-                                else -> df.format(perc * (multiply / 40)) + "%"
-                            }
-
-                        } catch (e: NullPointerException) {
-                            Toast.makeText(mContext, getString(R.string.error), Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    alertDialogDate.setView(dateDialogView)
-                    alertDialogDate.show()
                 }
                 "@NOTIFICATION" -> {
                     edit.putString("time", "").apply()

@@ -25,6 +25,7 @@ import org.jsoup.select.Elements
 import java.lang.IndexOutOfBoundsException
 import java.net.URL
 import java.net.URLConnection
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -35,7 +36,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
     private var plan = isplan
     private var menu = ismenu
 
-    /*  booleans to improve performance when fetching data
+    /*  booleans to improve speed when fetching data
         "plan" = true is required to fetch the substitution data
         "menu" = true is required to fetch the food menu
         "jobservice" = true is required to send a notification
@@ -48,7 +49,6 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
     private var priority = 200
     private var notifText = ""
     private var informational = ""
-    private var foodList = ArrayList<String>()
     private lateinit var connection: URLConnection
     private lateinit var rows: Elements
     private lateinit var paragraphs: Elements
@@ -154,16 +154,16 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                 doc = Jsoup.connect("https://djd4rkn355.github.io/subst").get()
                 connection = URL("https://djd4rkn355.github.io/subst").openConnection()
                 edit.putString("time", connection.getHeaderField("Last-Modified")).apply()
-                d = Date(connection.getHeaderField("Last-Modified"))
+                d = sdf.parse(connection.getHeaderField("Last-Modified"))
                 rows = doc.select("tr")
                 paragraphs = doc.select("p")
 
-                val groupS = arrayOfNulls<String>(rows.size)
-                val dateS = arrayOfNulls<String>(rows.size)
-                val timeS = arrayOfNulls<String>(rows.size)
-                val courseS = arrayOfNulls<String>(rows.size)
-                val roomS = arrayOfNulls<String>(rows.size)
-                val additionalS = arrayOfNulls<String>(rows.size)
+                val groupS = ArrayList<String>()
+                val dateS = ArrayList<String>()
+                val timeS = ArrayList<String>()
+                val courseS = ArrayList<String>()
+                val roomS = ArrayList<String>()
+                val additionalS = ArrayList<String>()
 
                 mView?.let {
                     progressBar.max = rows.size
@@ -186,38 +186,38 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     val row = rows[i]
                     val cols = row.select("th") as Elements
 
-                    groupS[i] = cols[0].text()
-                    dateS[i] = cols[1].text()
-                    timeS[i] = cols[2].text()
-                    courseS[i] = cols[3].text()
-                    roomS[i] = cols[4].text()
-                    additionalS[i] = cols[5].text()
+                    groupS.add(cols[0].text())
+                    dateS.add(cols[1].text())
+                    timeS.add(cols[2].text())
+                    courseS.add(cols[3].text())
+                    roomS.add(cols[4].text())
+                    additionalS.add(cols[5].text())
                     if (!jobservice) {
                         mView?.let {
                             progressBar.incrementProgressBy(1)
                         }
                     }
 
-                    val drawable = md.getIcon(courseS[i].toString())
-                    val subst = Subst(drawable, groupS[i].toString(), dateS[i].toString(), timeS[i].toString(), courseS[i].toString(),
-                            roomS[i].toString(), additionalS[i].toString(), priority)
+                    val drawable = md.getIcon(courseS[i])
+                    val subst = Subst(drawable, groupS[i], dateS[i], timeS[i], courseS[i],
+                            roomS[i], additionalS[i], priority)
                     priority--
                     substViewModel.insertSubst(subst)
 
                     if (jobservice) {
-                        if (prefs.getString("courses", "").isEmpty() && prefs.getString("classes", "").isNotEmpty()) {
-                            if (groupS[i].toString().isNotEmpty() && !groupS[i].equals("")) {
-                                if (prefs.getString("classes", "").contains(groupS[i].toString()) || groupS[i].toString().contains(prefs.getString("classes", "").toString())) {
+                        if ((prefs.getString("courses", "") ?: "").isEmpty() && (prefs.getString("classes", "") ?: "").isNotEmpty()) {
+                            if (groupS[i].isNotEmpty() && groupS[i] != "") {
+                                if ((prefs.getString("classes", "") ?: "").contains(groupS[i]) || groupS[i].contains((prefs.getString("classes", "") ?: "").toString())) {
                                     if (notifText.isNotEmpty()) {
                                         notifText += ", "
                                     }
                                     notifText += courseS[i] + ": " + additionalS[i]
                                 }
                             }
-                        } else if (prefs.getString("classes", "").isNotEmpty() && prefs.getString("courses", "").isNotEmpty()) {
-                            if (!groupS[i].equals("") && !courseS[i].equals("")) {
-                                if (prefs.getString("courses", "").contains(courseS[i].toString())) {
-                                    if (prefs.getString("classes", "").contains(groupS[i].toString()) || groupS[i].toString().contains(prefs.getString("classes", "").toString())) {
+                        } else if ((prefs.getString("classes", "") ?: "").isNotEmpty() && (prefs.getString("courses", "") ?: "").isNotEmpty()) {
+                            if (groupS[i] != "" && courseS[i] != "") {
+                                if ((prefs.getString("courses", "") ?: "").contains(courseS[i])) {
+                                    if ((prefs.getString("classes", "") ?: "").contains(groupS[i]) || groupS[i].contains((prefs.getString("classes", "") ?: "").toString())) {
                                         if (notifText.isNotEmpty()) {
                                             notifText += ", "
                                         }
@@ -242,11 +242,10 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                         val manager = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                         val channelId = "general"
                         val channelName = mContext.getString(R.string.general)
-                        val importance = NotificationManager.IMPORTANCE_DEFAULT
                         lateinit var channel: NotificationChannel
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            channel = NotificationChannel(channelId, channelName, importance)
+                            channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
                             channel.enableLights(true)
                             channel.lightColor = Color.BLUE
                             manager.createNotificationChannel(channel)
@@ -286,11 +285,11 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     })
                     pullToRefresh.isRefreshing = false
                     if (plan) {
-                        val snackbarview = v.findViewById<View>(R.id.coordination)
+                        val snackBarView = v.findViewById<View>(R.id.coordination)
                         sdf.applyPattern(newDateFormat)
                         val sb = StringBuilder()
-                        val lastupdated = sb.append(mContext.getText(R.string.lastupdatedK)).append(sdf.format(d)).toString()
-                        Snackbar.make(snackbarview, lastupdated, Snackbar.LENGTH_LONG).show()
+                        val lastUpdated = sb.append(mContext.getText(R.string.lastupdatedK)).append(sdf.format(d)).toString()
+                        Snackbar.make(snackBarView, lastUpdated, Snackbar.LENGTH_LONG).show()
                     }
                 }
             }
@@ -300,8 +299,8 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                 try {
                     pullToRefresh.isRefreshing = false
                 } catch (ignored: Exception) {}
-                val snackbarview = v.findViewById<View>(R.id.coordination)
-                Snackbar.make(snackbarview, mContext.getText(R.string.nointernet), Snackbar.LENGTH_LONG).show()
+                val snackBarView = v.findViewById<View>(R.id.coordination)
+                Snackbar.make(snackBarView, mContext.getText(R.string.nointernet), Snackbar.LENGTH_LONG).show()
             }
         }
         return null
