@@ -19,7 +19,9 @@
         android:layout_marginEnd="8dp"
         app:layout_anchor="@+id/bottom_sheet"
         android:layout_gravity="top"
-        android:background="@color/lighthintcolor"/>
+        android:background="@color/lighthintcolor"
+        android:clickable="false"
+        android:focusable="false"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"

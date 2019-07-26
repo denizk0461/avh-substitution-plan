@@ -325,7 +325,9 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         for (i2 in 0 until buttons.size) {
             buttons[i2].setOnClickListener {
                 prefs.edit().putInt("bg$titleNoLang", colours[i2]).apply()
+                val recyclerViewState = colourRecycler.layoutManager?.onSaveInstanceState()
                 colourRecycler.adapter = ColourAdapter(getColourList(), this)
+                colourRecycler.layoutManager?.onRestoreInstanceState(recyclerViewState)
                 colourPickerDialog.dismiss()
             }
         }

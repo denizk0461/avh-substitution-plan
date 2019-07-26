@@ -5,12 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 
 class ColourAdapter(private var mColours: List<Colour>, onClickListener: OnClickListener) : RecyclerView.Adapter<ColourAdapter.ColourViewHolder>() {
@@ -21,6 +18,7 @@ class ColourAdapter(private var mColours: List<Colour>, onClickListener: OnClick
         val title: TextView = view.findViewById(R.id.item_text)
         var image: ImageView = view.findViewById(R.id.item_image)
         val titleNoLang: TextView = view.findViewById(R.id.item_text_no_lang)
+        val cardView: MaterialCardView = view.findViewById(R.id.cardView)
         val mClickListener = clickListener
         init { view.setOnClickListener(this) }
 
@@ -40,9 +38,12 @@ class ColourAdapter(private var mColours: List<Colour>, onClickListener: OnClick
         holder.title.text = currentItem.title
         holder.titleNoLang.text = currentItem.titleNoLang
         holder.image.setImageDrawable(ContextCompat.getDrawable(holder.image.context, currentItem.icon))
-        if (currentItem.colour != 0) {
-            holder.image.drawable.setTint(ContextCompat.getColor(holder.image.context, currentItem.colour))
+        val colour = if (currentItem.colour != 0) {
+            currentItem.colour
+        } else {
+            R.color.lightbackground
         }
+        holder.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.image.context, colour))
     }
 
     override fun getItemCount(): Int = mColours.size

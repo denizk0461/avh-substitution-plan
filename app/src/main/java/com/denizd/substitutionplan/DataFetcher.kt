@@ -3,7 +3,6 @@ package com.denizd.substitutionplan
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.media.RingtoneManager
 import android.os.AsyncTask
@@ -20,11 +19,9 @@ import androidx.core.app.NotificationCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
 import java.lang.IndexOutOfBoundsException
 import java.net.URL
-import java.net.URLConnection
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -48,18 +45,10 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
     private var priority = 200
     private var notifText = ""
     private var informational = ""
-    private lateinit var connection: URLConnection
-    private lateinit var rows: Elements
-    private lateinit var paragraphs: Elements
-    private lateinit var foodElements: Elements
-    private lateinit var doc: Document
-    private lateinit var docFood: Document
-    private val prefs = PreferenceManager.getDefaultSharedPreferences(mContext) as SharedPreferences
-    private val edit = prefs.edit() as SharedPreferences.Editor
+    private val prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
+    private val edit = prefs.edit()
     private lateinit var pullToRefresh: SwipeRefreshLayout
     private lateinit var progressBar: ProgressBar
-    private val substViewModel = SubstViewModel(mApplication)
-    private val foodViewModel = FoodViewModel(mApplication)
     private val oldDateFormat = "EEE, dd MMM yyyy HH:mm:ss zzz"
     private val newDateFormat = "yyyy-MM-dd, HH:mm:ss"
     private var sdf = SimpleDateFormat(oldDateFormat)
@@ -75,8 +64,9 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                 progressBar.progress = 0
             }
             if (menu) {
-                docFood = Jsoup.connect("https://djd4rkn355.github.io/food.html").get()
-                foodElements = docFood.select("th")
+                val foodViewModel = FoodViewModel(mApplication)
+                val docFood = Jsoup.connect("https://djd4rkn355.github.io/food.html").get()
+                val foodElements = docFood.select("th")
 
                 mView?.let {
                     progressBar.max = foodElements.size
@@ -150,12 +140,13 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
             }
 
             if (plan) {
-                doc = Jsoup.connect("https://djd4rkn355.github.io/subst").get()
-                connection = URL("https://djd4rkn355.github.io/subst").openConnection()
+                val substViewModel = SubstViewModel(mApplication)
+                val doc = Jsoup.connect("https://djd4rkn355.github.io/subst_test").get()
+                val connection = URL("https://djd4rkn355.github.io/subst").openConnection()
                 edit.putString("time", connection.getHeaderField("Last-Modified")).apply()
                 d = sdf.parse(connection.getHeaderField("Last-Modified"))
-                rows = doc.select("tr")
-                paragraphs = doc.select("p")
+                val rows = doc.select("tr")
+                val paragraphs = doc.select("p")
 
                 val groupS = ArrayList<String>()
                 val dateS = ArrayList<String>()
@@ -179,8 +170,6 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
 
                 substViewModel.deleteAllSubst()
 
-                val md = MiscData()
-
                 for (i in 0 until rows.size) {
                     val row = rows[i]
                     val cols = row.select("th") as Elements
@@ -197,7 +186,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                         }
                     }
 
-                    val drawable = md.getIcon(courseS[i])
+                    val drawable = MiscData.getIcon(courseS[i])
                     val subst = Subst(drawable, groupS[i], dateS[i], timeS[i], courseS[i],
                             roomS[i], additionalS[i], priority)
                     priority--
@@ -231,7 +220,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     val openApp = Intent(mContext, Main::class.java)
                     openApp.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     openApp.flags += Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    val openAppPending = PendingIntent.getActivity(mContext, 0, openApp, 0) // PendingIntent.FLAG_ONE_SHOT
+                    val openAppPending = PendingIntent.getActivity(mContext, 0, openApp, 0)
 
                     val notificationLayout = RemoteViews(mContext.packageName, R.layout.notification)
                     notificationLayout.setTextViewText(R.id.notification_title, mContext.getString(R.string.subst))
@@ -241,10 +230,9 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                         val manager = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                         val channelId = "general"
                         val channelName = mContext.getString(R.string.general)
-                        lateinit var channel: NotificationChannel
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
+                            val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
                             channel.enableLights(true)
                             channel.lightColor = Color.BLUE
                             manager.createNotificationChannel(channel)

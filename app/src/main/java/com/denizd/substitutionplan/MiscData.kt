@@ -1,6 +1,6 @@
 package com.denizd.substitutionplan
 
-class MiscData {
+object MiscData {
 
     fun emoji(unicode: Int): String { return String(Character.toChars(unicode)) }
 
