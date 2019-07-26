@@ -21,4 +21,10 @@
         android:textColor="@color/textcolor"
         android:layout_gravity="center_vertical"/>
 
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/item_text_no_lang"
+        android:visibility="gone"/>
+
 </LinearLayout>

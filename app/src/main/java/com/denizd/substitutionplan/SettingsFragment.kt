@@ -19,12 +19,14 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.jaredrummler.android.device.DeviceName
 
-class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListener {
+class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListener, ColourAdapter.OnClickListener {
 
     private lateinit var name: String
     private lateinit var model: String
@@ -36,6 +38,8 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
     private val customTabsIntent = builder.build() as CustomTabsIntent
     private var cs: Int = 7
     private var window: Window? = null
+    private lateinit var colourRecycler: RecyclerView
+    private lateinit var colourAdapter: ColourAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -61,14 +65,9 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         val switchOpenInfo = view.findViewById<Switch>(R.id.switchOpenInfo)
         val switchAutoRefresh = view.findViewById<Switch>(R.id.switchAutoRefresh)
         val versionNumber = view.findViewById<TextView>(R.id.txtVersionTwo)
-
         val helpCourses = view.findViewById<ImageButton>(R.id.chipHelpCourses)
         val helpClasses = view.findViewById<ImageButton>(R.id.chipHelpClasses)
         val btnCustomiseColours = view.findViewById<LinearLayout>(R.id.btnCustomiseColours)
-        val btnWebsite = view.findViewById<LinearLayout>(R.id.btnWebsite)
-        val btnLicences = view.findViewById<LinearLayout>(R.id.btnLicences)
-        val btnTerms = view.findViewById<LinearLayout>(R.id.btnTerms)
-        val btnPrivacy = view.findViewById<LinearLayout>(R.id.btnPrivacyP)
         val btnVersion = view.findViewById<LinearLayout>(R.id.btnVersion)
 
         switchDisableGreeting.setOnClickListener(this)
@@ -81,10 +80,10 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         helpCourses.setOnClickListener(this)
         helpClasses.setOnClickListener(this)
         btnCustomiseColours.setOnClickListener(this)
-        btnWebsite.setOnClickListener(this)
-        btnLicences.setOnClickListener(this)
-        btnTerms.setOnClickListener(this)
-        btnPrivacy.setOnClickListener(this)
+        view.findViewById<LinearLayout>(R.id.btnWebsite).setOnClickListener(this)
+        view.findViewById<LinearLayout>(R.id.btnLicences).setOnClickListener(this)
+        view.findViewById<LinearLayout>(R.id.btnTerms).setOnClickListener(this)
+        view.findViewById<LinearLayout>(R.id.btnPrivacyP).setOnClickListener(this)
         btnVersion.setOnClickListener(this)
 
         switchDisableGreeting.isChecked = prefs.getBoolean("greeting", true)
@@ -266,80 +265,71 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
     }
 
     private fun createColourDialog() {
+        val colourCustomiserBuilder = AlertDialog.Builder(mContext, R.style.AlertDialog)
 
+        val dialogView = LayoutInflater.from(mContext).inflate(R.layout.recycler_dialog, null)
+        val titleText = dialogView.findViewById<TextView>(R.id.empty_textviewtitle)
+        titleText.text = getString(R.string.customisecolor1)
+        colourRecycler = dialogView.findViewById(R.id.recyclerView)
+
+        colourRecycler.layoutManager = GridLayoutManager(mContext, 1)
+        colourRecycler.adapter = ColourAdapter(getColourList(), this)
+
+//        val button = LayoutInflater.from(mContext).inflate(R.layout.forever_alone_button, null)
+//        val buttonClearAll = button.findViewById<MaterialButton>(R.id.buttonclearallcolours)
+//        emptyLayout.addView(button)
+        colourCustomiserBuilder.setView(dialogView)
+        val colourCustomiserDialog = colourCustomiserBuilder.create()
+//
+//        buttonClearAll.setOnClickListener {
+//            for (course in coursesNoLang) {
+//                edit.putInt("bg$course", 0)
+//            }
+//            edit.apply()
+//            Toast.makeText(mContext, getString(R.string.allcolourscleared),
+//                    Toast.LENGTH_LONG).show()
+//            colourCustomiserDialog.cancel()
+//        }
+
+        colourCustomiserDialog.show()
+
+    }
+
+    private fun getColourList(): ArrayList<Colour> {
+        val colours = ArrayList<Colour>()
         val coursesNoLang = arrayOf("German", "English", "French", "Spanish", "Latin", "Turkish", "Chinese", "Arts", "Music", "Theatre", "Geography", "History", "Politics", "Philosophy", "Religion", "Maths", "Biology", "Chemistry", "Physics", "CompSci", "PhysEd", "GLL", "WAT", "Forder", "WP")
         val courses = arrayOf(getString(R.string.courseDeu), getString(R.string.courseEng), getString(R.string.courseFra), getString(R.string.courseSpa), getString(R.string.courseLat), getString(R.string.courseTue), getString(R.string.courseChi), getString(R.string.courseKun), getString(R.string.courseMus), getString(R.string.courseDar), getString(R.string.courseGeg), getString(R.string.courseGes), getString(R.string.coursePol), getString(R.string.coursePhi), getString(R.string.courseRel), getString(R.string.courseMat), getString(R.string.courseBio), getString(R.string.courseChe), getString(R.string.coursePhy), getString(R.string.courseInf), getString(R.string.courseSpo), getString(R.string.courseGll), getString(R.string.courseWat), getString(R.string.courseFor), getString(R.string.courseWp))
         val coursesIcons = intArrayOf(R.drawable.ic_german, R.drawable.ic_english, R.drawable.ic_french, R.drawable.ic_spanish, R.drawable.ic_latin, R.drawable.ic_turkish, R.drawable.ic_chinese, R.drawable.ic_arts, R.drawable.ic_music, R.drawable.ic_drama, R.drawable.ic_geography, R.drawable.ic_history, R.drawable.ic_politics, R.drawable.ic_philosophy, R.drawable.ic_religion, R.drawable.ic_maths, R.drawable.ic_biology, R.drawable.ic_chemistry, R.drawable.ic_physics, R.drawable.ic_compsci, R.drawable.ic_pe, R.drawable.ic_gll, R.drawable.ic_wat, R.drawable.ic_help, R.drawable.ic_pencil)
 
-        val colourCustomiserBuilder = AlertDialog.Builder(mContext, R.style.AlertDialog)
-
-        val dialogView = LayoutInflater.from(mContext).inflate(R.layout.empty_dialog, null)
-        val titleText = dialogView.findViewById<TextView>(R.id.empty_textviewtitle)
-        titleText.text = getString(R.string.customisecolor1)
-        val emptyLayout = dialogView.findViewById<LinearLayout>(R.id.empty_linearlayout)
-
         for (i in 0 until coursesNoLang.size) {
-            val item = LayoutInflater.from(mContext).inflate(R.layout.list_item, null)
-            val itemText = item.findViewById<TextView>(R.id.item_text)
-            val itemImage = item.findViewById<ImageView>(R.id.item_image)
-            val layout = item.findViewById<LinearLayout>(R.id.item_layout)
-
-            itemText.text = courses[i]
-            itemImage.setImageDrawable(ContextCompat.getDrawable(mContext, coursesIcons[i]))
-
-            val courseNoLangTxt = coursesNoLang[i]
-            val courseTxt = courses[i]
-
-            if (prefs.getInt("bg" + coursesNoLang[i], 0) != 0) {
-//                itemText.setTextColor(ContextCompat.getColor(mContext, prefs.getInt("col$courseNoLangTxt", 0)))
-                itemImage.drawable.setTint(ContextCompat.getColor(mContext, prefs.getInt("bg$courseNoLangTxt", 0)))
-            }
-
-            layout.setOnClickListener {
-                val colourPickerBuilder = AlertDialog.Builder(mContext, R.style.AlertDialog)
-                val pickerDialogView = LayoutInflater.from(mContext).inflate(R.layout.empty_dialog, null)
-                val pickerTitleText = pickerDialogView.findViewById<TextView>(R.id.empty_textviewtitle)
-                val pickerLayout = pickerDialogView.findViewById<LinearLayout>(R.id.empty_linearlayout)
-                pickerTitleText.text = courseTxt
-
-                val picker = LayoutInflater.from(mContext).inflate(R.layout.bg_colour_picker, null)
-                pickerLayout.addView(picker)
-                colourPickerBuilder.setView(pickerDialogView)
-                val colourPickerDialog: AlertDialog = colourPickerBuilder.create()
-
-                val buttons = arrayOf<MaterialButton>(picker.findViewById(R.id.def), picker.findViewById(R.id.red), picker.findViewById(R.id.orange), picker.findViewById(R.id.yellow), picker.findViewById(R.id.green), picker.findViewById(R.id.teal), picker.findViewById(R.id.cyan), picker.findViewById(R.id.blue), picker.findViewById(R.id.purple), picker.findViewById(R.id.pink), picker.findViewById(R.id.brown), picker.findViewById(R.id.grey))
-                val colours = intArrayOf(0, R.color.bgred, R.color.bgorange, R.color.bgyellow, R.color.bggreen, R.color.bgteal, R.color.bgcyan, R.color.bgblue, R.color.bgpurple, R.color.bgpink, R.color.bgbrown, R.color.bggrey)
-
-                for (i2 in 0 until buttons.size) {
-                    buttons[i2].setOnClickListener {
-                        edit.putInt("bg$courseNoLangTxt", colours[i2]).apply()
-                        colourPickerDialog.dismiss()
-                    }
-                }
-
-                colourPickerDialog.show()
-            }
-            emptyLayout.addView(item)
+            colours.add(Colour(courses[i], coursesNoLang[i], coursesIcons[i], prefs.getInt("bg${coursesNoLang[i]}", 0)))
         }
+        return colours
+    }
 
-        val button = LayoutInflater.from(mContext).inflate(R.layout.forever_alone_button, null)
-        val buttonClearAll = button.findViewById<MaterialButton>(R.id.buttonclearallcolours)
-        emptyLayout.addView(button)
-        colourCustomiserBuilder.setView(dialogView)
-        val colourCustomiserDialog = colourCustomiserBuilder.create()
+    override fun onClick(position: Int, title: String, titleNoLang: String) {
+        val colourPickerBuilder = AlertDialog.Builder(mContext, R.style.AlertDialog)
+        val pickerDialogView = LayoutInflater.from(mContext).inflate(R.layout.empty_dialog, null)
+        val pickerTitleText = pickerDialogView.findViewById<TextView>(R.id.empty_textviewtitle)
+        val pickerLayout = pickerDialogView.findViewById<LinearLayout>(R.id.empty_linearlayout)
+        pickerTitleText.text = title
 
-        buttonClearAll.setOnClickListener {
-            for (course in coursesNoLang) {
-                edit.putInt("bg$course", 0)
+        val picker = LayoutInflater.from(mContext).inflate(R.layout.bg_colour_picker, null)
+        pickerLayout.addView(picker)
+        colourPickerBuilder.setView(pickerDialogView)
+        val colourPickerDialog: AlertDialog = colourPickerBuilder.create()
+
+        val buttons = arrayOf<MaterialButton>(picker.findViewById(R.id.def), picker.findViewById(R.id.red), picker.findViewById(R.id.orange), picker.findViewById(R.id.yellow), picker.findViewById(R.id.green), picker.findViewById(R.id.teal), picker.findViewById(R.id.cyan), picker.findViewById(R.id.blue), picker.findViewById(R.id.purple), picker.findViewById(R.id.pink), picker.findViewById(R.id.brown), picker.findViewById(R.id.grey))
+        val colours = intArrayOf(0, R.color.bgred, R.color.bgorange, R.color.bgyellow, R.color.bggreen, R.color.bgteal, R.color.bgcyan, R.color.bgblue, R.color.bgpurple, R.color.bgpink, R.color.bgbrown, R.color.bggrey)
+
+        for (i2 in 0 until buttons.size) {
+            buttons[i2].setOnClickListener {
+                prefs.edit().putInt("bg$titleNoLang", colours[i2]).apply()
+                colourRecycler.adapter = ColourAdapter(getColourList(), this)
+                colourPickerDialog.dismiss()
             }
-            edit.apply()
-            Toast.makeText(mContext, getString(R.string.allcolourscleared),
-                    Toast.LENGTH_LONG).show()
-            colourCustomiserDialog.cancel()
         }
-
-        colourCustomiserDialog.show()
-
+        colourPickerDialog.show()
     }
 
     private fun debugMenu(): Boolean {

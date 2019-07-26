@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background"
+    tools:context=".SettingsFragment">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvsettings"
@@ -574,7 +576,7 @@
                         android:textColor="@color/textcolor"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/txtLicences"
-                        app:layout_constraintTop_toBottomOf="@+id/txtWhatittook" />
+                        app:layout_constraintTop_toBottomOf="@+id/txtWhatittook"/>
 
                     <TextView
                         android:id="@+id/txtTermsTwo"
@@ -600,7 +602,8 @@
                         app:layout_constraintBottom_toTopOf="@+id/txtPrivacyP"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txtWhatittook" />
+                        app:layout_constraintTop_toBottomOf="@+id/txtWhatittook"
+                        android:onClick="onClick"/>
 
                     <TextView
                         android:id="@+id/txtPrivacyP"

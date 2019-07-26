@@ -25,7 +25,6 @@ import org.jsoup.select.Elements
 import java.lang.IndexOutOfBoundsException
 import java.net.URL
 import java.net.URLConnection
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -251,24 +250,14 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                             manager.createNotificationChannel(channel)
                         }
 
-                        val notification = when (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            true -> NotificationCompat.Builder(mContext) // TODO switch out the deprecated notification delivery method
-                                    .setStyle(NotificationCompat.DecoratedCustomViewStyle())
-                                    .setCustomContentView(notificationLayout)
-                                    .setSmallIcon(R.drawable.ic_avh)
-                                    .setChannelId(channelId)
-                                    .setContentIntent(openAppPending)
-                                    .setAutoCancel(true)
-                                    .build()
-                            false -> NotificationCompat.Builder(mContext)
-                                    .setStyle(NotificationCompat.DecoratedCustomViewStyle())
-                                    .setCustomContentView(notificationLayout)
-                                    .setSmallIcon(R.drawable.ic_avh)
-                                    .setContentIntent(openAppPending)
-                                    .setAutoCancel(true)
-                                    .build()
-                        }
-                        notification.sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                        val notification = NotificationCompat.Builder(mContext, channelId)
+                                .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+                                .setCustomContentView(notificationLayout)
+                                .setSmallIcon(R.drawable.ic_avh)
+                                .setContentIntent(openAppPending)
+                                .setAutoCancel(true)
+                                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                                .build()
                         manager.notify(1, notification)
                     }
                 }
