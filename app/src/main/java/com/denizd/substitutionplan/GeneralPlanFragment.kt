@@ -12,7 +12,6 @@ class GeneralPlanFragment : PlanFragment() {
         substViewModel.allSubst?.observe(this, Observer<List<Subst>> {
             mAdapter.setSubst(it)
             recyclerView.scheduleLayoutAnimation()
-            bottomSheetText.text = prefs.getString("informational", getString(R.string.noinfo))
         })
     }
 }

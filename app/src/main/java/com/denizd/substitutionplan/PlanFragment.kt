@@ -10,12 +10,10 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import java.util.*
 import kotlin.collections.ArrayList
 
 open class PlanFragment : Fragment(R.layout.plan) {
@@ -23,7 +21,6 @@ open class PlanFragment : Fragment(R.layout.plan) {
     lateinit var mAdapter: CardAdapter
     private lateinit var layoutManager: GridLayoutManager
     val planCardList = ArrayList<Subst>()
-    lateinit var bottomSheetText: TextView
     lateinit var substViewModel: SubstViewModel
     lateinit var mContext: Context
     lateinit var prefs: SharedPreferences
@@ -64,8 +61,6 @@ open class PlanFragment : Fragment(R.layout.plan) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val pullToRefresh = view.findViewById<SwipeRefreshLayout>(R.id.pullToRefresh)
-        bottomSheetText = view.rootView.findViewById(R.id.bottom_sheet_text)
-        bottomSheetText.text = prefs.getString("informational", getString(R.string.noinfo))
 
         recyclerView = view.findViewById(R.id.linearRecycler)
         recyclerView.hasFixedSize()
@@ -100,14 +95,12 @@ open class PlanFragment : Fragment(R.layout.plan) {
         if (prefs.getBoolean("autoRefresh", false)) {
             pullToRefresh.isRefreshing = true
             DataFetcher(true, false, false, mContext, activity!!.application, view.rootView).execute()
-            bottomSheetText.text = prefs.getString("informational", getString(R.string.noinfo))
         }
         substViewModel = ViewModelProviders.of(this).get(SubstViewModel::class.java)
 
         pullToRefresh.setOnRefreshListener {
             pullToRefresh.isRefreshing = true
             DataFetcher(true, false, false, mContext, activity!!.application, view.rootView).execute()
-            bottomSheetText.text = prefs.getString("informational", getString(R.string.noinfo))
         }
     }
 }

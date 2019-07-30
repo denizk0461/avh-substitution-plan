@@ -12,14 +12,14 @@
         android:title="@string/personal"
         android:enabled="true"/>
     <item
-        android:id="@+id/menu"
-        android:icon="@drawable/ic_tomato"
-        android:title="@string/menu"
-        android:enabled="true"/>
-    <item
         android:id="@+id/openinfopanel"
         android:icon="@drawable/ic_information"
         android:title=""
+        android:enabled="true"/>
+    <item
+        android:id="@+id/menu"
+        android:icon="@drawable/ic_tomato"
+        android:title="@string/menu"
         android:enabled="true"/>
     <item
         android:id="@+id/settings"

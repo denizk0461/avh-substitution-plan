@@ -21,9 +21,6 @@ import com.google.android.material.snackbar.Snackbar
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
 import java.lang.IndexOutOfBoundsException
-import java.net.URL
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, context: Context, application: Application, parentview: View?) : AsyncTask<Void, Void, Void>() {
@@ -139,7 +136,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
             if (plan) {
                 val substViewModel = SubstViewModel(mApplication)
                 val doc = Jsoup.connect("https://djd4rkn355.github.io/subst_test").get()
-                currentTime = doc.select("h1").text()
+                currentTime = doc.select("h1")[0].text()
                 if (currentTime != prefs.getString("time", "")) {
                     val rows = doc.select("tr")
                     val paragraphs = doc.select("p")

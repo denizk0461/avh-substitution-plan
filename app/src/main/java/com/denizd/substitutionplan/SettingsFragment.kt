@@ -26,7 +26,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.jaredrummler.android.device.DeviceName
 
-class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListener, ColourAdapter.OnClickListener {
+class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListener, CompoundButton.OnCheckedChangeListener, ColourAdapter.OnClickListener {
 
     private lateinit var name: String
     private lateinit var model: String
@@ -59,7 +59,6 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
 
         val switchDisableGreeting = view.findViewById<Switch>(R.id.switchDisableGreeting)
         val switchDark = view.findViewById<Switch>(R.id.switchDark)
-        val switchHideInfo = view.findViewById<Switch>(R.id.switchHideInfo)
         val switchNotifications = view.findViewById<Switch>(R.id.switchNotifications)
         val switchDefaultPlan = view.findViewById<Switch>(R.id.switchDefaultPlan)
         val switchOpenInfo = view.findViewById<Switch>(R.id.switchOpenInfo)
@@ -70,13 +69,12 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         val btnCustomiseColours = view.findViewById<LinearLayout>(R.id.btnCustomiseColours)
         val btnVersion = view.findViewById<LinearLayout>(R.id.btnVersion)
 
-        switchDisableGreeting.setOnClickListener(this)
-        switchDark.setOnClickListener(this)
-        switchHideInfo.setOnClickListener(this)
-        switchNotifications.setOnClickListener(this)
-        switchDefaultPlan.setOnClickListener(this)
-        switchOpenInfo.setOnClickListener(this)
-        switchAutoRefresh.setOnClickListener(this)
+        switchDisableGreeting.setOnCheckedChangeListener(this)
+        switchDark.setOnCheckedChangeListener(this)
+        switchNotifications.setOnCheckedChangeListener(this)
+        switchDefaultPlan.setOnCheckedChangeListener(this)
+        switchOpenInfo.setOnCheckedChangeListener(this)
+        switchAutoRefresh.setOnCheckedChangeListener(this)
         helpCourses.setOnClickListener(this)
         helpClasses.setOnClickListener(this)
         btnCustomiseColours.setOnClickListener(this)
@@ -91,7 +89,6 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
             1 -> true
             else -> false
         }
-        switchHideInfo.isChecked = prefs.getBoolean("showinfotab", true)
         switchNotifications.isChecked = prefs.getBoolean("notif", false)
         switchDefaultPlan.isChecked = prefs.getBoolean("defaultPersonalised", false)
         switchOpenInfo.isChecked = prefs.getBoolean("openInfo", false)
@@ -136,54 +133,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         when (v?.id) {
             R.id.chipHelpCourses -> createDialog(getString(R.string.helpCoursesTitle), getString(R.string.helpCourses))
             R.id.chipHelpClasses -> createDialog(getString(R.string.helpClassesTitle), getString(R.string.helpClasses))
-            R.id.switchDisableGreeting -> {
-                val switchDisableGreeting = v.findViewById<Switch>(R.id.switchDisableGreeting)
-                if (switchDisableGreeting.isChecked) edit.putBoolean("greeting", true) else edit.putBoolean("greeting", false)
-            }
-            R.id.switchDark -> {
-                val switchDark = v.findViewById<Switch>(R.id.switchDark)
-                val bottomNav = v.rootView.findViewById<BottomNavigationView>(R.id.bottom_nav)
-                if (switchDark.isChecked) {
-                    edit.putInt("themeInt", 1)
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
-                    window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.background)
-
-                } else {
-                    edit.putInt("themeInt", 0)
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                        window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.background)
-                    }
-                }
-                if (prefs.getBoolean("defaultPersonalised", false)) {
-                    bottomNav.selectedItemId = R.id.personal
-                } else {
-                    bottomNav.selectedItemId = R.id.plan
-                }
-            }
-            R.id.switchHideInfo -> {
-                val switchHideInfo = v.findViewById<Switch>(R.id.switchHideInfo)
-                if (switchHideInfo.isChecked) edit.putBoolean("showinfotab", true) else edit.putBoolean("showinfotab", false)
-            }
             R.id.btnCustomiseColours -> createColourDialog()
-            R.id.switchNotifications -> {
-                val switchNotifications = v.findViewById<Switch>(R.id.switchNotifications)
-                if (switchNotifications.isChecked) edit.putBoolean("notif", true) else edit.putBoolean("notif", false)
-            }
-            R.id.switchDefaultPlan -> {
-                val switchDefaultPlan = v.findViewById<Switch>(R.id.switchDefaultPlan)
-                if (switchDefaultPlan.isChecked) edit.putBoolean("defaultPersonalised", true) else edit.putBoolean("defaultPersonalised", false)
-            }
-            R.id.switchOpenInfo -> {
-                val switchOpenInfo = v.findViewById<Switch>(R.id.switchOpenInfo)
-                if (switchOpenInfo.isChecked) edit.putBoolean("openInfo", true) else edit.putBoolean("openInfo", false)
-            }
-            R.id.switchAutoRefresh -> {
-                val switchAutoRefresh = v.findViewById<Switch>(R.id.switchAutoRefresh)
-                if (switchAutoRefresh.isChecked) edit.putBoolean("autoRefresh", true) else edit.putBoolean("autoRefresh", false)
-            }
             R.id.btnWebsite -> {
                 try {
                     customTabsIntent.launchUrl(mContext, Uri.parse("http://307.joomla.schule.bremen.de"))
@@ -254,13 +204,56 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         edit.apply()
     }
 
+    override fun onCheckedChanged(v: CompoundButton?, isChecked: Boolean) {
+        if (v?.isPressed == true) {
+            when (v.id) {
+                R.id.switchDisableGreeting -> {
+                    edit.putBoolean("greeting", isChecked)
+                }
+                R.id.switchDark -> {
+                    val bottomNav = v.rootView.findViewById<BottomNavigationView>(R.id.bottom_nav)
+                    if (isChecked) {
+                        edit.putInt("themeInt", 1)
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                        window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+                        window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.background)
+
+                    } else {
+                        edit.putInt("themeInt", 0)
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                            window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.background)
+                        }
+                    }
+                    if (prefs.getBoolean("defaultPersonalised", false)) {
+                        bottomNav.selectedItemId = R.id.personal
+                    } else {
+                        bottomNav.selectedItemId = R.id.plan
+                    }
+                }
+                R.id.switchNotifications -> {
+                    edit.putBoolean("notif", isChecked)
+                }
+                R.id.switchDefaultPlan -> {
+                    edit.putBoolean("defaultPersonalised", isChecked)
+                }
+                R.id.switchOpenInfo -> {
+                    edit.putBoolean("openInfo", isChecked)
+                }
+                R.id.switchAutoRefresh -> {
+                    edit.putBoolean("autoRefresh", isChecked)
+                }
+            }
+            edit.apply()
+        }
+    }
+
     private fun createDialog(title: String, text: String) {
         val alertDialog = AlertDialog.Builder(mContext, R.style.AlertDialog)
         val dialogView = LayoutInflater.from(mContext).inflate(R.layout.simple_dialog, null)
-        val dialogTitle = dialogView.findViewById<TextView>(R.id.textviewtitle)
-        val dialogText = dialogView.findViewById<TextView>(R.id.dialogtext)
-        dialogTitle.text = title
-        dialogText.text = text
+        dialogView.findViewById<TextView>(R.id.textviewtitle).text = title
+        dialogView.findViewById<TextView>(R.id.dialogtext).text = text
         alertDialog.setView(dialogView).show()
     }
 

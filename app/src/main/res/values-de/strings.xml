@@ -56,8 +56,8 @@
     <string name="version">Versionsnummer</string>
     <string name="privacy">Datenschutzerklärung</string>
     <string name="tac">AGB</string>
-    <string name="tactwo">Überprüfe die AGB der App</string>
-    <string name="privacytwo">Überprüfe die Datenschutzerklärung der App</string>
+    <string name="tactwo">Überprüfe die AGB der App (Englisch)</string>
+    <string name="privacytwo">Überprüfe die Datenschutzerklärung der App (Englisch)</string>
     <string name="noinfo">Keine Informationen verfügbar</string>
     <string name="information">Informationen</string>
     <string name="devby">Entwickelt von Deniz :)</string>
