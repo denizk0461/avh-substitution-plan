@@ -49,12 +49,9 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
     private val edit = prefs.edit()
     private lateinit var pullToRefresh: SwipeRefreshLayout
     private lateinit var progressBar: ProgressBar
-    private val oldDateFormat = "EEE, dd MMM yyyy HH:mm:ss zzz"
-    private val newDateFormat = "yyyy-MM-dd, HH:mm:ss"
-    private var sdf = SimpleDateFormat(oldDateFormat)
-    private lateinit var d: Date
     private val fadeOut = AnimationUtils.loadAnimation(mContext, R.anim.fade_out)
     private val handler = Handler(Looper.getMainLooper())
+    var currentTime = ""
 
     override fun doInBackground(vararg params: Void?): Void? {
         try {
@@ -142,111 +139,120 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
             if (plan) {
                 val substViewModel = SubstViewModel(mApplication)
                 val doc = Jsoup.connect("https://djd4rkn355.github.io/subst_test").get()
-                val connection = URL("https://djd4rkn355.github.io/subst").openConnection()
-                edit.putString("time", connection.getHeaderField("Last-Modified")).apply()
-                d = sdf.parse(connection.getHeaderField("Last-Modified"))
-                val rows = doc.select("tr")
-                val paragraphs = doc.select("p")
+                currentTime = doc.select("h1").text()
+                if (currentTime != prefs.getString("time", "")) {
+                    val rows = doc.select("tr")
+                    val paragraphs = doc.select("p")
 
-                val groupS = ArrayList<String>()
-                val dateS = ArrayList<String>()
-                val timeS = ArrayList<String>()
-                val courseS = ArrayList<String>()
-                val roomS = ArrayList<String>()
-                val additionalS = ArrayList<String>()
+                    val groupS = ArrayList<String>()
+                    val dateS = ArrayList<String>()
+                    val timeS = ArrayList<String>()
+                    val courseS = ArrayList<String>()
+                    val roomS = ArrayList<String>()
+                    val additionalS = ArrayList<String>()
 
-                mView?.let {
-                    progressBar.max = rows.size
-                }
-
-                for (i in 0 until paragraphs.size) {
-                    if (i == 0) {
-                        informational = paragraphs[i].text()
-                    } else {
-                        informational += "\n\n" + paragraphs[i].text()
+                    mView?.let {
+                        progressBar.max = rows.size
                     }
-                }
-                edit.putString("informational", informational).apply()
 
-                substViewModel.deleteAllSubst()
-
-                for (i in 0 until rows.size) {
-                    val row = rows[i]
-                    val cols = row.select("th") as Elements
-
-                    groupS.add(cols[0].text())
-                    dateS.add(cols[1].text())
-                    timeS.add(cols[2].text())
-                    courseS.add(cols[3].text())
-                    roomS.add(cols[4].text())
-                    additionalS.add(cols[5].text())
-                    if (!jobservice) {
-                        mView?.let {
-                            progressBar.incrementProgressBy(1)
+                    for (i in 0 until paragraphs.size) {
+                        if (i == 0) {
+                            informational = paragraphs[i].text()
+                        } else {
+                            informational += "\n\n" + paragraphs[i].text()
                         }
                     }
+                    edit.putString("informational", informational).apply()
 
-                    val drawable = MiscData.getIcon(courseS[i])
-                    val subst = Subst(drawable, groupS[i], dateS[i], timeS[i], courseS[i],
-                            roomS[i], additionalS[i], priority)
-                    priority--
-                    substViewModel.insertSubst(subst)
+                    substViewModel.deleteAllSubst()
 
-                    if (jobservice) {
-                        if ((prefs.getString("courses", "") ?: "").isEmpty() && (prefs.getString("classes", "") ?: "").isNotEmpty()) {
-                            if (groupS[i].isNotEmpty() && groupS[i] != "") {
-                                if ((prefs.getString("classes", "") ?: "").contains(groupS[i]) || groupS[i].contains((prefs.getString("classes", "") ?: "").toString())) {
-                                    if (notifText.isNotEmpty()) {
-                                        notifText += ", "
-                                    }
-                                    notifText += courseS[i] + ": " + additionalS[i]
-                                }
+                    for (i in 0 until rows.size) {
+                        val row = rows[i]
+                        val cols = row.select("th") as Elements
+
+                        groupS.add(cols[0].text())
+                        dateS.add(cols[1].text())
+                        timeS.add(cols[2].text())
+                        courseS.add(cols[3].text())
+                        roomS.add(cols[4].text())
+                        additionalS.add(cols[5].text())
+                        if (!jobservice) {
+                            mView?.let {
+                                progressBar.incrementProgressBy(1)
                             }
-                        } else if ((prefs.getString("classes", "") ?: "").isNotEmpty() && (prefs.getString("courses", "") ?: "").isNotEmpty()) {
-                            if (groupS[i] != "" && courseS[i] != "") {
-                                if ((prefs.getString("courses", "") ?: "").contains(courseS[i])) {
-                                    if ((prefs.getString("classes", "") ?: "").contains(groupS[i]) || groupS[i].contains((prefs.getString("classes", "") ?: "").toString())) {
+                        }
+
+                        val drawable = MiscData.getIcon(courseS[i])
+                        val subst = Subst(drawable, groupS[i], dateS[i], timeS[i], courseS[i],
+                                roomS[i], additionalS[i], priority)
+                        priority--
+                        substViewModel.insertSubst(subst)
+
+                        if (jobservice && prefs.getBoolean("notif", true)) {
+                            if ((prefs.getString("courses", "")
+                                            ?: "").isEmpty() && (prefs.getString("classes", "")
+                                            ?: "").isNotEmpty()) {
+                                if (groupS[i].isNotEmpty() && groupS[i] != "") {
+                                    if ((prefs.getString("classes", "")
+                                                    ?: "").contains(groupS[i]) || groupS[i].contains((prefs.getString("classes", "")
+                                                    ?: "").toString())) {
                                         if (notifText.isNotEmpty()) {
                                             notifText += ", "
                                         }
                                         notifText += courseS[i] + ": " + additionalS[i]
                                     }
                                 }
+                            } else if ((prefs.getString("classes", "")
+                                            ?: "").isNotEmpty() && (prefs.getString("courses", "")
+                                            ?: "").isNotEmpty()) {
+                                if (groupS[i] != "" && courseS[i] != "") {
+                                    if ((prefs.getString("courses", "") ?: "").contains(courseS[i])) {
+                                        if ((prefs.getString("classes", "")
+                                                        ?: "").contains(groupS[i]) || groupS[i].contains((prefs.getString("classes", "")
+                                                        ?: "").toString())) {
+                                            if (notifText.isNotEmpty()) {
+                                                notifText += ", "
+                                            }
+                                            notifText += courseS[i] + ": " + additionalS[i]
+                                        }
+                                    }
+                                }
                             }
                         }
+                        edit.putString("time", currentTime).apply()
                     }
-                }
-                if (jobservice) {
-                    val openApp = Intent(mContext, Main::class.java)
-                    openApp.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    openApp.flags += Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    val openAppPending = PendingIntent.getActivity(mContext, 0, openApp, 0)
+                    if (jobservice && prefs.getBoolean("notif", true)) {
+                        val openApp = Intent(mContext, Main::class.java)
+                        openApp.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        openApp.flags += Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        val openAppPending = PendingIntent.getActivity(mContext, 0, openApp, 0)
 
-                    val notificationLayout = RemoteViews(mContext.packageName, R.layout.notification)
-                    notificationLayout.setTextViewText(R.id.notification_title, mContext.getString(R.string.subst))
-                    notificationLayout.setTextViewText(R.id.notification_textview, notifText)
+                        val notificationLayout = RemoteViews(mContext.packageName, R.layout.notification)
+                        notificationLayout.setTextViewText(R.id.notification_title, mContext.getString(R.string.subst))
+                        notificationLayout.setTextViewText(R.id.notification_textview, notifText)
 
-                    if (notifText.isNotEmpty()) {
-                        val manager = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                        val channelId = "general"
-                        val channelName = mContext.getString(R.string.general)
+                        if (notifText.isNotEmpty()) {
+                            val manager = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                            val channelId = "general"
+                            val channelName = mContext.getString(R.string.general)
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
-                            channel.enableLights(true)
-                            channel.lightColor = Color.BLUE
-                            manager.createNotificationChannel(channel)
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
+                                channel.enableLights(true)
+                                channel.lightColor = Color.BLUE
+                                manager.createNotificationChannel(channel)
+                            }
+
+                            val notification = NotificationCompat.Builder(mContext, channelId)
+                                    .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+                                    .setCustomContentView(notificationLayout)
+                                    .setSmallIcon(R.drawable.ic_avh)
+                                    .setContentIntent(openAppPending)
+                                    .setAutoCancel(true)
+                                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                                    .build()
+                            manager.notify(1, notification)
                         }
-
-                        val notification = NotificationCompat.Builder(mContext, channelId)
-                                .setStyle(NotificationCompat.DecoratedCustomViewStyle())
-                                .setCustomContentView(notificationLayout)
-                                .setSmallIcon(R.drawable.ic_avh)
-                                .setContentIntent(openAppPending)
-                                .setAutoCancel(true)
-                                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                                .build()
-                        manager.notify(1, notification)
                     }
                 }
             }
@@ -263,9 +269,8 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     pullToRefresh.isRefreshing = false
                     if (plan) {
                         val snackBarView = v.findViewById<View>(R.id.coordination)
-                        sdf.applyPattern(newDateFormat)
                         val sb = StringBuilder()
-                        val lastUpdated = sb.append(mContext.getText(R.string.lastupdatedK)).append(sdf.format(d)).toString()
+                        val lastUpdated = sb.append(mContext.getText(R.string.lastupdatedK)).append(currentTime)
                         Snackbar.make(snackBarView, lastUpdated, Snackbar.LENGTH_LONG).show()
                     }
                 }

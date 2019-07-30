@@ -350,7 +350,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         dialogView.findViewById<TextView>(R.id.dialogtext).text = getString(R.string.fortest)
         dialogButton.setOnClickListener {
             when (dialogEditText.text.toString()) {
-                "@DIAGNOSTICS" -> {
+                "_DIAGNOSTICS" -> {
                     val alertDialogDev = AlertDialog.Builder(mContext, R.style.AlertDialog)
                     val devDialogView = LayoutInflater.from(mContext).inflate(R.layout.diagnostics_dialog, null)
                     val devDialogText = devDialogView.findViewById<TextView>(R.id.dialogtext)
@@ -382,11 +382,11 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                         Toast.makeText(mContext, R.string.noyoutube, Toast.LENGTH_LONG).show()
                     }
                 }
-                "@NOTIFICATION" -> {
+                "_NOTIFICATION" -> {
                     edit.putString("time", "").apply()
                     Toast.makeText(mContext, "Notification time cleared", Toast.LENGTH_LONG).show()
                 } // TODO add option to clear database
-                "@FIRSTTIME" -> {
+                "_FIRSTTIME" -> {
                     edit.putBoolean("firstTime", true).apply()
                     Toast.makeText(mContext, "First time flag cleared", Toast.LENGTH_LONG).show()
                 }

@@ -33,7 +33,6 @@ class ColourAdapter(private var mColours: List<Colour>, onClickListener: OnClick
 
     override fun onBindViewHolder(holder: ColourViewHolder, position: Int) {
         val currentItem = mColours[position]
-        val prefs = PreferenceManager.getDefaultSharedPreferences(holder.image.context)
 
         holder.title.text = currentItem.title
         holder.titleNoLang.text = currentItem.titleNoLang
@@ -54,6 +53,6 @@ class ColourAdapter(private var mColours: List<Colour>, onClickListener: OnClick
     }
 
     public interface OnClickListener {
-        fun onClick(position: Int, title: String, titleNolang: String)
+        fun onClick(position: Int, title: String, titleNoLang: String)
     }
 }

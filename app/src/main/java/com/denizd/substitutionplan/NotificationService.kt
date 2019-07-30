@@ -5,6 +5,7 @@ import android.app.job.JobService
 import android.content.Context
 import android.net.ConnectivityManager
 import android.preference.PreferenceManager
+import org.jsoup.Jsoup
 import java.net.URL
 
 class NotificationService : JobService() {
@@ -29,21 +30,20 @@ class NotificationService : JobService() {
         val networkStatus = connectivityManager.activeNetworkInfo
 
         Thread(Runnable {
-            if (jobCancelled || networkStatus == null) {
+            if (!prefs.getBoolean("notif", false)) {
                 return@Runnable
-            }
-            if (prefs.getBoolean("notif", false)) {
-                edit.putInt("notificationTestNumberDev", prefs.getInt("notificationTestNumberDev", 0) + 1).apply()
-                try {
-                    val url = URL("https://djd4rkn355.github.io/subst.html")
-                    val connection = url.openConnection()
-                    if (connection.getHeaderField("Last-Modified") != prefs.getString("time", "")) {
+            } else {
+                if (jobCancelled || networkStatus == null) {
+                    return@Runnable
+                }
+                if (prefs.getBoolean("notif", false)) {
+                    edit.putInt("notificationTestNumberDev", prefs.getInt("notificationTestNumberDev", 0) + 1).apply()
+                    try {
                         DataFetcher(true, true, true, context, application, null).execute()
-                        edit.putString("time", connection.getHeaderField("Last-Modified")).apply()
-                    }
-                } catch (ignored: Exception) {}
+                    } catch (ignored: Exception) {}
+                }
+                jobFinished(params, false)
             }
-            jobFinished(params, false)
         }).start()
     }
 }
