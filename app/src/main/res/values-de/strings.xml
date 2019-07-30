@@ -9,14 +9,14 @@
     <string name="subst">Vertretungsplan</string>
     <string name="personal">Persönlich</string>
     <string name="settings">Einstellungen</string>
-    <string name="plan">Plan</string>
+    <string name="plan">Allgemein</string>
     <string name="darkbg">Dunkler Hintergrund</string>
     <string name="notifications">Aktiviere Benachrichtigungen</string>
     <string name="notifiedabout">Aktiviert ebenfalls Hintergrund-Sync</string>
     <string name="personalplan">Persönlicher Plan</string>
     <string name="personalise">Personalisieren</string>
     <string name="misc">Diverses</string>
-    <string name="defplan">Standardmäßig ansonsten normaler Plan</string>
+    <string name="defplan">Standardmäßig ansonsten allgemeiner Plan</string>
     <string name="personalised">Persönlicher Plan als Standard</string>
     <string name="visitweb">Besuche die Schulwebsite</string>
     <string name="butwhy">Falls nötig</string>
@@ -34,19 +34,6 @@
     <string name="moresettings">Nur noch ein paar weitere Einstellungen.</string>
     <string name="enabledarkmode">Dunklen Hintergrund aktivieren</string>
     <string name="havefun">Viel Spaß!</string>
-    <string name="greeting0">Hallo, %s!</string>
-    <string name="greeting1">Wie geht\'s dir, %s?</string>
-    <string name="greeting2">Tagchen, %s!</string>
-    <string name="greeting3">Hey, %s!</string>
-    <string name="greeting4">Wie ist dein Tag, %s?</string>
-    <string name="greeting5">Schön dich zu sehen, %s.</string>
-    <string name="greeting6">Grüß dich, %s!</string>
-    <string name="greeting7">Hallöchen, %s!</string>
-    <string-array name="greeting8_array">
-        <item>"Guten Morgen, "</item>
-        <item>"Guten Tag, "</item>
-        <item>"Schönen Abend, "</item>
-    </string-array>
     <string name="disablegreeting">Aktiviere Begrüßungen</string>
     <string name="justnice">Falls du möchtest, dass ich nett bin :)</string>
     <string name="splan">s Plan</string>
@@ -119,4 +106,35 @@
     <string name="showinfo">Zeige Info-Tab in Navigationsleisete</string>
     <string name="lastupdatedK">"Zuletzt aktualisiert: "</string>
     <string name="darkmode2">Aktiviert den Nachtmodus</string>
+    <string name="yourplan">Dein Plan</string>
+    <string-array name="greetings_morning">
+        <item>Guten Morgen, %s!</item>
+        <item>Hab einen schönen Tag, %s.</item>
+        <item>Wie geht\'s dir, %s?</item>
+        <item>Gut geschlafen, %s?</item>
+        <item>Hey, %s!</item>
+        <item>Hi, %s!</item>
+        <item>Schön dich zu sehen, %s.</item>
+        <item>Wie geht\'s dir so, %s?</item>
+    </string-array>
+    <string-array name="greetings_noon">
+        <item>Guten Tag, %s!</item>
+        <item>Einen schönen Tag noch, %s.</item>
+        <item>Wie geht\'s dir, %s?</item>
+        <item>Hoffe du hast einen schönen Tag, %s.</item>
+        <item>Hey, %s!</item>
+        <item>Hi, %s!</item>
+        <item>Schön dich zu sehen, %s.</item>
+        <item>Genieß\' deinen Tag, %s.</item>
+    </string-array>
+    <string-array name="greetings_evening">
+        <item>Good evening, %s!</item>
+        <item>Enjoy your evening, %s.</item>
+        <item>Wie geht\'s dir, %s?</item>
+        <item>Genieß\' deinen Abend, %s.</item>
+        <item>Hey, %s!</item>
+        <item>Hi, %s!</item>
+        <item>Schlaf\' gut, %s.</item>
+        <item>Bleib\' nicht zu lang wach, %s!</item>
+    </string-array>
 </resources>

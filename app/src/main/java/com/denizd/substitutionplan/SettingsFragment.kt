@@ -39,7 +39,6 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
     private var cs: Int = 7
     private var window: Window? = null
     private lateinit var colourRecycler: RecyclerView
-    private lateinit var colourAdapter: ColourAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

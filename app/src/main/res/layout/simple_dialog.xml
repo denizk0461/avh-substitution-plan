@@ -8,11 +8,12 @@
         android:id="@+id/textviewtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/manrope_semibold"
         android:textSize="22sp"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="start"
         android:textColor="@color/textcolor"
         android:textAlignment="center"/>
 

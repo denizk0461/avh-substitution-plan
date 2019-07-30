@@ -1,13 +1,9 @@
 package com.denizd.substitutionplan
 
-import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.BitmapFactory
-import android.graphics.drawable.Animatable
 import android.graphics.drawable.AnimatedVectorDrawable
-import android.graphics.drawable.AnimationDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -15,15 +11,16 @@ import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
-import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.textfield.TextInputEditText
 import java.util.*
 
 class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
@@ -35,25 +32,28 @@ class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
         super.onCreate(savedInstanceState)
 
         val window = this.window
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            window.navigationBarColor = ContextCompat.getColor(this, R.color.background)
+        when (AppCompatDelegate.getDefaultNightMode()) {
+            AppCompatDelegate.MODE_NIGHT_NO -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                    window.navigationBarColor = ContextCompat.getColor(this, R.color.background)
+                }
+            }
+            else -> {
+                window.navigationBarColor = ContextCompat.getColor(this, R.color.background)
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+            }
         }
-        val bm = BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher)
-        val taskDesc = ActivityManager.TaskDescription(getString(R.string.app_name), bm, ContextCompat.getColor(this, R.color.background))
-        setTaskDescription(taskDesc)
 
         context = this
         prefs = PreferenceManager.getDefaultSharedPreferences(context) as SharedPreferences
         val edit = prefs.edit()
         val fab = findViewById<ExtendedFloatingActionButton>(R.id.efab)
         val start = Intent(this, Main::class.java)
-        val name = findViewById<EditText>(R.id.txtName)
-        val grade = findViewById<EditText>(R.id.txtClasses)
-        val courses = findViewById<EditText>(R.id.txtCourses)
+        val name = findViewById<TextInputEditText>(R.id.txtName)
+        val grade = findViewById<TextInputEditText>(R.id.txtClasses)
+        val courses = findViewById<TextInputEditText>(R.id.txtCourses)
         val notif = findViewById<CheckBox>(R.id.cbNotif)
         val dark = findViewById<CheckBox>(R.id.cbDark)
         val pers = findViewById<CheckBox>(R.id.cbPersonalised)
@@ -100,6 +100,7 @@ class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
             val colour = findViewById<LinearLayout>(R.id.colourLayout)
             linearInflation.visibility = View.VISIBLE
             anim.start()
+            fab.hide(true)
 
             handler.postDelayed({
                 colour.startAnimation(animOut)

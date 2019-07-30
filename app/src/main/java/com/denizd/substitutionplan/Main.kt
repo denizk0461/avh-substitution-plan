@@ -11,8 +11,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
 import android.view.*
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -24,7 +22,6 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.jaredrummler.android.device.DeviceName
@@ -33,7 +30,6 @@ import java.util.*
 
 class Main : AppCompatActivity(R.layout.app_bar_main) {
 
-    private lateinit var bottomSheetBehaviour: BottomSheetBehavior<*>
     private lateinit var context: Context
     private lateinit var prefs: SharedPreferences
 
@@ -45,6 +41,7 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
         val firstTime = Intent(context, FirstTime::class.java)
 
         if (prefs.getBoolean("firstTime", true)) {
+//        if (true) {
             startActivity(firstTime)
             finish()
         } else {
@@ -126,70 +123,47 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
                 }
             }
 
-            if (prefs.getBoolean("greeting", false)) {
+            val textViewGreeting = findViewById<TextView>(R.id.text_greeting)
+            if (prefs.getBoolean("greeting", true)) {
                 if ((prefs.getString("username", "") ?: "").isNotEmpty()) {
-                    val animationIn = AnimationUtils.loadAnimation(context, R.anim.chip_slide_in)
-                    val animationOut = AnimationUtils.loadAnimation(context, R.anim.chip_slide_out)
-                    val generator = Random()
-                    val greetings = resources.getStringArray(R.array.greeting8_array)
-                    val rightNow = Calendar.getInstance()
-                    val currentHour = rightNow.get(Calendar.HOUR_OF_DAY)
-
-                    chip.text = when (generator.nextInt(9)) {
-                        0 -> getString(R.string.greeting0, prefs.getString("username", ""))
-                        1 -> getString(R.string.greeting1, prefs.getString("username", ""))
-                        2 -> getString(R.string.greeting2, prefs.getString("username", ""))
-                        3 -> getString(R.string.greeting3, prefs.getString("username", ""))
-                        4 -> getString(R.string.greeting4, prefs.getString("username", ""))
-                        5 -> getString(R.string.greeting5, prefs.getString("username", ""))
-                        6 -> getString(R.string.greeting6, prefs.getString("username", ""))
-                        7 -> getString(R.string.greeting7, prefs.getString("username", ""))
-                        8 -> {
-                            when {
-                                currentHour < 11 -> greetings[0] + prefs.getString("username", "") + "."
-                                currentHour in 11..17 -> greetings[1] + prefs.getString("username", "") + "."
-                                else -> greetings[1] + prefs.getString("username", "") + "."
-                            }
-                        }
-                        else -> ";)" // getString(R.string.error)
-                    }
-
-                    handler.postDelayed({
-                        chip.visibility = View.VISIBLE
-                        chip.startAnimation(animationIn)
-                    }, 500)
-
-                    handler.postDelayed({
-                        chip.startAnimation(animationOut)
-                    }, 3000)
-
-                    animationOut.setAnimationListener(object: Animation.AnimationListener {
-                        override fun onAnimationStart(animation: Animation?) {}
-                        override fun onAnimationRepeat(animation: Animation?) {}
-                        override fun onAnimationEnd(animation: Animation?) {
-                            chip.visibility = View.GONE
-                        }
-                    })
+                    textViewGreeting.text = getGreetingString()
+//                    val generator = Random()
+//                    val greetings = resources.getStringArray(R.array.greeting8_array)
+//                    val rightNow = Calendar.getInstance()
+//                    val currentHour = rightNow.get(Calendar.HOUR_OF_DAY)
+//
+//                    textViewGreeting.text = when (generator.nextInt(9)) {
+//                        0 -> getString(R.string.greeting0, prefs.getString("username", ""))
+//                        1 -> getString(R.string.greeting1, prefs.getString("username", ""))
+//                        2 -> getString(R.string.greeting2, prefs.getString("username", ""))
+//                        3 -> getString(R.string.greeting3, prefs.getString("username", ""))
+//                        4 -> getString(R.string.greeting4, prefs.getString("username", ""))
+//                        5 -> getString(R.string.greeting5, prefs.getString("username", ""))
+//                        6 -> getString(R.string.greeting6, prefs.getString("username", ""))
+//                        7 -> getString(R.string.greeting7, prefs.getString("username", ""))
+//                        8 -> {
+//                            when {
+//                                currentHour < 11 -> greetings[0] + prefs.getString("username", "") + "."
+//                                currentHour in 11..17 -> greetings[1] + prefs.getString("username", "") + "."
+//                                else -> greetings[1] + prefs.getString("username", "") + "."
+//                            }
+//                        }
+//                        else -> ";)" // getString(R.string.error)
+//                    }
                 }
+            } else {
+                textViewGreeting.visibility = View.GONE
             }
 
             if (prefs.getInt("firstTimeOpening", 0) == 0) {
                 edit.putInt("firstTimeOpening", prefs.getInt("firstTimeOpening", 0) + 1).apply()
             }
 
-            val userPlan: String = if ((prefs.getString("username", "") ?: "").toString().isNotEmpty()) {
-                when ((prefs.getString("username", "") ?: "")[(prefs.getString("username", "") ?: "").length - 1].toString().toLowerCase()) {
-                    "s", "x", "z" -> (prefs.getString("username", "") ?: "") + getString(R.string.nosplan)
-                    else -> (prefs.getString("username", "") ?: "") + getString(R.string.splan)
-                }
-            } else {
-                getString(R.string.personalplan)
-            }
             lateinit var defaultFragment: Fragment
             if (prefs.getBoolean("defaultPersonalised", false)) {
                 defaultFragment = PersonalPlanFragment()
                 bottomNav.selectedItemId = R.id.personal
-                toolbarTxt.text = userPlan
+                toolbarTxt.text = getString(R.string.yourplan)
             } else {
                 defaultFragment = GeneralPlanFragment()
                 bottomNav.selectedItemId = R.id.plan
@@ -207,7 +181,7 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
                     }
                     R.id.personal -> {
                         fragment = PersonalPlanFragment()
-                        toolbarTxt.text = userPlan
+                        toolbarTxt.text = getString(R.string.yourplan)
                     }
                     R.id.menu -> {
                         fragment = FoodFragment()
@@ -262,6 +236,17 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
                 }
             }
         }
+    }
+
+    private fun getGreetingString(): String {
+        val gen = Random()
+
+        val greetingArray = when (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
+            in 5..10 -> resources.getStringArray(R.array.greetings_morning)
+            in 11..17 -> resources.getStringArray(R.array.greetings_noon)
+            else -> resources.getStringArray(R.array.greetings_evening)
+        }
+        return String.format(greetingArray[gen.nextInt(7)], prefs.getString("username", ""))
     }
 
     private fun openInfoDialog() {

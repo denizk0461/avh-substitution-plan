@@ -45,26 +45,21 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
     private val prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
     private val edit = prefs.edit()
     private lateinit var pullToRefresh: SwipeRefreshLayout
-    private lateinit var progressBar: ProgressBar
     private val fadeOut = AnimationUtils.loadAnimation(mContext, R.anim.fade_out)
     private val handler = Handler(Looper.getMainLooper())
     var currentTime = ""
+    val substUrl = "https://djd4rkn355.github.io/subst_test.html"
+    val foodUrl = "https://djd4rkn355.github.io/food_test.html"
 
     override fun doInBackground(vararg params: Void?): Void? {
         try {
             mView?.let { v: View ->
                 pullToRefresh = v.findViewById(R.id.pullToRefresh)
-                progressBar = v.findViewById(R.id.progressBar)
-                progressBar.progress = 0
             }
             if (menu) {
                 val foodViewModel = FoodViewModel(mApplication)
-                val docFood = Jsoup.connect("https://djd4rkn355.github.io/food.html").get()
+                val docFood = Jsoup.connect(foodUrl).get()
                 val foodElements = docFood.select("th")
-
-                mView?.let {
-                    progressBar.max = foodElements.size
-                }
 
                 var foodInt = 0
                 var priority = 0
@@ -115,27 +110,12 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     }
                     foodInt++
                     priority++
-                    mView?.let {
-                        progressBar.progress = foodInt
-                    }
-                }
-
-                mView?.let {
-                    progressBar.progress = 100
-                    handler.postDelayed({ progressBar.startAnimation(fadeOut) }, 200)
-                    fadeOut.setAnimationListener(object: Animation.AnimationListener {
-                        override fun onAnimationStart(arg0: Animation) {}
-                        override fun onAnimationRepeat(arg0: Animation) {}
-                        override fun onAnimationEnd(arg0: Animation) {
-                            progressBar.progress = 0
-                        }
-                    })
                 }
             }
 
             if (plan) {
                 val substViewModel = SubstViewModel(mApplication)
-                val doc = Jsoup.connect("https://djd4rkn355.github.io/subst.html").get()
+                val doc = Jsoup.connect(substUrl).get()
                 currentTime = doc.select("h1")[0].text()
                 if (currentTime != prefs.getString("time", "")) {
                     val rows = doc.select("tr")
@@ -147,10 +127,6 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     val courseS = ArrayList<String>()
                     val roomS = ArrayList<String>()
                     val additionalS = ArrayList<String>()
-
-                    mView?.let {
-                        progressBar.max = rows.size
-                    }
 
                     for (i in 0 until paragraphs.size) {
                         if (i == 0) {
@@ -173,11 +149,6 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                         courseS.add(cols[3].text())
                         roomS.add(cols[4].text())
                         additionalS.add(cols[5].text())
-                        if (!jobservice) {
-                            mView?.let {
-                                progressBar.incrementProgressBy(1)
-                            }
-                        }
 
                         val drawable = MiscData.getIcon(courseS[i])
                         val subst = Subst(drawable, groupS[i], dateS[i], timeS[i], courseS[i],
@@ -255,14 +226,6 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
             }
             if (plan || menu) {
                 mView?.let { v: View ->
-                    handler.postDelayed({ progressBar.startAnimation(fadeOut) }, 200)
-                    fadeOut.setAnimationListener(object: Animation.AnimationListener {
-                        override fun onAnimationStart(arg0: Animation) {}
-                        override fun onAnimationRepeat(arg0: Animation) {}
-                        override fun onAnimationEnd(arg0: Animation) {
-                            progressBar.progress = 0
-                        }
-                    })
                     pullToRefresh.isRefreshing = false
                     if (plan) {
                         val snackBarView = v.findViewById<View>(R.id.coordination)
