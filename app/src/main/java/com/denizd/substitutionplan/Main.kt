@@ -51,7 +51,9 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
             edit.putInt("launchDev", prefs.getInt("launchDev", 0) + 1)
             edit.apply()
 
-            notificationJob()
+            if (prefs.getBoolean("notif", true)) {
+                notificationJob()
+            }
 
             val handler = Handler()
 

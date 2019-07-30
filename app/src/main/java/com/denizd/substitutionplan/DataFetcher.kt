@@ -135,7 +135,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
 
             if (plan) {
                 val substViewModel = SubstViewModel(mApplication)
-                val doc = Jsoup.connect("https://djd4rkn355.github.io/subst_test").get()
+                val doc = Jsoup.connect("https://djd4rkn355.github.io/subst.html").get()
                 currentTime = doc.select("h1")[0].text()
                 if (currentTime != prefs.getString("time", "")) {
                     val rows = doc.select("tr")
