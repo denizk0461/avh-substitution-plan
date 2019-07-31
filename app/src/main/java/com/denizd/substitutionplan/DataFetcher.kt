@@ -24,7 +24,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
     private var plan = isplan
     private var menu = ismenu
 
-    /*  booleans to improve speed when fetching data
+    /*  booleans to improve speed and decrease network usage when fetching data by only grabbing the required HTML pages
         "plan" = true is required to fetch the substitution data
         "menu" = true is required to fetch the food menu
         "jobservice" = true is required to send a notification
@@ -40,10 +40,10 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
     private val prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
     private val edit = prefs.edit()
     private lateinit var pullToRefresh: SwipeRefreshLayout
-    var currentTime = ""
-    var currentFoodTime = ""
-    val substUrl = "https://djd4rkn355.github.io/subst_test.html"
-    val foodUrl = "https://djd4rkn355.github.io/food_test.html"
+    private var currentTime = ""
+    private var currentFoodTime = ""
+    private val substUrl = "https://djd4rkn355.github.io/subst_test.html"
+    private val foodUrl = "https://djd4rkn355.github.io/food_test.html"
 
     override fun doInBackground(vararg params: Void?): Void? {
         try {
@@ -186,7 +186,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                         val openAppPending = PendingIntent.getActivity(mContext, 0, openApp, 0)
 
                         val notificationLayout = RemoteViews(mContext.packageName, R.layout.notification)
-                        notificationLayout.setTextViewText(R.id.notification_title, mContext.getString(R.string.subst))
+                        notificationLayout.setTextViewText(R.id.notification_title, mContext.getString(R.string.substitutionPlan))
                         notificationLayout.setTextViewText(R.id.notification_textview, notifText)
 
                         if (notifText.isNotEmpty()) {
@@ -223,7 +223,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                         menu -> currentFoodTime
                         else -> currentTime
                     }
-                    val lastUpdated = sb.append(mContext.getText(R.string.lastupdatedK)).append(time)
+                    val lastUpdated = sb.append(mContext.getText(R.string.lastUpdated)).append(time)
                     Snackbar.make(snackBarView, lastUpdated, Snackbar.LENGTH_LONG).show()
                 }
             }
@@ -234,7 +234,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     pullToRefresh.isRefreshing = false
                 } catch (ignored: Exception) {}
                 val snackBarView = v.findViewById<View>(R.id.coordination)
-                Snackbar.make(snackBarView, mContext.getText(R.string.nointernet), Snackbar.LENGTH_LONG).show()
+                Snackbar.make(snackBarView, mContext.getText(R.string.noInternet), Snackbar.LENGTH_LONG).show()
             }
         }
         return null

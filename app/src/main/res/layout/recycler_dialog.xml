@@ -13,7 +13,7 @@
         android:textSize="22sp"
         android:fontFamily="@font/manrope_semibold"
         android:layout_gravity="start"
-        android:textColor="@color/textcolor"
+        android:textColor="@color/colorText"
         android:textAlignment="center"/>
 
         <androidx.recyclerview.widget.RecyclerView

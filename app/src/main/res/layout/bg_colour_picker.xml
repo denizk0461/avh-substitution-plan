@@ -16,7 +16,7 @@
             android:id="@+id/def"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            app:strokeColor="@color/bggrey"
+            app:strokeColor="@color/bgGrey"
             app:strokeWidth="2dp"
             app:cornerRadius="16dp"/>
 
@@ -25,7 +25,7 @@
             android:id="@+id/red"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/bgred"
+            android:backgroundTint="@color/bgRed"
             app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
@@ -33,7 +33,7 @@
             android:id="@+id/orange"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/bgorange"
+            android:backgroundTint="@color/bgOrange"
             app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
@@ -41,7 +41,7 @@
             android:id="@+id/yellow"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/bgyellow"
+            android:backgroundTint="@color/bgYellow"
             app:cornerRadius="16dp"/>
 
     </TableRow>
@@ -55,7 +55,7 @@
             android:id="@+id/green"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/bggreen"
+            android:backgroundTint="@color/bgGreen"
             app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
@@ -63,7 +63,7 @@
             android:id="@+id/teal"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/bgteal"
+            android:backgroundTint="@color/bgTeal"
             app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
@@ -71,7 +71,7 @@
             android:id="@+id/cyan"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/bgcyan"
+            android:backgroundTint="@color/bgCyan"
             app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
@@ -79,7 +79,7 @@
             android:id="@+id/blue"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/bgblue"
+            android:backgroundTint="@color/bgBlue"
             app:cornerRadius="16dp"/>
 
     </TableRow>
@@ -93,7 +93,7 @@
             android:id="@+id/purple"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/bgpurple"
+            android:backgroundTint="@color/bgPurple"
             app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
@@ -101,7 +101,7 @@
             android:id="@+id/pink"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/bgpink"
+            android:backgroundTint="@color/bgPink"
             app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
@@ -109,7 +109,7 @@
             android:id="@+id/brown"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/bgbrown"
+            android:backgroundTint="@color/bgBrown"
             app:cornerRadius="16dp"/>
 
         <com.google.android.material.button.MaterialButton
@@ -117,7 +117,7 @@
             android:id="@+id/grey"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/bggrey"
+            android:backgroundTint="@color/bgGrey"
             app:cornerRadius="16dp"/>
 
     </TableRow>

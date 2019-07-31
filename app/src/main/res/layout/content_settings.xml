@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/background"
+    android:background="@color/colorBackground"
     tools:context=".SettingsFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -29,7 +29,7 @@
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
                 app:cardElevation="2dp"
-                android:backgroundTint="@color/lightbackground"
+                android:backgroundTint="@color/colorBackgroundLight"
                 app:cardCornerRadius="12dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,22 +43,22 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="@string/personalise"
-                        android:textColor="@color/accent"
+                        android:textColor="@color/colorAccent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/txtLayoutName"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        app:boxStrokeColor="@color/accent"
+                        app:boxStrokeColor="@color/colorAccent"
                         app:boxStrokeWidth="1dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
-                        android:hint="@string/yourname"
-                        android:textColorHint="@color/hintcolor"
+                        android:hint="@string/yourName"
+                        android:textColorHint="@color/colorHint"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/txtPersonalise"
@@ -74,7 +74,7 @@
                             android:imeOptions="flagNoExtractUi"
                             android:inputType="textNoSuggestions"
                             android:singleLine="true"
-                            android:textColor="@color/textcolor"
+                            android:textColor="@color/colorText"
                             android:textSize="14sp"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -84,8 +84,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="@string/disablegreeting"
-                        android:textColor="@color/textcolor"
+                        android:text="@string/enableGreeting"
+                        android:textColor="@color/colorText"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/txtPersonalise"
                         app:layout_constraintTop_toBottomOf="@+id/txtLayoutName" />
@@ -94,8 +94,8 @@
                         android:id="@+id/txtJustnice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/justnice"
-                        android:textColor="@color/hintcolor"
+                        android:text="@string/justBeingNice"
+                        android:textColor="@color/colorHint"
                         android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="@+id/txtGreeting"
                         app:layout_constraintTop_toBottomOf="@+id/txtGreeting" />
@@ -116,8 +116,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="@string/darkbg"
-                        android:textColor="@color/textcolor"
+                        android:text="@string/darkBackground"
+                        android:textColor="@color/colorText"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/txtGreeting"
                         app:layout_constraintTop_toBottomOf="@+id/txtJustnice" />
@@ -126,8 +126,8 @@
                         android:id="@+id/txtRestart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/darkmode2"
-                        android:textColor="@color/hintcolor"
+                        android:text="@string/nightMode"
+                        android:textColor="@color/colorHint"
                         android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="@+id/txtDark"
                         app:layout_constraintTop_toBottomOf="@+id/txtDark" />
@@ -148,8 +148,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="@string/customisecolor1"
-                        android:textColor="@color/textcolor"
+                        android:text="@string/customiseColoursTitle"
+                        android:textColor="@color/colorText"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/txtRestart"
                         app:layout_constraintTop_toBottomOf="@+id/txtRestart" />
@@ -159,8 +159,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        android:text="@string/customisecolor2"
-                        android:textColor="@color/hintcolor"
+                        android:text="@string/customiseColoursIndividually"
+                        android:textColor="@color/colorHint"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/txtCustomiseColours1"
@@ -193,7 +193,7 @@
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
                 app:cardElevation="2dp"
-                android:backgroundTint="@color/lightbackground"
+                android:backgroundTint="@color/colorBackgroundLight"
                 app:cardCornerRadius="12dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -206,23 +206,23 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:text="@string/filter"
-                        android:textColor="@color/accent"
+                        android:text="@string/filters"
+                        android:textColor="@color/colorAccent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/txtLayoutClasses"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        app:boxStrokeColor="@color/accent"
+                        app:boxStrokeColor="@color/colorAccent"
                         app:boxStrokeWidth="1dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
-                        android:hint="@string/classes"
-                        android:textColorHint="@color/hintcolor"
+                        android:hint="@string/grade"
+                        android:textColorHint="@color/colorHint"
                         app:layout_constraintEnd_toStartOf="@+id/chipHelpClasses"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/txtFilter"
@@ -238,7 +238,7 @@
                             android:imeOptions="flagNoExtractUi"
                             android:inputType="textNoSuggestions"
                             android:singleLine="true"
-                            android:textColor="@color/textcolor"
+                            android:textColor="@color/colorText"
                             android:textSize="14sp"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -249,7 +249,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:src="@drawable/ic_qmark"
-                        android:tint="@color/textcolor"
+                        android:tint="@color/colorText"
                         android:backgroundTint="@android:color/transparent"
                         app:layout_constraintBottom_toBottomOf="@+id/txtLayoutClasses"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -264,8 +264,8 @@
                         android:layout_marginEnd="8dp"
                         android:hint="@string/courses"
                         android:importantForAutofill="no"
-                        android:textColorHint="@color/hintcolor"
-                        app:boxStrokeColor="@color/accent"
+                        android:textColorHint="@color/colorHint"
+                        app:boxStrokeColor="@color/colorAccent"
                         app:boxStrokeWidth="1dp"
                         app:layout_constraintEnd_toStartOf="@+id/chipHelpCourses"
                         app:layout_constraintStart_toStartOf="@+id/txtLayoutClasses"
@@ -281,7 +281,7 @@
                             android:imeOptions="flagNoExtractUi"
                             android:inputType="textNoSuggestions"
                             android:singleLine="true"
-                            android:textColor="@color/textcolor"
+                            android:textColor="@color/colorText"
                             android:textSize="14sp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -292,7 +292,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:src="@drawable/ic_qmark"
-                        android:tint="@color/textcolor"
+                        android:tint="@color/colorText"
                         android:backgroundTint="@android:color/transparent"
                         app:layout_constraintBottom_toBottomOf="@+id/txtLayoutCourses"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -303,8 +303,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="@string/notifications"
-                        android:textColor="@color/textcolor"
+                        android:text="@string/enableNotifications"
+                        android:textColor="@color/colorText"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/txtFilter"
                         app:layout_constraintTop_toBottomOf="@+id/txtLayoutCourses" />
@@ -314,9 +314,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        android:text="@string/notifiedabout"
+                        android:text="@string/enablesBackgroundSync"
                         android:textAlignment="textStart"
-                        android:textColor="@color/hintcolor"
+                        android:textColor="@color/colorHint"
                         android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="@+id/txtNotifications"
                         app:layout_constraintTop_toBottomOf="@+id/txtNotifications"
@@ -346,7 +346,7 @@
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
                 app:cardElevation="2dp"
-                android:backgroundTint="@color/lightbackground"
+                android:backgroundTint="@color/colorBackgroundLight"
                 app:cardCornerRadius="12dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -360,7 +360,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="@string/misc"
-                        android:textColor="@color/accent"
+                        android:textColor="@color/colorAccent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -370,7 +370,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="@string/personalised"
-                        android:textColor="@color/textcolor"
+                        android:textColor="@color/colorText"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/txtMisc"
                         app:layout_constraintTop_toBottomOf="@+id/txtMisc" />
@@ -379,8 +379,8 @@
                         android:id="@+id/txtDefaultsTo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/defplan"
-                        android:textColor="@color/hintcolor"
+                        android:text="@string/defaultsToPlan"
+                        android:textColor="@color/colorHint"
                         android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="@+id/txtPersonalised"
                         app:layout_constraintTop_toBottomOf="@+id/txtPersonalised" />
@@ -402,7 +402,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="@string/openInfo"
-                        android:textColor="@color/textcolor"
+                        android:textColor="@color/colorText"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/txtDefaultsTo"
                         app:layout_constraintTop_toBottomOf="@+id/txtDefaultsTo" />
@@ -411,8 +411,8 @@
                         android:id="@+id/txtOpenInfoTwo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/openInfoTwo"
-                        android:textColor="@color/hintcolor"
+                        android:text="@string/openInfoNoUserInput"
+                        android:textColor="@color/colorHint"
                         android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="@+id/txtOpenInfo"
                         app:layout_constraintTop_toBottomOf="@+id/txtOpenInfo" />
@@ -434,7 +434,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="@string/autoRefresh"
-                        android:textColor="@color/textcolor"
+                        android:textColor="@color/colorText"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/txtOpenInfoTwo"
                         app:layout_constraintTop_toBottomOf="@+id/txtOpenInfoTwo" />
@@ -443,8 +443,8 @@
                         android:id="@+id/txtAutoRefreshTwo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/autoRefreshTwo"
-                        android:textColor="@color/hintcolor"
+                        android:text="@string/ifSyncNotWorking"
+                        android:textColor="@color/colorHint"
                         android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="@+id/txtAutoRefresh"
                         app:layout_constraintTop_toBottomOf="@+id/txtAutoRefresh" />
@@ -465,8 +465,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="@string/visitweb"
-                        android:textColor="@color/textcolor"
+                        android:text="@string/visitWebsite"
+                        android:textColor="@color/colorText"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/txtAutoRefreshTwo"
                         app:layout_constraintTop_toBottomOf="@+id/txtAutoRefreshTwo" />
@@ -475,8 +475,8 @@
                         android:id="@+id/txtWeb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/butwhy"
-                        android:textColor="@color/hintcolor"
+                        android:text="@string/ifYouNeedTo"
+                        android:textColor="@color/colorHint"
                         android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="@+id/txtVisitWeb"
                         app:layout_constraintTop_toBottomOf="@+id/txtVisitWeb" />
@@ -503,7 +503,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="@string/licences"
-                        android:textColor="@color/textcolor"
+                        android:textColor="@color/colorText"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/txtWeb"
                         app:layout_constraintTop_toBottomOf="@+id/txtWeb" />
@@ -512,8 +512,8 @@
                         android:id="@+id/txtWhatittook"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/whatittook"
-                        android:textColor="@color/hintcolor"
+                        android:text="@string/whatItTook"
+                        android:textColor="@color/colorHint"
                         android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="@+id/txtLicences"
                         app:layout_constraintTop_toBottomOf="@+id/txtLicences" />
@@ -539,7 +539,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="@string/tac"
-                        android:textColor="@color/textcolor"
+                        android:textColor="@color/colorText"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/txtLicences"
                         app:layout_constraintTop_toBottomOf="@+id/txtWhatittook"/>
@@ -548,8 +548,8 @@
                         android:id="@+id/txtTermsTwo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tactwo"
-                        android:textColor="@color/hintcolor"
+                        android:text="@string/reviewTac"
+                        android:textColor="@color/colorHint"
                         android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="@+id/txtTerms"
                         app:layout_constraintTop_toBottomOf="@+id/txtTerms" />
@@ -577,7 +577,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="@string/privacy"
-                        android:textColor="@color/textcolor"
+                        android:textColor="@color/colorText"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/txtTermsTwo"
                         app:layout_constraintTop_toBottomOf="@+id/txtTermsTwo" />
@@ -586,8 +586,8 @@
                         android:id="@+id/txtPrivacyPTwo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/privacytwo"
-                        android:textColor="@color/hintcolor"
+                        android:text="@string/reviewPrivacy"
+                        android:textColor="@color/colorHint"
                         android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="@+id/txtPrivacyP"
                         app:layout_constraintTop_toBottomOf="@+id/txtPrivacyP" />
@@ -614,7 +614,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="@string/version"
-                        android:textColor="@color/textcolor"
+                        android:textColor="@color/colorText"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/txtPrivacyPTwo"
                         app:layout_constraintTop_toBottomOf="@+id/txtPrivacyPTwo" />
@@ -624,7 +624,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        android:textColor="@color/hintcolor"
+                        android:textColor="@color/colorHint"
                         android:textSize="12sp"
                         android:fontFeatureSettings="tnum"
                         app:layout_constraintStart_toStartOf="@+id/txtVersion"

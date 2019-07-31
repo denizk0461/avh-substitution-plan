@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background">#121212</color>
-    <color name="lightbackground">#222222</color>
-    <color name="accent">#64b5f6</color>
-    <color name="textcolor">#e0e0e0</color>
-    <color name="hintcolor">#9e9e9e</color>
-    <color name="lighthintcolor">#313131</color>
+    <color name="colorBackground">#121212</color>
+    <color name="colorBackgroundLight">#222222</color>
+    <color name="colorAccent">#64b5f6</color>
+    <color name="colorText">#e0e0e0</color>
+    <color name="colorHint">#9e9e9e</color>
+    <color name="colorHintLight">#313131</color>
 
-    <color name="bgred">#5B2B2A</color>
-    <color name="bgorange">#604A1D</color>
-    <color name="bgyellow">#635C1F</color>
-    <color name="bggreen">#355823</color>
-    <color name="bgteal">#19504B</color>
-    <color name="bgcyan">#125a6d</color>
-    <color name="bgblue">#1F3B5E</color>
-    <color name="bgpurple">#42295D</color>
-    <color name="bgpink">#5A2345</color>
-    <color name="bgbrown">#442F1B</color>
-    <color name="bggrey">#3C3F43</color>
+    <color name="bgRed">#5B2B2A</color>
+    <color name="bgOrange">#604A1D</color>
+    <color name="bgYellow">#635C1F</color>
+    <color name="bgGreen">#355823</color>
+    <color name="bgTeal">#19504B</color>
+    <color name="bgCyan">#125a6d</color>
+    <color name="bgBlue">#1F3B5E</color>
+    <color name="bgPurple">#42295D</color>
+    <color name="bgPink">#5A2345</color>
+    <color name="bgBrown">#442F1B</color>
+    <color name="bgGrey">#3C3F43</color>
 
-    <color name="splash_logo">@color/textcolor</color>
+    <color name="colorSplashLogo">@color/colorText</color>
 </resources>

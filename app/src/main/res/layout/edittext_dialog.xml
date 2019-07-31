@@ -15,7 +15,7 @@
         android:textSize="22sp"
         android:fontFamily="@font/manrope_semibold"
         android:layout_gravity="start"
-        android:textColor="@color/textcolor"
+        android:textColor="@color/colorText"
         android:textAlignment="center"/>
 
     <androidx.core.widget.NestedScrollView
@@ -36,24 +36,24 @@
                 android:id="@+id/dialogtext"
                 android:layout_height="match_parent"
                 android:layout_width="wrap_content"
-                android:textColor="@color/textcolor"/>
+                android:textColor="@color/colorText"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxStrokeColor="@color/accent"
+                app:boxStrokeColor="@color/colorAccent"
                 app:boxStrokeWidth="1dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:textColorHint="@color/hintcolor"
+                android:textColorHint="@color/colorHint"
                 android:importantForAutofill="no">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/dialog_edittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textcolor"
+                    android:textColor="@color/colorText"
                     android:ems="10"
                     android:imeOptions="flagNoExtractUi"
                     android:inputType="textNoSuggestions"
@@ -65,10 +65,10 @@
                 android:id="@+id/dialog_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/accent"
-                android:text="@string/positivebutton"
+                android:textColor="@color/colorAccent"
+                android:text="@string/apply"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/accent"
+                app:strokeColor="@color/colorAccent"
                 app:strokeWidth="2dp"/>
 
         </LinearLayout>

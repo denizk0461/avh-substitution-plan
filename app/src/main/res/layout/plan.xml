@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background">
+    android:background="@color/colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,17 +26,17 @@
                 android:text=":("
                 android:textSize="60dp"
                 android:layout_gravity="center"
-                android:textColor="@color/hintcolor"
+                android:textColor="@color/colorHint"
                 android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/smileydowntext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/nosubst"
+                android:text="@string/noSubstitutionsForYou"
                 app:layout_anchor="@+id/smileydown"
                 android:layout_gravity="bottom|center_horizontal"
-                android:textColor="@color/hintcolor"
+                android:textColor="@color/colorHint"
                 android:visibility="gone"/>
 
         </LinearLayout>

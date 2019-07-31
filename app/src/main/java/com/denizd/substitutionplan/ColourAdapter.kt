@@ -1,6 +1,5 @@
 package com.denizd.substitutionplan
 
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,7 +39,7 @@ class ColourAdapter(private var mColours: List<Colour>, onClickListener: OnClick
         val colour = if (currentItem.colour != 0) {
             currentItem.colour
         } else {
-            R.color.lightbackground
+            R.color.colorBackgroundLight
         }
         holder.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.image.context, colour))
     }

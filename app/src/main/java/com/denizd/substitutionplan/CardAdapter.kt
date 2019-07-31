@@ -93,7 +93,7 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
         if (colour != 0) {
             holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mCourse.context, colour))
         } else {
-            holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mCourse.context, R.color.lightbackground))
+            holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mCourse.context, R.color.colorBackgroundLight))
         }
     }
 

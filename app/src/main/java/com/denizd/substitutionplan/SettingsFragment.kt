@@ -123,21 +123,21 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         })
 
         btnVersion.setOnLongClickListener {
-            Toast.makeText(mContext, getString(R.string.devby), Toast.LENGTH_LONG).show()
+            Toast.makeText(mContext, getString(R.string.madeBy), Toast.LENGTH_LONG).show()
             debugMenu()
         }
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.chipHelpCourses -> createDialog(getString(R.string.helpCoursesTitle), getString(R.string.helpCourses))
-            R.id.chipHelpClasses -> createDialog(getString(R.string.helpClassesTitle), getString(R.string.helpClasses))
+            R.id.chipHelpCourses -> createDialog(getString(R.string.enterCoursesHelpTitle), getString(R.string.enterCoursesHelp))
+            R.id.chipHelpClasses -> createDialog(getString(R.string.enterGradeHelpTitle), getString(R.string.enterGradeHelp))
             R.id.btnCustomiseColours -> createColourDialog()
             R.id.btnWebsite -> {
                 try {
                     customTabsIntent.launchUrl(mContext, Uri.parse("http://307.joomla.schule.bremen.de"))
                 } catch (e: ActivityNotFoundException) {
-                    Toast.makeText(mContext, getString(R.string.chromecompatible), Toast.LENGTH_LONG).show()
+                    Toast.makeText(mContext, getString(R.string.chromeCompatibleNotFound), Toast.LENGTH_LONG).show()
                 }
             }
             R.id.btnLicences -> {
@@ -193,9 +193,9 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                     try {
                         cs = 7
                         customTabsIntent.launchUrl(mContext, Uri.parse("http://www.flussufer.de/gerd/person.htm"))
-                        Toast.makeText(mContext, getString(R.string.donttell), Toast.LENGTH_LONG).show()
+                        Toast.makeText(mContext, getString(R.string.dontTellHim), Toast.LENGTH_LONG).show()
                     } catch (e: ActivityNotFoundException) {
-                        Toast.makeText(mContext, getString(R.string.chromecompatible), Toast.LENGTH_LONG).show()
+                        Toast.makeText(mContext, getString(R.string.chromeCompatibleNotFound), Toast.LENGTH_LONG).show()
                     }
                 }
             }
@@ -215,14 +215,14 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                         edit.putInt("themeInt", 1)
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                         window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
-                        window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.background)
+                        window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.colorBackground)
 
                     } else {
                         edit.putInt("themeInt", 0)
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                            window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.background)
+                            window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.colorBackground)
                         }
                     }
                     if (prefs.getBoolean("defaultPersonalised", false)) {
@@ -261,7 +261,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
 
         val dialogView = LayoutInflater.from(mContext).inflate(R.layout.recycler_dialog, null)
         val titleText = dialogView.findViewById<TextView>(R.id.empty_textviewtitle)
-        titleText.text = getString(R.string.customisecolor1)
+        titleText.text = getString(R.string.customiseColoursTitle)
         colourRecycler = dialogView.findViewById(R.id.recyclerView)
 
         colourRecycler.layoutManager = GridLayoutManager(mContext, 1)
@@ -312,7 +312,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         val colourPickerDialog: AlertDialog = colourPickerBuilder.create()
 
         val buttons = arrayOf<MaterialButton>(picker.findViewById(R.id.def), picker.findViewById(R.id.red), picker.findViewById(R.id.orange), picker.findViewById(R.id.yellow), picker.findViewById(R.id.green), picker.findViewById(R.id.teal), picker.findViewById(R.id.cyan), picker.findViewById(R.id.blue), picker.findViewById(R.id.purple), picker.findViewById(R.id.pink), picker.findViewById(R.id.brown), picker.findViewById(R.id.grey))
-        val colours = intArrayOf(0, R.color.bgred, R.color.bgorange, R.color.bgyellow, R.color.bggreen, R.color.bgteal, R.color.bgcyan, R.color.bgblue, R.color.bgpurple, R.color.bgpink, R.color.bgbrown, R.color.bggrey)
+        val colours = intArrayOf(0, R.color.bgRed, R.color.bgOrange, R.color.bgYellow, R.color.bgGreen, R.color.bgTeal, R.color.bgCyan, R.color.bgBlue, R.color.bgPurple, R.color.bgPink, R.color.bgBrown, R.color.bgGrey)
 
         for (i2 in 0 until buttons.size) {
             buttons[i2].setOnClickListener {
@@ -338,8 +338,8 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         val dialogEditText = dialogView.findViewById<EditText>(R.id.dialog_edittext)
         val dialogButton = dialogView.findViewById<Button>(R.id.dialog_button)
 
-        dialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.experimentalmenu)
-        dialogView.findViewById<TextView>(R.id.dialogtext).text = getString(R.string.fortest)
+        dialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.experimentalMenu)
+        dialogView.findViewById<TextView>(R.id.dialogtext).text = getString(R.string.menuForTests)
         dialogButton.setOnClickListener {
             when (dialogEditText.text.toString()) {
                 "_DIAGNOSTICS" -> {
@@ -349,7 +349,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                     val resetLaunchBtn = devDialogView.findViewById<Button>(R.id.btnResetLaunch)
                     val resetNotifBtn = devDialogView.findViewById<Button>(R.id.btnResetNotif)
 
-                    devDialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.diagnosticsmenu)
+                    devDialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.diagnosticsMenu)
                     devDialogText.text = getDiagnosticsText(prefs)
 
                     resetLaunchBtn.setOnClickListener {
@@ -371,7 +371,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).setPackage("com.google.android.youtube")
                         startActivity(intent)
                     } catch (e: ActivityNotFoundException) {
-                        Toast.makeText(mContext, R.string.noyoutube, Toast.LENGTH_LONG).show()
+                        Toast.makeText(mContext, R.string.youtubeNotFound, Toast.LENGTH_LONG).show()
                     }
                 }
                 "_NOTIFICATION" -> {
@@ -382,7 +382,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                     edit.putBoolean("firstTime", true).apply()
                     Toast.makeText(mContext, "First time flag cleared", Toast.LENGTH_LONG).show()
                 }
-                else -> Toast.makeText(mContext, getString(R.string.nothinghappened), Toast.LENGTH_LONG).show()
+                else -> Toast.makeText(mContext, getString(R.string.invalidCode), Toast.LENGTH_LONG).show()
             }
         }
         alertDialog.setView(dialogView)

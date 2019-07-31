@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightbackground">
+    android:background="@color/colorBackgroundLight">
 
     <TextView
         android:id="@+id/textviewtitle"
@@ -14,7 +14,7 @@
         android:fontFamily="@font/manrope_semibold"
         android:textSize="22sp"
         android:layout_gravity="start"
-        android:textColor="@color/textcolor"
+        android:textColor="@color/colorText"
         android:textAlignment="center"/>
 
     <androidx.core.widget.NestedScrollView
@@ -26,7 +26,7 @@
             android:id="@+id/dialogtext"
             android:layout_height="match_parent"
             android:layout_width="wrap_content"
-            android:textColor="@color/textcolor"
+            android:textColor="@color/colorText"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
             android:paddingBottom="24dp"

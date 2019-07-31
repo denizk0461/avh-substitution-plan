@@ -37,11 +37,11 @@ class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
             AppCompatDelegate.MODE_NIGHT_NO -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                    window.navigationBarColor = ContextCompat.getColor(this, R.color.background)
+                    window.navigationBarColor = ContextCompat.getColor(this, R.color.colorBackground)
                 }
             }
             else -> {
-                window.navigationBarColor = ContextCompat.getColor(this, R.color.background)
+                window.navigationBarColor = ContextCompat.getColor(this, R.color.colorBackground)
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
             }
         }
@@ -61,10 +61,10 @@ class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
         val helpCourses = findViewById<ImageButton>(R.id.chipHelpCourses)
 
         helpClasses.setOnClickListener {
-            createDialog(getString(R.string.helpClassesTitle), getString(R.string.helpClasses))
+            createDialog(getString(R.string.enterGradeHelpTitle), getString(R.string.enterGradeHelp))
         }
         helpCourses.setOnClickListener {
-            createDialog(getString(R.string.helpCoursesTitle), getString(R.string.helpCourses))
+            createDialog(getString(R.string.enterCoursesHelpTitle), getString(R.string.enterCoursesHelp))
         }
 
         val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -82,6 +82,7 @@ class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
                 edit.putInt("themeInt", 0)
             }
             edit.putBoolean("notif", notif.isChecked)
+                    .putBoolean("greeting", findViewById<CheckBox>(R.id.cbGreetings).isChecked)
                     .putBoolean("defaultPersonalised", pers.isChecked)
                     .putBoolean("firstTime", false)
                     .apply()

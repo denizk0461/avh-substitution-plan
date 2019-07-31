@@ -1,7 +1,7 @@
 <resources>
 
     <style name="SelectableItemTheme">
-        <item name="colorControlHighlight">@color/accent</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
     </style>
 
     <style name="SelectableItemBackground">
@@ -10,16 +10,16 @@
     </style>
 
     <style name="AppTheme0" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/accent</item>
-        <item name="colorPrimaryDark">@color/background</item>
-        <item name="colorAccent">@color/accent</item>
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/colorBackground</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/manrope_medium</item>
-        <item name="android:colorEdgeEffect">@color/accent</item>
+        <item name="android:colorEdgeEffect">@color/colorAccent</item>
     </style>
 
     <style name="AlertDialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
-        <item name="android:background">@color/lightbackground</item>
-        <item name="android:textColorPrimary">@color/textcolor</item>
+        <item name="android:background">@color/colorBackgroundLight</item>
+        <item name="android:textColorPrimary">@color/colorText</item>
     </style>
 
     <style name="AppThemeLight.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -31,9 +31,9 @@
     </style>
 
     <style name="EditTextTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <item name="colorControlNormal">@color/hintcolor</item>
-        <item name="colorControlActivated">@color/accent</item>
-        <item name="colorControlHighlight">@color/accent</item>
+        <item name="colorControlNormal">@color/colorHint</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
     </style>
 
     <!-- The launcher theme. It sets the main window background to the launch_screen drawable -->

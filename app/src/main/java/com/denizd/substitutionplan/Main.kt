@@ -72,12 +72,12 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                        window.navigationBarColor = ContextCompat.getColor(this, R.color.background)
+                        window.navigationBarColor = ContextCompat.getColor(this, R.color.colorBackground)
                     }
                 }
                 else -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    window.navigationBarColor = ContextCompat.getColor(this, R.color.background)
+                    window.navigationBarColor = ContextCompat.getColor(this, R.color.colorBackground)
                 }
 //                else -> {
 //                    when (context.resources.configuration.uiMode) {
@@ -99,7 +99,7 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
             if (!prefs.getBoolean("autoRefresh", false) && prefs.getInt("firstTimeOpening", 0) != 0) {
                 try {
                     val sb = StringBuilder()
-                    val updated = sb.append(getText(R.string.lastupdatedK)).append(prefs.getString("time", "")).toString()
+                    val updated = sb.append(getText(R.string.lastUpdated)).append(prefs.getString("time", "")).toString()
 
                     Snackbar.make(contextView, updated, Snackbar.LENGTH_LONG).show()
                 } catch (e: IllegalArgumentException) {}
@@ -113,9 +113,9 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
                         val alertDialog = AlertDialog.Builder(context, R.style.AlertDialog)
                         val dialogView = LayoutInflater.from(context).inflate(R.layout.secret_dialog, null)
                         val title = dialogView.findViewById<TextView>(R.id.textviewtitle)
-                        title.text = getString(R.string.chinaTitle)
+                        title.text = getString(R.string.chineseDevicesTitle)
                         val dialogText = dialogView.findViewById<TextView>(R.id.dialogtext)
-                        dialogText.text = getString(R.string.chinaDialog)
+                        dialogText.text = getString(R.string.chineseDevicesHelp)
                         alertDialog.setView(dialogView).show()
 
                         edit.putBoolean("huaweiDeviceDialog", false).apply()
@@ -127,29 +127,6 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
             if (prefs.getBoolean("greeting", true)) {
                 if ((prefs.getString("username", "") ?: "").isNotEmpty()) {
                     textViewGreeting.text = getGreetingString()
-//                    val generator = Random()
-//                    val greetings = resources.getStringArray(R.array.greeting8_array)
-//                    val rightNow = Calendar.getInstance()
-//                    val currentHour = rightNow.get(Calendar.HOUR_OF_DAY)
-//
-//                    textViewGreeting.text = when (generator.nextInt(9)) {
-//                        0 -> getString(R.string.greeting0, prefs.getString("username", ""))
-//                        1 -> getString(R.string.greeting1, prefs.getString("username", ""))
-//                        2 -> getString(R.string.greeting2, prefs.getString("username", ""))
-//                        3 -> getString(R.string.greeting3, prefs.getString("username", ""))
-//                        4 -> getString(R.string.greeting4, prefs.getString("username", ""))
-//                        5 -> getString(R.string.greeting5, prefs.getString("username", ""))
-//                        6 -> getString(R.string.greeting6, prefs.getString("username", ""))
-//                        7 -> getString(R.string.greeting7, prefs.getString("username", ""))
-//                        8 -> {
-//                            when {
-//                                currentHour < 11 -> greetings[0] + prefs.getString("username", "") + "."
-//                                currentHour in 11..17 -> greetings[1] + prefs.getString("username", "") + "."
-//                                else -> greetings[1] + prefs.getString("username", "") + "."
-//                            }
-//                        }
-//                        else -> ";)" // getString(R.string.error)
-//                    }
                 }
             } else {
                 textViewGreeting.visibility = View.GONE
@@ -163,11 +140,11 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
             if (prefs.getBoolean("defaultPersonalised", false)) {
                 defaultFragment = PersonalPlanFragment()
                 bottomNav.selectedItemId = R.id.personal
-                toolbarTxt.text = getString(R.string.yourplan)
+                toolbarTxt.text = getString(R.string.yourPlan)
             } else {
                 defaultFragment = GeneralPlanFragment()
                 bottomNav.selectedItemId = R.id.plan
-                toolbarTxt.text = getString(R.string.app_name)
+                toolbarTxt.text = getString(R.string.appName)
             }
             loadFragment(defaultFragment)
 
@@ -177,15 +154,15 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
                 when (item.itemId) {
                     R.id.plan -> {
                         fragment = GeneralPlanFragment()
-                        toolbarTxt.text = getString(R.string.app_name)
+                        toolbarTxt.text = getString(R.string.appName)
                     }
                     R.id.personal -> {
                         fragment = PersonalPlanFragment()
-                        toolbarTxt.text = getString(R.string.yourplan)
+                        toolbarTxt.text = getString(R.string.yourPlan)
                     }
                     R.id.menu -> {
                         fragment = FoodFragment()
-                        toolbarTxt.text = getString(R.string.foodmenu)
+                        toolbarTxt.text = getString(R.string.foodMenu)
                     }
                     R.id.openinfopanel -> {
                         openInfoDialog()
@@ -242,9 +219,9 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
         val gen = Random()
 
         val greetingArray = when (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
-            in 5..10 -> resources.getStringArray(R.array.greetings_morning)
-            in 11..17 -> resources.getStringArray(R.array.greetings_noon)
-            else -> resources.getStringArray(R.array.greetings_evening)
+            in 5..10 -> resources.getStringArray(R.array.greetingsMorning)
+            in 11..17 -> resources.getStringArray(R.array.greetingsNoon)
+            else -> resources.getStringArray(R.array.greetingsEvening)
         }
         return String.format(greetingArray[gen.nextInt(7)], prefs.getString("username", ""))
     }
@@ -254,7 +231,7 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.simple_dialog, null)
         dialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.information)
         val sb = StringBuilder()
-        val dialogText = sb.append(getText(R.string.lastupdatedK)).append((prefs.getString("time", "") ?: "") + "\n\n").append(prefs.getString("informational", ""))
+        val dialogText = sb.append(getText(R.string.lastUpdated)).append((prefs.getString("time", "") ?: "") + ".\n\n").append(prefs.getString("informational", ""))
         dialogView.findViewById<TextView>(R.id.dialogtext).text = dialogText
         dialog.setView(dialogView).show()
     }
