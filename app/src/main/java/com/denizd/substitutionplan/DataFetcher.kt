@@ -7,13 +7,8 @@ import android.graphics.Color
 import android.media.RingtoneManager
 import android.os.AsyncTask
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.preference.PreferenceManager
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import android.widget.ProgressBar
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -45,9 +40,8 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
     private val prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
     private val edit = prefs.edit()
     private lateinit var pullToRefresh: SwipeRefreshLayout
-    private val fadeOut = AnimationUtils.loadAnimation(mContext, R.anim.fade_out)
-    private val handler = Handler(Looper.getMainLooper())
     var currentTime = ""
+    var currentFoodTime = ""
     val substUrl = "https://djd4rkn355.github.io/subst_test.html"
     val foodUrl = "https://djd4rkn355.github.io/food_test.html"
 
@@ -60,56 +54,52 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                 val foodViewModel = FoodViewModel(mApplication)
                 val docFood = Jsoup.connect(foodUrl).get()
                 val foodElements = docFood.select("th")
+                currentFoodTime = docFood.select("h1")[0].text()
+                if (currentFoodTime != prefs.getString("timeFood", "")) {
 
-                var foodInt = 0
-                var priority = 0
-                foodViewModel.deleteAll()
-                while (foodInt in 0 until foodElements.size) {
-                    try { // what a mess this is!
-                        if (foodElements[foodInt].text().contains("Montag") ||
-                                foodElements[foodInt].text().contains("Dienstag") ||
-                                foodElements[foodInt].text().contains("Mittwoch") ||
-                                foodElements[foodInt].text().contains("Donnerstag") ||
-                                foodElements[foodInt].text().contains("Freitag")) {
+                    var foodInt = 0
+                    var priority = 0
+                    foodViewModel.deleteAll()
+                    while (foodInt in 0 until foodElements.size) {
+                        try { // what a mess this is!
+                            with(foodElements[foodInt].text()) {
+                                if (contains("Montag") || contains("Dienstag") || contains("Mittwoch") ||
+                                        contains("Donnerstag") || contains("Freitag")) {
+                                    val three = foodElements[foodInt + 3].text()
+                                    val two = foodElements[foodInt + 2].text()
+                                    if (three.contains("Montag") || three.contains("Dienstag") || three.contains("Mittwoch") ||
+                                            three.contains("Donnerstag") || three.contains("Freitag") || three.contains("von")) {
+                                        foodViewModel.insert(Food(foodElements[foodInt].text() + "\n"
+                                                + foodElements[foodInt + 1].text() + "\n"
+                                                + foodElements[foodInt + 2].text(), priority))
+                                        foodInt += 2
+                                    } else if (two.contains("Montag") || two.contains("Dienstag") || two.contains("Mittwoch") ||
+                                            two.contains("Donnerstag") || two.contains("Freitag") || two.contains("von")) {
+                                        foodViewModel.insert(Food(foodElements[foodInt].text() + "\n"
+                                                + foodElements[foodInt + 1].text(), priority))
+                                        foodInt += 1
+                                    }
+                                } else {
+                                    foodViewModel.insert(Food(foodElements[foodInt].text(), priority))
+                                }
+                            }
 
-                            if (foodElements[foodInt + 3].text().contains("Montag") ||
-                                    foodElements[foodInt + 3].text().contains("Dienstag") ||
-                                    foodElements[foodInt + 3].text().contains("Mittwoch") ||
-                                    foodElements[foodInt + 3].text().contains("Donnerstag") ||
-                                    foodElements[foodInt + 3].text().contains("Freitag") ||
-                                    foodElements[foodInt + 3].text().contains("von")) {
+                        } catch (e: IndexOutOfBoundsException) {
+                            try {
                                 foodViewModel.insert(Food(foodElements[foodInt].text() + "\n"
                                         + foodElements[foodInt + 1].text() + "\n"
                                         + foodElements[foodInt + 2].text(), priority))
-                                foodInt += 2
-                            } else if (foodElements[foodInt + 2].text().contains("Montag") ||
-                                    foodElements[foodInt + 2].text().contains("Dienstag") ||
-                                    foodElements[foodInt + 2].text().contains("Mittwoch") ||
-                                    foodElements[foodInt + 2].text().contains("Donnerstag") ||
-                                    foodElements[foodInt + 2].text().contains("Freitag") ||
-                                    foodElements[foodInt + 2].text().contains("von")) {
+                                break
+                            } catch (e1: IndexOutOfBoundsException) {
                                 foodViewModel.insert(Food(foodElements[foodInt].text() + "\n"
                                         + foodElements[foodInt + 1].text(), priority))
-                                foodInt += 1
+                                break
                             }
-
-                        } else {
-                            foodViewModel.insert(Food(foodElements[foodInt].text(), priority))
                         }
-                    } catch (e: IndexOutOfBoundsException) {
-                        try {
-                            foodViewModel.insert(Food(foodElements[foodInt].text() + "\n"
-                                    + foodElements[foodInt + 1].text() + "\n"
-                                    + foodElements[foodInt + 2].text(), priority))
-                            break
-                        } catch (e1: IndexOutOfBoundsException) {
-                            foodViewModel.insert(Food(foodElements[foodInt].text() + "\n"
-                                    + foodElements[foodInt + 1].text(), priority))
-                            break
-                        }
+                        foodInt++
+                        priority++
                     }
-                    foodInt++
-                    priority++
+                    edit.putString("timeFood", currentFoodTime).apply()
                 }
             }
 
@@ -227,12 +217,14 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
             if (plan || menu) {
                 mView?.let { v: View ->
                     pullToRefresh.isRefreshing = false
-                    if (plan) {
-                        val snackBarView = v.findViewById<View>(R.id.coordination)
-                        val sb = StringBuilder()
-                        val lastUpdated = sb.append(mContext.getText(R.string.lastupdatedK)).append(currentTime)
-                        Snackbar.make(snackBarView, lastUpdated, Snackbar.LENGTH_LONG).show()
+                    val snackBarView = v.findViewById<View>(R.id.coordination)
+                    val sb = StringBuilder()
+                    val time = when {
+                        menu -> currentFoodTime
+                        else -> currentTime
                     }
+                    val lastUpdated = sb.append(mContext.getText(R.string.lastupdatedK)).append(time)
+                    Snackbar.make(snackBarView, lastUpdated, Snackbar.LENGTH_LONG).show()
                 }
             }
 

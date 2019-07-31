@@ -127,7 +127,7 @@
         <item>How are you, %s?</item>
         <item>Slept well, %s?</item>
         <item>Hey, %s!</item>
-        <item>Hi, %s!</item>
+        <item>Hi %s!</item>
         <item>Nice to see you, %s.</item>
         <item>How\'ve you been, %s?</item>
     </string-array>
@@ -137,7 +137,7 @@
         <item>How are you, %s?</item>
         <item>Enjoying your day, %s?</item>
         <item>Hey, %s!</item>
-        <item>Hi, %s!</item>
+        <item>Hi %s!</item>
         <item>Nice to see you, %s.</item>
         <item>Enjoy your day, %s!</item>
     </string-array>
@@ -147,9 +147,8 @@
         <item>How are you, %s?</item>
         <item>Enjoying your evening, %s?</item>
         <item>Hey, %s!</item>
-        <item>Hi, %s!</item>
+        <item>Hi %s!</item>
         <item>Sleep tight, %s.</item>
-        <item>Stayin\' up late, %s?</item>
+        <item>Staying up late, %s?</item>
     </string-array>
-
 </resources>

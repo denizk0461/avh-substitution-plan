@@ -113,7 +113,7 @@
         <item>Wie geht\'s dir, %s?</item>
         <item>Gut geschlafen, %s?</item>
         <item>Hey, %s!</item>
-        <item>Hi, %s!</item>
+        <item>Hi %s!</item>
         <item>Schön dich zu sehen, %s.</item>
         <item>Wie geht\'s dir so, %s?</item>
     </string-array>
@@ -123,7 +123,7 @@
         <item>Wie geht\'s dir, %s?</item>
         <item>Hoffe du hast einen schönen Tag, %s.</item>
         <item>Hey, %s!</item>
-        <item>Hi, %s!</item>
+        <item>Hi %s!</item>
         <item>Schön dich zu sehen, %s.</item>
         <item>Genieß\' deinen Tag, %s.</item>
     </string-array>
@@ -133,7 +133,7 @@
         <item>Wie geht\'s dir, %s?</item>
         <item>Genieß\' deinen Abend, %s.</item>
         <item>Hey, %s!</item>
-        <item>Hi, %s!</item>
+        <item>Hi %s!</item>
         <item>Schlaf\' gut, %s.</item>
         <item>Bleib\' nicht zu lang wach, %s!</item>
     </string-array>

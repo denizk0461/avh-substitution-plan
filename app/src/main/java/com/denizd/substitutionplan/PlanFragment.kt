@@ -53,7 +53,6 @@ open class PlanFragment : Fragment(R.layout.plan) {
                 else -> 2
             }
         }
-
         layoutManager = GridLayoutManager(mContext, grid)
         recyclerView.layoutManager = layoutManager
     }

@@ -253,7 +253,9 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
         val dialog = AlertDialog.Builder(context)
         val dialogView = LayoutInflater.from(context).inflate(R.layout.simple_dialog, null)
         dialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.information)
-        dialogView.findViewById<TextView>(R.id.dialogtext).text = prefs.getString("informational", "")
+        val sb = StringBuilder()
+        val dialogText = sb.append(getText(R.string.lastupdatedK)).append((prefs.getString("time", "") ?: "") + "\n\n").append(prefs.getString("informational", ""))
+        dialogView.findViewById<TextView>(R.id.dialogtext).text = dialogText
         dialog.setView(dialogView).show()
     }
 
