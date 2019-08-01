@@ -8,6 +8,8 @@
     <color name="colorHint">#757575</color>
     <color name="colorHintLight">#bdbdbd</color>
 
+    <color name="legacyBlack">#000000</color>
+
     <color name="bgRed">#F28B82</color>
     <color name="bgOrange">#FBBC04</color>
     <color name="bgYellow">#FFF475</color>

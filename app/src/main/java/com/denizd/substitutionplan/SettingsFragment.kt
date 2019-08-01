@@ -60,7 +60,6 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         val switchDark = view.findViewById<Switch>(R.id.switchDark)
         val switchNotifications = view.findViewById<Switch>(R.id.switchNotifications)
         val switchDefaultPlan = view.findViewById<Switch>(R.id.switchDefaultPlan)
-        val switchOpenInfo = view.findViewById<Switch>(R.id.switchOpenInfo)
         val switchAutoRefresh = view.findViewById<Switch>(R.id.switchAutoRefresh)
         val versionNumber = view.findViewById<TextView>(R.id.txtVersionTwo)
         val helpCourses = view.findViewById<ImageButton>(R.id.chipHelpCourses)
@@ -72,7 +71,6 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         switchDark.setOnCheckedChangeListener(this)
         switchNotifications.setOnCheckedChangeListener(this)
         switchDefaultPlan.setOnCheckedChangeListener(this)
-        switchOpenInfo.setOnCheckedChangeListener(this)
         switchAutoRefresh.setOnCheckedChangeListener(this)
         helpCourses.setOnClickListener(this)
         helpClasses.setOnClickListener(this)
@@ -90,7 +88,6 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         }
         switchNotifications.isChecked = prefs.getBoolean("notif", false)
         switchDefaultPlan.isChecked = prefs.getBoolean("defaultPersonalised", false)
-        switchOpenInfo.isChecked = prefs.getBoolean("openInfo", false)
         switchAutoRefresh.isChecked = prefs.getBoolean("autoRefresh", false)
 
         versionNumber.text = BuildConfig.VERSION_NAME
@@ -237,9 +234,6 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                 R.id.switchDefaultPlan -> {
                     edit.putBoolean("defaultPersonalised", isChecked)
                 }
-                R.id.switchOpenInfo -> {
-                    edit.putBoolean("openInfo", isChecked)
-                }
                 R.id.switchAutoRefresh -> {
                     edit.putBoolean("autoRefresh", isChecked)
                 }
@@ -263,6 +257,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         val titleText = dialogView.findViewById<TextView>(R.id.empty_textviewtitle)
         titleText.text = getString(R.string.customiseColoursTitle)
         colourRecycler = dialogView.findViewById(R.id.recyclerView)
+        colourRecycler.hasFixedSize()
 
         colourRecycler.layoutManager = GridLayoutManager(mContext, 1)
         colourRecycler.adapter = ColourAdapter(getColourList(), this)

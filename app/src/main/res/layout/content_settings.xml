@@ -397,38 +397,6 @@
                         app:layout_constraintTop_toTopOf="@+id/txtPersonalised"/>
 
                     <TextView
-                        android:id="@+id/txtOpenInfo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/openInfo"
-                        android:textColor="@color/colorText"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="@+id/txtDefaultsTo"
-                        app:layout_constraintTop_toBottomOf="@+id/txtDefaultsTo" />
-
-                    <TextView
-                        android:id="@+id/txtOpenInfoTwo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/openInfoNoUserInput"
-                        android:textColor="@color/colorHint"
-                        android:textSize="12sp"
-                        app:layout_constraintStart_toStartOf="@+id/txtOpenInfo"
-                        app:layout_constraintTop_toBottomOf="@+id/txtOpenInfo" />
-
-                    <Switch
-                        android:id="@+id/switchOpenInfo"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginEnd="16dp"
-                        android:gravity="end|center"
-                        app:layout_constraintBottom_toBottomOf="@+id/txtOpenInfoTwo"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/txtOpenInfo"
-                        app:layout_constraintTop_toTopOf="@+id/txtOpenInfo"/>
-
-                    <TextView
                         android:id="@+id/txtAutoRefresh"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -436,8 +404,8 @@
                         android:text="@string/autoRefresh"
                         android:textColor="@color/colorText"
                         android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="@+id/txtOpenInfoTwo"
-                        app:layout_constraintTop_toBottomOf="@+id/txtOpenInfoTwo" />
+                        app:layout_constraintStart_toStartOf="@+id/txtDefaultsTo"
+                        app:layout_constraintTop_toBottomOf="@+id/txtDefaultsTo" />
 
                     <TextView
                         android:id="@+id/txtAutoRefreshTwo"

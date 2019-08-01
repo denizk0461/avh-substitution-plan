@@ -52,20 +52,13 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
                 notificationJob()
             }
 
-            val handler = Handler()
-
             val appbarlayout = findViewById<AppBarLayout>(R.id.appbarlayout)
             val toolbarTxt = findViewById<TextView>(R.id.toolbarTxt)
             val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
-            val chip = findViewById<Chip>(R.id.chip)
             val contextView = findViewById<View>(R.id.coordination)
             val window = this.window as Window
 
             setTheme(R.style.AppTheme0)
-
-            if (prefs.getBoolean("openInfo", false)) {
-                openInfoDialog()
-            }
 
             when (prefs.getInt("themeInt", 0)) {
                 0 -> {
@@ -73,11 +66,15 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                         window.navigationBarColor = ContextCompat.getColor(this, R.color.colorBackground)
+                    } else {
+                        window.statusBarColor = ContextCompat.getColor(this, R.color.legacyBlack)
+                        window.navigationBarColor = ContextCompat.getColor(this, R.color.legacyBlack)
                     }
                 }
                 else -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                     window.navigationBarColor = ContextCompat.getColor(this, R.color.colorBackground)
+                    window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackground)
                 }
 //                else -> {
 //                    when (context.resources.configuration.uiMode) {

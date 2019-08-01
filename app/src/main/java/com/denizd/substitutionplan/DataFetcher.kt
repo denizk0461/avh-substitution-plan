@@ -39,17 +39,13 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
     private var informational = ""
     private val prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
     private val edit = prefs.edit()
-    private lateinit var pullToRefresh: SwipeRefreshLayout
     private var currentTime = ""
     private var currentFoodTime = ""
-    private val substUrl = "https://djd4rkn355.github.io/subst_test.html"
-    private val foodUrl = "https://djd4rkn355.github.io/food_test.html"
+    private val substUrl = "https://djd4rkn355.github.io/subst.html"
+    private val foodUrl = "https://djd4rkn355.github.io/food.html"
 
     override fun doInBackground(vararg params: Void?): Void? {
         try {
-            mView?.let { v: View ->
-                pullToRefresh = v.findViewById(R.id.pullToRefresh)
-            }
             if (menu) {
                 val foodViewModel = FoodViewModel(mApplication)
                 val docFood = Jsoup.connect(foodUrl).get()
@@ -214,29 +210,31 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     }
                 }
             }
+
             if (plan || menu) {
                 mView?.let { v: View ->
-                    pullToRefresh.isRefreshing = false
-                    val snackBarView = v.findViewById<View>(R.id.coordination)
-                    val sb = StringBuilder()
-                    val time = when {
+                    val snackText = mContext.getText(R.string.lastUpdated).toString() + when {
                         menu -> currentFoodTime
                         else -> currentTime
                     }
-                    val lastUpdated = sb.append(mContext.getText(R.string.lastUpdated)).append(time)
-                    Snackbar.make(snackBarView, lastUpdated, Snackbar.LENGTH_LONG).show()
+                    val snackBarView = v.findViewById<View>(R.id.coordination)
+                    Snackbar.make(snackBarView, snackText, Snackbar.LENGTH_LONG).show()
                 }
             }
-
         } catch (e: Exception) {
             mView?.let { v: View ->
-                try {
-                    pullToRefresh.isRefreshing = false
-                } catch (ignored: Exception) {}
                 val snackBarView = v.findViewById<View>(R.id.coordination)
-                Snackbar.make(snackBarView, mContext.getText(R.string.noInternet), Snackbar.LENGTH_LONG).show()
+                Snackbar.make(snackBarView, mContext.getString(R.string.noInternet), Snackbar.LENGTH_LONG).show()
             }
         }
         return null
+    }
+
+    override fun onPostExecute(result: Void?) {
+        mView?.let {
+            try {
+                it.findViewById<SwipeRefreshLayout>(R.id.pullToRefresh).isRefreshing = false
+            } catch (ignored: Exception) {}
+        }
     }
 }

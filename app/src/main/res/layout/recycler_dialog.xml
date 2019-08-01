@@ -14,17 +14,18 @@
         android:fontFamily="@font/manrope_semibold"
         android:layout_gravity="start"
         android:textColor="@color/colorText"
-        android:textAlignment="center"/>
+        android:textAlignment="viewStart"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="4dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="4dp"
-            android:paddingStart="0dp"
-            android:paddingEnd="0dp"
-            android:paddingBottom="0dp">
+            android:layout_height="match_parent"/>
 
-        </androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
 
 </LinearLayout>

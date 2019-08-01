@@ -14,7 +14,7 @@
         android:fontFamily="@font/manrope_semibold"
         android:layout_gravity="start"
         android:textColor="@color/colorText"
-        android:textAlignment="center"/>
+        android:textAlignment="viewStart"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

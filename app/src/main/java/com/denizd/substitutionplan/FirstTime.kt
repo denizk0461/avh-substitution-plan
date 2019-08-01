@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import java.util.*
@@ -34,10 +35,13 @@ class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
         val window = this.window
 
         when (AppCompatDelegate.getDefaultNightMode()) {
-            AppCompatDelegate.MODE_NIGHT_NO -> {
+            AppCompatDelegate.MODE_NIGHT_NO, AppCompatDelegate.MODE_NIGHT_UNSPECIFIED -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                     window.navigationBarColor = ContextCompat.getColor(this, R.color.colorBackground)
+                } else {
+                    window.statusBarColor = ContextCompat.getColor(this, R.color.legacyBlack)
+                    window.navigationBarColor = ContextCompat.getColor(this, R.color.legacyBlack)
                 }
             }
             else -> {
@@ -114,8 +118,13 @@ class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
                 }
             })
             handler.postDelayed({
-                val mImgCheck = findViewById<ImageView>(R.id.imageView).drawable as AnimatedVectorDrawable
-                mImgCheck.start()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    val mImgCheck = findViewById<ImageView>(R.id.imageView).drawable as AnimatedVectorDrawable
+                    mImgCheck.start()
+                } else {
+                    val mImgCheck = findViewById<ImageView>(R.id.imageView).drawable as AnimatedVectorDrawableCompat
+                    mImgCheck.start()
+                }
             }, 1000)
             handler.postDelayed({
                 startActivity(start)
