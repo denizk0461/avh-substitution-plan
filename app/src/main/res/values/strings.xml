@@ -112,6 +112,7 @@
     <string name="yourPlan">Your Plan</string>
 
     <string-array name="greetingsMorning">
+        <item>Hello, %s!</item>
         <item>Good morning, %s!</item>
         <item>Have a nice day, %s.</item>
         <item>How are you, %s?</item>
@@ -122,6 +123,7 @@
         <item>How\'ve you been, %s?</item>
     </string-array>
     <string-array name="greetingsNoon">
+        <item>Hello, %s!</item>
         <item>Good day, %s!</item>
         <item>Have a nice day, %s.</item>
         <item>How are you, %s?</item>
@@ -132,13 +134,11 @@
         <item>Enjoy your day, %s!</item>
     </string-array>
     <string-array name="greetingsEvening">
+        <item>Hello, %s!</item>
         <item>Good evening, %s!</item>
         <item>Enjoy your evening, %s.</item>
         <item>How are you, %s?</item>
-        <item>Enjoying your evening, %s?</item>
         <item>Hey, %s!</item>
         <item>Hi %s!</item>
-        <item>Sleep tight, %s.</item>
-        <item>Staying up late, %s?</item>
     </string-array>
 </resources>

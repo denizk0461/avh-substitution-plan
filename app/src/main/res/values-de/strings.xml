@@ -38,7 +38,7 @@
     <string name="splan">s Plan</string>
     <string name="nosplan">\' Plan</string>
     <string name="licences">Lizenzen</string>
-    <string name="whatItTook">Was die App ausmacht</string>
+    <string name="whatItTook">Was die App ausmacht (Englisch)</string>
     <string name="version">Versionsnummer</string>
     <string name="privacy">Datenschutzerklärung</string>
     <string name="tac">AGB</string>
@@ -98,6 +98,7 @@
     <string name="nightMode">Aktiviert den Nachtmodus</string>
     <string name="yourPlan">Dein Plan</string>
     <string-array name="greetingsMorning">
+        <item>Hallo, %s!</item>
         <item>Guten Morgen, %s!</item>
         <item>Hab einen schönen Tag, %s.</item>
         <item>Wie geht\'s dir, %s?</item>
@@ -108,6 +109,7 @@
         <item>Wie geht\'s dir so, %s?</item>
     </string-array>
     <string-array name="greetingsNoon">
+        <item>Hallo, %s!</item>
         <item>Guten Tag, %s!</item>
         <item>Einen schönen Tag noch, %s.</item>
         <item>Wie geht\'s dir, %s?</item>
@@ -118,13 +120,11 @@
         <item>Genieß\' deinen Tag, %s.</item>
     </string-array>
     <string-array name="greetingsEvening">
-        <item>Good evening, %s!</item>
-        <item>Enjoy your evening, %s.</item>
-        <item>Wie geht\'s dir, %s?</item>
+        <item>Hallo, %s!</item>
+        <item>Schönen Abend, %s!</item>
         <item>Genieß\' deinen Abend, %s.</item>
+        <item>Wie geht\'s dir, %s?</item>
         <item>Hey, %s!</item>
         <item>Hi %s!</item>
-        <item>Schlaf\' gut, %s.</item>
-        <item>Bleib\' nicht zu lang wach, %s!</item>
     </string-array>
 </resources>

@@ -215,12 +215,11 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
     private fun getGreetingString(): String {
         val gen = Random()
 
-        val greetingArray = when (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
-            in 5..10 -> resources.getStringArray(R.array.greetingsMorning)
-            in 11..17 -> resources.getStringArray(R.array.greetingsNoon)
-            else -> resources.getStringArray(R.array.greetingsEvening)
-        }
-        return String.format(greetingArray[gen.nextInt(7)], prefs.getString("username", ""))
+        return String.format(when (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
+            in 5..10 -> resources.getStringArray(R.array.greetingsMorning)[gen.nextInt(resources.getStringArray(R.array.greetingsMorning).size)]
+            in 11..17 -> resources.getStringArray(R.array.greetingsNoon)[gen.nextInt(resources.getStringArray(R.array.greetingsNoon).size)]
+            else -> resources.getStringArray(R.array.greetingsEvening)[gen.nextInt(resources.getStringArray(R.array.greetingsEvening).size)]
+        }, prefs.getString("username", ""))
     }
 
     private fun openInfoDialog() {
