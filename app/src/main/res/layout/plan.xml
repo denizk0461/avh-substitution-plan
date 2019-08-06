@@ -37,7 +37,8 @@
                 app:layout_anchor="@+id/smileydown"
                 android:layout_gravity="bottom|center_horizontal"
                 android:textColor="@color/colorHint"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:layout_marginBottom="16dp"/>
 
         </LinearLayout>
 

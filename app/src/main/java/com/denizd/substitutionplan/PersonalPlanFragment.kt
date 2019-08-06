@@ -21,7 +21,9 @@ class PersonalPlanFragment : PlanFragment() {
             persPlanEmpty = true
             recyclerView.visibility = View.VISIBLE
             for (i in 0 until it.size) {
-                if ((prefs.getString("courses", "") ?: "").isEmpty() && (prefs.getString("classes", "") ?: "").isNotEmpty()) {
+                if (it[i].date.isNotEmpty() && it[i].date.substring(0, 3) == "psa") {
+                    planCardList.add(it[i])
+                } else if ((prefs.getString("courses", "") ?: "").isEmpty() && (prefs.getString("classes", "") ?: "").isNotEmpty()) {
                     if (it[i].group.isNotEmpty() && it[i].group != "") {
                         if ((prefs.getString("classes", "") ?: "").contains(it[i].group) || it[i].group.contains((prefs.getString("classes", "") ?: "").toString())) {
                             planCardList.add(it[i])
@@ -45,7 +47,7 @@ class PersonalPlanFragment : PlanFragment() {
 
             handler.postDelayed({
                 if (persPlanEmpty) {
-                    recyclerView.visibility = View.GONE
+//                    recyclerView.visibility = View.GONE
                     smileydown.visibility = View.VISIBLE
                     smileydowntext.visibility = View.VISIBLE
                     linearsmiley.visibility = View.VISIBLE
