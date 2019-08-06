@@ -307,8 +307,20 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         colourPickerBuilder.setView(pickerDialogView)
         val colourPickerDialog: AlertDialog = colourPickerBuilder.create()
 
-        val buttons = arrayOf<MaterialButton>(picker.findViewById(R.id.def), picker.findViewById(R.id.red), picker.findViewById(R.id.orange), picker.findViewById(R.id.yellow), picker.findViewById(R.id.green), picker.findViewById(R.id.teal), picker.findViewById(R.id.cyan), picker.findViewById(R.id.blue), picker.findViewById(R.id.purple), picker.findViewById(R.id.pink), picker.findViewById(R.id.brown), picker.findViewById(R.id.grey))
-        val colours = intArrayOf(0, R.color.bgRed, R.color.bgOrange, R.color.bgYellow, R.color.bgGreen, R.color.bgTeal, R.color.bgCyan, R.color.bgBlue, R.color.bgPurple, R.color.bgPink, R.color.bgBrown, R.color.bgGrey)
+        val buttons = arrayOf<MaterialButton>(picker.findViewById(R.id.def), picker.findViewById(R.id.red),
+                picker.findViewById(R.id.orange), picker.findViewById(R.id.yellow), picker.findViewById(R.id.green),
+                picker.findViewById(R.id.teal), picker.findViewById(R.id.cyan), picker.findViewById(R.id.blue),
+                picker.findViewById(R.id.purple), picker.findViewById(R.id.pink), picker.findViewById(R.id.brown),
+                picker.findViewById(R.id.grey), picker.findViewById(R.id.pureWhite), picker.findViewById(R.id.salmon),
+                picker.findViewById(R.id.tangerine), picker.findViewById(R.id.banana), picker.findViewById(R.id.flora),
+                picker.findViewById(R.id.spindrift), picker.findViewById(R.id.sky), picker.findViewById(R.id.orchid),
+                picker.findViewById(R.id.lavender), picker.findViewById(R.id.carnation), picker.findViewById(R.id.brown2),
+                picker.findViewById(R.id.pureBlack))
+
+        val colours = intArrayOf(0, R.color.bgRed, R.color.bgOrange, R.color.bgYellow, R.color.bgGreen,
+                R.color.bgTeal, R.color.bgCyan, R.color.bgBlue, R.color.bgPurple, R.color.bgPink, R.color.bgBrown, R.color.bgGrey,
+                R.color.bgPureWhite, R.color.bgSalmon, R.color.bgTangerine, R.color.bgBanana, R.color.bgFlora, R.color.bgSpindrift,
+                R.color.bgSky, R.color.bgOrchid, R.color.bgLavender, R.color.bgCarnation, R.color.bgBrown2, R.color.bgPureBlack)
 
         for (i2 in 0 until buttons.size) {
             buttons[i2].setOnClickListener {

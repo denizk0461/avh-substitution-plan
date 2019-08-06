@@ -42,6 +42,14 @@ class ColourAdapter(private var mColours: List<Colour>, onClickListener: OnClick
             R.color.colorBackgroundLight
         }
         holder.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.image.context, colour))
+
+        val textColor = when (colour) {
+            R.color.bgPureWhite -> R.color.colorTextDark
+            R.color.bgPureBlack -> R.color.colorTextLight
+            else -> R.color.colorText
+        }
+        holder.image.setColorFilter(ContextCompat.getColor(holder.image.context, textColor))
+        holder.title.setTextColor(ContextCompat.getColor(holder.title.context, textColor))
     }
 
     override fun getItemCount(): Int = mColours.size

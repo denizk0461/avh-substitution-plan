@@ -19,5 +19,18 @@
     <color name="bgBrown">#442F1B</color>
     <color name="bgGrey">#3C3F43</color>
 
+    <color name="bgSalmon">#7F3E3C</color>
+    <color name="bgTangerine">#7F4900</color>
+    <color name="bgBanana">#7F7D3C</color> <!-- hmm -->
+    <color name="bgFlora">#397C3C</color>
+    <color name="bgSpindrift">#397D6A</color>
+    <color name="bgSky">#3A6A7F</color>
+    <color name="bgOrchid">#3C407F</color>
+    <color name="bgLavender">#6B417F</color>
+    <color name="bgCarnation">#7F446B</color>
+    <color name="bgBrown2">#554633</color>
+
+    <color name="colorError">#CF6679</color>
+
     <color name="colorSplashLogo">@color/colorText</color>
 </resources>

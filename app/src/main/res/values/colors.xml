@@ -22,6 +22,24 @@
     <color name="bgBrown">#E6C9A8</color>
     <color name="bgGrey">#BDBDBD</color>
 
+    <color name="bgPureWhite">#FFFFFF</color>
+    <color name="bgSalmon">#FF7E79</color>
+    <color name="bgTangerine">#FF9300</color>
+    <color name="bgBanana">#FFFC79</color>
+    <color name="bgFlora">#73FA79</color>
+    <color name="bgSpindrift">#73FCD6</color>
+    <color name="bgSky">#76D6FF</color>
+    <color name="bgOrchid">#7A81FF</color>
+    <color name="bgLavender">#D783FF</color>
+    <color name="bgCarnation">#FF8AD8</color>
+    <color name="bgBrown2">#AC8E68</color>
+    <color name="bgPureBlack">#000000</color>
+
+    <color name="colorTextDark">#212121</color>
+    <color name="colorTextLight">#e0e0e0</color>
+
+    <color name="colorError">#B00020</color>
+
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#757575</color>
 
     <color name="colorSplashLogo">@color/colorAccent</color>

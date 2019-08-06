@@ -31,10 +31,6 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
         return CardViewHolder(v)
     }
 
-    fun getSubstAt(i: Int): Subst {
-        return mSubst[i]
-    } // do I need this in Kotlin?
-
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val currentItem = mSubst[position]
         val prefs = PreferenceManager.getDefaultSharedPreferences(holder.mImageView.context)
@@ -95,6 +91,19 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
         } else {
             holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mCourse.context, R.color.colorBackgroundLight))
         }
+
+        val textColor = when (colour) {
+            R.color.bgPureWhite -> R.color.colorTextDark
+            R.color.bgPureBlack -> R.color.colorTextLight
+            else -> R.color.colorText
+        }
+        holder.mImageView.setColorFilter(ContextCompat.getColor(holder.mImageView.context, textColor))
+        holder.mGroup.setTextColor(ContextCompat.getColor(holder.mImageView.context, textColor))
+        holder.mDate.setTextColor(ContextCompat.getColor(holder.mImageView.context, textColor))
+        holder.mTime.setTextColor(ContextCompat.getColor(holder.mImageView.context, textColor))
+        holder.mCourse.setTextColor(ContextCompat.getColor(holder.mImageView.context, textColor))
+        holder.mRoom.setTextColor(ContextCompat.getColor(holder.mImageView.context, textColor))
+        holder.mAdditional.setTextColor(ContextCompat.getColor(holder.mImageView.context, textColor))
     }
 
     override fun getItemCount(): Int = mSubst.size

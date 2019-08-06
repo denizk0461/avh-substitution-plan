@@ -122,4 +122,122 @@
 
     </TableRow>
 
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:id="@+id/pureWhite"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/bgPureWhite"
+            app:cornerRadius="16dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:id="@+id/salmon"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/bgSalmon"
+            app:cornerRadius="16dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:id="@+id/tangerine"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/bgTangerine"
+            app:cornerRadius="16dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:id="@+id/banana"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/bgBanana"
+            app:cornerRadius="16dp"/>
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:id="@+id/flora"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/bgFlora"
+            app:cornerRadius="16dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:id="@+id/spindrift"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/bgSpindrift"
+            app:cornerRadius="16dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:id="@+id/sky"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/bgSky"
+            app:cornerRadius="16dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:id="@+id/orchid"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/bgOrchid"
+            app:cornerRadius="16dp"/>
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:id="@+id/lavender"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/bgLavender"
+            app:cornerRadius="16dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:id="@+id/carnation"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/bgCarnation"
+            app:cornerRadius="16dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:id="@+id/brown2"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/bgBrown2"
+            app:cornerRadius="16dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:id="@+id/pureBlack"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/bgPureBlack"
+            app:cornerRadius="16dp"/>
+
+    </TableRow>
+
+<!--    R.color.bgPureWhite, R.color.bgSalmon, R.color.bgTangerine, R.color.bgBanana, R.color.bgFlora, R.color.bgSpindrift,-->
+<!--    R.color.bgSky, R.color.bgOrchid, R.color.bgLavender, R.color.bgCarnation, R.color.bgLavender, R.color.bgCarnation,-->
+<!--    R.color.bgBrown2, R.color.bgPureBlack)-->
+
 </TableLayout>
