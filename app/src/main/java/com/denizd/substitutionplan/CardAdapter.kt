@@ -3,6 +3,8 @@ package com.denizd.substitutionplan
 import android.content.ActivityNotFoundException
 import android.net.Uri
 import android.preference.PreferenceManager
+import android.text.SpannableString
+import android.text.style.StrikethroughSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,12 +53,18 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
         val currentItem = mSubst[position]
         val prefs = PreferenceManager.getDefaultSharedPreferences(holder.mImageView.context)
         var psa = false
+        val room = SpannableString(currentItem.room)
+        for (i in 0 until room.length) {
+            if (room[i].toString() == "?") {
+                room.setSpan(StrikethroughSpan(), 0, i, 0)
+            }
+        }
 
         holder.mImageView.setImageResource(currentItem.icon)
         holder.mGroup.text = currentItem.group
         holder.mTime.text = currentItem.time
         holder.mCourse.text = currentItem.course
-        holder.mRoom.text = currentItem.room
+        holder.mRoom.setText(room, TextView.BufferType.SPANNABLE)
         holder.mAdditional.text = currentItem.additional
 
         if (currentItem.date.isNotEmpty() && currentItem.date.substring(0, 3) == "psa") {
