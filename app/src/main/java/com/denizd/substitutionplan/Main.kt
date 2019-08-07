@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.preference.PreferenceManager
 import android.view.*
 import android.widget.TextView
@@ -22,7 +21,6 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.jaredrummler.android.device.DeviceName
 import java.lang.IllegalArgumentException

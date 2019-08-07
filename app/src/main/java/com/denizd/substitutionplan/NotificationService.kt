@@ -5,8 +5,6 @@ import android.app.job.JobService
 import android.content.Context
 import android.net.ConnectivityManager
 import android.preference.PreferenceManager
-import org.jsoup.Jsoup
-import java.net.URL
 
 class NotificationService : JobService() {
 

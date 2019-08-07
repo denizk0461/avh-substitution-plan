@@ -41,11 +41,11 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
     private val edit = prefs.edit()
     private var currentTime = ""
     private var currentFoodTime = ""
-    private val substUrl = "https://djd4rkn355.github.io/subst_test.html"
+    private val substUrl = "https://djd4rkn355.github.io/subst.html"
     private val foodUrl = "https://djd4rkn355.github.io/food.html"
 
     override fun doInBackground(vararg params: Void?): Void? {
-//        try {
+        try {
             if (menu) {
                 val docFood = Jsoup.connect(foodUrl).get()
                 currentFoodTime = docFood.select("h1")[0].text()
@@ -221,12 +221,12 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     Snackbar.make(snackBarView, snackText, Snackbar.LENGTH_LONG).show()
                 }
             }
-//        } catch (e: Exception) {
-//            mView?.let { v: View ->
-//                val snackBarView = v.findViewById<View>(R.id.coordination)
-//                Snackbar.make(snackBarView, mContext.getString(R.string.noInternet), Snackbar.LENGTH_LONG).setBackgroundTint(ContextCompat.getColor(mContext, R.color.colorError)).show()
-//            }
-//        }
+        } catch (e: Exception) {
+            mView?.let { v: View ->
+                val snackBarView = v.findViewById<View>(R.id.coordination)
+                Snackbar.make(snackBarView, mContext.getString(R.string.noInternet), Snackbar.LENGTH_LONG).setBackgroundTint(ContextCompat.getColor(mContext, R.color.colorError)).show()
+            }
+        }
         return null
     }
 

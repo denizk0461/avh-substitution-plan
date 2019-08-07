@@ -19,7 +19,8 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
     private var colour = 0
     private var colorCheck = ""
 
-    class CardViewHolder (view: View) : RecyclerView.ViewHolder(view) {
+    class CardViewHolder (view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+
         var mImageView: ImageView = itemView.findViewById(R.id.iconView)
         var mGroup: TextView = itemView.findViewById(R.id.group)
         var mDate: TextView = itemView.findViewById(R.id.date)
@@ -28,6 +29,17 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
         var mRoom: TextView = itemView.findViewById(R.id.room)
         var mAdditional: TextView = itemView.findViewById(R.id.additional)
         var mCard = itemView.findViewById<MaterialCardView>(R.id.planCard)
+        init { view.setOnClickListener(this) }
+        override fun onClick(v: View?) {
+            if (mDate.text.toString().length > 7 && mDate.text.toString().substring(3, 7) == "http") {
+                try {
+                    CustomTabsIntent.Builder().build().launchUrl(mCard.context,
+                            Uri.parse(mDate.text.toString().substring(3)))
+                } catch (e: ActivityNotFoundException) {
+                    Toast.makeText(mCard.context, mCard.context.getString(R.string.chromeCompatibleNotFound), Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
@@ -49,20 +61,12 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
 
         if (currentItem.date.isNotEmpty() && currentItem.date.substring(0, 3) == "psa") {
             psa = true
-            holder.mDate.text = ""
+            holder.mDate.visibility = View.GONE
+            holder.mDate.text = currentItem.date
             holder.mImageView.setImageResource(R.drawable.ic_idea)
             holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mImageView.context, R.color.colorAccent))
-            if (currentItem.date.substring(3, 7) == "http") {
-                holder.mCard.setOnClickListener {
-                    try {
-                        CustomTabsIntent.Builder().build().launchUrl(holder.mCard.context,
-                                Uri.parse(currentItem.date.substring(3)))
-                    } catch (e: ActivityNotFoundException) {
-                        Toast.makeText(holder.mCard.context, holder.mCard.context.getString(R.string.chromeCompatibleNotFound), Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
         } else {
+            holder.mDate.visibility = View.VISIBLE
             holder.mDate.text = currentItem.date
         }
 
