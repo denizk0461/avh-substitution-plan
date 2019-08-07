@@ -33,7 +33,7 @@ public class SubstRepository(application: Application) {
     }
 
     class InsertSubstAsync(substDao: SubstDao?) : AsyncTask<Subst, Void, Void>() {
-        val mSubstDao = substDao
+        private val mSubstDao = substDao
         override fun doInBackground(vararg substs: Subst): Void? {
             mSubstDao?.insertSubst(substs[0])
             return null

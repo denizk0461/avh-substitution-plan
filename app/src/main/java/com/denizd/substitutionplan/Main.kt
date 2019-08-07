@@ -48,10 +48,6 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
             edit.putInt("launchDev", prefs.getInt("launchDev", 0) + 1)
             edit.apply()
 
-            if (prefs.getBoolean("notif", true)) {
-                notificationJob()
-            }
-
             val appbarlayout = findViewById<AppBarLayout>(R.id.appbarlayout)
             val toolbarTxt = findViewById<TextView>(R.id.toolbarTxt)
             val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
@@ -208,6 +204,10 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
                         } catch (e: NullPointerException) {}
                     }
                 }
+            }
+
+            if (prefs.getBoolean("notif", true)) {
+                notificationJob()
             }
         }
     }

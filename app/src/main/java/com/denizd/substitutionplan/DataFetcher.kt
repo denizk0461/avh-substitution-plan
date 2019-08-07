@@ -15,7 +15,6 @@ import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import org.jsoup.Jsoup
-import org.jsoup.select.Elements
 import java.lang.IndexOutOfBoundsException
 import kotlin.collections.ArrayList
 
@@ -46,14 +45,13 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
     private val foodUrl = "https://djd4rkn355.github.io/food.html"
 
     override fun doInBackground(vararg params: Void?): Void? {
-        try {
+//        try {
             if (menu) {
-                val foodViewModel = FoodViewModel(mApplication)
                 val docFood = Jsoup.connect(foodUrl).get()
-                val foodElements = docFood.select("th")
                 currentFoodTime = docFood.select("h1")[0].text()
                 if (currentFoodTime != prefs.getString("timeFood", "")) {
-
+                    val foodViewModel = FoodViewModel(mApplication)
+                    val foodElements = docFood.select("th")
                     var foodInt = 0
                     var priority = 0
                     foodViewModel.deleteAll()
@@ -101,10 +99,10 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
             }
 
             if (plan) {
-                val substViewModel = SubstViewModel(mApplication)
                 val doc = Jsoup.connect(substUrl).get()
                 currentTime = doc.select("h1")[0].text()
                 if (currentTime != prefs.getString("time", "")) {
+                    val substViewModel = SubstViewModel(mApplication)
                     val rows = doc.select("tr")
                     val paragraphs = doc.select("p")
 
@@ -128,7 +126,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
 
                     for (i in 0 until rows.size) {
                         val row = rows[i]
-                        val cols = row.select("th") as Elements
+                        val cols = row.select("th")
 
                         groupS.add(cols[0].text())
                         dateS.add(cols[1].text())
@@ -174,8 +172,8 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                                 }
                             }
                         }
-                        edit.putString("time", currentTime).apply()
                     }
+
                     if (jobservice && prefs.getBoolean("notif", true)) {
                         val openApp = Intent(mContext, Main::class.java)
                         openApp.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -209,6 +207,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                             manager.notify(1, notification)
                         }
                     }
+                    edit.putString("time", currentTime).apply()
                 }
             }
 
@@ -222,12 +221,12 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     Snackbar.make(snackBarView, snackText, Snackbar.LENGTH_LONG).show()
                 }
             }
-        } catch (e: Exception) {
-            mView?.let { v: View ->
-                val snackBarView = v.findViewById<View>(R.id.coordination)
-                Snackbar.make(snackBarView, mContext.getString(R.string.noInternet), Snackbar.LENGTH_LONG).setBackgroundTint(ContextCompat.getColor(mContext, R.color.colorError)).show()
-            }
-        }
+//        } catch (e: Exception) {
+//            mView?.let { v: View ->
+//                val snackBarView = v.findViewById<View>(R.id.coordination)
+//                Snackbar.make(snackBarView, mContext.getString(R.string.noInternet), Snackbar.LENGTH_LONG).setBackgroundTint(ContextCompat.getColor(mContext, R.color.colorError)).show()
+//            }
+//        }
         return null
     }
 

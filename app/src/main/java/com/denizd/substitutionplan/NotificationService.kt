@@ -30,18 +30,15 @@ class NotificationService : JobService() {
         val networkStatus = connectivityManager.activeNetworkInfo
 
         Thread(Runnable {
-            if (!prefs.getBoolean("notif", false)) {
+            if (!prefs.getBoolean("notif", false) || jobCancelled || networkStatus == null) {
+                jobFinished(params, false)
                 return@Runnable
             } else {
-                if (jobCancelled || networkStatus == null) {
-                    return@Runnable
-                }
-                if (prefs.getBoolean("notif", false)) {
-                    edit.putInt("notificationTestNumberDev", prefs.getInt("notificationTestNumberDev", 0) + 1).apply()
-                    try {
-                        DataFetcher(true, true, true, context, application, null).execute()
-                    } catch (ignored: Exception) {}
-                }
+                edit.putInt("notificationTestNumberDev", prefs.getInt("notificationTestNumberDev", 0) + 1).apply()
+                try {
+                    DataFetcher(true, true, true, context, application, null).execute()
+                } catch (ignored: Exception) {}
+
                 jobFinished(params, false)
             }
         }).start()
