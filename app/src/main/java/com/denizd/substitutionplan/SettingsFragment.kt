@@ -390,6 +390,11 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                     edit.putBoolean("firstTime", true).apply()
                     Toast.makeText(mContext, "First time flag cleared", Toast.LENGTH_LONG).show()
                 }
+                "_TESTURLS" -> {
+                    val currentTest = !prefs.getBoolean("testUrls", false)
+                    edit.putBoolean("testUrls", currentTest).apply()
+                    Toast.makeText(mContext, "Test URLs set to $currentTest", Toast.LENGTH_LONG).show()
+                }
                 else -> Toast.makeText(mContext, getString(R.string.invalidCode), Toast.LENGTH_LONG).show()
             }
         }

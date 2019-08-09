@@ -53,18 +53,20 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
         val currentItem = mSubst[position]
         val prefs = PreferenceManager.getDefaultSharedPreferences(holder.mImageView.context)
         var psa = false
-        val room = SpannableString(currentItem.room)
-        for (i in 0 until room.length) {
-            if (room[i].toString() == "?") {
-                room.setSpan(StrikethroughSpan(), 0, i, 0)
+        val strings = arrayOf(SpannableString(currentItem.group), SpannableString(currentItem.time),
+                SpannableString(currentItem.course), SpannableString(currentItem.room))
+        for (item in strings) {
+            val qmark = item.indexOf("?")
+            if (qmark != -1) {
+                item.setSpan(StrikethroughSpan(), 0, qmark, 0)
             }
         }
 
         holder.mImageView.setImageResource(currentItem.icon)
-        holder.mGroup.text = currentItem.group
-        holder.mTime.text = currentItem.time
-        holder.mCourse.text = currentItem.course
-        holder.mRoom.setText(room, TextView.BufferType.SPANNABLE)
+        holder.mGroup.setText(strings[0], TextView.BufferType.SPANNABLE)
+        holder.mTime.setText(strings[1], TextView.BufferType.SPANNABLE)
+        holder.mCourse.setText(strings[2], TextView.BufferType.SPANNABLE)
+        holder.mRoom.setText(strings[3], TextView.BufferType.SPANNABLE)
         holder.mAdditional.text = currentItem.additional
 
         if (currentItem.date.isNotEmpty() && currentItem.date.substring(0, 3) == "psa") {

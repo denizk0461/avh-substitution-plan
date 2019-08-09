@@ -41,11 +41,15 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
     private val edit = prefs.edit()
     private var currentTime = ""
     private var currentFoodTime = ""
-    private val substUrl = "https://djd4rkn355.github.io/subst.html"
-    private val foodUrl = "https://djd4rkn355.github.io/food.html"
+    private var substUrl = "https://djd4rkn355.github.io/subst.html"
+    private var foodUrl = "https://djd4rkn355.github.io/food.html"
 
     override fun doInBackground(vararg params: Void?): Void? {
         try {
+            if (prefs.getBoolean("testUrls", false)) {
+                substUrl = "https://djd4rkn355.github.io/subst_test.html"
+                foodUrl = "https://djd4rkn355.github.io/food_test.html"
+            }
             if (menu) {
                 val docFood = Jsoup.connect(foodUrl).get()
                 currentFoodTime = docFood.select("h1")[0].text()
