@@ -290,7 +290,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         val coursesIcons = intArrayOf(R.drawable.ic_german, R.drawable.ic_english, R.drawable.ic_french, R.drawable.ic_spanish, R.drawable.ic_latin, R.drawable.ic_turkish, R.drawable.ic_chinese, R.drawable.ic_arts, R.drawable.ic_music, R.drawable.ic_drama, R.drawable.ic_geography, R.drawable.ic_history, R.drawable.ic_politics, R.drawable.ic_philosophy, R.drawable.ic_religion, R.drawable.ic_maths, R.drawable.ic_biology, R.drawable.ic_chemistry, R.drawable.ic_physics, R.drawable.ic_compsci, R.drawable.ic_pe, R.drawable.ic_gll, R.drawable.ic_wat, R.drawable.ic_help, R.drawable.ic_pencil)
 
         for (i in 0 until coursesNoLang.size) {
-            colours.add(Colour(courses[i], coursesNoLang[i], coursesIcons[i], prefs.getInt("bg${coursesNoLang[i]}", 0)))
+            colours.add(Colour(courses[i], coursesNoLang[i], coursesIcons[i], MiscData.getColourForString(prefs.getString("card${coursesNoLang[i]}", "") ?: "")))
         }
         return colours
     }
@@ -317,14 +317,14 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                 picker.findViewById(R.id.lavender), picker.findViewById(R.id.carnation), picker.findViewById(R.id.brown2),
                 picker.findViewById(R.id.pureBlack))
 
-        val colours = intArrayOf(0, R.color.bgRed, R.color.bgOrange, R.color.bgYellow, R.color.bgGreen,
-                R.color.bgTeal, R.color.bgCyan, R.color.bgBlue, R.color.bgPurple, R.color.bgPink, R.color.bgBrown, R.color.bgGrey,
-                R.color.bgPureWhite, R.color.bgSalmon, R.color.bgTangerine, R.color.bgBanana, R.color.bgFlora, R.color.bgSpindrift,
-                R.color.bgSky, R.color.bgOrchid, R.color.bgLavender, R.color.bgCarnation, R.color.bgBrown2, R.color.bgPureBlack)
+        val colours = arrayOf("default", "red", "orange", "yellow", "green", "teal", "cyan", "blue", "purple", "pink",
+                "brown", "grey", "pureWhite", "salmon", "tangerine", "banana", "flora", "spindrift", "sky", "orchid",
+                "lavender", "carnation", "brown2", "pureBlack")
 
         for (i2 in 0 until buttons.size) {
             buttons[i2].setOnClickListener {
-                prefs.edit().putInt("bg$titleNoLang", colours[i2]).apply()
+//                prefs.edit().putInt("bg$titleNoLang", colourIntegers[i2]).apply()
+                prefs.edit().putString("card$titleNoLang", colours[i2]).apply()
                 val recyclerViewState = colourRecycler.layoutManager?.onSaveInstanceState()
                 colourRecycler.adapter = ColourAdapter(getColourList(), this)
                 colourRecycler.layoutManager?.onRestoreInstanceState(recyclerViewState)

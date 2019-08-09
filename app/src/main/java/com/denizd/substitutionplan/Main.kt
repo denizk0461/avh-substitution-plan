@@ -43,6 +43,11 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
             startActivity(firstTime)
             finish()
         } else {
+            if (!prefs.getBoolean("colourTransferred", false)) {
+                MiscData.transferOldColourIntsToString(prefs)
+                edit.putBoolean("colourTransferred", true).apply()
+            }
+
             edit.putInt("launchDev", prefs.getInt("launchDev", 0) + 1)
             edit.apply()
 

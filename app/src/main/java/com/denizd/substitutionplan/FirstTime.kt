@@ -46,7 +46,8 @@ class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
             }
             else -> {
                 window.navigationBarColor = ContextCompat.getColor(this, R.color.colorBackground)
-                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+                window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackground)
+//                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
             }
         }
 
@@ -89,6 +90,7 @@ class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
                     .putBoolean("greeting", findViewById<CheckBox>(R.id.cbGreetings).isChecked)
                     .putBoolean("defaultPersonalised", pers.isChecked)
                     .putBoolean("firstTime", false)
+                    .putBoolean("colourTransferred", true)
                     .apply()
 
             val cLayout = findViewById<CoordinatorLayout>(R.id.coordinatorLayout)
