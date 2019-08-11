@@ -64,6 +64,7 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                        window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackground)
                         window.navigationBarColor = ContextCompat.getColor(this, R.color.colorBackground)
                     } else {
                         window.statusBarColor = ContextCompat.getColor(this, R.color.legacyBlack)

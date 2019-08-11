@@ -38,6 +38,7 @@ class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
             AppCompatDelegate.MODE_NIGHT_NO, AppCompatDelegate.MODE_NIGHT_UNSPECIFIED -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                    window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackground)
                     window.navigationBarColor = ContextCompat.getColor(this, R.color.colorBackground)
                 } else {
                     window.statusBarColor = ContextCompat.getColor(this, R.color.legacyBlack)
@@ -120,7 +121,7 @@ class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
                 }
             })
             handler.postDelayed({
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
                     val mImgCheck = findViewById<ImageView>(R.id.imageView).drawable as AnimatedVectorDrawable
                     mImgCheck.start()
                 } else {

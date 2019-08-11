@@ -22,7 +22,7 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
     private var colourString = ""
     private var colorCheck = ""
 
-    class CardViewHolder (view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    class CardViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
         var mImageView: ImageView = itemView.findViewById(R.id.iconView)
         var mGroup: TextView = itemView.findViewById(R.id.group)
@@ -74,6 +74,7 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
             psa = true
             holder.mDate.visibility = View.GONE
             holder.mDate.text = currentItem.date
+            holder.mTime.text = " "
             holder.mImageView.setImageResource(R.drawable.ic_idea)
             holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mImageView.context, R.color.colorAccent))
         } else {

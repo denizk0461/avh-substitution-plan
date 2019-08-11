@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
-    android:paddingBottom="8dp">
+    android:paddingBottom="8dp"
+    android:scrollbars="vertical">
 
     <TableRow
         android:layout_width="match_parent"
