@@ -9,8 +9,10 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.util.Log
 import android.view.*
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -22,6 +24,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.FirebaseApp
+import com.google.firebase.messaging.FirebaseMessaging
 import com.jaredrummler.android.device.DeviceName
 import java.lang.IllegalArgumentException
 import java.util.*
@@ -50,6 +54,15 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
 
             edit.putInt("launchDev", prefs.getInt("launchDev", 0) + 1)
             edit.apply()
+
+            FirebaseApp.initializeApp(context)
+
+            if (prefs.getBoolean("notif", true)) {
+                FirebaseMessaging.getInstance().subscribeToTopic("substitutions-android")
+            } else {
+                FirebaseMessaging.getInstance().unsubscribeFromTopic("substitutions-android")
+            }
+            FirebaseMessaging.getInstance().subscribeToTopic("substitutions-broadcast")
 
             val appbarlayout = findViewById<AppBarLayout>(R.id.appbarlayout)
             val toolbarTxt = findViewById<TextView>(R.id.toolbarTxt)
@@ -209,10 +222,6 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
                     }
                 }
             }
-
-            if (prefs.getBoolean("notif", true)) {
-                notificationJob()
-            }
         }
     }
 
@@ -239,16 +248,5 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
     private fun loadFragment(fragment: Fragment): Boolean {
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit()
         return true
-    }
-
-    private fun notificationJob() {
-        val componentName = ComponentName(this, NotificationService::class.java)
-        val info = JobInfo.Builder(42, componentName)
-                .setRequiresCharging(false)
-                .setPersisted(true)
-                .setPeriodic(900000)
-                .build()
-        val scheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
-        scheduler.schedule(info)
     }
 }

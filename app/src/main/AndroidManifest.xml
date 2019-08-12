@@ -37,9 +37,20 @@
         </activity>
 
         <service
-            android:name=".NotificationService"
-            android:permission="android.permission.BIND_JOB_SERVICE"
-            android:required="true"/>
+            android:name=".FBNotificationService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_avhlogo" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+
     </application>
 
 </manifest>

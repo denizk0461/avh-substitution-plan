@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.messaging.FirebaseMessaging
 import com.jaredrummler.android.device.DeviceName
 import kotlin.collections.ArrayList
 
@@ -231,6 +232,11 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                 }
                 R.id.switchNotifications -> {
                     edit.putBoolean("notif", isChecked)
+                    if (isChecked) {
+                        FirebaseMessaging.getInstance().subscribeToTopic("substitutions-android")
+                    } else {
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic("substitutions-android")
+                    }
                 }
                 R.id.switchDefaultPlan -> {
                     edit.putBoolean("defaultPersonalised", isChecked)

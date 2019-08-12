@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "90133755549",
+    "firebase_url": "https://avh-plan.firebaseio.com",
+    "project_id": "avh-plan",
+    "storage_bucket": "avh-plan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:90133755549:android:8ac337c5a1500393",
+        "android_client_info": {
+          "package_name": "com.denizd.substitutionplan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "90133755549-vs0k1khnuqc7efq2o1kfuikmoaam1j07.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0fZvAhNlKfZ9-iU3lZ0Te8C4s8cT9F38"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "90133755549-vs0k1khnuqc7efq2o1kfuikmoaam1j07.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "90133755549-74enm9fefgrj5v5009c11194qi71m09f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "denizd.AvH-Plan"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
