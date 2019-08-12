@@ -10,8 +10,8 @@
     <string name="personal">Persönlich</string>
     <string name="settings">Einstellungen</string>
     <string name="darkBackground">Dunkler Hintergrund</string>
-    <string name="enableNotifications">Aktiviere Benachrichtigungen</string>
-    <string name="enablesBackgroundSync">Aktiviert ebenfalls Hintergrund-Sync</string>
+    <string name="enableNotifications">Aktiviere Kursbenachrichtigungen</string>
+    <string name="enablesBackgroundSync">Hat keinen Einfluss auf Mitteilungen</string>
     <string name="personalPlan">Persönlicher Plan</string>
     <string name="personalise">Personalisieren</string>
     <string name="misc">Diverses</string>

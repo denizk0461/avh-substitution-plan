@@ -12,8 +12,8 @@
 
     <!-- for Settings fragment -->
     <string name="darkBackground">Dark background</string>
-    <string name="enableNotifications">Enable notifications</string>
-    <string name="enablesBackgroundSync">Also enables background sync</string>
+    <string name="enableNotifications">Enable course notifications</string>
+    <string name="enablesBackgroundSync">This does not affect broadcasts</string>
 
     <string name="personalPlan">Personal Plan</string>
     <string name="personalise">Personalise</string>
