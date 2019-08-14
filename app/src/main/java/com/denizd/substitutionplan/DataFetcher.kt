@@ -54,11 +54,11 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                 val docFood = Jsoup.connect(foodUrl).get()
                 currentFoodTime = docFood.select("h1")[0].text()
                 if (currentFoodTime != prefs.getString("timeFood", "")) {
-                    val foodViewModel = FoodViewModel(mApplication)
+                    val foodRepository = FoodRepository(mApplication)
                     val foodElements = docFood.select("th")
                     var foodInt = 0
                     var priority = 0
-                    foodViewModel.deleteAll()
+                    foodRepository.deleteAll()
                     while (foodInt in 0 until foodElements.size) {
                         try { // what a mess this is!
                             with(foodElements[foodInt].text()) {
@@ -68,29 +68,29 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                                     val two = foodElements[foodInt + 2].text()
                                     if (three.contains("Montag") || three.contains("Dienstag") || three.contains("Mittwoch") ||
                                             three.contains("Donnerstag") || three.contains("Freitag") || three.contains("von")) {
-                                        foodViewModel.insert(Food(foodElements[foodInt].text() + "\n"
+                                        foodRepository.insert(Food(foodElements[foodInt].text() + "\n"
                                                 + foodElements[foodInt + 1].text() + "\n"
                                                 + foodElements[foodInt + 2].text(), priority))
                                         foodInt += 2
                                     } else if (two.contains("Montag") || two.contains("Dienstag") || two.contains("Mittwoch") ||
                                             two.contains("Donnerstag") || two.contains("Freitag") || two.contains("von")) {
-                                        foodViewModel.insert(Food(foodElements[foodInt].text() + "\n"
+                                        foodRepository.insert(Food(foodElements[foodInt].text() + "\n"
                                                 + foodElements[foodInt + 1].text(), priority))
                                         foodInt += 1
                                     }
                                 } else {
-                                    foodViewModel.insert(Food(foodElements[foodInt].text(), priority))
+                                    foodRepository.insert(Food(foodElements[foodInt].text(), priority))
                                 }
                             }
 
                         } catch (e: IndexOutOfBoundsException) {
                             try {
-                                foodViewModel.insert(Food(foodElements[foodInt].text() + "\n"
+                                foodRepository.insert(Food(foodElements[foodInt].text() + "\n"
                                         + foodElements[foodInt + 1].text() + "\n"
                                         + foodElements[foodInt + 2].text(), priority))
                                 break
                             } catch (e1: IndexOutOfBoundsException) {
-                                foodViewModel.insert(Food(foodElements[foodInt].text() + "\n"
+                                foodRepository.insert(Food(foodElements[foodInt].text() + "\n"
                                         + foodElements[foodInt + 1].text(), priority))
                                 break
                             }
@@ -106,7 +106,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                 val doc = Jsoup.connect(substUrl).get()
                 currentTime = doc.select("h1")[0].text()
                 if (currentTime != prefs.getString("time", "")) {
-                    val substViewModel = SubstViewModel(mApplication)
+                    val substRepo = SubstRepository(mApplication)
                     val rows = doc.select("tr")
                     val paragraphs = doc.select("p")
 
@@ -126,7 +126,8 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     }
                     edit.putString("informational", informational).apply()
 
-                    substViewModel.deleteAllSubst()
+//                    substViewModel.deleteAllSubst()
+                    substRepo.deleteAllSubst()
 
                     for (i in 0 until rows.size) {
                         val row = rows[i]
@@ -143,7 +144,8 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                         val subst = Subst(drawable, groupS[i], dateS[i], timeS[i], courseS[i],
                                 roomS[i], additionalS[i], priority)
                         priority--
-                        substViewModel.insertSubst(subst)
+//                        substViewModel.insertSubst(subst)
+                        substRepo.insert(subst)
 
                         if (jobservice && prefs.getBoolean("notif", true)) {
                             if ((prefs.getString("courses", "")
