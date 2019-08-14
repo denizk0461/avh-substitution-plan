@@ -1,8 +1,5 @@
 package com.denizd.substitutionplan
 
-import android.app.job.JobInfo
-import android.app.job.JobScheduler
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -12,7 +9,6 @@ import android.preference.PreferenceManager
 import android.util.Log
 import android.view.*
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -21,6 +17,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
+import com.crashlytics.android.Crashlytics
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -42,11 +39,17 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
         val edit = prefs.edit()
         val firstTime = Intent(context, FirstTime::class.java)
 
+        val deviceName = DeviceName.with(context).request { deviceInfo, _ ->
+            deviceInfo.marketName
+        }
+        Crashlytics.setUserIdentifier("$deviceName, ${prefs.getString("username", "") ?: ""}")
+
         if (prefs.getBoolean("firstTime", true)) {
 //        if (true) {
             startActivity(firstTime)
             finish()
         } else {
+
             if (!prefs.getBoolean("colourTransferred", false)) {
                 MiscData.transferOldColourIntsToString(prefs)
                 edit.putBoolean("colourTransferred", true).apply()
