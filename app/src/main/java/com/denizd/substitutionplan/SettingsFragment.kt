@@ -30,8 +30,8 @@ import kotlin.collections.ArrayList
 
 class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListener, CompoundButton.OnCheckedChangeListener, ColourAdapter.OnClickListener {
 
-    private lateinit var name: String
-    private lateinit var model: String
+    private var name = ""
+    private var model = ""
 
     private lateinit var mContext: Context
     private lateinit var prefs: SharedPreferences

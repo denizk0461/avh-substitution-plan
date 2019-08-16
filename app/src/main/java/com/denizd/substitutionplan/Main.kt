@@ -6,7 +6,6 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -38,11 +37,7 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
         prefs = PreferenceManager.getDefaultSharedPreferences(context) as SharedPreferences
         val edit = prefs.edit()
         val firstTime = Intent(context, FirstTime::class.java)
-
-        val deviceName = DeviceName.with(context).request { deviceInfo, _ ->
-            deviceInfo.marketName
-        }
-        Crashlytics.setUserIdentifier("$deviceName, ${prefs.getString("username", "") ?: ""}")
+        Crashlytics.setUserIdentifier(prefs.getString("username", "") ?: "")
 
         if (prefs.getBoolean("firstTime", true)) {
 //        if (true) {

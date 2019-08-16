@@ -31,7 +31,7 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
         var mCourse: TextView = itemView.findViewById(R.id.course)
         var mRoom: TextView = itemView.findViewById(R.id.room)
         var mAdditional: TextView = itemView.findViewById(R.id.additional)
-        var mCard = itemView.findViewById<MaterialCardView>(R.id.planCard)
+        var mCard: MaterialCardView = itemView.findViewById(R.id.planCard)
         init { view.setOnClickListener(this) }
         override fun onClick(v: View?) {
             if (mDate.text.toString().length > 7 && mDate.text.toString().substring(3, 7) == "http") {
