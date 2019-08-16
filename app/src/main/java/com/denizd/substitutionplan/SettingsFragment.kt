@@ -389,8 +389,8 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                     }
                 }
                 "_NOTIFICATION" -> {
-                    edit.putString("time", "").apply()
-                    Toast.makeText(mContext, "Notification time cleared", Toast.LENGTH_LONG).show()
+                    edit.putString("time", "").putString("timeFood", "").apply()
+                    Toast.makeText(mContext, "Notification times cleared", Toast.LENGTH_LONG).show()
                 } // TODO add option to clear database
                 "_FIRSTTIME" -> {
                     edit.putBoolean("firstTime", true).apply()

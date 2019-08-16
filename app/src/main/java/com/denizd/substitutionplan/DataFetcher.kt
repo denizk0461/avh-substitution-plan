@@ -56,47 +56,25 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                 if (currentFoodTime != prefs.getString("timeFood", "")) {
                     val foodRepository = FoodRepository(mApplication)
                     val foodElements = docFood.select("th")
-                    var foodInt = 0
-                    var priority = 0
                     foodRepository.deleteAll()
-                    while (foodInt in 0 until foodElements.size) {
-                        try { // what a mess this is!
-                            with(foodElements[foodInt].text()) {
-                                if (contains("Montag") || contains("Dienstag") || contains("Mittwoch") ||
-                                        contains("Donnerstag") || contains("Freitag")) {
-                                    val three = foodElements[foodInt + 3].text()
-                                    val two = foodElements[foodInt + 2].text()
-                                    if (three.contains("Montag") || three.contains("Dienstag") || three.contains("Mittwoch") ||
-                                            three.contains("Donnerstag") || three.contains("Freitag") || three.contains("von")) {
-                                        foodRepository.insert(Food(foodElements[foodInt].text() + "\n"
-                                                + foodElements[foodInt + 1].text() + "\n"
-                                                + foodElements[foodInt + 2].text(), priority))
-                                        foodInt += 2
-                                    } else if (two.contains("Montag") || two.contains("Dienstag") || two.contains("Mittwoch") ||
-                                            two.contains("Donnerstag") || two.contains("Freitag") || two.contains("von")) {
-                                        foodRepository.insert(Food(foodElements[foodInt].text() + "\n"
-                                                + foodElements[foodInt + 1].text(), priority))
-                                        foodInt += 1
-                                    }
-                                } else {
-                                    foodRepository.insert(Food(foodElements[foodInt].text(), priority))
-                                }
-                            }
 
-                        } catch (e: IndexOutOfBoundsException) {
-                            try {
-                                foodRepository.insert(Food(foodElements[foodInt].text() + "\n"
-                                        + foodElements[foodInt + 1].text() + "\n"
-                                        + foodElements[foodInt + 2].text(), priority))
-                                break
-                            } catch (e1: IndexOutOfBoundsException) {
-                                foodRepository.insert(Food(foodElements[foodInt].text() + "\n"
-                                        + foodElements[foodInt + 1].text(), priority))
-                                break
+                    val indices = ArrayList<Int>()
+                    val daysAndVon = arrayOf("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "von")
+                    for (i in 0 until foodElements.size) {
+                        if (checkStringForArray(foodElements[i].text(), daysAndVon)) indices.add(i)
+                    }
+                    indices.add(foodElements.size)
+
+                    for ((priority, l) in (0 until indices.size - 1).withIndex()) {
+                        var s = ""
+                        for (i2 in indices[l] until indices[l + 1]) {
+                            if (s.isEmpty()) {
+                                s = foodElements[i2].text()
+                            } else {
+                                s += "\n${foodElements[i2].text()}"
                             }
                         }
-                        foodInt++
-                        priority++
+                        foodRepository.insert(Food(s, priority))
                     }
                     edit.putString("timeFood", currentFoodTime).apply()
                 }
@@ -242,5 +220,14 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                 it.findViewById<SwipeRefreshLayout>(R.id.pullToRefresh).isRefreshing = false
             } catch (ignored: Exception) {}
         }
+    }
+
+    private fun checkStringForArray(s: String, checking: Array<String>): Boolean {
+        for (i in checking.indices) {
+            if (s.contains(checking[i])) {
+                return true
+            }
+        }
+        return false
     }
 }
