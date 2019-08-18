@@ -107,7 +107,7 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
             if (!prefs.getBoolean("autoRefresh", false) && prefs.getInt("firstTimeOpening", 0) != 0) {
                 try {
                     val sb = StringBuilder()
-                    val updated = sb.append(getText(R.string.lastUpdated)).append(prefs.getString("time", "")).toString()
+                    val updated = sb.append(getText(R.string.lastUpdated)).append(prefs.getString("timeNew", "")).toString()
 
                     Snackbar.make(contextView, updated, Snackbar.LENGTH_LONG).show()
                 } catch (e: IllegalArgumentException) {}
@@ -238,7 +238,7 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.simple_dialog, null)
         dialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.information)
         val sb = StringBuilder()
-        val dialogText = sb.append(getText(R.string.lastUpdated)).append((prefs.getString("time", "") ?: "") + ".\n\n").append(prefs.getString("informational", ""))
+        val dialogText = sb.append(getText(R.string.lastUpdated)).append((prefs.getString("timeNew", "") ?: "") + ".\n\n").append(prefs.getString("informational", ""))
         dialogView.findViewById<TextView>(R.id.dialogtext).text = dialogText
         dialog.setView(dialogView).show()
     }

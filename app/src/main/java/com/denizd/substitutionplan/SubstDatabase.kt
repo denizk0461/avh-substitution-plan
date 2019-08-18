@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Subst::class, Food::class], version = 4, exportSchema = false)
+@Database(entities = [Subst::class, Food::class], version = 5, exportSchema = false)
 public abstract class SubstDatabase : RoomDatabase() {
 
     abstract fun substDao(): SubstDao

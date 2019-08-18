@@ -15,6 +15,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
+import java.util.*
 
 class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
@@ -63,7 +64,7 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
             }
         }
 
-        holder.mImageView.setImageResource(currentItem.icon)
+        holder.mImageView.setImageResource(MiscData.getIconForCourse(currentItem.course))
         holder.mGroup.setText(strings[0], TextView.BufferType.SPANNABLE)
         holder.mTime.setText(strings[1], TextView.BufferType.SPANNABLE)
         holder.mCourse.setText(strings[2], TextView.BufferType.SPANNABLE)
@@ -83,49 +84,13 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
         }
 
         if (!psa) {
-            try {
-                colorCheck = holder.mCourse.text.toString().toLowerCase().substring(0, 3)
-                colourString = when (colorCheck) {
-                    "deu", "dep", "daz", "fda" -> prefs.getString("cardGerman", "") ?: ""
-                    "mat", "map" -> prefs.getString("cardMaths", "") ?: ""
-                    "eng", "enp", "ena" -> prefs.getString("cardEnglish", "") ?: ""
-                    "spo", "spp", "spth" -> prefs.getString("cardPhysEd", "") ?: ""
-                    "pol", "pop" -> prefs.getString("cardPolitics", "") ?: ""
-                    "dar", "dap" -> prefs.getString("cardTheatre", "") ?: ""
-                    "phy", "php" -> prefs.getString("cardPhysics", "") ?: ""
-                    "bio", "bip", "nw1", "nw2", "nw3", "nw4" -> prefs.getString("cardBiology", "") ?: ""
-                    "che", "chp" -> prefs.getString("cardChemistry", "") ?: ""
-                    "phi", "psp" -> prefs.getString("cardPhilosophy", "") ?: ""
-                    "laa", "laf", "lat" -> prefs.getString("cardLatin", "") ?: ""
-                    "spa", "spf" -> prefs.getString("cardSpanish", "") ?: ""
-                    "fra", "frf", "frz" -> prefs.getString("cardFrench", "") ?: ""
-                    "inf" -> prefs.getString("cardCompsci", "") ?: ""
-                    "ges" -> prefs.getString("cardHistory", "") ?: ""
-                    "rel" -> prefs.getString("cardReligion", "") ?: ""
-                    "geg" -> prefs.getString("cardGeography", "") ?: ""
-                    "kun" -> prefs.getString("cardArts", "") ?: ""
-                    "mus" -> prefs.getString("cardMusic", "") ?: ""
-                    "tue" -> prefs.getString("cardTurkish", "") ?: ""
-                    "chi" -> prefs.getString("cardChinese", "") ?: ""
-                    "gll" -> prefs.getString("cardGLL", "") ?: ""
-                    "wat" -> prefs.getString("cardWAT", "") ?: ""
-                    "för" -> prefs.getString("cardForder", "") ?: ""
-                    "met", "wpb" -> prefs.getString("cardWP", "") ?: ""
-                    else -> ""
-                }
-            } catch (e: StringIndexOutOfBoundsException) {
-                try {
-                    colorCheck = holder.mCourse.text.toString().toLowerCase().substring(0, 2)
-                    colourString = when (colorCheck) {
-                        "nw" -> prefs.getString("cardBiology", "") ?: ""
-                        "wp" -> prefs.getString("cardWP", "") ?: ""
-                        else -> ""
-                    }
-                } catch (e2: StringIndexOutOfBoundsException) {
-                    colourString = ""
-                }
+            colourString = getColourString(holder.mCourse.text.toString())
+            val colourPrefsInt = if (colourString.isNotEmpty()) {
+                prefs.getString("card$colourString", "") ?: ""
+            } else {
+                ""
             }
-            colour = MiscData.getColourForString(colourString)
+            colour = MiscData.getColourForString(colourPrefsInt)
             if (colour != 0) {
                 holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mCourse.context, colour))
             } else {
@@ -133,7 +98,7 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
             }
         }
 
-        val textColor = if (psa) {
+        val textColor = ContextCompat.getColor(holder.mImageView.context, if (psa) {
             R.color.colorBackground
         } else {
             when (colour) {
@@ -141,14 +106,14 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
                 R.color.bgPureBlack -> R.color.colorTextLight
                 else -> R.color.colorText
             }
-        }
-        holder.mImageView.setColorFilter(ContextCompat.getColor(holder.mImageView.context, textColor))
-        holder.mGroup.setTextColor(ContextCompat.getColor(holder.mImageView.context, textColor))
-        holder.mDate.setTextColor(ContextCompat.getColor(holder.mImageView.context, textColor))
-        holder.mTime.setTextColor(ContextCompat.getColor(holder.mImageView.context, textColor))
-        holder.mCourse.setTextColor(ContextCompat.getColor(holder.mImageView.context, textColor))
-        holder.mRoom.setTextColor(ContextCompat.getColor(holder.mImageView.context, textColor))
-        holder.mAdditional.setTextColor(ContextCompat.getColor(holder.mImageView.context, textColor))
+        })
+        holder.mImageView.setColorFilter(textColor)
+        holder.mGroup.setTextColor(textColor)
+        holder.mDate.setTextColor(textColor)
+        holder.mTime.setTextColor(textColor)
+        holder.mCourse.setTextColor(textColor)
+        holder.mRoom.setTextColor(textColor)
+        holder.mAdditional.setTextColor(textColor)
     }
 
     override fun getItemCount(): Int = mSubst.size
@@ -156,6 +121,51 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
     fun setSubst(subst: List<Subst>) {
         mSubst = subst
         notifyDataSetChanged()
+    }
+
+    private fun getColourString(course: String): String {
+        return try {
+            colorCheck = course.toLowerCase(Locale.ROOT).substring(0, 3)
+            when (colorCheck) {
+                "deu", "dep", "daz", "fda" -> "German"
+                "mat", "map" -> "Maths"
+                "eng", "enp", "ena" -> "English"
+                "spo", "spp", "spth" -> "PhysEd"
+                "pol", "pop" -> "ics"
+                "dar", "dap" -> "Theatre"
+                "phy", "php" -> "Physics"
+                "bio", "bip", "nw1", "nw2", "nw3", "nw4" -> "Biology"
+                "che", "chp" -> "Chemistry"
+                "phi", "psp" -> "Philosophy"
+                "laa", "laf", "lat" -> "Latin"
+                "spa", "spf" -> "Spanish"
+                "fra", "frf", "frz" -> "French"
+                "inf" -> "Compsci"
+                "ges" -> "History"
+                "rel" -> "Religion"
+                "geg" -> "Geography"
+                "kun" -> "Arts"
+                "mus" -> "Music"
+                "tue" -> "Turkish"
+                "chi" -> "Chinese"
+                "gll" -> "GLL"
+                "wat" -> "WAT"
+                "för" -> "Forder"
+                "met", "wpb" -> "WP"
+                else -> ""
+            }
+        } catch (e: StringIndexOutOfBoundsException) {
+            try {
+                colorCheck = course.toLowerCase(Locale.ROOT).substring(0, 2)
+                when (colorCheck) {
+                    "nw" -> "Biology"
+                    "wp" -> "WP"
+                    else -> ""
+                }
+            } catch (e2: StringIndexOutOfBoundsException) {
+                ""
+            }
+        }
     }
 
 }

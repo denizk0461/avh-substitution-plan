@@ -15,7 +15,6 @@ import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import org.jsoup.Jsoup
-import java.lang.IndexOutOfBoundsException
 import kotlin.collections.ArrayList
 
 class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, context: Context, application: Application, parentview: View?) : AsyncTask<Void, Void, Void>() {
@@ -53,7 +52,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
             if (menu) {
                 val docFood = Jsoup.connect(foodUrl).get()
                 currentFoodTime = docFood.select("h1")[0].text()
-                if (currentFoodTime != prefs.getString("timeFood", "")) {
+                if (currentFoodTime != prefs.getString("timeFoodNew", "")) {
                     val foodRepository = FoodRepository(mApplication)
                     val foodElements = docFood.select("th")
                     foodRepository.deleteAll()
@@ -76,14 +75,14 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                         }
                         foodRepository.insert(Food(s, priority))
                     }
-                    edit.putString("timeFood", currentFoodTime).apply()
+                    edit.putString("timeFoodNew", currentFoodTime).apply()
                 }
             }
 
             if (plan) {
                 val doc = Jsoup.connect(substUrl).get()
                 currentTime = doc.select("h1")[0].text()
-                if (currentTime != prefs.getString("time", "")) {
+                if (currentTime != prefs.getString("timeNew", "")) {
                     val substRepo = SubstRepository(mApplication)
                     val rows = doc.select("tr")
                     val paragraphs = doc.select("p")
@@ -117,9 +116,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                         courseS.add(cols[3].text())
                         roomS.add(cols[4].text())
                         additionalS.add(cols[5].text())
-
-                        val drawable = MiscData.getIcon(courseS[i])
-                        val subst = Subst(drawable, groupS[i], dateS[i], timeS[i], courseS[i],
+                        val subst = Subst(groupS[i], dateS[i], timeS[i], courseS[i],
                                 roomS[i], additionalS[i], priority)
                         priority--
 //                        substViewModel.insertSubst(subst)
@@ -191,7 +188,7 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                             manager.notify(1, notification)
                         }
                     }
-                    edit.putString("time", currentTime).apply()
+                    edit.putString("timeNew", currentTime).apply()
                 }
             }
 

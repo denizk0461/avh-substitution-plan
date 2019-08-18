@@ -291,7 +291,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
 
     private fun getColourList(): ArrayList<Colour> {
         val colours = ArrayList<Colour>()
-        val coursesNoLang = arrayOf("German", "English", "French", "Spanish", "Latin", "Turkish", "Chinese", "Arts", "Music", "Theatre", "Geography", "History", "Politics", "Philosophy", "Religion", "Maths", "Biology", "Chemistry", "Physics", "CompSci", "PhysEd", "GLL", "WAT", "Forder", "WP")
+        val coursesNoLang = MiscData.languageIndependentCourses
         val courses = arrayOf(getString(R.string.courseDeu), getString(R.string.courseEng), getString(R.string.courseFra), getString(R.string.courseSpa), getString(R.string.courseLat), getString(R.string.courseTue), getString(R.string.courseChi), getString(R.string.courseKun), getString(R.string.courseMus), getString(R.string.courseDar), getString(R.string.courseGeg), getString(R.string.courseGes), getString(R.string.coursePol), getString(R.string.coursePhi), getString(R.string.courseRel), getString(R.string.courseMat), getString(R.string.courseBio), getString(R.string.courseChe), getString(R.string.coursePhy), getString(R.string.courseInf), getString(R.string.courseSpo), getString(R.string.courseGll), getString(R.string.courseWat), getString(R.string.courseFor), getString(R.string.courseWp))
         val coursesIcons = intArrayOf(R.drawable.ic_german, R.drawable.ic_english, R.drawable.ic_french, R.drawable.ic_spanish, R.drawable.ic_latin, R.drawable.ic_turkish, R.drawable.ic_chinese, R.drawable.ic_arts, R.drawable.ic_music, R.drawable.ic_drama, R.drawable.ic_geography, R.drawable.ic_history, R.drawable.ic_politics, R.drawable.ic_philosophy, R.drawable.ic_religion, R.drawable.ic_maths, R.drawable.ic_biology, R.drawable.ic_chemistry, R.drawable.ic_physics, R.drawable.ic_compsci, R.drawable.ic_pe, R.drawable.ic_gll, R.drawable.ic_wat, R.drawable.ic_help, R.drawable.ic_pencil)
 
@@ -322,10 +322,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                 picker.findViewById(R.id.spindrift), picker.findViewById(R.id.sky), picker.findViewById(R.id.orchid),
                 picker.findViewById(R.id.lavender), picker.findViewById(R.id.carnation), picker.findViewById(R.id.brown2),
                 picker.findViewById(R.id.pureBlack))
-
-        val colours = arrayOf("default", "red", "orange", "yellow", "green", "teal", "cyan", "blue", "purple", "pink",
-                "brown", "grey", "pureWhite", "salmon", "tangerine", "banana", "flora", "spindrift", "sky", "orchid",
-                "lavender", "carnation", "brown2", "pureBlack")
+        val colours = MiscData.colourNames
 
         for (i2 in 0 until buttons.size) {
             buttons[i2].setOnClickListener {
@@ -400,6 +397,17 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                     val currentTest = !prefs.getBoolean("testUrls", false)
                     edit.putBoolean("testUrls", currentTest).apply()
                     Toast.makeText(mContext, "Test URLs set to $currentTest", Toast.LENGTH_LONG).show()
+                }
+                "_DEVCHANNEL" -> {
+                    val subbed = if (prefs.getBoolean("subscribedToFBDebugChannel", false)) {
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic("substitutions-debug")
+                        "Unsubscribed from"
+                    } else {
+                        FirebaseMessaging.getInstance().subscribeToTopic("substitutions-debug")
+                        "Subscribed to"
+                    }
+                    edit.putBoolean("subscribedToFBDebugChannel", !prefs.getBoolean("subscribedToFBDebugChannel", false)).apply()
+                    Toast.makeText(mContext, "$subbed Firebase development channel", Toast.LENGTH_LONG).show()
                 }
                 else -> Toast.makeText(mContext, getString(R.string.invalidCode), Toast.LENGTH_LONG).show()
             }

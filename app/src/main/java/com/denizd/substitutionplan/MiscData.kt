@@ -1,8 +1,20 @@
 package com.denizd.substitutionplan
 
 import android.content.SharedPreferences
+import java.util.*
 
 object MiscData {
+
+    val languageIndependentCourses = arrayOf("German", "English", "French", "Spanish", "Latin", "Turkish", "Chinese", "Arts", "Music",
+            "Theatre", "Geography", "History", "Politics", "Philosophy", "Religion", "Maths", "Biology", "Chemistry",
+            "Physics", "CompSci", "PhysEd", "GLL", "WAT", "Forder", "WP")
+    val colourNames = arrayOf("default", "red", "orange", "yellow", "green", "teal", "cyan", "blue", "purple", "pink",
+            "brown", "grey", "pureWhite", "salmon", "tangerine", "banana", "flora", "spindrift", "sky", "orchid",
+            "lavender", "carnation", "brown2", "pureBlack")
+    private val colourIntegers = intArrayOf(0, R.color.bgRed, R.color.bgOrange, R.color.bgYellow, R.color.bgGreen,
+            R.color.bgTeal, R.color.bgCyan, R.color.bgBlue, R.color.bgPurple, R.color.bgPink, R.color.bgBrown, R.color.bgGrey,
+            R.color.bgPureWhite, R.color.bgSalmon, R.color.bgTangerine, R.color.bgBanana, R.color.bgFlora, R.color.bgSpindrift,
+            R.color.bgSky, R.color.bgOrchid, R.color.bgLavender, R.color.bgCarnation, R.color.bgBrown2, R.color.bgPureBlack)
 
     fun emoji(unicode: Int): String { return String(Character.toChars(unicode)) }
 
@@ -35,8 +47,8 @@ object MiscData {
         }
     }
 
-    fun getIcon(course: String): Int {
-        return with (course.toLowerCase()) {
+    fun getIconForCourse(course: String): Int {
+        return with (course.toLowerCase(Locale.ROOT)) {
             when {
                 contains("deu") || contains("dep") || contains("daz") -> R.drawable.ic_german
                 contains("mat") || contains("map") -> R.drawable.ic_maths
@@ -69,22 +81,12 @@ object MiscData {
     }
 
     fun transferOldColourIntsToString(prefs: SharedPreferences) {
-        val colourIntegers = intArrayOf(0, R.color.bgRed, R.color.bgOrange, R.color.bgYellow, R.color.bgGreen,
-                R.color.bgTeal, R.color.bgCyan, R.color.bgBlue, R.color.bgPurple, R.color.bgPink, R.color.bgBrown, R.color.bgGrey,
-                R.color.bgPureWhite, R.color.bgSalmon, R.color.bgTangerine, R.color.bgBanana, R.color.bgFlora, R.color.bgSpindrift,
-                R.color.bgSky, R.color.bgOrchid, R.color.bgLavender, R.color.bgCarnation, R.color.bgBrown2, R.color.bgPureBlack)
-        val colourStrings = arrayOf("default", "red", "orange", "yellow", "green", "teal", "cyan", "blue", "purple", "pink",
-                "brown", "grey", "pureWhite", "salmon", "tangerine", "banana", "flora", "spindrift", "sky", "orchid",
-                "lavender", "carnation", "brown2", "pureBlack")
-        val courses = arrayOf("German", "English", "French", "Spanish", "Latin", "Turkish", "Chinese", "Arts", "Music",
-                "Theatre", "Geography", "History", "Politics", "Philosophy", "Religion", "Maths", "Biology", "Chemistry",
-                "Physics", "CompSci", "PhysEd", "GLL", "WAT", "Forder", "WP")
         var colour = ""
         val edit = prefs.edit()
-        for (course in courses) {
+        for (course in languageIndependentCourses) {
             for (i in 0 until colourIntegers.size) {
                 if (prefs.getInt("bg$course", 0) == colourIntegers[i]) {
-                    colour = colourStrings[i]
+                    colour = colourNames[i]
                     break
                 }
                 colour = ""
