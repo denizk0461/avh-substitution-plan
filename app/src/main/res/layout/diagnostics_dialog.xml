@@ -60,7 +60,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="16dp"
-                android:text="Reset notification counter"
+                android:text="Reset ping counter"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
         </LinearLayout>

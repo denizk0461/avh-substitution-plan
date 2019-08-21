@@ -63,6 +63,12 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
                 item.setSpan(StrikethroughSpan(), 0, qmark, 0)
             }
         }
+        with (currentItem.additional.toLowerCase(Locale.ROOT)) {
+            if (contains("eigenverantwortliches arbeiten") || contains("entfall")) {
+                strings[2].setSpan(StrikethroughSpan(), 0, strings[2].length, 0)
+                strings[3].setSpan(StrikethroughSpan(), 0, strings[3].length, 0)
+            }
+        }
 
         holder.mImageView.setImageResource(MiscData.getIconForCourse(currentItem.course))
         holder.mGroup.setText(strings[0], TextView.BufferType.SPANNABLE)
@@ -131,7 +137,7 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
                 "mat", "map" -> "Maths"
                 "eng", "enp", "ena" -> "English"
                 "spo", "spp", "spth" -> "PhysEd"
-                "pol", "pop" -> "ics"
+                "pol", "pop" -> "Politics"
                 "dar", "dap" -> "Theatre"
                 "phy", "php" -> "Physics"
                 "bio", "bip", "nw1", "nw2", "nw3", "nw4" -> "Biology"

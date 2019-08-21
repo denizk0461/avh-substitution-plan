@@ -369,7 +369,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                     }
 
                     resetNotifBtn.setOnClickListener {
-                        edit.putInt("notificationTestNumberDev", 0).apply()
+                        edit.putInt("pingFB", 0).apply()
                         devDialogText.text = getDiagnosticsText(prefs)
                     }
 
@@ -386,7 +386,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                     }
                 }
                 "_NOTIFICATION" -> {
-                    edit.putString("time", "").putString("timeFood", "").apply()
+                    edit.putString("timeNew", "").putString("timeFoodNew", "").apply()
                     Toast.makeText(mContext, "Notification times cleared", Toast.LENGTH_LONG).show()
                 } // TODO add option to clear database
                 "_FIRSTTIME" -> {
@@ -400,10 +400,8 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                 }
                 "_DEVCHANNEL" -> {
                     val subbed = if (prefs.getBoolean("subscribedToFBDebugChannel", false)) {
-                        FirebaseMessaging.getInstance().unsubscribeFromTopic("substitutions-debug")
                         "Unsubscribed from"
                     } else {
-                        FirebaseMessaging.getInstance().subscribeToTopic("substitutions-debug")
                         "Subscribed to"
                     }
                     edit.putBoolean("subscribedToFBDebugChannel", !prefs.getBoolean("subscribedToFBDebugChannel", false)).apply()
@@ -418,11 +416,13 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
     }
 
     private fun getDiagnosticsText(prefs: SharedPreferences): String {
-        return "First Launch: " + prefs.getString("firstTimeDev", "") +
-                "\n\nApp launched: " + prefs.getInt("launchDev", 0) +
-                "\n\nNotification Service fired: " + prefs.getInt("notificationTestNumberDev", 0) +
-                "\n\nDevice Name: " + name +
-                "\n\nDevice Model: " + model +
-                "\n\nAndroid Version: " + Build.VERSION.RELEASE
+        return "First Launch: ${prefs.getString("firstTimeDev", "")}" +
+                "\n\nApp launched: ${prefs.getInt("launchDev", 0)}" +
+                "\n\nFirebase ping service fired: ${prefs.getInt("pingFB", 0)}" +
+                "\n\nDevice Name: $name" +
+                "\n\nDevice Model: $model" +
+                "\n\nAndroid Version: ${Build.VERSION.RELEASE}" +
+                "\n\nSubscribed to notification channel: ${prefs.getBoolean("notif", false)}" +
+                "\n\nSubscribed to dev channel: ${prefs.getBoolean("subscribedToFBDebugChannel", false)}"
     }
 }

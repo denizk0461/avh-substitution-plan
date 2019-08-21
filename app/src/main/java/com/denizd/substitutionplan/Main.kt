@@ -1,5 +1,8 @@
 package com.denizd.substitutionplan
 
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -53,14 +56,7 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
             edit.putInt("launchDev", prefs.getInt("launchDev", 0) + 1)
             edit.apply()
 
-            FirebaseApp.initializeApp(context)
-
-            if (prefs.getBoolean("notif", true)) {
-                FirebaseMessaging.getInstance().subscribeToTopic("substitutions-android")
-            } else {
-                FirebaseMessaging.getInstance().unsubscribeFromTopic("substitutions-android")
-            }
-            FirebaseMessaging.getInstance().subscribeToTopic("substitutions-broadcast")
+            pingFirebaseTopics()
 
             val appbarlayout = findViewById<AppBarLayout>(R.id.appbarlayout)
             val toolbarTxt = findViewById<TextView>(R.id.toolbarTxt)
@@ -237,8 +233,7 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
         val dialog = AlertDialog.Builder(context)
         val dialogView = LayoutInflater.from(context).inflate(R.layout.simple_dialog, null)
         dialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.information)
-        val sb = StringBuilder()
-        val dialogText = sb.append(getText(R.string.lastUpdated)).append((prefs.getString("timeNew", "") ?: "") + ".\n\n").append(prefs.getString("informational", ""))
+        val dialogText = "${getString(R.string.lastUpdated)} ${prefs.getString("timeNew", "")}.\n\n${prefs.getString("informational", "")}"
         dialogView.findViewById<TextView>(R.id.dialogtext).text = dialogText
         dialog.setView(dialogView).show()
     }
@@ -246,5 +241,16 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
     private fun loadFragment(fragment: Fragment): Boolean {
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit()
         return true
+    }
+
+    private fun pingFirebaseTopics() {
+        val componentName = ComponentName(this, FBPingService::class.java)
+        val info = JobInfo.Builder(42, componentName)
+                .setRequiresCharging(false)
+                .setPersisted(true)
+                .setPeriodic(900000)
+                .build()
+        val scheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+        scheduler.schedule(info)
     }
 }

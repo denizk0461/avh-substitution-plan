@@ -27,17 +27,19 @@ public abstract class SubstDatabase : RoomDatabase() {
             return instance
         }
 
+        private var foodInstance: SubstDatabase? = null
+
         fun getFoodInstance(context: Context): SubstDatabase? {
-            if (instance == null) {
+            if (foodInstance == null) {
                 synchronized (SubstDatabase::class) {
-                    instance = Room.databaseBuilder(context.applicationContext,
+                    foodInstance = Room.databaseBuilder(context.applicationContext,
                             SubstDatabase::class.java,
                             "food_database")
                             .fallbackToDestructiveMigration()
                             .build()
                 }
             }
-            return instance
+            return foodInstance
         }
     }
 }
