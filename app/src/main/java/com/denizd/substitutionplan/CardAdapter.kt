@@ -64,7 +64,7 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
             }
         }
         with (currentItem.additional.toLowerCase(Locale.ROOT)) {
-            if (contains("eigenverantwortliches arbeiten") || contains("entfall")) {
+            if (contains("eigenverantwortliches arbeiten") || contains("entfall") || contains("fällt aus")) {
                 strings[2].setSpan(StrikethroughSpan(), 0, strings[2].length, 0)
                 strings[3].setSpan(StrikethroughSpan(), 0, strings[3].length, 0)
             }

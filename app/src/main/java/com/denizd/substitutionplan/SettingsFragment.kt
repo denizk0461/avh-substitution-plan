@@ -407,6 +407,15 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                     edit.putBoolean("subscribedToFBDebugChannel", !prefs.getBoolean("subscribedToFBDebugChannel", false)).apply()
                     Toast.makeText(mContext, "$subbed Firebase development channel", Toast.LENGTH_LONG).show()
                 }
+                "_IOSCHANNEL" -> {
+                    val subbed = if (prefs.getBoolean("subscribedToiOSChannel", false)) {
+                        "Unsubscribed from"
+                    } else {
+                        "Subscribed to"
+                    }
+                    edit.putBoolean("subscribedToiOSChannel", !prefs.getBoolean("subscribedToiOSChannel", false)).apply()
+                    Toast.makeText(mContext, "$subbed iOS channel", Toast.LENGTH_LONG).show()
+                }
                 else -> Toast.makeText(mContext, getString(R.string.invalidCode), Toast.LENGTH_LONG).show()
             }
         }

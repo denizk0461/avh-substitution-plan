@@ -38,6 +38,12 @@ class FBPingService : JobService() {
             FirebaseMessaging.getInstance().unsubscribeFromTopic("substitutions-debug")
         }
 
+        if (prefs.getBoolean("subscribedToiOSChannel", false)) {
+            FirebaseMessaging.getInstance().subscribeToTopic("substitutions-ios")
+        } else {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic("substitutions-ios")
+        }
+
         FirebaseMessaging.getInstance().subscribeToTopic("substitutions-broadcast")
         prefs.edit().putInt("pingFB", prefs.getInt("pingFB", 0) + 1).apply()
 
