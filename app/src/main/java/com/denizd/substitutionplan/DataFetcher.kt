@@ -87,13 +87,6 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     val rows = doc.select("tr")
                     val paragraphs = doc.select("p")
 
-                    val groupS = ArrayList<String>()
-                    val dateS = ArrayList<String>()
-                    val timeS = ArrayList<String>()
-                    val courseS = ArrayList<String>()
-                    val roomS = ArrayList<String>()
-                    val additionalS = ArrayList<String>()
-
                     for (i in 0 until paragraphs.size) {
                         if (i == 0) {
                             informational = paragraphs[i].text()
@@ -103,51 +96,33 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     }
                     edit.putString("informational", informational).apply()
 
-//                    substViewModel.deleteAllSubst()
                     substRepo.deleteAllSubst()
 
                     for (i in 0 until rows.size) {
                         val row = rows[i]
                         val cols = row.select("th")
 
-                        groupS.add(cols[0].text())
-                        dateS.add(cols[1].text())
-                        timeS.add(cols[2].text())
-                        courseS.add(cols[3].text())
-                        roomS.add(cols[4].text())
-                        additionalS.add(cols[5].text())
-                        val subst = Subst(groupS[i], dateS[i], timeS[i], courseS[i],
-                                roomS[i], additionalS[i], priority)
+                        val group = cols[0].text()
+                        val course = cols[3].text()
+                        val additional = cols[5].text()
+                        substRepo.insert(Subst(group = group, date = cols[1].text(), time = cols[2].text(), course = course,
+                                room = cols[4].text(), additional = additional, priority = priority))
                         priority--
-//                        substViewModel.insertSubst(subst)
-                        substRepo.insert(subst)
 
                         if (jobservice && prefs.getBoolean("notif", true)) {
-                            if ((prefs.getString("courses", "")
-                                            ?: "").isEmpty() && (prefs.getString("classes", "")
-                                            ?: "").isNotEmpty()) {
-                                if (groupS[i].isNotEmpty() && groupS[i] != "") {
-                                    if ((prefs.getString("classes", "")
-                                                    ?: "").contains(groupS[i]) || groupS[i].contains((prefs.getString("classes", "")
-                                                    ?: "").toString())) {
-                                        if (notifText.isNotEmpty()) {
-                                            notifText += ", "
-                                        }
-                                        notifText += courseS[i] + ": " + additionalS[i]
+                            if ((prefs.getString("courses", "") ?: "").isEmpty() && (prefs.getString("classes", "") ?: "").isNotEmpty()) {
+                                if (group.isNotEmpty() && group != "") {
+                                    if ((prefs.getString("classes", "") ?: "").contains(group) || group.contains((prefs.getString("classes", "") ?: "").toString())) {
+
+                                        notifText += "${if (notifText.isNotEmpty()) ",\n" else ""}$course: ${if (additional.isNotEmpty()) additional else "---"}"
                                     }
                                 }
-                            } else if ((prefs.getString("classes", "")
-                                            ?: "").isNotEmpty() && (prefs.getString("courses", "")
-                                            ?: "").isNotEmpty()) {
-                                if (groupS[i] != "" && courseS[i] != "") {
-                                    if ((prefs.getString("courses", "") ?: "").contains(courseS[i])) {
-                                        if ((prefs.getString("classes", "")
-                                                        ?: "").contains(groupS[i]) || groupS[i].contains((prefs.getString("classes", "")
-                                                        ?: "").toString())) {
-                                            if (notifText.isNotEmpty()) {
-                                                notifText += ", "
-                                            }
-                                            notifText += courseS[i] + ": " + additionalS[i]
+                            } else if ((prefs.getString("classes", "") ?: "").isNotEmpty() && (prefs.getString("courses", "") ?: "").isNotEmpty()) {
+                                if (group != "" && course != "") {
+                                    if ((prefs.getString("courses", "") ?: "").contains(course)) {
+                                        if ((prefs.getString("classes", "") ?: "").contains(group) || group.contains((prefs.getString("classes", "") ?: "").toString())) {
+
+                                            notifText += "${if (notifText.isNotEmpty()) ",\n" else ""}$course: ${if (additional.isNotEmpty()) additional else "---"}"
                                         }
                                     }
                                 }
@@ -155,7 +130,8 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                         }
                     }
 
-                    if (jobservice && prefs.getBoolean("notif", true)) {
+                    if (notifText.isNotEmpty()) {
+
                         val openApp = Intent(mContext, Main::class.java)
                         openApp.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                         openApp.flags += Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -165,29 +141,29 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                         notificationLayout.setTextViewText(R.id.notification_title, mContext.getString(R.string.substitutionPlan))
                         notificationLayout.setTextViewText(R.id.notification_textview, notifText)
 
-                        if (notifText.isNotEmpty()) {
-                            val manager = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                            val channelId = "general"
-                            val channelName = mContext.getString(R.string.general)
+                        val manager = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                        val channelId = "general"
+                        val channelName = mContext.getString(R.string.general)
 
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
-                                channel.enableLights(true)
-                                channel.lightColor = Color.BLUE
-                                manager.createNotificationChannel(channel)
-                            }
-
-                            val notification = NotificationCompat.Builder(mContext, channelId)
-                                    .setStyle(NotificationCompat.DecoratedCustomViewStyle())
-                                    .setCustomContentView(notificationLayout)
-                                    .setSmallIcon(R.drawable.ic_avh)
-                                    .setContentIntent(openAppPending)
-                                    .setAutoCancel(true)
-                                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                                    .build()
-                            manager.notify(1, notification)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
+                            channel.enableLights(true)
+                            channel.lightColor = Color.BLUE
+                            manager.createNotificationChannel(channel)
                         }
+
+                        val notification = NotificationCompat.Builder(mContext, channelId)
+                                .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+                                .setCustomContentView(notificationLayout)
+                                .setSmallIcon(R.drawable.ic_avh)
+                                .setContentIntent(openAppPending)
+                                .setAutoCancel(true)
+                                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                                .setColor(ContextCompat.getColor(mContext, R.color.colorAccent))
+                                .build()
+                        manager.notify(1, notification)
                     }
+
                     edit.putString("timeNew", currentTime).apply()
                 }
             }

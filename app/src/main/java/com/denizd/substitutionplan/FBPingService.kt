@@ -26,27 +26,31 @@ class FBPingService : JobService() {
 
         FirebaseApp.initializeApp(context)
 
-        if (prefs.getBoolean("notif", true)) {
-            FirebaseMessaging.getInstance().subscribeToTopic("substitutions-android")
-        } else {
-            FirebaseMessaging.getInstance().unsubscribeFromTopic("substitutions-android")
+        FirebaseMessaging.getInstance().apply {
+
+            if (prefs.getBoolean("notif", true)) {
+                subscribeToTopic("substitutions-android")
+            } else {
+                unsubscribeFromTopic("substitutions-android")
+            }
+
+            if (prefs.getBoolean("subscribedToFBDebugChannel", false)) {
+                subscribeToTopic("substitutions-debug")
+            } else {
+                unsubscribeFromTopic("substitutions-debug")
+            }
+
+            if (prefs.getBoolean("subscribedToiOSChannel", false)) {
+                subscribeToTopic("substitutions-ios")
+            } else {
+                unsubscribeFromTopic("substitutions-ios")
+            }
+
+            subscribeToTopic("substitutions-broadcast")
+
+            prefs.edit().putInt("pingFB", prefs.getInt("pingFB", 0) + 1).apply()
+
         }
-
-        if (prefs.getBoolean("subscribedToFBDebugChannel", false)) {
-            FirebaseMessaging.getInstance().subscribeToTopic("substitutions-debug")
-        } else {
-            FirebaseMessaging.getInstance().unsubscribeFromTopic("substitutions-debug")
-        }
-
-        if (prefs.getBoolean("subscribedToiOSChannel", false)) {
-            FirebaseMessaging.getInstance().subscribeToTopic("substitutions-ios")
-        } else {
-            FirebaseMessaging.getInstance().unsubscribeFromTopic("substitutions-ios")
-        }
-
-        FirebaseMessaging.getInstance().subscribeToTopic("substitutions-broadcast")
-        prefs.edit().putInt("pingFB", prefs.getInt("pingFB", 0) + 1).apply()
-
         jobFinished(params, false)
     }
 }
