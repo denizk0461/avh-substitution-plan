@@ -127,4 +127,11 @@
         <item>Hey, %s!</item>
         <item>Hi %s!</item>
     </string-array>
+
+    <string name="setRingtone">Benutzerdefinierter Benachrichtungston</string>
+    <string name="setRingtone2">Derzeit: %s</string>
+    <string name="pickRingtone">Wähle einen Benachrichtigungston</string>
+    <string name="noRingtonesFound">Keine Klingeltöne gefunden</string>
+    <string name="deviceSettingsRedirect">Öffnet Geräteinstellungen</string>
+    <string name="defaultRingtone">Standard</string>
 </resources>

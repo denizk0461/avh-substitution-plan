@@ -141,4 +141,11 @@
         <item>Hey, %s!</item>
         <item>Hi %s!</item>
     </string-array>
+
+    <string name="setRingtone">Customise notification ringtone</string>
+    <string name="setRingtone2">Currently: %s</string>
+    <string name="pickRingtone">Pick a notification ringtone</string>
+    <string name="noRingtonesFound">No ringtones found</string>
+    <string name="deviceSettingsRedirect">Redirects to device settings</string>
+    <string name="defaultRingtone">Default</string>
 </resources>

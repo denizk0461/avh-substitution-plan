@@ -4,10 +4,13 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.database.Cursor
+import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -28,7 +31,8 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.jaredrummler.android.device.DeviceName
 import kotlin.collections.ArrayList
 
-class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListener, CompoundButton.OnCheckedChangeListener, ColourAdapter.OnClickListener {
+class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListener,
+        CompoundButton.OnCheckedChangeListener, ColourAdapter.OnClickListener, RingtoneAdapter.OnClickListener {
 
     private var name = ""
     private var model = ""
@@ -41,6 +45,8 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
     private var cs: Int = 7
     private var window: Window? = null
     private lateinit var colourRecycler: RecyclerView
+    private lateinit var ringtoneCustomiserDialog: AlertDialog
+    private lateinit var currentRingtone: TextView
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -68,6 +74,8 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         val helpClasses = view.findViewById<ImageButton>(R.id.chipHelpClasses)
         val btnCustomiseColours = view.findViewById<LinearLayout>(R.id.btnCustomiseColours)
         val btnVersion = view.findViewById<LinearLayout>(R.id.btnVersion)
+        currentRingtone = view.findViewById(R.id.txtCustomiseRingtone2)
+        setRingtoneText()
 
         switchDisableGreeting.setOnCheckedChangeListener(this)
         switchDark.setOnCheckedChangeListener(this)
@@ -77,6 +85,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         helpCourses.setOnClickListener(this)
         helpClasses.setOnClickListener(this)
         btnCustomiseColours.setOnClickListener(this)
+        view.findViewById<LinearLayout>(R.id.btnCustomiseRingtone).setOnClickListener(this)
         view.findViewById<LinearLayout>(R.id.btnWebsite).setOnClickListener(this)
         view.findViewById<LinearLayout>(R.id.btnLicences).setOnClickListener(this)
         view.findViewById<LinearLayout>(R.id.btnTerms).setOnClickListener(this)
@@ -132,6 +141,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
             R.id.chipHelpCourses -> createDialog(getString(R.string.enterCoursesHelpTitle), getString(R.string.enterCoursesHelp))
             R.id.chipHelpClasses -> createDialog(getString(R.string.enterGradeHelpTitle), getString(R.string.enterGradeHelp))
             R.id.btnCustomiseColours -> createColourDialog()
+            R.id.btnCustomiseRingtone -> createRingtoneDialog()
             R.id.btnWebsite -> {
                 try {
                     customTabsIntent.launchUrl(mContext, Uri.parse("http://307.joomla.schule.bremen.de"))
@@ -301,6 +311,73 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         return colours
     }
 
+    private fun createRingtoneDialog() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
+                putExtra(Settings.EXTRA_APP_PACKAGE, mContext.applicationContext.packageName)
+                putExtra(Settings.EXTRA_CHANNEL_ID, "general")
+            }
+            startActivity(intent)
+        } else {
+            val ringtoneCustomiserBuilder = AlertDialog.Builder(mContext, R.style.AlertDialog)
+
+            val dialogView = LayoutInflater.from(mContext).inflate(R.layout.recycler_dialog, null)
+            val titleText = dialogView.findViewById<TextView>(R.id.empty_textviewtitle)
+            titleText.text = getString(R.string.pickRingtone)
+
+            val recycler = dialogView.findViewById<RecyclerView>(R.id.recyclerView)
+            recycler.apply {
+                hasFixedSize()
+                layoutManager = GridLayoutManager(mContext, 1)
+            }
+
+            ringtoneCustomiserDialog = ringtoneCustomiserBuilder.setView(dialogView).create()
+            ringtoneCustomiserDialog.show()
+
+            recycler.postDelayed({
+                val ringtones = getRingtones().toList()
+                recycler.adapter = RingtoneAdapter(ringtones, this)
+            }, 100)
+        }
+    }
+
+    private fun getRingtones(): ArrayList<Ringtone> {
+        lateinit var _cursor: Cursor
+        val ringtoneManager = RingtoneManager(activity).apply {
+            setType(RingtoneManager.TYPE_NOTIFICATION)
+            _cursor = cursor
+        }
+        val alarms = ArrayList<Ringtone>()
+
+        while (!_cursor.isAfterLast && _cursor.moveToNext()) {
+            val position = _cursor.position
+            alarms.add(Ringtone(ringtoneManager.getRingtone(position).getTitle(mContext), ringtoneManager.getRingtoneUri(position).toString()))
+        }
+        return alarms
+    }
+
+    override fun onRingtoneClick(position: Int, name: String, uri: String) {
+        prefs.edit().apply {
+            putString("ringtoneName", name)
+            putString("ringtoneUri", uri)
+        }.apply()
+        setRingtoneText()
+        ringtoneCustomiserDialog.dismiss()
+    }
+
+    private fun setRingtoneText() {
+        currentRingtone.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mContext.getString(R.string.deviceSettingsRedirect)
+        } else {
+            val tone = if ((prefs.getString("ringtoneName", "") ?: "").isNotEmpty()) {
+                prefs.getString("ringtoneName", "")
+            } else {
+                mContext.getString(R.string.defaultRingtone)
+            }
+            mContext.getString(R.string.setRingtone2, tone)
+        }
+    }
+
     override fun onClick(position: Int, title: String, titleNoLang: String) {
         val colourPickerBuilder = AlertDialog.Builder(mContext, R.style.AlertDialog)
         val pickerDialogView = LayoutInflater.from(mContext).inflate(R.layout.empty_dialog, null)
@@ -338,7 +415,6 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
     }
 
     private fun debugMenu(): Boolean {
-
         DeviceName.with(mContext).request { deviceInfo, _ ->
             name = deviceInfo.marketName
             model = deviceInfo.model

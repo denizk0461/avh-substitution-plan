@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.media.RingtoneManager
+import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
 import android.preference.PreferenceManager
@@ -87,6 +88,9 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                     val rows = doc.select("tr")
                     val paragraphs = doc.select("p")
 
+                    val coursePreference = prefs.getString("courses", "") ?: ""
+                    val classPreference = prefs.getString("classes", "") ?: ""
+
                     for (i in 0 until paragraphs.size) {
                         if (i == 0) {
                             informational = paragraphs[i].text()
@@ -110,17 +114,17 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                         priority--
 
                         if (jobservice && prefs.getBoolean("notif", true)) {
-                            if ((prefs.getString("courses", "") ?: "").isEmpty() && (prefs.getString("classes", "") ?: "").isNotEmpty()) {
+                            if (coursePreference.isEmpty() && classPreference.isNotEmpty()) {
                                 if (group.isNotEmpty() && group != "") {
-                                    if ((prefs.getString("classes", "") ?: "").contains(group) || group.contains((prefs.getString("classes", "") ?: "").toString())) {
+                                    if (classPreference.contains(group) || group.contains(classPreference)) {
 
                                         notifText += "${if (notifText.isNotEmpty()) ",\n" else ""}$course: ${if (additional.isNotEmpty()) additional else "---"}"
                                     }
                                 }
-                            } else if ((prefs.getString("classes", "") ?: "").isNotEmpty() && (prefs.getString("courses", "") ?: "").isNotEmpty()) {
+                            } else if (classPreference.isNotEmpty() && coursePreference.isNotEmpty()) {
                                 if (group != "" && course != "") {
-                                    if ((prefs.getString("courses", "") ?: "").contains(course)) {
-                                        if ((prefs.getString("classes", "") ?: "").contains(group) || group.contains((prefs.getString("classes", "") ?: "").toString())) {
+                                    if (coursePreference.contains(course)) {
+                                        if (classPreference.contains(group) || group.contains(classPreference)) {
 
                                             notifText += "${if (notifText.isNotEmpty()) ",\n" else ""}$course: ${if (additional.isNotEmpty()) additional else "---"}"
                                         }
@@ -158,10 +162,18 @@ class DataFetcher(isplan: Boolean, ismenu: Boolean, isjobservice: Boolean, conte
                                 .setSmallIcon(R.drawable.ic_avh)
                                 .setContentIntent(openAppPending)
                                 .setAutoCancel(true)
-                                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                                 .setColor(ContextCompat.getColor(mContext, R.color.colorAccent))
-                                .build()
-                        manager.notify(1, notification)
+
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                            val sound = if ((prefs.getString("ringtoneUri", "") ?: "").isNotEmpty()) {
+                                Uri.parse(prefs.getString("ringtoneUri", "") ?: "")
+                            } else {
+                                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                            }
+                            notification.setSound(sound)
+                        }
+
+                        manager.notify(1, notification.build())
                     }
 
                     edit.putString("timeNew", currentTime).apply()

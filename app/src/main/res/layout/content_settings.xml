@@ -162,7 +162,7 @@
                         android:text="@string/customiseColoursIndividually"
                         android:textColor="@color/colorHint"
                         android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/txtNotifications"
                         app:layout_constraintStart_toStartOf="@+id/txtCustomiseColours1"
                         app:layout_constraintTop_toBottomOf="@+id/txtCustomiseColours1" />
 
@@ -176,10 +176,84 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txtRestart" />
+                        app:layout_constraintTop_toBottomOf="@+id/txtRestart"
+                        app:layout_constraintBottom_toTopOf="@+id/txtNotifications"/>
+
+                    <TextView
+                        android:id="@+id/txtNotifications"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/enableNotifications"
+                        android:textColor="@color/colorText"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtCustomiseColours2"
+                        app:layout_constraintTop_toBottomOf="@+id/txtCustomiseColours2" />
+
+                    <TextView
+                        android:id="@+id/txtNotifiedAbout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/enablesBackgroundSync"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorHint"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtNotifications"
+                        app:layout_constraintTop_toBottomOf="@+id/txtNotifications"
+                        app:layout_constraintBottom_toTopOf="@+id/txtCustomiseRingtone"/>
+
+                    <Switch
+                        android:id="@+id/switchNotifications"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="end|center"
+                        app:layout_constraintBottom_toTopOf="@+id/txtCustomiseRingtone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/txtNotifications"
+                        app:layout_constraintTop_toTopOf="@+id/txtNotifications" />
+
+                    <TextView
+                        android:id="@+id/txtCustomiseRingtone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/setRingtone"
+                        android:textColor="@color/colorText"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtNotifiedAbout"
+                        app:layout_constraintTop_toBottomOf="@+id/txtNotifiedAbout" />
+
+                    <TextView
+                        android:id="@+id/txtCustomiseRingtone2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/setRingtone2"
+                        android:textColor="@color/colorHint"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@+id/txtCustomiseRingtone"
+                        app:layout_constraintTop_toBottomOf="@+id/txtCustomiseRingtone"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <LinearLayout
+                        android:id="@+id/btnCustomiseRingtone"
+                        style="@style/SelectableItemBackground"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtNotifiedAbout"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -262,14 +336,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
                         android:hint="@string/courses"
                         android:importantForAutofill="no"
                         android:textColorHint="@color/colorHint"
                         app:boxStrokeColor="@color/colorAccent"
                         app:boxStrokeWidth="1dp"
-                        app:layout_constraintEnd_toStartOf="@+id/chipHelpCourses"
                         app:layout_constraintStart_toStartOf="@+id/txtLayoutClasses"
-                        app:layout_constraintTop_toBottomOf="@+id/txtLayoutClasses">
+                        app:layout_constraintTop_toBottomOf="@+id/txtLayoutClasses"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/chipHelpCourses">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/txtCourses"
@@ -297,42 +373,6 @@
                         app:layout_constraintBottom_toBottomOf="@+id/txtLayoutCourses"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/txtLayoutCourses" />
-
-                    <TextView
-                        android:id="@+id/txtNotifications"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/enableNotifications"
-                        android:textColor="@color/colorText"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="@+id/txtFilter"
-                        app:layout_constraintTop_toBottomOf="@+id/txtLayoutCourses" />
-
-                    <TextView
-                        android:id="@+id/txtNotifiedAbout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:text="@string/enablesBackgroundSync"
-                        android:textAlignment="textStart"
-                        android:textColor="@color/colorHint"
-                        android:textSize="12sp"
-                        app:layout_constraintStart_toStartOf="@+id/txtNotifications"
-                        app:layout_constraintTop_toBottomOf="@+id/txtNotifications"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
-
-                    <Switch
-                        android:id="@+id/switchNotifications"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="8dp"
-                        android:gravity="end|center"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/txtNotifications"
-                        app:layout_constraintTop_toTopOf="@+id/txtNotifications" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
