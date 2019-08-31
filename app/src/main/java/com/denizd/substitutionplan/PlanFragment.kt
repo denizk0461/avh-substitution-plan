@@ -22,9 +22,8 @@ open class PlanFragment : Fragment(R.layout.plan) {
     private lateinit var layoutManager: GridLayoutManager
     var planCardList = ArrayList<Subst>()
     lateinit var substViewModel: SubstViewModel
-    lateinit var mContext: Context
+    private lateinit var mContext: Context
     lateinit var prefs: SharedPreferences
-    lateinit var edit: SharedPreferences.Editor
 
     lateinit var smileydown: TextView
     lateinit var smileydowntext: TextView
@@ -40,19 +39,7 @@ open class PlanFragment : Fragment(R.layout.plan) {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        val tabletSize = resources.getBoolean(R.bool.isTablet)
-        val grid = if (tabletSize) {
-            when (newConfig.orientation) {
-                Configuration.ORIENTATION_PORTRAIT -> 2
-                else -> 3
-            }
-        } else {
-            when (newConfig.orientation) {
-                Configuration.ORIENTATION_PORTRAIT -> 1
-                else -> 2
-            }
-        }
-        layoutManager = GridLayoutManager(mContext, grid)
+        layoutManager = GridLayoutManager(mContext, getGridColumnCount(newConfig))
         recyclerView.layoutManager = layoutManager
     }
 
@@ -62,21 +49,7 @@ open class PlanFragment : Fragment(R.layout.plan) {
 
         recyclerView = view.findViewById(R.id.linearRecycler)
         recyclerView.hasFixedSize()
-
-        val tabletSize = resources.getBoolean(R.bool.isTablet)
-        val grid = if (tabletSize) {
-            when (resources.configuration.orientation) {
-                Configuration.ORIENTATION_PORTRAIT -> 2
-                else -> 3
-            }
-        } else {
-            when (resources.configuration.orientation) {
-                Configuration.ORIENTATION_PORTRAIT -> 1
-                else -> 2
-            }
-        }
-
-        layoutManager = GridLayoutManager(mContext, grid)
+        layoutManager = GridLayoutManager(mContext, getGridColumnCount(resources.configuration))
         recyclerView.layoutManager = layoutManager
 
         mAdapter = CardAdapter(planCardList)
@@ -92,13 +65,42 @@ open class PlanFragment : Fragment(R.layout.plan) {
 
         if (prefs.getBoolean("autoRefresh", false)) {
             pullToRefresh.isRefreshing = true
-            DataFetcher(true, false, false, mContext, activity!!.application, view.rootView).execute()
+            DataFetcher(
+                isPlan = true,
+                isMenu = false,
+                isJobService = false,
+                context = mContext,
+                application = activity!!.application,
+                parentView = view.rootView
+            ).execute()
         }
         substViewModel = ViewModelProviders.of(this).get(SubstViewModel::class.java)
 
         pullToRefresh.setOnRefreshListener {
             pullToRefresh.isRefreshing = true
-            DataFetcher(true, false, false, mContext, activity!!.application, view.rootView).execute()
+            DataFetcher(
+                isPlan = true,
+                isMenu = false,
+                isJobService = false,
+                context = mContext,
+                application = activity!!.application,
+                parentView = view.rootView
+            ).execute()
+        }
+    }
+
+    private fun getGridColumnCount(config: Configuration): Int {
+        val tabletSize = resources.getBoolean(R.bool.isTablet)
+        return if (tabletSize) {
+            when (config.orientation) {
+                Configuration.ORIENTATION_PORTRAIT -> 2
+                else -> 3
+            }
+        } else {
+            when (config.orientation) {
+                Configuration.ORIENTATION_PORTRAIT -> 1
+                else -> 2
+            }
         }
     }
 }
