@@ -107,7 +107,7 @@
 
     <string name="chromeCompatibleNotFound">No Chrome-compatible browser found</string>
     <string name="youtubeNotFound">YouTube app not found</string>
-    <string name="lastUpdated">"Last updated: "</string>
+    <string name="lastUpdated">Last updated:</string>
     <string name="nightMode">Enables night mode</string>
     <string name="yourPlan">Your Plan</string>
 

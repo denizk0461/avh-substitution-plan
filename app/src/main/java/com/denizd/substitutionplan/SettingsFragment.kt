@@ -313,6 +313,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
 
     private fun createRingtoneDialog() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            MiscData.getNotificationChannel(mContext, prefs)
             val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
                 putExtra(Settings.EXTRA_APP_PACKAGE, mContext.applicationContext.packageName)
                 putExtra(Settings.EXTRA_CHANNEL_ID, "general")

@@ -94,7 +94,7 @@
     <string name="courseWp">WP &amp; Methodenstunde</string>
     <string name="chromeCompatibleNotFound">Kein Chrome-kompatibler Browser gefunden</string>
     <string name="youtubeNotFound">YouTube-App nicht gefunden</string>
-    <string name="lastUpdated">"Zuletzt aktualisiert: "</string>
+    <string name="lastUpdated">Zuletzt aktualisiert:</string>
     <string name="nightMode">Aktiviert den Nachtmodus</string>
     <string name="yourPlan">Dein Plan</string>
     <string-array name="greetingsMorning">

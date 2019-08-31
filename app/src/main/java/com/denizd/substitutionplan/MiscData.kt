@@ -1,6 +1,11 @@
 package com.denizd.substitutionplan
 
+import android.annotation.TargetApi
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
 import java.util.*
 
 object MiscData {
@@ -15,11 +20,10 @@ object MiscData {
             R.color.bgTeal, R.color.bgCyan, R.color.bgBlue, R.color.bgPurple, R.color.bgPink, R.color.bgBrown, R.color.bgGrey,
             R.color.bgPureWhite, R.color.bgSalmon, R.color.bgTangerine, R.color.bgBanana, R.color.bgFlora, R.color.bgSpindrift,
             R.color.bgSky, R.color.bgOrchid, R.color.bgLavender, R.color.bgCarnation, R.color.bgBrown2, R.color.bgPureBlack)
-
-    fun emoji(unicode: Int): String { return String(Character.toChars(unicode)) }
+    const val notificationChannelId = "general"
 
     fun getColourForString(name: String): Int {
-        return when(name) {
+        return when (name) {
             "red" -> R.color.bgRed
             "orange" -> R.color.bgOrange
             "yellow" -> R.color.bgYellow
@@ -94,5 +98,44 @@ object MiscData {
             edit.putString("card$course", colour)
         }
         edit.apply()
+    }
+
+    fun checkPersonalSubstitutions(subst: Subst, coursePreference: String, classPreference: String, psa: Boolean): Boolean {
+        val group = subst.group
+        val course = subst.course
+        if (psa && subst.date.isNotEmpty() && subst.date.substring(0, 3) == "psa") {
+            return true
+        }
+        if (coursePreference.isEmpty() && classPreference.isNotEmpty()) {
+            if (group.isNotEmpty() && group != "") {
+                if (classPreference.contains(group) || group.contains(classPreference)) {
+                    return true
+                }
+            }
+        } else if (classPreference.isNotEmpty() && coursePreference.isNotEmpty()) {
+            if (group != "" && course != "") {
+                if (coursePreference.contains(course)) {
+                    if (classPreference.contains(group) || group.contains(classPreference)) {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
+
+    @TargetApi(26)
+    fun getNotificationChannel(context: Context, prefs: SharedPreferences): NotificationChannel {
+        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        return if (!prefs.getBoolean("notifChannelCreated", false)) {
+            val channel = NotificationChannel(notificationChannelId, context.getString(R.string.general), NotificationManager.IMPORTANCE_DEFAULT)
+            channel.enableLights(true)
+            channel.lightColor = Color.BLUE
+            manager.createNotificationChannel(channel)
+            prefs.edit().putBoolean("notifChannelCreated", true).apply()
+            channel
+        } else {
+            manager.getNotificationChannel(notificationChannelId)
+        }
     }
 }

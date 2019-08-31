@@ -20,7 +20,7 @@ open class PlanFragment : Fragment(R.layout.plan) {
     lateinit var recyclerView: RecyclerView
     lateinit var mAdapter: CardAdapter
     private lateinit var layoutManager: GridLayoutManager
-    val planCardList = ArrayList<Subst>()
+    var planCardList = ArrayList<Subst>()
     lateinit var substViewModel: SubstViewModel
     lateinit var mContext: Context
     lateinit var prefs: SharedPreferences
@@ -36,7 +36,6 @@ open class PlanFragment : Fragment(R.layout.plan) {
         super.onAttach(context)
         mContext = context
         prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
-        edit = prefs.edit()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -83,11 +82,11 @@ open class PlanFragment : Fragment(R.layout.plan) {
         mAdapter = CardAdapter(planCardList)
         recyclerView.adapter = mAdapter
 
-        if (prefs.getInt("firstTimeOpening", 0) == 2) {
+        if (prefs.getInt("firstTimeOpening", 0) == 1) {
             if (!prefs.getBoolean("notif", false)) {
                 pullToRefresh.isRefreshing = true
-                DataFetcher(true, false, false, mContext, activity!!.application, view.rootView).execute()
-                edit.putInt("firstTimeOpening", 3).apply()
+                DataFetcher(true, true, false, mContext, activity!!.application, view.rootView).execute()
+                prefs.edit().putInt("firstTimeOpening", 2).apply()
             }
         }
 

@@ -6,7 +6,7 @@ import com.google.firebase.messaging.RemoteMessage
 class FBNotificationService : FirebaseMessagingService() {
 
     override fun onMessageReceived(p0: RemoteMessage) {
-        DataFetcher(isplan = true, ismenu = true, isjobservice = true, context = applicationContext,
-                application = application, parentview = null).execute()
+        DataFetcher(isPlan = true, isMenu = true, isJobService = true, context = applicationContext,
+                application = application, parentView = null).execute()
     }
 }
