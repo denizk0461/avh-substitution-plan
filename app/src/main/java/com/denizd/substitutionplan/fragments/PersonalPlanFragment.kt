@@ -27,9 +27,9 @@ internal class PersonalPlanFragment : PlanFragment() {
             persPlanEmpty = true
             recyclerView.visibility = View.VISIBLE
 
-            substitutions.filter {
+            substitutions.filter { substitution ->
                 MiscData.checkPersonalSubstitutions(
-                    it,
+                    substitution,
                     coursePreference,
                     classPreference,
                     true

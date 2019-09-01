@@ -26,7 +26,8 @@ import kotlin.collections.ArrayList
 /**
  *  This class gets data from the djd4rkn355.github.io domain asynchronously and persists it in the
  *  database. By using booleans as parameters, network usage and speed can be improved as only
- *  requested data will be downloaded and processed.
+ *  requested data will be downloaded and processed. Furthermore, the class provides a boolean
+ *  to determine whether to send a notification to the user, if applicable.
  *
  *  @param isPlan           substitution plan will be downloaded and persisted in the database if true
  *  @param isMenu           food menu will be downloaded and persisted in the database if true
@@ -58,9 +59,11 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
                 foodUrl = "https://djd4rkn355.github.io/food_test.html"
             }
 
-            when {
-                menu -> requestFoodMenuData()
-                plan -> requestSubstPlanAndNotification()
+            if (menu) {
+                requestFoodMenuData()
+            }
+            if (plan) {
+                requestSubstPlan()
             }
 
             if (plan || menu) {
@@ -122,7 +125,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
         }
     }
 
-    private fun requestSubstPlanAndNotification() {
+    private fun requestSubstPlan() {
         val doc = Jsoup.connect(substUrl).get()
         currentTime = doc.select("h1")[0].text()
         if (currentTime != prefs.getString("timeNew", "")) {
@@ -162,15 +165,15 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
             }
 
             if (jobService && prefs.getBoolean("notif", true)) {
-                substArray.filter {
+                substArray.filter { substitution ->
                     MiscData.checkPersonalSubstitutions(
-                        it,
+                        substitution,
                         coursePreference,
                         classPreference,
                         false
                     )
                 }.forEach { substItem ->
-                    notifText += "${if (notifText.isNotEmpty()) ",\n" else ""}$substItem.course: ${if (substItem.additional.isNotEmpty()) substItem.additional else "---"}"
+                    notifText += "${if (notifText.isNotEmpty()) ",\n" else ""}${substItem.course}: ${if (substItem.additional.isNotEmpty()) substItem.additional else "---"}"
                 }
             }
 
