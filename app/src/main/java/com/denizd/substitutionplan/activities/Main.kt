@@ -1,4 +1,4 @@
-package com.denizd.substitutionplan
+package com.denizd.substitutionplan.activities
 
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
@@ -20,16 +20,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.crashlytics.android.Crashlytics
+import com.denizd.substitutionplan.data.MiscData
+import com.denizd.substitutionplan.R
+import com.denizd.substitutionplan.fragments.FoodFragment
+import com.denizd.substitutionplan.fragments.GeneralPlanFragment
+import com.denizd.substitutionplan.fragments.PersonalPlanFragment
+import com.denizd.substitutionplan.fragments.SettingsFragment
+import com.denizd.substitutionplan.services.FBPingService
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.FirebaseApp
-import com.google.firebase.messaging.FirebaseMessaging
 import com.jaredrummler.android.device.DeviceName
 import java.lang.IllegalArgumentException
 import java.util.*
 
-class Main : AppCompatActivity(R.layout.app_bar_main) {
+internal class Main : AppCompatActivity(R.layout.app_bar_main) {
 
     private lateinit var context: Context
     private lateinit var prefs: SharedPreferences
@@ -71,17 +76,29 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                        window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackground)
-                        window.navigationBarColor = ContextCompat.getColor(this, R.color.colorBackground)
+                        window.statusBarColor = ContextCompat.getColor(this,
+                            R.color.colorBackground
+                        )
+                        window.navigationBarColor = ContextCompat.getColor(this,
+                            R.color.colorBackground
+                        )
                     } else {
-                        window.statusBarColor = ContextCompat.getColor(this, R.color.legacyBlack)
-                        window.navigationBarColor = ContextCompat.getColor(this, R.color.legacyBlack)
+                        window.statusBarColor = ContextCompat.getColor(this,
+                            R.color.legacyBlack
+                        )
+                        window.navigationBarColor = ContextCompat.getColor(this,
+                            R.color.legacyBlack
+                        )
                     }
                 }
                 else -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    window.navigationBarColor = ContextCompat.getColor(this, R.color.colorBackground)
-                    window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackground)
+                    window.navigationBarColor = ContextCompat.getColor(this,
+                        R.color.colorBackground
+                    )
+                    window.statusBarColor = ContextCompat.getColor(this,
+                        R.color.colorBackground
+                    )
                 }
 //                else -> {
 //                    when (context.resources.configuration.uiMode) {
@@ -114,7 +131,9 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
                     if (info.manufacturer.contains("Huawei") ||
                             info.manufacturer.contains("Honor") ||
                             info.manufacturer.contains("Xiaomi")) {
-                        val alertDialog = AlertDialog.Builder(context, R.style.AlertDialog)
+                        val alertDialog = AlertDialog.Builder(context,
+                            R.style.AlertDialog
+                        )
                         val dialogView = LayoutInflater.from(context).inflate(R.layout.secret_dialog, null)
                         val title = dialogView.findViewById<TextView>(R.id.textviewtitle)
                         title.text = getString(R.string.chineseDevicesTitle)
@@ -223,16 +242,24 @@ class Main : AppCompatActivity(R.layout.app_bar_main) {
         val gen = Random()
 
         return String.format(when (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
-            in 5..10 -> resources.getStringArray(R.array.greetingsMorning)[gen.nextInt(resources.getStringArray(R.array.greetingsMorning).size)]
-            in 11..17 -> resources.getStringArray(R.array.greetingsNoon)[gen.nextInt(resources.getStringArray(R.array.greetingsNoon).size)]
-            else -> resources.getStringArray(R.array.greetingsEvening)[gen.nextInt(resources.getStringArray(R.array.greetingsEvening).size)]
+            in 5..10 -> resources.getStringArray(R.array.greetingsMorning)[gen.nextInt(resources.getStringArray(
+                R.array.greetingsMorning
+            ).size)]
+            in 11..17 -> resources.getStringArray(R.array.greetingsNoon)[gen.nextInt(resources.getStringArray(
+                R.array.greetingsNoon
+            ).size)]
+            else -> resources.getStringArray(R.array.greetingsEvening)[gen.nextInt(resources.getStringArray(
+                R.array.greetingsEvening
+            ).size)]
         }, prefs.getString("username", ""))
     }
 
     private fun openInfoDialog() {
         val dialog = AlertDialog.Builder(context)
         val dialogView = LayoutInflater.from(context).inflate(R.layout.simple_dialog, null)
-        dialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.information)
+        dialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(
+            R.string.information
+        )
         val dialogText = "${getString(R.string.lastUpdated)} ${prefs.getString("timeNew", "")}.\n\n${prefs.getString("informational", "")}"
         dialogView.findViewById<TextView>(R.id.dialogtext).text = dialogText
         dialog.setView(dialogView).show()

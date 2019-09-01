@@ -1,10 +1,13 @@
-package com.denizd.substitutionplan
+package com.denizd.substitutionplan.fragments
 
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import com.denizd.substitutionplan.data.MiscData
+import com.denizd.substitutionplan.R
+import com.denizd.substitutionplan.models.Subst
 
-class PersonalPlanFragment : PlanFragment() {
+internal class PersonalPlanFragment : PlanFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,7 +27,14 @@ class PersonalPlanFragment : PlanFragment() {
             persPlanEmpty = true
             recyclerView.visibility = View.VISIBLE
 
-            substitutions.filter { MiscData.checkPersonalSubstitutions(it, coursePreference, classPreference, true) }.forEach { substItem ->
+            substitutions.filter {
+                MiscData.checkPersonalSubstitutions(
+                    it,
+                    coursePreference,
+                    classPreference,
+                    true
+                )
+            }.forEach { substItem ->
                 planCardList.add(substItem)
             }
             persPlanEmpty = (planCardList.size == 1 && planCardList[0].date.substring(0, 3) == "psa") || planCardList.isEmpty()

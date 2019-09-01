@@ -1,9 +1,10 @@
-package com.denizd.substitutionplan
+package com.denizd.substitutionplan.services
 
+import com.denizd.substitutionplan.data.DataFetcher
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
-class FBNotificationService : FirebaseMessagingService() {
+internal class FBNotificationService : FirebaseMessagingService() {
 
     override fun onMessageReceived(p0: RemoteMessage) {
         DataFetcher(

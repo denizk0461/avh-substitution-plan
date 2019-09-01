@@ -1,4 +1,4 @@
-package com.denizd.substitutionplan
+package com.denizd.substitutionplan.activities
 
 import android.content.Context
 import android.content.Intent
@@ -20,11 +20,12 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import com.denizd.substitutionplan.R
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import java.util.*
 
-class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
+internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
 
     private lateinit var context: Context
     private lateinit var prefs: SharedPreferences
@@ -38,16 +39,28 @@ class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
             AppCompatDelegate.MODE_NIGHT_NO, AppCompatDelegate.MODE_NIGHT_UNSPECIFIED -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                    window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackground)
-                    window.navigationBarColor = ContextCompat.getColor(this, R.color.colorBackground)
+                    window.statusBarColor = ContextCompat.getColor(this,
+                        R.color.colorBackground
+                    )
+                    window.navigationBarColor = ContextCompat.getColor(this,
+                        R.color.colorBackground
+                    )
                 } else {
-                    window.statusBarColor = ContextCompat.getColor(this, R.color.legacyBlack)
-                    window.navigationBarColor = ContextCompat.getColor(this, R.color.legacyBlack)
+                    window.statusBarColor = ContextCompat.getColor(this,
+                        R.color.legacyBlack
+                    )
+                    window.navigationBarColor = ContextCompat.getColor(this,
+                        R.color.legacyBlack
+                    )
                 }
             }
             else -> {
-                window.navigationBarColor = ContextCompat.getColor(this, R.color.colorBackground)
-                window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackground)
+                window.navigationBarColor = ContextCompat.getColor(this,
+                    R.color.colorBackground
+                )
+                window.statusBarColor = ContextCompat.getColor(this,
+                    R.color.colorBackground
+                )
 //                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
             }
         }
@@ -67,10 +80,14 @@ class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
         val helpCourses = findViewById<ImageButton>(R.id.chipHelpCourses)
 
         helpClasses.setOnClickListener {
-            createDialog(getString(R.string.enterGradeHelpTitle), getString(R.string.enterGradeHelp))
+            createDialog(getString(R.string.enterGradeHelpTitle), getString(
+                R.string.enterGradeHelp
+            ))
         }
         helpCourses.setOnClickListener {
-            createDialog(getString(R.string.enterCoursesHelpTitle), getString(R.string.enterCoursesHelp))
+            createDialog(getString(R.string.enterCoursesHelpTitle), getString(
+                R.string.enterCoursesHelp
+            ))
         }
 
         val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -103,7 +120,9 @@ class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
             inflater.inflate(R.layout.welcome_screen, linearInflation, true)
             val anim = ViewAnimationUtils.createCircularReveal(linearInflation, x, y, 0F, endRadius.toFloat())
             val handler = Handler()
-            val animOut = AnimationUtils.loadAnimation(context, R.anim.fade_out_short)
+            val animOut = AnimationUtils.loadAnimation(context,
+                R.anim.fade_out_short
+            )
             anim.duration = 600
             val colour = findViewById<LinearLayout>(R.id.colourLayout)
             linearInflation.visibility = View.VISIBLE
@@ -137,7 +156,9 @@ class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
     }
 
     private fun createDialog(title: String, text: String) {
-        val alertDialog = AlertDialog.Builder(context, R.style.AlertDialog)
+        val alertDialog = AlertDialog.Builder(context,
+            R.style.AlertDialog
+        )
         val dialogView = LayoutInflater.from(context).inflate(R.layout.simple_dialog, null)
         val dialogTitle = dialogView.findViewById<TextView>(R.id.textviewtitle)
         val dialogText = dialogView.findViewById<TextView>(R.id.dialogtext)

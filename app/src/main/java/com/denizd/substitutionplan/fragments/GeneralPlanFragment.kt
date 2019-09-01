@@ -1,10 +1,11 @@
-package com.denizd.substitutionplan
+package com.denizd.substitutionplan.fragments
 
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import com.denizd.substitutionplan.models.Subst
 
-class GeneralPlanFragment : PlanFragment() {
+internal class GeneralPlanFragment : PlanFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

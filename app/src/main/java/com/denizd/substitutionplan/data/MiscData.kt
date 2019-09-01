@@ -1,4 +1,4 @@
-package com.denizd.substitutionplan
+package com.denizd.substitutionplan.data
 
 import android.annotation.TargetApi
 import android.app.NotificationChannel
@@ -6,9 +6,11 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
+import com.denizd.substitutionplan.R
+import com.denizd.substitutionplan.models.Subst
 import java.util.*
 
-object MiscData {
+internal object MiscData {
 
     val languageIndependentCourses = arrayOf("German", "English", "French", "Spanish", "Latin", "Turkish", "Chinese", "Arts", "Music",
             "Theatre", "Geography", "History", "Politics", "Philosophy", "Religion", "Maths", "Biology", "Chemistry",
@@ -16,10 +18,31 @@ object MiscData {
     val colourNames = arrayOf("default", "red", "orange", "yellow", "green", "teal", "cyan", "blue", "purple", "pink",
             "brown", "grey", "pureWhite", "salmon", "tangerine", "banana", "flora", "spindrift", "sky", "orchid",
             "lavender", "carnation", "brown2", "pureBlack")
-    private val colourIntegers = intArrayOf(0, R.color.bgRed, R.color.bgOrange, R.color.bgYellow, R.color.bgGreen,
-            R.color.bgTeal, R.color.bgCyan, R.color.bgBlue, R.color.bgPurple, R.color.bgPink, R.color.bgBrown, R.color.bgGrey,
-            R.color.bgPureWhite, R.color.bgSalmon, R.color.bgTangerine, R.color.bgBanana, R.color.bgFlora, R.color.bgSpindrift,
-            R.color.bgSky, R.color.bgOrchid, R.color.bgLavender, R.color.bgCarnation, R.color.bgBrown2, R.color.bgPureBlack)
+    private val colourIntegers = intArrayOf(0,
+        R.color.bgRed,
+        R.color.bgOrange,
+        R.color.bgYellow,
+        R.color.bgGreen,
+        R.color.bgTeal,
+        R.color.bgCyan,
+        R.color.bgBlue,
+        R.color.bgPurple,
+        R.color.bgPink,
+        R.color.bgBrown,
+        R.color.bgGrey,
+        R.color.bgPureWhite,
+        R.color.bgSalmon,
+        R.color.bgTangerine,
+        R.color.bgBanana,
+        R.color.bgFlora,
+        R.color.bgSpindrift,
+        R.color.bgSky,
+        R.color.bgOrchid,
+        R.color.bgLavender,
+        R.color.bgCarnation,
+        R.color.bgBrown2,
+        R.color.bgPureBlack
+    )
     const val notificationChannelId = "general"
 
     fun getColourForString(name: String): Int {
@@ -128,7 +151,10 @@ object MiscData {
     fun getNotificationChannel(context: Context, prefs: SharedPreferences): NotificationChannel {
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         return if (!prefs.getBoolean("notifChannelCreated", false)) {
-            val channel = NotificationChannel(notificationChannelId, context.getString(R.string.general), NotificationManager.IMPORTANCE_DEFAULT)
+            val channel = NotificationChannel(
+                notificationChannelId, context.getString(
+                    R.string.general
+                ), NotificationManager.IMPORTANCE_DEFAULT)
             channel.enableLights(true)
             channel.lightColor = Color.BLUE
             manager.createNotificationChannel(channel)

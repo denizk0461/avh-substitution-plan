@@ -1,4 +1,4 @@
-package com.denizd.substitutionplan
+package com.denizd.substitutionplan.services
 
 import android.app.job.JobParameters
 import android.app.job.JobService
@@ -6,7 +6,7 @@ import android.preference.PreferenceManager
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 
-class FBPingService : JobService() {
+internal class FBPingService : JobService() {
 
     private var jobCancelled = false
     private val context = this

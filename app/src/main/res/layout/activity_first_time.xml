@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     android:fitsSystemWindows="true"
-    tools:context=".FirstTime">
+    tools:context=".activities.FirstTime">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

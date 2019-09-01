@@ -1,4 +1,4 @@
-package com.denizd.substitutionplan
+package com.denizd.substitutionplan.fragments
 
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -24,6 +24,12 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.denizd.substitutionplan.*
+import com.denizd.substitutionplan.adapters.ColourAdapter
+import com.denizd.substitutionplan.adapters.RingtoneAdapter
+import com.denizd.substitutionplan.data.MiscData
+import com.denizd.substitutionplan.models.Colour
+import com.denizd.substitutionplan.models.Ringtone
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
@@ -31,8 +37,10 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.jaredrummler.android.device.DeviceName
 import kotlin.collections.ArrayList
 
-class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListener,
-        CompoundButton.OnCheckedChangeListener, ColourAdapter.OnClickListener, RingtoneAdapter.OnClickListener {
+internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListener,
+        CompoundButton.OnCheckedChangeListener,
+    ColourAdapter.OnClickListener,
+    RingtoneAdapter.OnClickListener {
 
     private var name = ""
     private var model = ""
@@ -131,22 +139,26 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         })
 
         btnVersion.setOnLongClickListener {
-            Toast.makeText(mContext, getString(R.string.madeBy), Toast.LENGTH_LONG).show()
+            makeToast(getString(R.string.madeBy))
             debugMenu()
         }
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.chipHelpCourses -> createDialog(getString(R.string.enterCoursesHelpTitle), getString(R.string.enterCoursesHelp))
-            R.id.chipHelpClasses -> createDialog(getString(R.string.enterGradeHelpTitle), getString(R.string.enterGradeHelp))
+            R.id.chipHelpCourses -> createDialog(getString(R.string.enterCoursesHelpTitle), getString(
+                R.string.enterCoursesHelp
+            ))
+            R.id.chipHelpClasses -> createDialog(getString(R.string.enterGradeHelpTitle), getString(
+                R.string.enterGradeHelp
+            ))
             R.id.btnCustomiseColours -> createColourDialog()
             R.id.btnCustomiseRingtone -> createRingtoneDialog()
             R.id.btnWebsite -> {
                 try {
                     customTabsIntent.launchUrl(mContext, Uri.parse("http://307.joomla.schule.bremen.de"))
                 } catch (e: ActivityNotFoundException) {
-                    Toast.makeText(mContext, getString(R.string.chromeCompatibleNotFound), Toast.LENGTH_LONG).show()
+                    makeToast(getString(R.string.chromeCompatibleNotFound))
                 }
             }
             R.id.btnLicences -> {
@@ -202,9 +214,9 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                     try {
                         cs = 7
                         customTabsIntent.launchUrl(mContext, Uri.parse("http://www.flussufer.de/gerd/person.htm"))
-                        Toast.makeText(mContext, getString(R.string.dontTellHim), Toast.LENGTH_LONG).show()
+                        makeToast(getString(R.string.dontTellHim))
                     } catch (e: ActivityNotFoundException) {
-                        Toast.makeText(mContext, getString(R.string.chromeCompatibleNotFound), Toast.LENGTH_LONG).show()
+                        makeToast(getString(R.string.chromeCompatibleNotFound))
                     }
                 }
             }
@@ -260,7 +272,9 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
     }
 
     private fun createDialog(title: String, text: String) {
-        val alertDialog = AlertDialog.Builder(mContext, R.style.AlertDialog)
+        val alertDialog = AlertDialog.Builder(mContext,
+            R.style.AlertDialog
+        )
         val dialogView = LayoutInflater.from(mContext).inflate(R.layout.simple_dialog, null)
         dialogView.findViewById<TextView>(R.id.textviewtitle).text = title
         dialogView.findViewById<TextView>(R.id.dialogtext).text = text
@@ -268,7 +282,9 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
     }
 
     private fun createColourDialog() {
-        val colourCustomiserBuilder = AlertDialog.Builder(mContext, R.style.AlertDialog)
+        val colourCustomiserBuilder = AlertDialog.Builder(mContext,
+            R.style.AlertDialog
+        )
 
         val dialogView = LayoutInflater.from(mContext).inflate(R.layout.recycler_dialog, null)
         val titleText = dialogView.findViewById<TextView>(R.id.empty_textviewtitle)
@@ -279,34 +295,49 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         colourRecycler.layoutManager = GridLayoutManager(mContext, 1)
         colourRecycler.adapter = ColourAdapter(getColourList(), this)
 
-//        val button = LayoutInflater.from(mContext).inflate(R.layout.forever_alone_button, null)
-//        val buttonClearAll = button.findViewById<MaterialButton>(R.id.buttonclearallcolours)
-//        emptyLayout.addView(button)
         colourCustomiserBuilder.setView(dialogView)
         val colourCustomiserDialog = colourCustomiserBuilder.create()
-//
-//        buttonClearAll.setOnClickListener {
-//            for (course in coursesNoLang) {
-//                edit.putInt("bg$course", 0)
-//            }
-//            edit.apply()
-//            Toast.makeText(mContext, getString(R.string.allcolourscleared),
-//                    Toast.LENGTH_LONG).show()
-//            colourCustomiserDialog.cancel()
-//        }
-
         colourCustomiserDialog.show()
-
     }
 
     private fun getColourList(): ArrayList<Colour> {
         val colours = ArrayList<Colour>()
         val coursesNoLang = MiscData.languageIndependentCourses
-        val courses = arrayOf(getString(R.string.courseDeu), getString(R.string.courseEng), getString(R.string.courseFra), getString(R.string.courseSpa), getString(R.string.courseLat), getString(R.string.courseTue), getString(R.string.courseChi), getString(R.string.courseKun), getString(R.string.courseMus), getString(R.string.courseDar), getString(R.string.courseGeg), getString(R.string.courseGes), getString(R.string.coursePol), getString(R.string.coursePhi), getString(R.string.courseRel), getString(R.string.courseMat), getString(R.string.courseBio), getString(R.string.courseChe), getString(R.string.coursePhy), getString(R.string.courseInf), getString(R.string.courseSpo), getString(R.string.courseGll), getString(R.string.courseWat), getString(R.string.courseFor), getString(R.string.courseWp))
-        val coursesIcons = intArrayOf(R.drawable.ic_german, R.drawable.ic_english, R.drawable.ic_french, R.drawable.ic_spanish, R.drawable.ic_latin, R.drawable.ic_turkish, R.drawable.ic_chinese, R.drawable.ic_arts, R.drawable.ic_music, R.drawable.ic_drama, R.drawable.ic_geography, R.drawable.ic_history, R.drawable.ic_politics, R.drawable.ic_philosophy, R.drawable.ic_religion, R.drawable.ic_maths, R.drawable.ic_biology, R.drawable.ic_chemistry, R.drawable.ic_physics, R.drawable.ic_compsci, R.drawable.ic_pe, R.drawable.ic_gll, R.drawable.ic_wat, R.drawable.ic_help, R.drawable.ic_pencil)
+        val courses = arrayOf(getString(R.string.courseDeu), getString(
+            R.string.courseEng
+        ), getString(R.string.courseFra), getString(R.string.courseSpa), getString(
+            R.string.courseLat
+        ), getString(R.string.courseTue), getString(R.string.courseChi), getString(
+            R.string.courseKun
+        ), getString(R.string.courseMus), getString(R.string.courseDar), getString(
+            R.string.courseGeg
+        ), getString(R.string.courseGes), getString(R.string.coursePol), getString(
+            R.string.coursePhi
+        ), getString(R.string.courseRel), getString(R.string.courseMat), getString(
+            R.string.courseBio
+        ), getString(R.string.courseChe), getString(R.string.coursePhy), getString(
+            R.string.courseInf
+        ), getString(R.string.courseSpo), getString(R.string.courseGll), getString(
+            R.string.courseWat
+        ), getString(R.string.courseFor), getString(R.string.courseWp))
+        val coursesIcons = intArrayOf(R.drawable.ic_german, R.drawable.ic_english, R.drawable.ic_french,
+            R.drawable.ic_spanish, R.drawable.ic_latin, R.drawable.ic_turkish, R.drawable.ic_chinese,
+            R.drawable.ic_arts, R.drawable.ic_music, R.drawable.ic_drama, R.drawable.ic_geography,
+            R.drawable.ic_history, R.drawable.ic_politics, R.drawable.ic_philosophy, R.drawable.ic_religion,
+            R.drawable.ic_maths, R.drawable.ic_biology, R.drawable.ic_chemistry, R.drawable.ic_physics,
+            R.drawable.ic_compsci, R.drawable.ic_pe, R.drawable.ic_gll, R.drawable.ic_wat,
+            R.drawable.ic_help, R.drawable.ic_pencil
+        )
 
         for (i in 0 until coursesNoLang.size) {
-            colours.add(Colour(courses[i], coursesNoLang[i], coursesIcons[i], MiscData.getColourForString(prefs.getString("card${coursesNoLang[i]}", "") ?: "")))
+            colours.add(
+                Colour(
+                    courses[i],
+                    coursesNoLang[i],
+                    coursesIcons[i],
+                    MiscData.getColourForString(prefs.getString("card${coursesNoLang[i]}", "") ?: "")
+                )
+            )
         }
         return colours
     }
@@ -343,16 +374,21 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
     }
 
     private fun getRingtones(): ArrayList<Ringtone> {
-        lateinit var _cursor: Cursor
+        lateinit var ringtoneCursor: Cursor
         val ringtoneManager = RingtoneManager(activity).apply {
             setType(RingtoneManager.TYPE_NOTIFICATION)
-            _cursor = cursor
+            ringtoneCursor = cursor
         }
         val alarms = ArrayList<Ringtone>()
 
-        while (!_cursor.isAfterLast && _cursor.moveToNext()) {
-            val position = _cursor.position
-            alarms.add(Ringtone(ringtoneManager.getRingtone(position).getTitle(mContext), ringtoneManager.getRingtoneUri(position).toString()))
+        while (!ringtoneCursor.isAfterLast && ringtoneCursor.moveToNext()) {
+            val position = ringtoneCursor.position
+            alarms.add(
+                Ringtone(
+                    ringtoneManager.getRingtone(position).getTitle(mContext),
+                    ringtoneManager.getRingtoneUri(position).toString()
+                )
+            )
         }
         return alarms
     }
@@ -391,19 +427,14 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
         colourPickerBuilder.setView(pickerDialogView)
         val colourPickerDialog: AlertDialog = colourPickerBuilder.create()
 
-        val buttons = arrayOf<MaterialButton>(picker.findViewById(R.id.def), picker.findViewById(R.id.red),
-                picker.findViewById(R.id.orange), picker.findViewById(R.id.yellow), picker.findViewById(R.id.green),
-                picker.findViewById(R.id.teal), picker.findViewById(R.id.cyan), picker.findViewById(R.id.blue),
-                picker.findViewById(R.id.purple), picker.findViewById(R.id.pink), picker.findViewById(R.id.brown),
-                picker.findViewById(R.id.grey), picker.findViewById(R.id.pureWhite), picker.findViewById(R.id.salmon),
-                picker.findViewById(R.id.tangerine), picker.findViewById(R.id.banana), picker.findViewById(R.id.flora),
-                picker.findViewById(R.id.spindrift), picker.findViewById(R.id.sky), picker.findViewById(R.id.orchid),
-                picker.findViewById(R.id.lavender), picker.findViewById(R.id.carnation), picker.findViewById(R.id.brown2),
-                picker.findViewById(R.id.pureBlack))
+        val buttons = intArrayOf(R.id.def, R.id.red, R.id.orange, R.id.yellow, R.id.green,
+            R.id.teal, R.id.cyan, R.id.blue, R.id.purple, R.id.pink, R.id.brown, R.id.grey,
+            R.id.pureWhite, R.id.salmon, R.id.tangerine, R.id.banana, R.id.flora, R.id.spindrift,
+            R.id.sky, R.id.orchid, R.id.lavender, R.id.carnation, R.id.brown2, R.id.pureBlack)
         val colours = MiscData.colourNames
 
         for (i2 in 0 until buttons.size) {
-            buttons[i2].setOnClickListener {
+            picker.findViewById<MaterialButton>(buttons[i2]).setOnClickListener {
 //                prefs.edit().putInt("bg$titleNoLang", colourIntegers[i2]).apply()
                 prefs.edit().putString("card$titleNoLang", colours[i2]).apply()
                 val recyclerViewState = colourRecycler.layoutManager?.onSaveInstanceState()
@@ -421,13 +452,19 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
             model = deviceInfo.model
         }
 
-        val alertDialog = AlertDialog.Builder(mContext, R.style.AlertDialog)
+        val alertDialog = AlertDialog.Builder(mContext,
+            R.style.AlertDialog
+        )
         val dialogView = LayoutInflater.from(mContext).inflate(R.layout.edittext_dialog, null)
         val dialogEditText = dialogView.findViewById<EditText>(R.id.dialog_edittext)
         val dialogButton = dialogView.findViewById<Button>(R.id.dialog_button)
 
-        dialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.experimentalMenu)
-        dialogView.findViewById<TextView>(R.id.dialogtext).text = getString(R.string.menuForTests)
+        dialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(
+            R.string.experimentalMenu
+        )
+        dialogView.findViewById<TextView>(R.id.dialogtext).text = getString(
+            R.string.menuForTests
+        )
         dialogButton.setOnClickListener {
             when (dialogEditText.text.toString()) {
                 "_DIAGNOSTICS" -> {
@@ -435,9 +472,11 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                     val devDialogView = LayoutInflater.from(mContext).inflate(R.layout.diagnostics_dialog, null)
                     val devDialogText = devDialogView.findViewById<TextView>(R.id.dialogtext)
                     val resetLaunchBtn = devDialogView.findViewById<Button>(R.id.btnResetLaunch)
-                    val resetNotifBtn = devDialogView.findViewById<Button>(R.id.btnResetNotif)
+                    val resetNotificationBtn = devDialogView.findViewById<Button>(R.id.btnResetNotif)
 
-                    devDialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.diagnosticsMenu)
+                    devDialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(
+                        R.string.diagnosticsMenu
+                    )
                     devDialogText.text = getDiagnosticsText(prefs)
 
                     resetLaunchBtn.setOnClickListener {
@@ -445,7 +484,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                         devDialogText.text = getDiagnosticsText(prefs)
                     }
 
-                    resetNotifBtn.setOnClickListener {
+                    resetNotificationBtn.setOnClickListener {
                         edit.putInt("pingFB", 0).apply()
                         devDialogText.text = getDiagnosticsText(prefs)
                     }
@@ -459,21 +498,21 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).setPackage("com.google.android.youtube")
                         startActivity(intent)
                     } catch (e: ActivityNotFoundException) {
-                        Toast.makeText(mContext, R.string.youtubeNotFound, Toast.LENGTH_LONG).show()
+                        makeToast(getString(R.string.youtubeNotFound))
                     }
                 }
                 "_NOTIFICATION" -> {
                     edit.putString("timeNew", "").putString("timeFoodNew", "").apply()
-                    Toast.makeText(mContext, "Notification times cleared", Toast.LENGTH_LONG).show()
+                    makeToast("Notification times cleared")
                 } // TODO add option to clear database
                 "_FIRSTTIME" -> {
                     edit.putBoolean("firstTime", true).apply()
-                    Toast.makeText(mContext, "First time flag cleared", Toast.LENGTH_LONG).show()
+                    makeToast("First time flag cleared")
                 }
                 "_TESTURLS" -> {
                     val currentTest = !prefs.getBoolean("testUrls", false)
                     edit.putBoolean("testUrls", currentTest).apply()
-                    Toast.makeText(mContext, "Test URLs set to $currentTest", Toast.LENGTH_LONG).show()
+                    makeToast("Test URLs set to $currentTest")
                 }
                 "_DEVCHANNEL" -> {
                     val subbed = if (prefs.getBoolean("subscribedToFBDebugChannel", false)) {
@@ -482,7 +521,7 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                         "Subscribed to"
                     }
                     edit.putBoolean("subscribedToFBDebugChannel", !prefs.getBoolean("subscribedToFBDebugChannel", false)).apply()
-                    Toast.makeText(mContext, "$subbed Firebase development channel", Toast.LENGTH_LONG).show()
+                    makeToast("$subbed Firebase development channel")
                 }
                 "_IOSCHANNEL" -> {
                     val subbed = if (prefs.getBoolean("subscribedToiOSChannel", false)) {
@@ -491,14 +530,18 @@ class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListen
                         "Subscribed to"
                     }
                     edit.putBoolean("subscribedToiOSChannel", !prefs.getBoolean("subscribedToiOSChannel", false)).apply()
-                    Toast.makeText(mContext, "$subbed iOS channel", Toast.LENGTH_LONG).show()
+                    makeToast("$subbed iOS channel")
                 }
-                else -> Toast.makeText(mContext, getString(R.string.invalidCode), Toast.LENGTH_LONG).show()
+                else -> makeToast(getString(R.string.invalidCode))
             }
         }
         alertDialog.setView(dialogView)
         alertDialog.show()
         return true
+    }
+
+    private fun makeToast(text: String) {
+        Toast.makeText(mContext, text, Toast.LENGTH_LONG).show()
     }
 
     private fun getDiagnosticsText(prefs: SharedPreferences): String {

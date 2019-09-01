@@ -1,4 +1,4 @@
-package com.denizd.substitutionplan
+package com.denizd.substitutionplan.fragments
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -11,8 +11,13 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.denizd.substitutionplan.*
+import com.denizd.substitutionplan.adapters.FoodAdapter
+import com.denizd.substitutionplan.database.FoodViewModel
+import com.denizd.substitutionplan.models.Food
+import com.denizd.substitutionplan.data.DataFetcher
 
-class FoodFragment : Fragment(R.layout.food_layout) {
+internal class FoodFragment : Fragment(R.layout.food_layout) {
 
     private val foodArrayList = ArrayList<Food>()
     private val mAdapter = FoodAdapter(foodArrayList)
@@ -57,12 +62,26 @@ class FoodFragment : Fragment(R.layout.food_layout) {
 
         if (prefs.getBoolean("autoRefresh", false)) {
             pullToRefresh.isRefreshing = true
-            DataFetcher(false, true, false, mContext, activity!!.application, view.rootView).execute()
+            DataFetcher(
+                false,
+                true,
+                false,
+                mContext,
+                activity!!.application,
+                view.rootView
+            ).execute()
         }
 
         pullToRefresh.setOnRefreshListener {
             pullToRefresh.isRefreshing = true
-            DataFetcher(false, true, false, mContext, activity!!.application, view.rootView).execute()
+            DataFetcher(
+                false,
+                true,
+                false,
+                mContext,
+                activity!!.application,
+                view.rootView
+            ).execute()
         }
     }
 }

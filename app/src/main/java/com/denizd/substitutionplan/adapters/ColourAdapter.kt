@@ -1,4 +1,4 @@
-package com.denizd.substitutionplan
+package com.denizd.substitutionplan.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +7,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.denizd.substitutionplan.models.Colour
+import com.denizd.substitutionplan.R
 import com.google.android.material.card.MaterialCardView
 
-class ColourAdapter(private var mColours: List<Colour>, onClickListener: OnClickListener) : RecyclerView.Adapter<ColourAdapter.ColourViewHolder>() {
+internal class ColourAdapter(private var mColours: List<Colour>, onClickListener: OnClickListener) : RecyclerView.Adapter<ColourAdapter.ColourViewHolder>() {
 
     val mOnClickListener = onClickListener
 
@@ -27,7 +29,10 @@ class ColourAdapter(private var mColours: List<Colour>, onClickListener: OnClick
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColourViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
-        return ColourViewHolder(v, mOnClickListener)
+        return ColourViewHolder(
+            v,
+            mOnClickListener
+        )
     }
 
     override fun onBindViewHolder(holder: ColourViewHolder, position: Int) {

@@ -1,12 +1,14 @@
-package com.denizd.substitutionplan
+package com.denizd.substitutionplan.database
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import com.denizd.substitutionplan.models.Food
 
-public class FoodViewModel(application: Application) : AndroidViewModel(application) {
+internal class FoodViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository: FoodRepository = FoodRepository(application)
+    private val repository: FoodRepository =
+        FoodRepository(application)
     val allFoods: LiveData<List<Food>>?
 
     init {

@@ -1,4 +1,4 @@
-package com.denizd.substitutionplan
+package com.denizd.substitutionplan.fragments
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -14,9 +14,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.denizd.substitutionplan.*
+import com.denizd.substitutionplan.adapters.CardAdapter
+import com.denizd.substitutionplan.database.SubstViewModel
+import com.denizd.substitutionplan.models.Subst
+import com.denizd.substitutionplan.data.DataFetcher
 import kotlin.collections.ArrayList
 
-open class PlanFragment : Fragment(R.layout.plan) {
+internal open class PlanFragment : Fragment(R.layout.plan) {
     lateinit var recyclerView: RecyclerView
     lateinit var mAdapter: CardAdapter
     private lateinit var layoutManager: GridLayoutManager
@@ -56,37 +61,30 @@ open class PlanFragment : Fragment(R.layout.plan) {
         recyclerView.adapter = mAdapter
 
         if (prefs.getInt("firstTimeOpening", 0) == 1) {
-            if (!prefs.getBoolean("notif", false)) {
-                pullToRefresh.isRefreshing = true
-                DataFetcher(true, true, false, mContext, activity!!.application, view.rootView).execute()
-                prefs.edit().putInt("firstTimeOpening", 2).apply()
-            }
+            startFetch(view, pullToRefresh, true)
+            prefs.edit().putInt("firstTimeOpening", 2).apply()
         }
 
         if (prefs.getBoolean("autoRefresh", false)) {
-            pullToRefresh.isRefreshing = true
-            DataFetcher(
-                isPlan = true,
-                isMenu = false,
-                isJobService = false,
-                context = mContext,
-                application = activity!!.application,
-                parentView = view.rootView
-            ).execute()
+            startFetch(view, pullToRefresh, false)
         }
         substViewModel = ViewModelProviders.of(this).get(SubstViewModel::class.java)
 
         pullToRefresh.setOnRefreshListener {
-            pullToRefresh.isRefreshing = true
-            DataFetcher(
-                isPlan = true,
-                isMenu = false,
-                isJobService = false,
-                context = mContext,
-                application = activity!!.application,
-                parentView = view.rootView
-            ).execute()
+            startFetch(view, pullToRefresh, false)
         }
+    }
+
+    private fun startFetch(view: View, pullToRefresh: SwipeRefreshLayout, refreshMenu: Boolean) {
+        pullToRefresh.isRefreshing = true
+        DataFetcher(
+            isPlan = true,
+            isMenu = refreshMenu,
+            isJobService = false,
+            context = mContext,
+            application = activity!!.application,
+            parentView = view.rootView
+        ).execute()
     }
 
     private fun getGridColumnCount(config: Configuration): Int {

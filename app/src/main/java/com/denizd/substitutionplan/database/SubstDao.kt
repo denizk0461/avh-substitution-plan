@@ -1,10 +1,12 @@
-package com.denizd.substitutionplan
+package com.denizd.substitutionplan.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.denizd.substitutionplan.models.Food
+import com.denizd.substitutionplan.models.Subst
 
 @Dao
-public interface SubstDao {
+internal interface SubstDao {
 
     @get:Query("SELECT * FROM subst_table ORDER BY priority DESC")
     val allSubst: LiveData<List<Subst>>

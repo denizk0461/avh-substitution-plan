@@ -1,17 +1,19 @@
-package com.denizd.substitutionplan
+package com.denizd.substitutionplan.database
 
 import android.app.Application
 import android.os.AsyncTask
 
 import androidx.lifecycle.LiveData
+import com.denizd.substitutionplan.models.Subst
 
-public class SubstRepository(application: Application) {
+internal class SubstRepository(application: Application) {
 
     private val substDao: SubstDao?
     val allSubst: LiveData<List<Subst>>?
 
     init {
-        val database = SubstDatabase.getInstance(application)
+        val database =
+            SubstDatabase.getInstance(application)
         substDao = database?.substDao()
         allSubst = substDao?.allSubst
     }

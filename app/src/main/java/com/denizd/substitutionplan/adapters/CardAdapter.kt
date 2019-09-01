@@ -1,4 +1,4 @@
-package com.denizd.substitutionplan
+package com.denizd.substitutionplan.adapters
 
 import android.content.ActivityNotFoundException
 import android.net.Uri
@@ -14,10 +14,13 @@ import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.denizd.substitutionplan.data.MiscData
+import com.denizd.substitutionplan.R
+import com.denizd.substitutionplan.models.Subst
 import com.google.android.material.card.MaterialCardView
 import java.util.*
 
-class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
+internal class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
     private var colour = 0
     private var colourString = ""
@@ -70,7 +73,11 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
             }
         }
 
-        holder.mImageView.setImageResource(MiscData.getIconForCourse(currentItem.course))
+        holder.mImageView.setImageResource(
+            MiscData.getIconForCourse(
+                currentItem.course
+            )
+        )
         holder.mGroup.setText(strings[0], TextView.BufferType.SPANNABLE)
         holder.mTime.setText(strings[1], TextView.BufferType.SPANNABLE)
         holder.mCourse.setText(strings[2], TextView.BufferType.SPANNABLE)
@@ -83,7 +90,9 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
             holder.mDate.text = currentItem.date
             holder.mTime.text = " "
             holder.mImageView.setImageResource(R.drawable.ic_idea)
-            holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mImageView.context, R.color.colorAccent))
+            holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mImageView.context,
+                R.color.colorAccent
+            ))
         } else {
             holder.mDate.visibility = View.VISIBLE
             holder.mDate.text = currentItem.date
@@ -100,7 +109,9 @@ class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAd
             if (colour != 0) {
                 holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mCourse.context, colour))
             } else {
-                holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mCourse.context, R.color.colorBackgroundLight))
+                holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mCourse.context,
+                    R.color.colorBackgroundLight
+                ))
             }
         }
 

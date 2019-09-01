@@ -1,4 +1,4 @@
-package com.denizd.substitutionplan
+package com.denizd.substitutionplan.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,16 +7,14 @@ import android.widget.TextView
 
 import java.util.ArrayList
 import androidx.recyclerview.widget.RecyclerView
+import com.denizd.substitutionplan.models.Food
+import com.denizd.substitutionplan.R
 
-class FoodAdapter(food: ArrayList<Food>) : RecyclerView.Adapter<FoodAdapter.CardViewHolder>() {
+internal class FoodAdapter(food: ArrayList<Food>) : RecyclerView.Adapter<FoodAdapter.CardViewHolder>() {
     private var mFood: List<Food>? = null
 
     class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var mFood: TextView
-
-        init {
-            mFood = itemView.findViewById(R.id.cardInfoText)
-        }
+        var mFood: TextView = itemView.findViewById(R.id.cardInfoText)
     }
 
     init {

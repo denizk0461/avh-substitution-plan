@@ -1,4 +1,4 @@
-package com.denizd.substitutionplan
+package com.denizd.substitutionplan.data
 
 import android.app.*
 import android.content.Context
@@ -13,6 +13,12 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.denizd.substitutionplan.database.FoodRepository
+import com.denizd.substitutionplan.R
+import com.denizd.substitutionplan.database.SubstRepository
+import com.denizd.substitutionplan.activities.Main
+import com.denizd.substitutionplan.models.Food
+import com.denizd.substitutionplan.models.Subst
 import com.google.android.material.snackbar.Snackbar
 import org.jsoup.Jsoup
 import kotlin.collections.ArrayList
@@ -26,7 +32,7 @@ import kotlin.collections.ArrayList
  *  @param isMenu           food menu will be downloaded and persisted in the database if true
  *  @param isJobService     a notification will be prepared and sent if this and isPlan is true
  */
-class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boolean, context: Context, application: Application, parentView: View?) : AsyncTask<Void, Void, Void>() {
+internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boolean, context: Context, application: Application, parentView: View?) : AsyncTask<Void, Void, Void>() {
 
     private var jobService = isJobService
     private var plan = isPlan
@@ -47,11 +53,12 @@ class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boolean, conte
 
     override fun doInBackground(vararg params: Void?): Void? {
         try {
+            if (prefs.getBoolean("testUrls", false)) {
+                substUrl = "https://djd4rkn355.github.io/subst_test.html"
+                foodUrl = "https://djd4rkn355.github.io/food_test.html"
+            }
+
             when {
-                prefs.getBoolean("testUrls", false) -> {
-                    substUrl = "https://djd4rkn355.github.io/subst_test.html"
-                    foodUrl = "https://djd4rkn355.github.io/food_test.html"
-                }
                 menu -> requestFoodMenuData()
                 plan -> requestSubstPlanAndNotification()
             }
@@ -69,7 +76,9 @@ class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boolean, conte
         } catch (e: Exception) {
             mView?.let { v: View ->
                 val snackBarView = v.findViewById<View>(R.id.coordination)
-                Snackbar.make(snackBarView, mContext.getString(R.string.noInternet), Snackbar.LENGTH_LONG).setBackgroundTint(ContextCompat.getColor(mContext, R.color.colorError)).show()
+                Snackbar.make(snackBarView, mContext.getString(R.string.noInternet), Snackbar.LENGTH_LONG).setBackgroundTint(ContextCompat.getColor(mContext,
+                    R.color.colorError
+                )).show()
             }
         }
         return null
@@ -143,15 +152,24 @@ class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boolean, conte
                 val group = cols[0].text()
                 val course = cols[3].text()
                 val additional = cols[5].text()
-                val subst = Subst(group = group, date = cols[1].text(), time = cols[2].text(), course = course,
-                    room = cols[4].text(), additional = additional, priority = priority)
+                val subst = Subst(
+                    group = group, date = cols[1].text(), time = cols[2].text(), course = course,
+                    room = cols[4].text(), additional = additional, priority = priority
+                )
                 substArray.add(subst)
                 substRepo.insert(subst)
                 priority--
             }
 
             if (jobService && prefs.getBoolean("notif", true)) {
-                substArray.filter { MiscData.checkPersonalSubstitutions(it, coursePreference, classPreference, false) }.forEach { substItem ->
+                substArray.filter {
+                    MiscData.checkPersonalSubstitutions(
+                        it,
+                        coursePreference,
+                        classPreference,
+                        false
+                    )
+                }.forEach { substItem ->
                     notifText += "${if (notifText.isNotEmpty()) ",\n" else ""}$substItem.course: ${if (substItem.additional.isNotEmpty()) substItem.additional else "---"}"
                 }
             }
@@ -170,21 +188,30 @@ class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boolean, conte
         openApp.flags += Intent.FLAG_ACTIVITY_CLEAR_TASK
         val openAppPending = PendingIntent.getActivity(mContext, 0, openApp, 0)
 
-        val notificationLayout = RemoteViews(mContext.packageName, R.layout.notification)
-        notificationLayout.setTextViewText(R.id.notification_title, mContext.getString(R.string.substitutionPlan))
+        val notificationLayout = RemoteViews(mContext.packageName,
+            R.layout.notification
+        )
+        notificationLayout.setTextViewText(
+            R.id.notification_title, mContext.getString(
+                R.string.substitutionPlan
+            ))
         notificationLayout.setTextViewText(R.id.notification_textview, notifText)
 
         val manager = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         MiscData.getNotificationChannel(mContext, prefs)
 
-        val notification = NotificationCompat.Builder(mContext, MiscData.notificationChannelId)
+        val notification = NotificationCompat.Builder(mContext,
+            MiscData.notificationChannelId
+        )
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setCustomContentView(notificationLayout)
             .setSmallIcon(R.drawable.ic_avh)
             .setContentIntent(openAppPending)
             .setAutoCancel(true)
-            .setColor(ContextCompat.getColor(mContext, R.color.colorAccent))
+            .setColor(ContextCompat.getColor(mContext,
+                R.color.colorAccent
+            ))
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             val sound = if ((prefs.getString("ringtoneUri", "") ?: "").isNotEmpty()) {

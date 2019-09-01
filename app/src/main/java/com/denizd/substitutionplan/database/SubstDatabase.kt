@@ -1,12 +1,14 @@
-package com.denizd.substitutionplan
+package com.denizd.substitutionplan.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.denizd.substitutionplan.models.Food
+import com.denizd.substitutionplan.models.Subst
 
 @Database(entities = [Subst::class, Food::class], version = 5, exportSchema = false)
-public abstract class SubstDatabase : RoomDatabase() {
+internal abstract class SubstDatabase : RoomDatabase() {
 
     abstract fun substDao(): SubstDao
 
