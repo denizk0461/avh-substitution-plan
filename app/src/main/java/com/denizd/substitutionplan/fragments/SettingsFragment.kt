@@ -93,6 +93,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         helpCourses.setOnClickListener(this)
         helpClasses.setOnClickListener(this)
         btnCustomiseColours.setOnClickListener(this)
+        view.findViewById<LinearLayout>(R.id.btnNoNotif).setOnClickListener(this)
         view.findViewById<LinearLayout>(R.id.btnCustomiseRingtone).setOnClickListener(this)
         view.findViewById<LinearLayout>(R.id.btnWebsite).setOnClickListener(this)
         view.findViewById<LinearLayout>(R.id.btnLicences).setOnClickListener(this)
@@ -153,6 +154,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
                 R.string.enterGradeHelp
             ))
             R.id.btnCustomiseColours -> createColourDialog()
+            R.id.btnNoNotif -> createDialog(mContext.getString(R.string.notReceivingNotifications1), mContext.getString(R.string.notReceivingNotificationsHelp))
             R.id.btnCustomiseRingtone -> createRingtoneDialog()
             R.id.btnWebsite -> {
                 try {

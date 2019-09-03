@@ -138,4 +138,7 @@
     <string name="success">Erfolg</string>
     <string name="restoreFromFile">von Datei wiederherstellen</string>
     <string name="or">du kannst auch…</string>
+    <string name="notReceivingNotifications1">Benachrichtigungen kommen nicht an?</string>
+    <string name="notReceivingNotifications2">Klick hier um zu sehen, warum</string>
+    <string name="notReceivingNotificationsHelp">Bemerke, dass diese Tipps insbesondere auf Huawei/Honor-Geräten nicht funktionieren könnten. Du kannst sie trotzdem ausprobieren.\n\nAkkusparfunktionen können dazu führen, dass Benachrichtigungen nicht ankommen. Versuche, Akkusparmodi auf deren Standardeinstellung zu setzen.\n\nEinige Geräte beschränken Apps im Hintergrund. Suche in deinen Geräteeinstellungen unter Apps die Vertretungsplan-App und schaue dann nach einer Einstellung namens \"Hintergrund-Services beschränken\" (oder ähnlich) und stelle sicher, dass diese ausgestellt ist.\n\nBei Schwierigkeiten kann ich auch gerne helfen.</string>
 </resources>
