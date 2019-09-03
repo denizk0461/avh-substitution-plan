@@ -20,7 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.crashlytics.android.Crashlytics
-import com.denizd.substitutionplan.data.MiscData
+import com.denizd.substitutionplan.data.HelperFunctions
 import com.denizd.substitutionplan.R
 import com.denizd.substitutionplan.fragments.FoodFragment
 import com.denizd.substitutionplan.fragments.GeneralPlanFragment
@@ -30,6 +30,7 @@ import com.denizd.substitutionplan.services.FBPingService
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.FirebaseApp
 import com.jaredrummler.android.device.DeviceName
 import java.lang.IllegalArgumentException
 import java.util.*
@@ -54,13 +55,14 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
         } else {
 
             if (!prefs.getBoolean("colourTransferred", false)) {
-                MiscData.transferOldColourIntsToString(prefs)
+                HelperFunctions.transferOldColourIntsToString(prefs)
                 edit.putBoolean("colourTransferred", true).apply()
             }
 
             edit.putInt("launchDev", prefs.getInt("launchDev", 0) + 1)
             edit.apply()
 
+            FirebaseApp.initializeApp(this)
             pingFirebaseTopics()
 
             val appbarlayout = findViewById<AppBarLayout>(R.id.appbarlayout)
@@ -119,10 +121,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
 
             if (!prefs.getBoolean("autoRefresh", false) && prefs.getInt("firstTimeOpening", 0) != 0) {
                 try {
-                    val sb = StringBuilder()
-                    val updated = sb.append(getText(R.string.lastUpdated)).append(prefs.getString("timeNew", "")).toString()
-
-                    Snackbar.make(contextView, updated, Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(contextView, "${getString(R.string.lastUpdated)} ${prefs.getString("timeNew", "")}", Snackbar.LENGTH_LONG).show()
                 } catch (e: IllegalArgumentException) {}
             }
 

@@ -7,7 +7,8 @@
     <uses-permission android:name="android.permission.INTERNET" android:required="true"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" android:required="true"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" android:required="true"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="25"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"

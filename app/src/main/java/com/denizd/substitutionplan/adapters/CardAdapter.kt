@@ -14,7 +14,7 @@ import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.denizd.substitutionplan.data.MiscData
+import com.denizd.substitutionplan.data.HelperFunctions
 import com.denizd.substitutionplan.R
 import com.denizd.substitutionplan.models.Subst
 import com.google.android.material.card.MaterialCardView
@@ -74,7 +74,7 @@ internal class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapt
         }
 
         holder.mImageView.setImageResource(
-            MiscData.getIconForCourse(
+            HelperFunctions.getIconForCourse(
                 currentItem.course
             )
         )
@@ -105,7 +105,7 @@ internal class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapt
             } else {
                 ""
             }
-            colour = MiscData.getColourForString(colourPrefsInt)
+            colour = HelperFunctions.getColourForString(colourPrefsInt)
             if (colour != 0) {
                 holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mCourse.context, colour))
             } else {

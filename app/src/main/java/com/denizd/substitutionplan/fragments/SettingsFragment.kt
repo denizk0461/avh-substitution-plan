@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.denizd.substitutionplan.*
 import com.denizd.substitutionplan.adapters.ColourAdapter
 import com.denizd.substitutionplan.adapters.RingtoneAdapter
-import com.denizd.substitutionplan.data.MiscData
+import com.denizd.substitutionplan.data.HelperFunctions
 import com.denizd.substitutionplan.models.Colour
 import com.denizd.substitutionplan.models.Ringtone
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -116,7 +116,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                edit.putString("username", txtName.text.toString()).apply()
+                edit.putString("username", txtName.text.toString().trim()).apply()
             }
         })
 
@@ -255,9 +255,9 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
                 R.id.switchNotifications -> {
                     edit.putBoolean("notif", isChecked)
                     if (isChecked) {
-                        FirebaseMessaging.getInstance().subscribeToTopic("substitutions-android")
+                        subToTopic("android")
                     } else {
-                        FirebaseMessaging.getInstance().unsubscribeFromTopic("substitutions-android")
+                        unsubFromTopic("android")
                     }
                 }
                 R.id.switchDefaultPlan -> {
@@ -290,11 +290,11 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         val titleText = dialogView.findViewById<TextView>(R.id.empty_textviewtitle)
         titleText.text = getString(R.string.customiseColoursTitle)
         colourRecycler = dialogView.findViewById(R.id.recyclerView)
-        colourRecycler.hasFixedSize()
-
-        colourRecycler.layoutManager = GridLayoutManager(mContext, 1)
-        colourRecycler.adapter = ColourAdapter(getColourList(), this)
-
+        colourRecycler.apply {
+            hasFixedSize()
+            layoutManager = GridLayoutManager(mContext, 1)
+            adapter = ColourAdapter(getColourList(), this@SettingsFragment)
+        }
         colourCustomiserBuilder.setView(dialogView)
         val colourCustomiserDialog = colourCustomiserBuilder.create()
         colourCustomiserDialog.show()
@@ -302,7 +302,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
 
     private fun getColourList(): ArrayList<Colour> {
         val colours = ArrayList<Colour>()
-        val coursesNoLang = MiscData.languageIndependentCourses
+        val coursesNoLang = HelperFunctions.languageIndependentCourses
         val courses = arrayOf(getString(R.string.courseDeu), getString(
             R.string.courseEng
         ), getString(R.string.courseFra), getString(R.string.courseSpa), getString(
@@ -335,7 +335,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
                     courses[i],
                     coursesNoLang[i],
                     coursesIcons[i],
-                    MiscData.getColourForString(prefs.getString("card${coursesNoLang[i]}", "") ?: "")
+                    HelperFunctions.getColourForString(prefs.getString("card${coursesNoLang[i]}", "") ?: "")
                 )
             )
         }
@@ -344,7 +344,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
 
     private fun createRingtoneDialog() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            MiscData.getNotificationChannel(mContext, prefs)
+            HelperFunctions.getNotificationChannel(mContext, prefs)
             val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
                 putExtra(Settings.EXTRA_APP_PACKAGE, mContext.applicationContext.packageName)
                 putExtra(Settings.EXTRA_CHANNEL_ID, "general")
@@ -431,7 +431,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
             R.id.teal, R.id.cyan, R.id.blue, R.id.purple, R.id.pink, R.id.brown, R.id.grey,
             R.id.pureWhite, R.id.salmon, R.id.tangerine, R.id.banana, R.id.flora, R.id.spindrift,
             R.id.sky, R.id.orchid, R.id.lavender, R.id.carnation, R.id.brown2, R.id.pureBlack)
-        val colours = MiscData.colourNames
+        val colours = HelperFunctions.colourNames
 
         for (i2 in 0 until buttons.size) {
             picker.findViewById<MaterialButton>(buttons[i2]).setOnClickListener {
@@ -516,8 +516,10 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
                 }
                 "_DEVCHANNEL" -> {
                     val subbed = if (prefs.getBoolean("subscribedToFBDebugChannel", false)) {
+                        unsubFromTopic("debug")
                         "Unsubscribed from"
                     } else {
+                        subToTopic("debug")
                         "Subscribed to"
                     }
                     edit.putBoolean("subscribedToFBDebugChannel", !prefs.getBoolean("subscribedToFBDebugChannel", false)).apply()
@@ -525,13 +527,17 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
                 }
                 "_IOSCHANNEL" -> {
                     val subbed = if (prefs.getBoolean("subscribedToiOSChannel", false)) {
+                        unsubFromTopic("ios")
                         "Unsubscribed from"
                     } else {
+                        subToTopic("ios")
                         "Subscribed to"
                     }
                     edit.putBoolean("subscribedToiOSChannel", !prefs.getBoolean("subscribedToiOSChannel", false)).apply()
                     makeToast("$subbed iOS channel")
                 }
+                "_WRITE" -> HelperFunctions.writePrefsToXml(prefs, mContext, activity!!)
+                "_READ" -> HelperFunctions.readPrefsFromXml(prefs, mContext, activity!!)
                 else -> makeToast(getString(R.string.invalidCode))
             }
         }
@@ -554,4 +560,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
                 "\n\nSubscribed to notification channel: ${prefs.getBoolean("notif", false)}" +
                 "\n\nSubscribed to dev channel: ${prefs.getBoolean("subscribedToFBDebugChannel", false)}"
     }
+
+    private fun subToTopic(topic: String) = FirebaseMessaging.getInstance().subscribeToTopic("substitutions-$topic")
+    private fun unsubFromTopic(topic: String) = FirebaseMessaging.getInstance().unsubscribeFromTopic("substitutions-$topic")
 }

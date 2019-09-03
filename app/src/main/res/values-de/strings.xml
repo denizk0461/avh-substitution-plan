@@ -134,4 +134,8 @@
     <string name="noRingtonesFound">Keine Klingeltöne gefunden</string>
     <string name="deviceSettingsRedirect">Öffnet Geräteinstellungen</string>
     <string name="defaultRingtone">Standard</string>
+    <string name="permissionDenied">Bitte erlaube Speicherzugriff</string>
+    <string name="success">Erfolg</string>
+    <string name="restoreFromFile">von Datei wiederherstellen</string>
+    <string name="or">du kannst auch…</string>
 </resources>

@@ -24,6 +24,7 @@ import com.denizd.substitutionplan.R
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import java.util.*
+import kotlin.math.hypot
 
 internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
 
@@ -78,6 +79,7 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
         val pers = findViewById<CheckBox>(R.id.cbPersonalised)
         val helpClasses = findViewById<ImageButton>(R.id.chipHelpClasses)
         val helpCourses = findViewById<ImageButton>(R.id.chipHelpCourses)
+        val greeting = findViewById<CheckBox>(R.id.cbGreetings)
 
         helpClasses.setOnClickListener {
             createDialog(getString(R.string.enterGradeHelpTitle), getString(
@@ -92,6 +94,23 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
 
         val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
+//        findViewById<MaterialButton>(R.id.btnRestoreFromFile).setOnClickListener {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 42)
+//            }
+//            HelperFunctions.readPrefsFromXml(prefs)
+//            name.setText(prefs.getString("username", ""))
+//            grade.setText(prefs.getString("classes", ""))
+//            courses.setText(prefs.getString("courses", ""))
+//            notif.isChecked = prefs.getBoolean("notif", false)
+//            dark.isChecked = when (prefs.getInt("themeInt", 0)) {
+//                0 -> true
+//                else -> false
+//            }
+//            greeting.isChecked = prefs.getBoolean("greeting", false)
+//            pers.isChecked = prefs.getBoolean("defaultPersonalised", false)
+//        }
+
         fab.setOnClickListener {
             fab.isClickable = false
 
@@ -105,7 +124,7 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
                 edit.putInt("themeInt", 0)
             }
             edit.putBoolean("notif", notif.isChecked)
-                    .putBoolean("greeting", findViewById<CheckBox>(R.id.cbGreetings).isChecked)
+                    .putBoolean("greeting", greeting.isChecked)
                     .putBoolean("defaultPersonalised", pers.isChecked)
                     .putBoolean("firstTime", false)
                     .putBoolean("colourTransferred", true)
@@ -116,7 +135,7 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
 
             val x: Int = fab.right - fab.width / 2
             val y: Int = fab.bottom- fab.height / 2
-            val endRadius = Math.hypot(cLayout.width.toDouble(), cLayout.height.toDouble()).toInt()
+            val endRadius = hypot(cLayout.width.toDouble(), cLayout.height.toDouble()).toInt()
             inflater.inflate(R.layout.welcome_screen, linearInflation, true)
             val anim = ViewAnimationUtils.createCircularReveal(linearInflation, x, y, 0F, endRadius.toFloat())
             val handler = Handler()

@@ -1,16 +1,29 @@
 package com.denizd.substitutionplan.data
 
+import android.Manifest
 import android.annotation.TargetApi
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Environment
+import android.util.Log
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.requestPermissions
+import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.fragment.app.FragmentActivity
 import com.denizd.substitutionplan.R
 import com.denizd.substitutionplan.models.Subst
 import java.util.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStreamWriter
+import javax.xml.parsers.DocumentBuilderFactory
 
-internal object MiscData {
+internal object HelperFunctions {
 
     val languageIndependentCourses = arrayOf("German", "English", "French", "Spanish", "Latin", "Turkish", "Chinese", "Arts", "Music",
             "Theatre", "Geography", "History", "Politics", "Philosophy", "Religion", "Maths", "Biology", "Chemistry",
@@ -162,6 +175,88 @@ internal object MiscData {
             channel
         } else {
             manager.getNotificationChannel(notificationChannelId)
+        }
+    }
+
+    private val prefKeys = arrayOf("username", "classes", "courses", "greeting", "themeInt", "notif",
+        "defaultPersonalised", "autoRefresh", "firstTimeDev", "launchDev", "pingFB",
+        "subscribedToFBDebugChannel", "subscribedToiOSChannel")
+    private val prefTypes = arrayOf("string", "string", "string", "bool", "int", "bool", "bool", "bool",
+        "string", "int", "int", "bool", "bool")
+
+    private fun getPrefValue(prefs: SharedPreferences, type: String, key: String): Any {
+        return when (type) {
+            "string" -> prefs.getString(key, "")
+            "int" -> prefs.getInt(key, 0)
+            "bool" -> prefs.getBoolean(key, false)
+            else -> ""
+        }
+    }
+
+    private fun setPrefValue(prefs: SharedPreferences, key: String, value: String, type: String) {
+        when (type) {
+            "int" -> prefs.edit().putInt(key, value.toInt()).apply()
+            "string" -> prefs.edit().putString(key, value).apply()
+            "bool" -> prefs.edit().putBoolean(key, value.toBoolean()).apply()
+        }
+    }
+
+    fun writePrefsToXml(prefs: SharedPreferences, context: Context, activity: FragmentActivity) {
+        if (checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            val localPrefKeys = ArrayList<String>()
+            val localPrefTypes = ArrayList<String>()
+            for (i in prefKeys.indices) {
+                localPrefKeys.add(prefKeys[i])
+                localPrefTypes.add(prefTypes[i])
+            }
+            for (i in languageIndependentCourses.indices) {
+                localPrefKeys.add("card${languageIndependentCourses[i]}")
+                localPrefTypes.add("string")
+            }
+            val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+            val file = File(dir, "avh_plan_data.xml")
+            val out = OutputStreamWriter(FileOutputStream(file, false))
+
+            var input = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<items>"
+            for (i in localPrefKeys.indices) {
+                input += "\n\t<key>${localPrefKeys[i]}</key>" +
+                        "\n\t<value>${getPrefValue(prefs, localPrefTypes[i], localPrefKeys[i])}</value>"
+            }
+            input += "\n</items>"
+            out.write(input)
+            out.flush()
+            out.close()
+            Toast.makeText(context, context.getString(R.string.success), Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(context, context.getString(R.string.permissionDenied), Toast.LENGTH_LONG).show()
+            requestPermissions(activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 42)
+        }
+    }
+
+    fun readPrefsFromXml(prefs: SharedPreferences, context: Context, activity: FragmentActivity) {
+        if (checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            val localPrefTypes = ArrayList<String>()
+            for (i in prefKeys.indices) {
+                localPrefTypes.add(prefTypes[i])
+            }
+            for (i in languageIndependentCourses.indices) {
+                localPrefTypes.add("string")
+            }
+            val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+            val file = File(dir, "avh_plan_data.xml")
+            val documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+            val document = documentBuilder.parse(file)
+
+            for (i in localPrefTypes.indices) {
+                val key = document.getElementsByTagName("key").item(i).textContent
+                val value = document.getElementsByTagName("value").item(i).textContent
+                Log.d("VALUES", "$key $value")
+                setPrefValue(prefs, key, value, localPrefTypes[i])
+            }
+            Toast.makeText(context, context.getString(R.string.success), Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(context, context.getString(R.string.permissionDenied), Toast.LENGTH_LONG).show()
+            requestPermissions(activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 42)
         }
     }
 }

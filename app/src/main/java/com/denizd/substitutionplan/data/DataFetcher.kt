@@ -166,7 +166,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
 
             if (jobService && prefs.getBoolean("notif", true)) {
                 substArray.filter { substitution ->
-                    MiscData.checkPersonalSubstitutions(
+                    HelperFunctions.checkPersonalSubstitutions(
                         substitution,
                         coursePreference,
                         classPreference,
@@ -202,10 +202,10 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
 
         val manager = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        MiscData.getNotificationChannel(mContext, prefs)
+        HelperFunctions.getNotificationChannel(mContext, prefs)
 
         val notification = NotificationCompat.Builder(mContext,
-            MiscData.notificationChannelId
+            HelperFunctions.notificationChannelId
         )
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setCustomContentView(notificationLayout)

@@ -1,3 +1,3 @@
 package com.denizd.substitutionplan.models
 
-internal class Ringtone(val name: String, val uri: String)
+internal data class Ringtone(val name: String, val uri: String)

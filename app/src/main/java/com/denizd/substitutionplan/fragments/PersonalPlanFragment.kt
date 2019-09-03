@@ -3,7 +3,7 @@ package com.denizd.substitutionplan.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import com.denizd.substitutionplan.data.MiscData
+import com.denizd.substitutionplan.data.HelperFunctions
 import com.denizd.substitutionplan.R
 import com.denizd.substitutionplan.models.Subst
 
@@ -28,7 +28,7 @@ internal class PersonalPlanFragment : PlanFragment() {
             recyclerView.visibility = View.VISIBLE
 
             substitutions.filter { substitution ->
-                MiscData.checkPersonalSubstitutions(
+                HelperFunctions.checkPersonalSubstitutions(
                     substitution,
                     coursePreference,
                     classPreference,

@@ -148,4 +148,8 @@
     <string name="noRingtonesFound">No ringtones found</string>
     <string name="deviceSettingsRedirect">Redirects to device settings</string>
     <string name="defaultRingtone">Default</string>
+    <string name="permissionDenied">Please enable storage permissions</string>
+    <string name="success">Success</string>
+    <string name="restoreFromFile">Restore from file</string>
+    <string name="or">you may also…</string>
 </resources>
