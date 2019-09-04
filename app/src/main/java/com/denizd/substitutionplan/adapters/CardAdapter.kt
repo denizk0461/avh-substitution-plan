@@ -28,14 +28,17 @@ internal class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapt
 
     class CardViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
-        var mImageView: ImageView = itemView.findViewById(R.id.iconView)
-        var mGroup: TextView = itemView.findViewById(R.id.group)
-        var mDate: TextView = itemView.findViewById(R.id.date)
-        var mTime: TextView = itemView.findViewById(R.id.time)
-        var mCourse: TextView = itemView.findViewById(R.id.course)
-        var mRoom: TextView = itemView.findViewById(R.id.room)
-        var mAdditional: TextView = itemView.findViewById(R.id.additional)
-        var mCard: MaterialCardView = itemView.findViewById(R.id.planCard)
+        var mImageView: ImageView = view.findViewById(R.id.iconView)
+        var mGroup: TextView = view.findViewById(R.id.group)
+        var mDate: TextView = view.findViewById(R.id.date)
+        var mTime: TextView = view.findViewById(R.id.time)
+        var mCourse: TextView = view.findViewById(R.id.course)
+        var mRoom: TextView = view.findViewById(R.id.room)
+        var mAdditional: TextView = view.findViewById(R.id.additional)
+        var spacer: TextView = view.findViewById(R.id.spacer)
+        var teacher: TextView = view.findViewById(R.id.teacher)
+
+        var mCard: MaterialCardView = view.findViewById(R.id.planCard)
         init { view.setOnClickListener(this) }
         override fun onClick(v: View?) {
             if (mDate.text.toString().length > 7 && mDate.text.toString().substring(3, 7) == "http") {
@@ -59,7 +62,7 @@ internal class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapt
         val prefs = PreferenceManager.getDefaultSharedPreferences(holder.mImageView.context)
         var psa = false
         val strings = arrayOf(SpannableString(currentItem.group), SpannableString(currentItem.time),
-                SpannableString(currentItem.course), SpannableString(currentItem.room))
+                SpannableString(currentItem.course), SpannableString(currentItem.room), SpannableString(currentItem.teacher))
         for (item in strings) {
             val qmark = item.indexOf("?")
             if (qmark != -1) {
@@ -70,18 +73,16 @@ internal class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapt
             if (contains("eigenverantwortliches arbeiten") || contains("entfall") || contains("fällt aus")) {
                 strings[2].setSpan(StrikethroughSpan(), 0, strings[2].length, 0)
                 strings[3].setSpan(StrikethroughSpan(), 0, strings[3].length, 0)
+                strings[4].setSpan(StrikethroughSpan(), 0, strings[4].length, 0)
             }
         }
 
-        holder.mImageView.setImageResource(
-            HelperFunctions.getIconForCourse(
-                currentItem.course
-            )
-        )
+        holder.mImageView.setImageResource(HelperFunctions.getIconForCourse(currentItem.course))
         holder.mGroup.setText(strings[0], TextView.BufferType.SPANNABLE)
         holder.mTime.setText(strings[1], TextView.BufferType.SPANNABLE)
         holder.mCourse.setText(strings[2], TextView.BufferType.SPANNABLE)
         holder.mRoom.setText(strings[3], TextView.BufferType.SPANNABLE)
+        holder.teacher.setText(strings[4], TextView.BufferType.SPANNABLE)
         holder.mAdditional.text = currentItem.additional
 
         if (currentItem.date.isNotEmpty() && currentItem.date.substring(0, 3) == "psa") {
@@ -115,6 +116,12 @@ internal class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapt
             }
         }
 
+        holder.spacer.visibility = if (strings[2].isEmpty() || strings[4].isEmpty()) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+
         val textColor = ContextCompat.getColor(holder.mImageView.context, if (psa) {
             R.color.colorBackground
         } else {
@@ -131,6 +138,8 @@ internal class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapt
         holder.mCourse.setTextColor(textColor)
         holder.mRoom.setTextColor(textColor)
         holder.mAdditional.setTextColor(textColor)
+        holder.spacer.setTextColor(textColor)
+        holder.teacher.setTextColor(textColor)
     }
 
     override fun getItemCount(): Int = mSubst.size

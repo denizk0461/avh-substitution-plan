@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
 import android.preference.PreferenceManager
+import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
@@ -98,7 +99,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
     private fun requestFoodMenuData() {
         val docFood = Jsoup.connect(foodUrl).get()
         currentFoodTime = docFood.select("h1")[0].text()
-        if (currentFoodTime != prefs.getString("timeFoodNew", "")) {
+        if (currentFoodTime != prefs.getString("newFoodTime", "")) {
             val foodRepository = FoodRepository(mApplication)
             val foodElements = docFood.select("th")
             foodRepository.deleteAll()
@@ -121,7 +122,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
                 }
                 foodRepository.insert(Food(s, priority))
             }
-            edit.putString("timeFoodNew", currentFoodTime).apply()
+            edit.putString("newFoodTime", currentFoodTime).apply()
         }
     }
 
@@ -157,8 +158,9 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
                 val additional = cols[5].text()
                 val subst = Subst(
                     group = group, date = cols[1].text(), time = cols[2].text(), course = course,
-                    room = cols[4].text(), additional = additional, priority = priority
+                    room = cols[4].text(), additional = additional, teacher = cols[6].text(), priority = priority
                 )
+                Log.d("AAAA", cols[6].text())
                 substArray.add(subst)
                 substRepo.insert(subst)
                 priority--
