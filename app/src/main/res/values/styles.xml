@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="SelectableItemTheme">
         <item name="colorControlHighlight">@color/colorAccent</item>
@@ -15,6 +15,10 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/manrope_medium</item>
         <item name="android:colorEdgeEffect">@color/colorAccent</item>
+        <item name="android:navigationBarColor">@color/colorBackground</item>
+        <item name="android:statusBarColor">@color/colorBackground</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">@bool/isLight</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">@bool/isLight</item>
     </style>
 
     <style name="AlertDialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">

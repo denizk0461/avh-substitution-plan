@@ -111,37 +111,27 @@
                         app:layout_constraintStart_toStartOf="@+id/txtGreeting"
                         app:layout_constraintTop_toTopOf="@+id/txtGreeting" />
 
-                    <TextView
-                        android:id="@+id/txtDark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/darkBackground"
-                        android:textColor="@color/colorText"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="@+id/txtGreeting"
-                        app:layout_constraintTop_toBottomOf="@+id/txtJustnice" />
-
-                    <TextView
-                        android:id="@+id/txtRestart"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/nightMode"
-                        android:textColor="@color/colorHint"
-                        android:textSize="12sp"
-                        app:layout_constraintStart_toStartOf="@+id/txtDark"
-                        app:layout_constraintTop_toBottomOf="@+id/txtDark" />
-
-                    <Switch
-                        android:id="@+id/switchDark"
+                    <com.google.android.material.textfield.TextInputLayout android:id="@+id/darkModeDropDown"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginEnd="16dp"
-                        android:gravity="end|center"
-                        app:layout_constraintBottom_toBottomOf="@+id/txtRestart"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/appTheme"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/txtDark"
-                        app:layout_constraintTop_toTopOf="@+id/txtDark" />
+                        app:layout_constraintTop_toBottomOf="@+id/switchDisableGreeting">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/darkModeDropDownText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:editable="false"
+                            android:textColor="@color/colorText"
+                            android:textSize="14sp"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
                         android:id="@+id/txtCustomiseColours1"
@@ -151,8 +141,8 @@
                         android:text="@string/customiseColoursTitle"
                         android:textColor="@color/colorText"
                         android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="@+id/txtRestart"
-                        app:layout_constraintTop_toBottomOf="@+id/txtRestart" />
+                        app:layout_constraintStart_toStartOf="@+id/txtJustnice"
+                        app:layout_constraintTop_toBottomOf="@+id/darkModeDropDown" />
 
                     <TextView
                         android:id="@+id/txtCustomiseColours2"
@@ -179,7 +169,7 @@
                         app:layout_constraintBottom_toTopOf="@+id/txtNotifications"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txtRestart" />
+                        app:layout_constraintTop_toBottomOf="@+id/darkModeDropDown" />
 
                     <TextView
                         android:id="@+id/txtNotifications"

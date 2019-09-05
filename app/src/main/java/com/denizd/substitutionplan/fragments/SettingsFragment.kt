@@ -35,6 +35,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.messaging.FirebaseMessaging
 import com.jaredrummler.android.device.DeviceName
+import kotlinx.android.synthetic.main.content_settings.*
 import kotlin.collections.ArrayList
 
 internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListener,
@@ -73,7 +74,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         val txtCourses = view.findViewById<TextInputEditText>(R.id.txtCourses)
 
         val switchDisableGreeting = view.findViewById<Switch>(R.id.switchDisableGreeting)
-        val switchDark = view.findViewById<Switch>(R.id.switchDark)
+//        val switchDark = view.findViewById<Switch>(R.id.switchDark)
         val switchNotifications = view.findViewById<Switch>(R.id.switchNotifications)
         val switchDefaultPlan = view.findViewById<Switch>(R.id.switchDefaultPlan)
         val switchAutoRefresh = view.findViewById<Switch>(R.id.switchAutoRefresh)
@@ -86,7 +87,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         setRingtoneText()
 
         switchDisableGreeting.setOnCheckedChangeListener(this)
-        switchDark.setOnCheckedChangeListener(this)
+//        switchDark.setOnCheckedChangeListener(this)
         switchNotifications.setOnCheckedChangeListener(this)
         switchDefaultPlan.setOnCheckedChangeListener(this)
         switchAutoRefresh.setOnCheckedChangeListener(this)
@@ -101,11 +102,59 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         view.findViewById<LinearLayout>(R.id.btnPrivacyP).setOnClickListener(this)
         btnVersion.setOnClickListener(this)
 
-        switchDisableGreeting.isChecked = prefs.getBoolean("greeting", true)
-        switchDark.isChecked = when (prefs.getInt("themeInt", 0)) {
-            1 -> true
-            else -> false
+        val darkModeDropDown = view.findViewById<AutoCompleteTextView>(R.id.darkModeDropDownText)
+        val darkModeList = if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+            R.array.themesPreQ
+        } else {
+            R.array.themes
         }
+
+        val darkModeAdapter = ArrayAdapter.createFromResource(
+            mContext,
+            darkModeList,
+            R.layout.dropdown_item
+        )
+        darkModeAdapter.setDropDownViewResource(R.layout.dropdown_item)
+        darkModeDropDown.setAdapter(darkModeAdapter)
+
+        darkModeDropDown.setText(darkModeDropDown.adapter.getItem(prefs.getInt("themeInt", 0)).toString(), false)
+
+        darkModeDropDown.setOnItemClickListener { _, _, position, _ ->
+            edit.putInt("themeInt", position).apply()
+
+            val bottomNav = view.rootView.findViewById<BottomNavigationView>(R.id.bottom_nav)
+            when (position) {
+                0 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    if (Build.VERSION.SDK_INT in 23..28) {
+                        window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                        window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.colorBackground)
+                    }
+                }
+                2 -> { // only accessible on Android 10 (and above)
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                }
+                else -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                        window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.colorBackground)
+                    }
+                }
+            }
+            if (prefs.getBoolean("defaultPersonalised", false)) {
+                bottomNav.selectedItemId = R.id.personal
+            } else {
+                bottomNav.selectedItemId = R.id.plan
+            }
+        }
+
+        switchDisableGreeting.isChecked = prefs.getBoolean("greeting", true)
+
+//        switchDark.isChecked = when (prefs.getInt("themeInt", 0)) {
+//            1 -> true
+//            2 -> true
+//            else -> false
+//        }
         switchNotifications.isChecked = prefs.getBoolean("notif", false)
         switchDefaultPlan.isChecked = prefs.getBoolean("defaultPersonalised", false)
         switchAutoRefresh.isChecked = prefs.getBoolean("autoRefresh", false)
@@ -231,28 +280,6 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
             when (v.id) {
                 R.id.switchDisableGreeting -> {
                     edit.putBoolean("greeting", isChecked)
-                }
-                R.id.switchDark -> {
-                    val bottomNav = v.rootView.findViewById<BottomNavigationView>(R.id.bottom_nav)
-                    if (isChecked) {
-                        edit.putInt("themeInt", 1)
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                        window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
-                        window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.colorBackground)
-
-                    } else {
-                        edit.putInt("themeInt", 0)
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                            window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.colorBackground)
-                        }
-                    }
-                    if (prefs.getBoolean("defaultPersonalised", false)) {
-                        bottomNav.selectedItemId = R.id.personal
-                    } else {
-                        bottomNav.selectedItemId = R.id.plan
-                    }
                 }
                 R.id.switchNotifications -> {
                     edit.putBoolean("notif", isChecked)

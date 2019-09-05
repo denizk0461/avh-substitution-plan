@@ -124,7 +124,7 @@ internal object HelperFunctions {
         var colour = ""
         val edit = prefs.edit()
         for (course in languageIndependentCourses) {
-            for (i in 0 until colourIntegers.size) {
+            for (i in colourIntegers.indices) {
                 if (prefs.getInt("bg$course", 0) == colourIntegers[i]) {
                     colour = colourNames[i]
                     break
