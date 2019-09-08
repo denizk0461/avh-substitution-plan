@@ -112,9 +112,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
                     if (info.manufacturer.contains("Huawei") ||
                             info.manufacturer.contains("Honor") ||
                             info.manufacturer.contains("Xiaomi")) {
-                        val alertDialog = AlertDialog.Builder(context,
-                            R.style.AlertDialog
-                        )
+                        val alertDialog = AlertDialog.Builder(context, R.style.AlertDialog)
                         val dialogView = LayoutInflater.from(context).inflate(R.layout.secret_dialog, null)
                         val title = dialogView.findViewById<TextView>(R.id.textviewtitle)
                         title.text = getString(R.string.chineseDevicesTitle)

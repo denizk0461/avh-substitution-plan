@@ -151,4 +151,8 @@
         <item>Hell</item>
         <item>Dunkel</item>
     </string-array>
+    <string name="forcedRefresh">Aktualisierung erfolgreich</string>
+    <string name="forcedRefreshTimes">Aktualisierungszeiten wurden gelöscht</string>
+    <string name="forceRefreshTxt">Erzwinge eine Aktualisierung</string>
+    <string name="forceRefreshTxt2">Nutz dies falls du Plan oder Speisemenü nicht sehen kannst</string>
 </resources>

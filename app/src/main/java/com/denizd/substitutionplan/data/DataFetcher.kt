@@ -34,11 +34,12 @@ import kotlin.collections.ArrayList
  *  @param isMenu           food menu will be downloaded and persisted in the database if true
  *  @param isJobService     a notification will be prepared and sent if this and isPlan is true
  */
-internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boolean, context: Context, application: Application, parentView: View?) : AsyncTask<Void, Void, Void>() {
+internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boolean, context: Context, application: Application, parentView: View?, forced: Boolean) : AsyncTask<Void, Void, Void>() {
 
     private var jobService = isJobService
     private var plan = isPlan
     private var menu = isMenu
+    private var forceRefresh = forced
 
     private var mContext = context
     private var mApplication = application
@@ -60,6 +61,10 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
                 foodUrl = "https://djd4rkn355.github.io/food_test.html"
             }
 
+            if (forceRefresh) {
+                edit.putString("timeNew", "").putString("timeFoodNew", "").apply()
+            }
+
             if (menu) {
                 requestFoodMenuData()
             }
@@ -69,10 +74,12 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
 
             if (plan || menu) {
                 mView?.let { v: View ->
-                    val snackText = "${mContext.getText(R.string.lastUpdated)} ${when {
+                    var snackText = "${mContext.getText(R.string.lastUpdated)} ${when {
+                        plan -> currentTime
                         menu -> currentFoodTime
-                        else -> currentTime
+                        else -> "---"
                     }}"
+                    snackText = if (forceRefresh) mContext.getString(R.string.forcedRefresh) else snackText
                     val snackBarView = v.findViewById<View>(R.id.coordination)
                     Snackbar.make(snackBarView, snackText, Snackbar.LENGTH_LONG).show()
                 }

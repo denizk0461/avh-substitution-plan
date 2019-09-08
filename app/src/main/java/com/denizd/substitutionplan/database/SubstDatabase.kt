@@ -28,10 +28,11 @@ internal abstract class SubstDatabase : RoomDatabase() {
             if (instance == null) {
                 synchronized (SubstDatabase::class) {
                     instance = Room.databaseBuilder(context.applicationContext,
-                            SubstDatabase::class.java,
-                            "subst_database")
-                            .addMigrations(addTeacherColumn)
-                            .build()
+                        SubstDatabase::class.java,
+                        "subst_database")
+                        .addMigrations(addTeacherColumn)
+                        .fallbackToDestructiveMigration()
+                        .build()
                 }
             }
             return instance
@@ -43,10 +44,10 @@ internal abstract class SubstDatabase : RoomDatabase() {
             if (foodInstance == null) {
                 synchronized (SubstDatabase::class) {
                     foodInstance = Room.databaseBuilder(context.applicationContext,
-                            SubstDatabase::class.java,
-                            "food_database")
-                            .fallbackToDestructiveMigration()
-                            .build()
+                        SubstDatabase::class.java,
+                        "food_database")
+                        .fallbackToDestructiveMigration()
+                        .build()
                 }
             }
             return foodInstance

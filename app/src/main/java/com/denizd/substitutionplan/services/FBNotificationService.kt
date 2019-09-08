@@ -13,7 +13,8 @@ internal class FBNotificationService : FirebaseMessagingService() {
             isJobService = true,
             context = applicationContext,
             application = application,
-            parentView = null
+            parentView = null,
+            forced = false
         ).execute()
     }
 }

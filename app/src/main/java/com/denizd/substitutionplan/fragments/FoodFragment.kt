@@ -63,24 +63,26 @@ internal class FoodFragment : Fragment(R.layout.food_layout) {
         if (prefs.getBoolean("autoRefresh", false)) {
             pullToRefresh.isRefreshing = true
             DataFetcher(
-                false,
-                true,
-                false,
-                mContext,
-                activity!!.application,
-                view.rootView
+                isPlan = false,
+                isMenu = true,
+                isJobService = false,
+                context = mContext,
+                application = activity!!.application,
+                parentView = view.rootView,
+                forced = false
             ).execute()
         }
 
         pullToRefresh.setOnRefreshListener {
             pullToRefresh.isRefreshing = true
             DataFetcher(
-                false,
-                true,
-                false,
-                mContext,
-                activity!!.application,
-                view.rootView
+                isPlan = false,
+                isMenu = true,
+                isJobService = false,
+                context = mContext,
+                application = activity!!.application,
+                parentView = view.rootView,
+                forced = false
             ).execute()
         }
     }

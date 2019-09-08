@@ -83,7 +83,8 @@ internal open class PlanFragment : Fragment(R.layout.plan) {
             isJobService = false,
             context = mContext,
             application = activity!!.application,
-            parentView = view.rootView
+            parentView = view.rootView,
+            forced = false
         ).execute()
     }
 

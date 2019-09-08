@@ -1,5 +1,6 @@
 package com.denizd.substitutionplan.fragments
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -27,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.denizd.substitutionplan.*
 import com.denizd.substitutionplan.adapters.ColourAdapter
 import com.denizd.substitutionplan.adapters.RingtoneAdapter
+import com.denizd.substitutionplan.data.DataFetcher
 import com.denizd.substitutionplan.data.HelperFunctions
 import com.denizd.substitutionplan.models.Colour
 import com.denizd.substitutionplan.models.Ringtone
@@ -85,6 +87,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         val btnVersion = view.findViewById<LinearLayout>(R.id.btnVersion)
         currentRingtone = view.findViewById(R.id.txtCustomiseRingtone2)
         setRingtoneText()
+        val btnForceRefresh = view.findViewById<LinearLayout>(R.id.btnForceRefresh)
 
         switchDisableGreeting.setOnCheckedChangeListener(this)
 //        switchDark.setOnCheckedChangeListener(this)
@@ -101,6 +104,12 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         view.findViewById<LinearLayout>(R.id.btnTerms).setOnClickListener(this)
         view.findViewById<LinearLayout>(R.id.btnPrivacyP).setOnClickListener(this)
         btnVersion.setOnClickListener(this)
+        btnForceRefresh.setOnClickListener(this)
+        btnForceRefresh.setOnLongClickListener {
+            edit.putString("timeNew", "").putString("timeFoodNew", "").apply()
+            makeToast(mContext.getString(R.string.forcedRefreshTimes))
+            true
+        }
 
         val darkModeDropDown = view.findViewById<AutoCompleteTextView>(R.id.darkModeDropDownText)
         val darkModeList = if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
@@ -127,6 +136,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
                 0 -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     if (Build.VERSION.SDK_INT in 23..28) {
+                        @SuppressLint("InlinedApi")
                         window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                         window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.colorBackground)
                     }
@@ -150,11 +160,6 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
 
         switchDisableGreeting.isChecked = prefs.getBoolean("greeting", true)
 
-//        switchDark.isChecked = when (prefs.getInt("themeInt", 0)) {
-//            1 -> true
-//            2 -> true
-//            else -> false
-//        }
         switchNotifications.isChecked = prefs.getBoolean("notif", false)
         switchDefaultPlan.isChecked = prefs.getBoolean("defaultPersonalised", false)
         switchAutoRefresh.isChecked = prefs.getBoolean("autoRefresh", false)
@@ -271,6 +276,17 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
                     }
                 }
             }
+            R.id.btnForceRefresh -> {
+                DataFetcher(
+                    isPlan = true,
+                    isMenu = true,
+                    isJobService = false,
+                    context = mContext,
+                    application = activity!!.application,
+                    parentView = view!!.rootView,
+                    forced = true
+                ).execute()
+            }
         }
         edit.apply()
     }
@@ -311,9 +327,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
     }
 
     private fun createColourDialog() {
-        val colourCustomiserBuilder = AlertDialog.Builder(mContext,
-            R.style.AlertDialog
-        )
+        val colourCustomiserBuilder = AlertDialog.Builder(mContext, R.style.AlertDialog)
 
         val dialogView = LayoutInflater.from(mContext).inflate(R.layout.recycler_dialog, null)
         val titleText = dialogView.findViewById<TextView>(R.id.empty_textviewtitle)
@@ -358,7 +372,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
             R.drawable.ic_help, R.drawable.ic_pencil
         )
 
-        for (i in 0 until coursesNoLang.size) {
+        for (i in coursesNoLang.indices) {
             colours.add(
                 Colour(
                     courses[i],
@@ -462,7 +476,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
             R.id.sky, R.id.orchid, R.id.lavender, R.id.carnation, R.id.brown2, R.id.pureBlack)
         val colours = HelperFunctions.colourNames
 
-        for (i2 in 0 until buttons.size) {
+        for (i2 in buttons.indices) {
             picker.findViewById<MaterialButton>(buttons[i2]).setOnClickListener {
 //                prefs.edit().putInt("bg$titleNoLang", colourIntegers[i2]).apply()
                 prefs.edit().putString("card$titleNoLang", colours[i2]).apply()
@@ -530,10 +544,6 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
                         makeToast(getString(R.string.youtubeNotFound))
                     }
                 }
-                "_NOTIFICATION" -> {
-                    edit.putString("timeNew", "").putString("timeFoodNew", "").apply()
-                    makeToast("Notification times cleared")
-                } // TODO add option to clear database
                 "_FIRSTTIME" -> {
                     edit.putBoolean("firstTime", true).apply()
                     makeToast("First time flag cleared")

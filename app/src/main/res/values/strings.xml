@@ -165,4 +165,8 @@
         <item>Light</item>
         <item>Dark</item>
     </string-array>
+    <string name="forcedRefresh">Forced refresh successful</string>
+    <string name="forcedRefreshTimes">Cleared refresh times</string>
+    <string name="forceRefreshTxt">Force a refresh</string>
+    <string name="forceRefreshTxt2">Use this if you can\'t see the plan or food menu</string>
 </resources>
