@@ -211,11 +211,11 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
 
         val manager = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        HelperFunctions.getNotificationChannel(mContext, prefs)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            HelperFunctions.getNotificationChannel(mContext, prefs)
+        }
 
-        val notification = NotificationCompat.Builder(mContext,
-            HelperFunctions.notificationChannelId
-        )
+        val notification = NotificationCompat.Builder(mContext, HelperFunctions.notificationChannelId)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setCustomContentView(notificationLayout)
             .setSmallIcon(R.drawable.ic_avh)

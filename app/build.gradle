@@ -10,8 +10,8 @@ android {
         applicationId "com.denizd.substitutionplan"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 31
-        versionName "2.2.8"
+        versionCode 32
+        versionName "2.2.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
