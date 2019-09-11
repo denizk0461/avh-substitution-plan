@@ -45,9 +45,6 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
     ColourAdapter.OnClickListener,
     RingtoneAdapter.OnClickListener {
 
-    private var name = ""
-    private var model = ""
-
     private lateinit var mContext: Context
     private lateinit var prefs: SharedPreferences
     private lateinit var edit: SharedPreferences.Editor
@@ -490,11 +487,6 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
     }
 
     private fun debugMenu(): Boolean {
-        DeviceName.with(mContext).request { deviceInfo, _ ->
-            name = deviceInfo.marketName
-            model = deviceInfo.model
-        }
-
         val alertDialog = AlertDialog.Builder(mContext,
             R.style.AlertDialog
         )
@@ -593,8 +585,8 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         return "First Launch: ${prefs.getString("firstTimeDev", "")}" +
                 "\n\nApp launched: ${prefs.getInt("launchDev", 0)}" +
                 "\n\nFirebase ping service fired: ${prefs.getInt("pingFB", 0)}" +
-                "\n\nDevice Name: $name" +
-                "\n\nDevice Model: $model" +
+                "\n\nDevice Name: ${Build.DEVICE}" +
+                "\n\nDevice Model: ${Build.MODEL}" +
                 "\n\nAndroid Version: ${Build.VERSION.RELEASE}" +
                 "\n\nSubscribed to notification channel: ${prefs.getBoolean("notif", false)}" +
                 "\n\nSubscribed to dev channel: ${prefs.getBoolean("subscribedToFBDebugChannel", false)}"

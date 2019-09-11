@@ -19,8 +19,7 @@ internal abstract class SubstDatabase : RoomDatabase() {
         private var instance: SubstDatabase? = null
         private val addTeacherColumn = object : Migration(5, 6) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL(
-                    "ALTER TABLE subst_table ADD COLUMN teacher TEXT NOT NULL DEFAULT ''")
+                database.execSQL("ALTER TABLE subst_table ADD COLUMN teacher TEXT NOT NULL DEFAULT ''")
             }
         }
 

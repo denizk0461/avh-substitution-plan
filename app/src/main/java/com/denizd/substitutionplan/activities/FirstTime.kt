@@ -1,5 +1,6 @@
 package com.denizd.substitutionplan.activities
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -35,38 +36,24 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
         super.onCreate(savedInstanceState)
 
         val window = this.window
+        context = this
 
-        when (AppCompatDelegate.getDefaultNightMode()) {
-            AppCompatDelegate.MODE_NIGHT_NO, AppCompatDelegate.MODE_NIGHT_UNSPECIFIED -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                    window.statusBarColor = ContextCompat.getColor(this,
-                        R.color.colorBackground
-                    )
-                    window.navigationBarColor = ContextCompat.getColor(this,
-                        R.color.colorBackground
-                    )
-                } else {
-                    window.statusBarColor = ContextCompat.getColor(this,
-                        R.color.legacyBlack
-                    )
-                    window.navigationBarColor = ContextCompat.getColor(this,
-                        R.color.legacyBlack
-                    )
-                }
-            }
-            else -> {
-                window.navigationBarColor = ContextCompat.getColor(this,
-                    R.color.colorBackground
-                )
-                window.statusBarColor = ContextCompat.getColor(this,
-                    R.color.colorBackground
-                )
-//                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+        val barColour = when {
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.M -> ContextCompat.getColor(context, R.color.legacyBlack)
+            Build.VERSION.SDK_INT <= Build.VERSION_CODES.P -> ContextCompat.getColor(context, R.color.colorBackground)
+            else -> 0
+        }
+        if (barColour != 0) {
+            window.navigationBarColor = barColour
+            window.statusBarColor = barColour
+        }
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+            if (Build.VERSION.SDK_INT in 23..28) {
+                @SuppressLint("InlinedApi")
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             }
         }
 
-        context = this
         prefs = PreferenceManager.getDefaultSharedPreferences(context) as SharedPreferences
         val edit = prefs.edit()
         val fab = findViewById<ExtendedFloatingActionButton>(R.id.efab)
@@ -81,6 +68,10 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
         val helpCourses = findViewById<ImageButton>(R.id.chipHelpCourses)
         val greeting = findViewById<CheckBox>(R.id.cbGreetings)
 
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+            dark.visibility = View.GONE
+        }
+
         helpClasses.setOnClickListener {
             createDialog(getString(R.string.enterGradeHelpTitle), getString(
                 R.string.enterGradeHelp
@@ -94,23 +85,6 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
 
         val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-//        findViewById<MaterialButton>(R.id.btnRestoreFromFile).setOnClickListener {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 42)
-//            }
-//            HelperFunctions.readPrefsFromXml(prefs)
-//            name.setText(prefs.getString("username", ""))
-//            grade.setText(prefs.getString("classes", ""))
-//            courses.setText(prefs.getString("courses", ""))
-//            notif.isChecked = prefs.getBoolean("notif", false)
-//            dark.isChecked = when (prefs.getInt("themeInt", 0)) {
-//                0 -> true
-//                else -> false
-//            }
-//            greeting.isChecked = prefs.getBoolean("greeting", false)
-//            pers.isChecked = prefs.getBoolean("defaultPersonalised", false)
-//        }
-
         fab.setOnClickListener {
             fab.isClickable = false
 
@@ -118,11 +92,16 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
                     .putString("username", name.text.toString())
                     .putString("classes", grade.text.toString())
                     .putString("courses", courses.text.toString())
-            if (dark.isChecked) {
-                edit.putInt("themeInt", 1)
+            val themeInt = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+                2
             } else {
-                edit.putInt("themeInt", 0)
+                if (dark.isChecked) {
+                    1
+                } else {
+                    0
+                }
             }
+            edit.putInt("themeInt", themeInt)
             edit.putBoolean("notif", notif.isChecked)
                     .putBoolean("greeting", greeting.isChecked)
                     .putBoolean("defaultPersonalised", pers.isChecked)
@@ -146,7 +125,7 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
             val colour = findViewById<LinearLayout>(R.id.colourLayout)
             linearInflation.visibility = View.VISIBLE
             anim.start()
-            fab.hide(true)
+            fab.hide()
 
             handler.postDelayed({
                 colour.startAnimation(animOut)

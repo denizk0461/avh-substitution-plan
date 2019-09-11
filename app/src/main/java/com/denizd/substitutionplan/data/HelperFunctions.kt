@@ -9,9 +9,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Environment
-import android.util.Log
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.FragmentActivity
@@ -31,7 +29,8 @@ internal object HelperFunctions {
     val colourNames = arrayOf("default", "red", "orange", "yellow", "green", "teal", "cyan", "blue", "purple", "pink",
             "brown", "grey", "pureWhite", "salmon", "tangerine", "banana", "flora", "spindrift", "sky", "orchid",
             "lavender", "carnation", "brown2", "pureBlack")
-    private val colourIntegers = intArrayOf(0,
+    private val colourIntegers = intArrayOf(
+        0,
         R.color.bgRed,
         R.color.bgOrange,
         R.color.bgYellow,
@@ -250,7 +249,6 @@ internal object HelperFunctions {
             for (i in localPrefTypes.indices) {
                 val key = document.getElementsByTagName("key").item(i).textContent
                 val value = document.getElementsByTagName("value").item(i).textContent
-                Log.d("VALUES", "$key $value")
                 setPrefValue(prefs, key, value, localPrefTypes[i])
             }
             Toast.makeText(context, context.getString(R.string.success), Toast.LENGTH_LONG).show()

@@ -57,7 +57,7 @@ internal open class PlanFragment : Fragment(R.layout.plan) {
         layoutManager = GridLayoutManager(mContext, getGridColumnCount(resources.configuration))
         recyclerView.layoutManager = layoutManager
 
-        mAdapter = CardAdapter(planCardList)
+        mAdapter = CardAdapter(planCardList, prefs)
         recyclerView.adapter = mAdapter
 
         if (prefs.getInt("firstTimeOpening", 0) == 1) {

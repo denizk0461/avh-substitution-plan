@@ -63,8 +63,6 @@
     <string name="diagnosticsMenu">Diagnosemenü</string>
     <string name="notificationsAndSync">Kursbenachrichtigungen aktivieren</string>
     <string name="noSubstitutionsForYou">Kein Entfall für dich</string>
-    <string name="chineseDevicesHelp">Einige chinesische Hersteller, wie Huawei/Honor und Xiaomi, unterdrücken Hintergrund-Services, weshalb Benachrichtungen und Hintergrund-Synchronisation nicht funktionieren.\n\nIch habe feststellen müssen, dass es keine einfache Lösung dafür gibt, die ich einbauen könnte.\n\nStattdessen kannst du jedoch versuchen, App-Optimierungen für diese App zu deaktivieren:\n\nSchließe die App und öffne \"Einstellungen\" -> \"Apps\" -> \"AvH-Plan\" -> \"Akku\" -> \"App-Start\" -> \"Automatisch verwalten\" deaktivieren, \"Im Hintergrund ausführen\" aktivieren.\n\nDies kann unter Umständen keinen Einfluss haben.</string>
-    <string name="chineseDevicesTitle">Informationen bezüglich deines Gerätes</string>
     <string name="customiseColoursTitle">Benutzerdefinierte Farben</string>
     <string name="customiseColoursIndividually">Farben für jedes Fach einstellen</string>
     <string name="courseDeu">Deutsch (+ DAZ)</string>

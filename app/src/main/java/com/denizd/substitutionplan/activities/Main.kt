@@ -1,5 +1,6 @@
 package com.denizd.substitutionplan.activities
 
+import android.annotation.SuppressLint
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.ComponentName
@@ -31,7 +32,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseApp
-import com.jaredrummler.android.device.DeviceName
 import java.lang.IllegalArgumentException
 import java.util.*
 
@@ -73,21 +73,22 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
 
             setTheme(R.style.AppTheme0)
 
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                window.statusBarColor = ContextCompat.getColor(this,
-                    R.color.legacyBlack
-                )
-                window.navigationBarColor = ContextCompat.getColor(this,
-                    R.color.legacyBlack
-                )
+            val barColour = when {
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.M -> ContextCompat.getColor(context, R.color.legacyBlack)
+                Build.VERSION.SDK_INT <= Build.VERSION_CODES.P -> ContextCompat.getColor(context, R.color.colorBackground)
+                else -> 0
+            }
+            if (barColour != 0) {
+                window.navigationBarColor = barColour
+                window.statusBarColor = barColour
             }
 
             when (prefs.getInt("themeInt", 0)) {
                 0 -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     if (Build.VERSION.SDK_INT in 23..28) {
+                        @SuppressLint("InlinedApi")
                         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                        window.navigationBarColor = ContextCompat.getColor(context, R.color.colorBackground)
                     }
                 }
                 2 -> {
@@ -95,9 +96,6 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
                 }
                 else -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-                        window.navigationBarColor = ContextCompat.getColor(context, R.color.colorBackground)
-                    }
                 }
             }
 
@@ -105,24 +103,6 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
                 try {
                     Snackbar.make(contextView, "${getString(R.string.lastUpdated)} ${prefs.getString("timeNew", "")}", Snackbar.LENGTH_LONG).show()
                 } catch (e: IllegalArgumentException) {}
-            }
-
-            if (prefs.getBoolean("huaweiDeviceDialog", true)) {
-                DeviceName.with(context).request { info, _ ->
-                    if (info.manufacturer.contains("Huawei") ||
-                            info.manufacturer.contains("Honor") ||
-                            info.manufacturer.contains("Xiaomi")) {
-                        val alertDialog = AlertDialog.Builder(context, R.style.AlertDialog)
-                        val dialogView = LayoutInflater.from(context).inflate(R.layout.secret_dialog, null)
-                        val title = dialogView.findViewById<TextView>(R.id.textviewtitle)
-                        title.text = getString(R.string.chineseDevicesTitle)
-                        val dialogText = dialogView.findViewById<TextView>(R.id.dialogtext)
-                        dialogText.text = getString(R.string.chineseDevicesHelp)
-                        alertDialog.setView(dialogView).show()
-
-                        edit.putBoolean("huaweiDeviceDialog", false).apply()
-                    }
-                }
             }
 
             val textViewGreeting = findViewById<TextView>(R.id.text_greeting)

@@ -73,9 +73,6 @@
     <string name="invalidCode">Invalid code</string>
     <string name="noSubstitutionsForYou">No substitutions for you</string>
 
-    <string name="chineseDevicesTitle">Information regarding your device</string>
-    <string name="chineseDevicesHelp">Some Chinese manufacturers, such as Huawei/Honor and Xiaomi, heavily suppress background services, which results in notifications and background synchronisation not working.\n\nFrom my current research, I have determined that there\'s no easy workaround I can implement.\n\nYou can, however, try to disable power optimisation for this app in the settings:\n\nClose the app and open \"Settings\" -> \"Apps\" -> \"AvH Plan\" -> \"Battery\" -> \"Launch\" -> disable \"Manage automatically\", enable \"Run in background\"\n\nThis is not guaranteed to work.</string>
-
     <string name="customiseColoursTitle">Customise colours</string>
     <string name="customiseColoursIndividually">Customise every subject individually</string>
 

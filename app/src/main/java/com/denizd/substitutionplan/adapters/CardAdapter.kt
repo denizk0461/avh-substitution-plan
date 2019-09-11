@@ -1,8 +1,8 @@
 package com.denizd.substitutionplan.adapters
 
 import android.content.ActivityNotFoundException
+import android.content.SharedPreferences
 import android.net.Uri
-import android.preference.PreferenceManager
 import android.text.SpannableString
 import android.text.style.StrikethroughSpan
 import android.view.LayoutInflater
@@ -20,7 +20,7 @@ import com.denizd.substitutionplan.models.Subst
 import com.google.android.material.card.MaterialCardView
 import java.util.*
 
-internal class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
+internal class CardAdapter(private var mSubst: List<Subst>, private val prefs: SharedPreferences) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
     private var colour = 0
     private var colourString = ""
@@ -28,25 +28,25 @@ internal class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapt
 
     class CardViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
-        var mImageView: ImageView = view.findViewById(R.id.iconView)
-        var mGroup: TextView = view.findViewById(R.id.group)
-        var mDate: TextView = view.findViewById(R.id.date)
-        var mTime: TextView = view.findViewById(R.id.time)
-        var mCourse: TextView = view.findViewById(R.id.course)
-        var mRoom: TextView = view.findViewById(R.id.room)
-        var mAdditional: TextView = view.findViewById(R.id.additional)
-        var spacer: TextView = view.findViewById(R.id.spacer)
+        var iconView: ImageView = view.findViewById(R.id.iconView)
+        var group: TextView = view.findViewById(R.id.group)
+        var date: TextView = view.findViewById(R.id.date)
+        var time: TextView = view.findViewById(R.id.time)
+        var course: TextView = view.findViewById(R.id.course)
+        var room: TextView = view.findViewById(R.id.room)
+        var additional: TextView = view.findViewById(R.id.additional)
         var teacher: TextView = view.findViewById(R.id.teacher)
+        var spacer: TextView = view.findViewById(R.id.spacer)
 
-        var mCard: MaterialCardView = view.findViewById(R.id.planCard)
+        var card: MaterialCardView = view.findViewById(R.id.planCard)
         init { view.setOnClickListener(this) }
         override fun onClick(v: View?) {
-            if (mDate.text.toString().length > 7 && mDate.text.toString().substring(3, 7) == "http") {
+            if (date.text.toString().length > 7 && date.text.toString().substring(3, 7) == "http") {
                 try {
-                    CustomTabsIntent.Builder().build().launchUrl(mCard.context,
-                            Uri.parse(mDate.text.toString().substring(3)))
+                    CustomTabsIntent.Builder().build().launchUrl(card.context,
+                            Uri.parse(date.text.toString().substring(3)))
                 } catch (e: ActivityNotFoundException) {
-                    Toast.makeText(mCard.context, mCard.context.getString(R.string.chromeCompatibleNotFound), Toast.LENGTH_LONG).show()
+                    Toast.makeText(card.context, card.context.getString(R.string.chromeCompatibleNotFound), Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -59,70 +59,60 @@ internal class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapt
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val currentItem = mSubst[position]
-        val prefs = PreferenceManager.getDefaultSharedPreferences(holder.mImageView.context)
         var psa = false
         val strings = arrayOf(SpannableString(currentItem.group), SpannableString(currentItem.time),
                 SpannableString(currentItem.course), SpannableString(currentItem.room), SpannableString(currentItem.teacher))
-        for (item in strings) {
-            val qmark = item.indexOf("?")
-            if (qmark != -1) {
-                item.setSpan(StrikethroughSpan(), 0, qmark, 0)
+        var cardBackgroundColour = 0
+
+        for (string in strings) {
+            val questionMarkIndex = string.indexOf("?")
+            if (questionMarkIndex != -1) {
+                string.setSpan(StrikethroughSpan(), 0, questionMarkIndex, 0)
             }
         }
         with (currentItem.additional.toLowerCase(Locale.ROOT)) {
             if (contains("eigenverantwortliches arbeiten") || contains("entfall") || contains("fällt aus")) {
-                strings[2].setSpan(StrikethroughSpan(), 0, strings[2].length, 0)
-                strings[3].setSpan(StrikethroughSpan(), 0, strings[3].length, 0)
-                strings[4].setSpan(StrikethroughSpan(), 0, strings[4].length, 0)
+                for (i in 2..4) { strings[i].setSpan(StrikethroughSpan(), 0, strings[i].length, 0) }
             }
         }
 
-        holder.mImageView.setImageResource(HelperFunctions.getIconForCourse(currentItem.course))
-        holder.mGroup.setText(strings[0], TextView.BufferType.SPANNABLE)
-        holder.mTime.setText(strings[1], TextView.BufferType.SPANNABLE)
-        holder.mCourse.setText(strings[2], TextView.BufferType.SPANNABLE)
-        holder.mRoom.setText(strings[3], TextView.BufferType.SPANNABLE)
+        var icon = HelperFunctions.getIconForCourse(currentItem.course)
+        holder.group.setText(strings[0], TextView.BufferType.SPANNABLE)
+        holder.time.setText(strings[1], TextView.BufferType.SPANNABLE)
+        holder.course.setText(strings[2], TextView.BufferType.SPANNABLE)
+        holder.room.setText(strings[3], TextView.BufferType.SPANNABLE)
         holder.teacher.setText(strings[4], TextView.BufferType.SPANNABLE)
-        holder.mAdditional.text = currentItem.additional
+        holder.additional.text = currentItem.additional
 
-        if (currentItem.date.isNotEmpty() && currentItem.date.substring(0, 3) == "psa") {
+        holder.date.visibility = if (currentItem.date.isNotEmpty() && currentItem.date.substring(0, 3) == "psa") {
             psa = true
-            holder.mDate.visibility = View.GONE
-            holder.mDate.text = currentItem.date
-            holder.mTime.text = " "
-            holder.mImageView.setImageResource(R.drawable.ic_idea)
-            holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mImageView.context,
-                R.color.colorAccent
-            ))
+            holder.time.text = " "
+            icon = R.drawable.ic_idea
+            cardBackgroundColour = R.color.colorAccent
+            View.GONE
         } else {
-            holder.mDate.visibility = View.VISIBLE
-            holder.mDate.text = currentItem.date
-        }
-
-        if (!psa) {
-            colourString = getColourString(holder.mCourse.text.toString())
+            colourString = getColourString(holder.course.text.toString())
             val colourPrefsInt = if (colourString.isNotEmpty()) {
                 prefs.getString("card$colourString", "") ?: ""
             } else {
                 ""
             }
             colour = HelperFunctions.getColourForString(colourPrefsInt)
-            if (colour != 0) {
-                holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mCourse.context, colour))
+            cardBackgroundColour = if (colour != 0) {
+                colour
             } else {
-                holder.mCard.setCardBackgroundColor(ContextCompat.getColor(holder.mCourse.context,
-                    R.color.colorBackgroundLight
-                ))
+                R.color.colorBackgroundLight
             }
+            View.VISIBLE
         }
-
+        holder.date.text = currentItem.date
         holder.spacer.visibility = if (strings[2].isEmpty() || strings[4].isEmpty()) {
             View.GONE
         } else {
             View.VISIBLE
         }
 
-        val textColor = ContextCompat.getColor(holder.mImageView.context, if (psa) {
+        val textColor = ContextCompat.getColor(holder.iconView.context, if (psa) {
             R.color.colorBackground
         } else {
             when (colour) {
@@ -131,13 +121,15 @@ internal class CardAdapter(private var mSubst: List<Subst>) : RecyclerView.Adapt
                 else -> R.color.colorText
             }
         })
-        holder.mImageView.setColorFilter(textColor)
-        holder.mGroup.setTextColor(textColor)
-        holder.mDate.setTextColor(textColor)
-        holder.mTime.setTextColor(textColor)
-        holder.mCourse.setTextColor(textColor)
-        holder.mRoom.setTextColor(textColor)
-        holder.mAdditional.setTextColor(textColor)
+        holder.card.setCardBackgroundColor(ContextCompat.getColor(holder.iconView.context, cardBackgroundColour))
+        holder.iconView.setImageResource(icon)
+        holder.iconView.setColorFilter(textColor)
+        holder.group.setTextColor(textColor)
+        holder.date.setTextColor(textColor)
+        holder.time.setTextColor(textColor)
+        holder.course.setTextColor(textColor)
+        holder.room.setTextColor(textColor)
+        holder.additional.setTextColor(textColor)
         holder.spacer.setTextColor(textColor)
         holder.teacher.setTextColor(textColor)
     }
