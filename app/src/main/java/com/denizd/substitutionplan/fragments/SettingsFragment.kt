@@ -36,8 +36,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.messaging.FirebaseMessaging
-import com.jaredrummler.android.device.DeviceName
-import kotlinx.android.synthetic.main.content_settings.*
 import kotlin.collections.ArrayList
 
 internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnClickListener,
@@ -215,8 +213,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
                 }
             }
             R.id.btnLicences -> {
-                createDialog("Licences", "Libraries:\n • Android Device Names © 2015 Jared Rummler, licensed under the Apache Licence, Version 2.0" +
-                        "\n • jsoup HTML parser © 2009-2018 Jonathan Hedley, licensed under the open source MIT Licence" +
+                createDialog("Licences", "Libraries:\n • jsoup HTML parser © 2009-2018 Jonathan Hedley, licensed under the open source MIT Licence" +
                         "\n\nFont:\n • Manrope © 2018-2019 Michael Sharanda, licensed under the SIL Open Font Licence 1.1" +
                         "\n\nIcons:\n • bqlqn\n • fjstudio\n • Freepik\n • Smashicons\n • © 2013-2019 Freepik Company S.L., licensed under Creative Commons BY 3.0" +
                         "\n\nAdditional help:\n • Leon Becker\n • Alex Lick\n • Batuhan Özcan\n • Erich Kerkesner")
