@@ -158,7 +158,7 @@ internal class CardAdapter(private var mSubst: List<Subst>, private val prefs: S
                 "laa", "laf", "lat" -> "Latin"
                 "spa", "spf" -> "Spanish"
                 "fra", "frf", "frz" -> "French"
-                "inf" -> "Compsci"
+                "inf" -> "CompSci"
                 "ges" -> "History"
                 "rel" -> "Religion"
                 "geg" -> "Geography"

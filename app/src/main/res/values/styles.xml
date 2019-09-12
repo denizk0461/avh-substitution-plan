@@ -40,7 +40,7 @@
         <item name="colorControlHighlight">@color/colorAccent</item>
     </style>
 
-    <!-- The launcher theme. It sets the main window background to the launch_screen drawable -->
+    <!-- Launch / splash screen -->
     <style name="AppTheme0.Launcher">
         <item name="android:windowBackground">@drawable/launch_screen</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
