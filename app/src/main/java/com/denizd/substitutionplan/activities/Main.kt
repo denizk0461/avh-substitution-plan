@@ -65,11 +65,11 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
             FirebaseApp.initializeApp(this)
             pingFirebaseTopics()
 
-            val appbarlayout = findViewById<AppBarLayout>(R.id.appbarlayout)
+            val appBarLayout = findViewById<AppBarLayout>(R.id.appbarlayout)
             val toolbarTxt = findViewById<TextView>(R.id.toolbarTxt)
             val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
             val contextView = findViewById<View>(R.id.coordination)
-            val window = this.window as Window
+            val window = this.window
 
             setTheme(R.style.AppTheme0)
 
@@ -106,12 +106,11 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
             }
 
             val textViewGreeting = findViewById<TextView>(R.id.text_greeting)
-            if (prefs.getBoolean("greeting", true)) {
-                if ((prefs.getString("username", "") ?: "").isNotEmpty()) {
-                    textViewGreeting.text = getGreetingString()
-                }
+            textViewGreeting.text = if (prefs.getBoolean("greeting", true) && (prefs.getString("username", "") ?: "").isNotEmpty()) {
+                getGreetingString()
             } else {
-                textViewGreeting.visibility = View.GONE
+//                textViewGreeting.visibility = View.GONE
+                ""
             }
 
             if (prefs.getInt("firstTimeOpening", 0) == 0) {
@@ -122,7 +121,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
             if (prefs.getBoolean("defaultPersonalised", false)) {
                 defaultFragment = PersonalPlanFragment()
                 bottomNav.selectedItemId = R.id.personal
-                toolbarTxt.text = getString(R.string.yourPlan)
+                toolbarTxt.text = personalPlanTitle()
             } else {
                 defaultFragment = GeneralPlanFragment()
                 bottomNav.selectedItemId = R.id.plan
@@ -140,7 +139,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
                     }
                     R.id.personal -> {
                         fragment = PersonalPlanFragment()
-                        toolbarTxt.text = getString(R.string.yourPlan)
+                        toolbarTxt.text = personalPlanTitle()
                     }
                     R.id.menu -> {
                         fragment = FoodFragment()
@@ -156,7 +155,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
                     }
                 }
                 if (fragmentLoading) {
-                    appbarlayout.setExpanded(true)
+                    appBarLayout.setExpanded(true)
                     loadFragment(fragment)
                 } else {
                     false
@@ -171,7 +170,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
                             recyclerView.post {
                                 recyclerView.smoothScrollToPosition(0)
                             }
-                            appbarlayout.setExpanded(true)
+                            appBarLayout.setExpanded(true)
                         } catch (e: NullPointerException) {}
                     }
                     R.id.menu -> {
@@ -180,7 +179,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
                             recyclerView.post {
                                 recyclerView.smoothScrollToPosition(0)
                             }
-                            appbarlayout.setExpanded(true)
+                            appBarLayout.setExpanded(true)
                         } catch (e: NullPointerException) {}
                     }
                     R.id.settings -> {
@@ -189,7 +188,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
                             nsv.post {
                                 nsv.smoothScrollTo(0, 0)
                             }
-                            appbarlayout.setExpanded(true)
+                            appBarLayout.setExpanded(true)
                         } catch (e: NullPointerException) {}
                     }
                 }
@@ -199,7 +198,6 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
 
     private fun getGreetingString(): String {
         val gen = Random()
-
         return String.format(when (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
             in 5..10 -> resources.getStringArray(R.array.greetingsMorning)[gen.nextInt(resources.getStringArray(
                 R.array.greetingsMorning
@@ -219,7 +217,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
         dialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(
             R.string.information
         )
-        val dialogText = "${getString(R.string.lastUpdated)} ${prefs.getString("timeNew", "")}.\n\n${prefs.getString("informational", "")}"
+        val dialogText = "${getString(R.string.lastUpdated)} ${prefs.getString("timeNew", "")}.\n\n${prefs.getString("informational", "")}".trim()
         dialogView.findViewById<TextView>(R.id.dialogtext).text = dialogText
         dialog.setView(dialogView).show()
     }
@@ -238,5 +236,18 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
                 .build()
         val scheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
         scheduler.schedule(info)
+    }
+
+    private fun personalPlanTitle(): String {
+        return if (prefs.getBoolean("greeting", true)) {
+            getString(R.string.yourPlan)
+        } else {
+            val user = (prefs.getString("username", "") ?: "").toString()
+            if (user.endsWith("s", true) || user.endsWith("x", true) || user.endsWith("z", true)) {
+                "$user${getString(R.string.noSPlan)}"
+            } else {
+                "$user${getString(R.string.SPlan)}"
+            }
+        }
     }
 }

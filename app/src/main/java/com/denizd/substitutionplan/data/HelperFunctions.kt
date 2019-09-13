@@ -257,4 +257,11 @@ internal object HelperFunctions {
             requestPermissions(activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 42)
         }
     }
+
+    fun checkStringForArray(s: String, checking: Array<String>): Boolean {
+        checking.forEach { check ->
+            if (s.contains(check)) return true
+        }
+        return false
+    }
 }

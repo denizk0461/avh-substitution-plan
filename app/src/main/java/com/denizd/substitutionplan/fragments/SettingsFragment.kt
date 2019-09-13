@@ -101,7 +101,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         btnVersion.setOnClickListener(this)
         btnForceRefresh.setOnClickListener(this)
         btnForceRefresh.setOnLongClickListener {
-            edit.putString("timeNew", "").putString("timeFoodNew", "").apply()
+            edit.putString("timeNew", "").putString("newFoodTime", "").apply()
             makeToast(mContext.getString(R.string.forcedRefreshTimes))
             true
         }

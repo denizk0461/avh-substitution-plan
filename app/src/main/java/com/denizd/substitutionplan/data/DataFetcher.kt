@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
 import android.preference.PreferenceManager
-import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
@@ -62,7 +61,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
             }
 
             if (forceRefresh) {
-                edit.putString("timeNew", "").putString("timeFoodNew", "").apply()
+                edit.putString("timeNew", "").putString("newFoodTime", "").apply()
             }
 
             if (menu) {
@@ -114,7 +113,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
             val indices = ArrayList<Int>()
             val daysAndVon = arrayOf("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "von")
             for (i in 0 until foodElements.size) {
-                if (checkStringForArray(foodElements[i].text(), daysAndVon)) indices.add(i)
+                if (HelperFunctions.checkStringForArray(foodElements[i].text(), daysAndVon)) indices.add(i)
             }
             indices.add(foodElements.size)
 
@@ -160,14 +159,17 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
                 val row = rows[i]
                 val cols = row.select("th")
 
-                val group = cols[0].text()
-                val course = cols[3].text()
-                val additional = cols[5].text()
                 val subst = Subst(
-                    group = group, date = cols[1].text(), time = cols[2].text(), course = course,
-                    room = cols[4].text(), additional = additional, teacher = cols[6].text(), priority = priority
+                    group = cols[0].text(),
+                    date = cols[1].text(),
+                    time = cols[2].text(),
+                    course = cols[3].text(),
+                    room = cols[4].text(),
+                    additional = cols[5].text(),
+                    teacher = cols[6].text(),
+                    type = cols[7].text(),
+                    priority = priority
                 )
-                Log.d("AAAA", cols[6].text())
                 substArray.add(subst)
                 substRepo.insert(subst)
                 priority--
@@ -200,11 +202,8 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
         openApp.flags += Intent.FLAG_ACTIVITY_CLEAR_TASK
         val openAppPending = PendingIntent.getActivity(mContext, 0, openApp, 0)
 
-        val notificationLayout = RemoteViews(mContext.packageName,
-            R.layout.notification
-        )
-        notificationLayout.setTextViewText(
-            R.id.notification_title, mContext.getString(
+        val notificationLayout = RemoteViews(mContext.packageName, R.layout.notification)
+        notificationLayout.setTextViewText(R.id.notification_title, mContext.getString(
                 R.string.substitutionPlan
             ))
         notificationLayout.setTextViewText(R.id.notification_textview, notifText)
@@ -221,9 +220,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
             .setSmallIcon(R.drawable.ic_avh)
             .setContentIntent(openAppPending)
             .setAutoCancel(true)
-            .setColor(ContextCompat.getColor(mContext,
-                R.color.colorAccent
-            ))
+            .setColor(ContextCompat.getColor(mContext, R.color.colorAccent))
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             val sound = if ((prefs.getString("ringtoneUri", "") ?: "").isNotEmpty()) {
@@ -235,14 +232,5 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
         }
 
         manager.notify(1, notification.build())
-    }
-
-    private fun checkStringForArray(s: String, checking: Array<String>): Boolean {
-        for (i in checking.indices) {
-            if (s.contains(checking[i])) {
-                return true
-            }
-        }
-        return false
     }
 }

@@ -166,4 +166,7 @@
     <string name="forcedRefreshTimes">Cleared refresh times</string>
     <string name="forceRefreshTxt">Force a refresh</string>
     <string name="forceRefreshTxt2">Use this if you can\'t see the plan or food menu</string>
+
+    <string name="noSPlan">\' Plan</string>
+    <string name="SPlan">\'s Plan</string>
 </resources>

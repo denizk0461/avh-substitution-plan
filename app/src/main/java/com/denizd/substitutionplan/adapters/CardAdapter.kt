@@ -25,6 +25,7 @@ internal class CardAdapter(private var mSubst: List<Subst>, private val prefs: S
     private var colour = 0
     private var colourString = ""
     private var colorCheck = ""
+    private val cancellations = arrayOf("eigenverantwortliches arbeiten", "entfall", "entfällt", "fällt aus", "freisetzung", "vtr. ohne lehrer")
 
     class CardViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
@@ -61,7 +62,8 @@ internal class CardAdapter(private var mSubst: List<Subst>, private val prefs: S
         val currentItem = mSubst[position]
         var psa = false
         val strings = arrayOf(SpannableString(currentItem.group), SpannableString(currentItem.time),
-                SpannableString(currentItem.course), SpannableString(currentItem.room), SpannableString(currentItem.teacher))
+                SpannableString(currentItem.course), SpannableString(currentItem.room),
+            SpannableString(currentItem.teacher))
         var cardBackgroundColour = 0
 
         for (string in strings) {
@@ -70,9 +72,16 @@ internal class CardAdapter(private var mSubst: List<Subst>, private val prefs: S
                 string.setSpan(StrikethroughSpan(), 0, questionMarkIndex, 0)
             }
         }
-        with (currentItem.additional.toLowerCase(Locale.ROOT)) {
-            if (contains("eigenverantwortliches arbeiten") || contains("entfall") || contains("fällt aus")) {
-                for (i in 2..4) { strings[i].setSpan(StrikethroughSpan(), 0, strings[i].length, 0) }
+
+        val add = currentItem.additional.toLowerCase(Locale.ROOT)
+        val type = currentItem.type.toLowerCase(Locale.ROOT)
+        if (add.isNotEmpty()) {
+            if (HelperFunctions.checkStringForArray(add, cancellations)) {
+                strikeThrough(strings)
+            }
+        } else {
+            if (HelperFunctions.checkStringForArray(type, cancellations)) {
+                strikeThrough(strings)
             }
         }
 
@@ -82,7 +91,7 @@ internal class CardAdapter(private var mSubst: List<Subst>, private val prefs: S
         holder.course.setText(strings[2], TextView.BufferType.SPANNABLE)
         holder.room.setText(strings[3], TextView.BufferType.SPANNABLE)
         holder.teacher.setText(strings[4], TextView.BufferType.SPANNABLE)
-        holder.additional.text = currentItem.additional
+        holder.additional.text = if (currentItem.additional.isNotEmpty()) currentItem.additional else currentItem.type
 
         holder.date.visibility = if (currentItem.date.isNotEmpty() && currentItem.date.substring(0, 3) == "psa") {
             psa = true
@@ -186,4 +195,7 @@ internal class CardAdapter(private var mSubst: List<Subst>, private val prefs: S
         }
     }
 
+    private fun strikeThrough(strings: Array<SpannableString>) {
+        for (i in 2..4) { strings[i].setSpan(StrikethroughSpan(), 0, strings[i].length, 0) }
+    }
 }
