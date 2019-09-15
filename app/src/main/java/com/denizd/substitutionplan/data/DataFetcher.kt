@@ -21,6 +21,7 @@ import com.denizd.substitutionplan.models.Food
 import com.denizd.substitutionplan.models.Subst
 import com.google.android.material.snackbar.Snackbar
 import org.jsoup.Jsoup
+import java.lang.ref.WeakReference
 import kotlin.collections.ArrayList
 
 /**
@@ -40,13 +41,13 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
     private var menu = isMenu
     private var forceRefresh = forced
 
-    private var mContext = context
+    private var mContext = WeakReference(context)
     private var mApplication = application
-    private var mView = parentView
+    private var mView = WeakReference(parentView)
     private var priority = 200
-    private var notifText = ""
+    private var notificationText = ""
     private var informational = ""
-    private val prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
+    private val prefs = PreferenceManager.getDefaultSharedPreferences(mContext.get())
     private val edit = prefs.edit()
     private var currentTime = ""
     private var currentFoodTime = ""
@@ -72,21 +73,21 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
             }
 
             if (plan || menu) {
-                mView?.let { v: View ->
-                    var snackText = "${mContext.getText(R.string.lastUpdated)} ${when {
+                mView.get()?.let { v: View ->
+                    var snackText = "${mContext.get()?.getText(R.string.lastUpdated)} ${when {
                         plan -> currentTime
                         menu -> currentFoodTime
                         else -> "---"
                     }}"
-                    snackText = if (forceRefresh) mContext.getString(R.string.forcedRefresh) else snackText
+                    snackText = if (forceRefresh) mContext.get()?.getString(R.string.forcedRefresh) ?: "" else snackText
                     val snackBarView = v.findViewById<View>(R.id.coordination)
                     Snackbar.make(snackBarView, snackText, Snackbar.LENGTH_LONG).show()
                 }
             }
         } catch (e: Exception) {
-            mView?.let { v: View ->
+            mView.get()?.let { v: View ->
                 val snackBarView = v.findViewById<View>(R.id.coordination)
-                Snackbar.make(snackBarView, mContext.getString(R.string.noInternet), Snackbar.LENGTH_LONG).setBackgroundTint(ContextCompat.getColor(mContext,
+                Snackbar.make(snackBarView, mContext.get()?.getString(R.string.noInternet) ?: "", Snackbar.LENGTH_LONG).setBackgroundTint(ContextCompat.getColor(mContext.get()!!,
                     R.color.colorError
                 )).show()
             }
@@ -95,11 +96,13 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
     }
 
     override fun onPostExecute(result: Void?) {
-        mView?.let {
+        mView.get()?.let {
             try {
                 it.findViewById<SwipeRefreshLayout>(R.id.pullToRefresh).isRefreshing = false
             } catch (ignored: Exception) {}
         }
+        mView.clear()
+        mContext.clear()
     }
 
     private fun requestFoodMenuData() {
@@ -184,11 +187,11 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
                         false
                     )
                 }.forEach { substItem ->
-                    notifText += "${if (notifText.isNotEmpty()) ",\n" else ""}${substItem.course}: ${if (substItem.additional.isNotEmpty()) substItem.additional else "---"}"
+                    notificationText += "${if (notificationText.isNotEmpty()) ",\n" else ""}${substItem.course}: ${if (substItem.additional.isNotEmpty()) substItem.additional else "---"}"
                 }
             }
 
-            if (notifText.isNotEmpty()) {
+            if (notificationText.isNotEmpty()) {
                 sendNotification()
             }
 
@@ -197,40 +200,42 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
     }
 
     private fun sendNotification() {
-        val openApp = Intent(mContext, Main::class.java)
-        openApp.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        openApp.flags += Intent.FLAG_ACTIVITY_CLEAR_TASK
-        val openAppPending = PendingIntent.getActivity(mContext, 0, openApp, 0)
+        mContext.get()?.let { c ->
+            val openApp = Intent(c, Main::class.java)
+            openApp.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            openApp.flags += Intent.FLAG_ACTIVITY_CLEAR_TASK
+            val openAppPending = PendingIntent.getActivity(c, 0, openApp, 0)
 
-        val notificationLayout = RemoteViews(mContext.packageName, R.layout.notification)
-        notificationLayout.setTextViewText(R.id.notification_title, mContext.getString(
+            val notificationLayout = RemoteViews(c.packageName, R.layout.notification)
+            notificationLayout.setTextViewText(R.id.notification_title, c.getString(
                 R.string.substitutionPlan
             ))
-        notificationLayout.setTextViewText(R.id.notification_textview, notifText)
+            notificationLayout.setTextViewText(R.id.notification_textview, notificationText)
 
-        val manager = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val manager = c.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            HelperFunctions.getNotificationChannel(mContext, prefs)
-        }
-
-        val notification = NotificationCompat.Builder(mContext, HelperFunctions.notificationChannelId)
-            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
-            .setCustomContentView(notificationLayout)
-            .setSmallIcon(R.drawable.ic_avh)
-            .setContentIntent(openAppPending)
-            .setAutoCancel(true)
-            .setColor(ContextCompat.getColor(mContext, R.color.colorAccent))
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            val sound = if ((prefs.getString("ringtoneUri", "") ?: "").isNotEmpty()) {
-                Uri.parse(prefs.getString("ringtoneUri", "") ?: "")
-            } else {
-                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                HelperFunctions.getNotificationChannel(c, prefs)
             }
-            notification.setSound(sound)
-        }
 
-        manager.notify(1, notification.build())
+            val notification = NotificationCompat.Builder(c, HelperFunctions.notificationChannelId)
+                .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+                .setCustomContentView(notificationLayout)
+                .setSmallIcon(R.drawable.ic_avh)
+                .setContentIntent(openAppPending)
+                .setAutoCancel(true)
+                .setColor(ContextCompat.getColor(c, R.color.colorAccent))
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                val sound = if ((prefs.getString("ringtoneUri", "") ?: "").isNotEmpty()) {
+                    Uri.parse(prefs.getString("ringtoneUri", "") ?: "")
+                } else {
+                    RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                }
+                notification.setSound(sound)
+            }
+
+            manager.notify(1, notification.build())
+        }
     }
 }

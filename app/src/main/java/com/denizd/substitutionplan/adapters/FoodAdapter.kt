@@ -26,10 +26,6 @@ internal class FoodAdapter(food: ArrayList<Food>) : RecyclerView.Adapter<FoodAda
         return CardViewHolder(v)
     }
 
-    fun getFoodAt(i: Int): Food {
-        return mFood!![i]
-    }
-
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val currentItem = mFood!![position]
 

@@ -45,12 +45,7 @@ internal class RingtoneAdapter(private var _ringtones: List<Ringtone>, onClickLi
 
     override fun getItemCount(): Int = _ringtones.size
 
-    fun setRingtones(ringtones: List<Ringtone>) {
-        _ringtones = ringtones
-        notifyDataSetChanged()
-    }
-
-    public interface OnClickListener {
+    internal interface OnClickListener {
         fun onRingtoneClick(position: Int, name: String, uri: String)
     }
 }

@@ -26,20 +26,6 @@
         <item name="android:textColorPrimary">@color/colorText</item>
     </style>
 
-    <style name="AppThemeLight.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="colorControlNormal">#000000</item>
-    </style>
-
-    <style name="AppThemeLight.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
-        <item name="colorControlNormal">#000000</item>
-    </style>
-
-    <style name="EditTextTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <item name="colorControlNormal">@color/colorHint</item>
-        <item name="colorControlActivated">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/colorAccent</item>
-    </style>
-
     <!-- Launch / splash screen -->
     <style name="AppTheme0.Launcher">
         <item name="android:windowBackground">@drawable/launch_screen</item>

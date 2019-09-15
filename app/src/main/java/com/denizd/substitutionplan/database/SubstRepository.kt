@@ -22,14 +22,6 @@ internal class SubstRepository(application: Application) {
         InsertSubstAsync(substDao).execute(subst)
     }
 
-    fun update(subst: Subst) {
-        UpdateSubstAsync(substDao).execute(subst)
-    }
-
-    fun delete(subst: Subst) {
-        DeleteSubstAsync(substDao).execute(subst)
-    }
-
     fun deleteAllSubst() {
         DeleteAllSubstAsync(substDao).execute()
     }
@@ -38,22 +30,6 @@ internal class SubstRepository(application: Application) {
         private val mSubstDao = substDao
         override fun doInBackground(vararg substs: Subst): Void? {
             mSubstDao?.insertSubst(substs[0])
-            return null
-        }
-    }
-
-    class UpdateSubstAsync(substDao: SubstDao?) : AsyncTask<Subst, Void, Void>() {
-        private val mSubstDao = substDao
-        override fun doInBackground(vararg substs: Subst): Void? {
-            mSubstDao?.updateSubst(substs[0])
-            return null
-        }
-    }
-
-    class DeleteSubstAsync(substDao: SubstDao?) : AsyncTask<Subst, Void, Void>() {
-        private val mSubstDao = substDao
-        override fun doInBackground(vararg substs: Subst): Void? {
-            mSubstDao?.deleteSubst(substs[0])
             return null
         }
     }

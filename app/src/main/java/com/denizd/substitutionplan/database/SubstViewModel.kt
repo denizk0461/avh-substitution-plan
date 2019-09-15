@@ -14,20 +14,4 @@ internal class SubstViewModel(application: Application) : AndroidViewModel(appli
     init {
         allSubst = repository.allSubst
     }
-
-    fun insertSubst(subst: Subst) {
-        repository.insert(subst)
-    }
-
-    fun updateSubst(subst: Subst) {
-        repository.update(subst)
-    }
-
-    fun deleteSubst(subst: Subst) {
-        repository.delete(subst)
-    }
-
-    fun deleteAllSubst() {
-        repository.deleteAllSubst()
-    }
 }

@@ -14,12 +14,4 @@ internal class FoodViewModel(application: Application) : AndroidViewModel(applic
     init {
         allFoods = repository.allFoods
     }
-
-    fun insert(food: Food) {
-        repository.insert(food)
-    }
-
-    fun deleteAll() {
-        repository.deleteAll()
-    }
 }

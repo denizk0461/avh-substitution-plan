@@ -13,14 +13,14 @@ import com.google.android.material.card.MaterialCardView
 
 internal class ColourAdapter(private var mColours: List<Colour>, onClickListener: OnClickListener) : RecyclerView.Adapter<ColourAdapter.ColourViewHolder>() {
 
-    val mOnClickListener = onClickListener
+    private val mOnClickListener = onClickListener
 
     class ColourViewHolder(view: View, clickListener: OnClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val title: TextView = view.findViewById(R.id.item_text)
         var image: ImageView = view.findViewById(R.id.item_image)
         val titleNoLang: TextView = view.findViewById(R.id.item_text_no_lang)
         val cardView: MaterialCardView = view.findViewById(R.id.cardView)
-        val mClickListener = clickListener
+        private val mClickListener = clickListener
         init { view.setOnClickListener(this) }
 
         override fun onClick(v: View?) { mClickListener.onClick(adapterPosition, title.text.toString(), titleNoLang.text.toString()) }
@@ -59,12 +59,7 @@ internal class ColourAdapter(private var mColours: List<Colour>, onClickListener
 
     override fun getItemCount(): Int = mColours.size
 
-    fun setColours(colours: List<Colour>) {
-        mColours = colours
-        notifyDataSetChanged()
-    }
-
-    public interface OnClickListener {
+    internal interface OnClickListener {
         fun onClick(position: Int, title: String, titleNoLang: String)
     }
 }

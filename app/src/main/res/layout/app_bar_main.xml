@@ -14,7 +14,6 @@
         android:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:titleTextColor="@color/colorAccent"
@@ -67,7 +66,6 @@
     <include layout="@layout/content_main" />
 
     <View
-        android:id="@+id/bottom_nav_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginStart="8dp"

@@ -11,11 +11,9 @@
     <string name="settings">Settings</string>
 
     <!-- for Settings fragment -->
-    <string name="darkBackground">Dark background</string>
     <string name="enableNotifications">Enable course notifications</string>
     <string name="enablesBackgroundSync">This does not affect broadcasts</string>
 
-    <string name="personalPlan">Personal Plan</string>
     <string name="personalise">Personalise</string>
     <string name="misc">Miscellaneous</string>
     <string name="personalised">Set personalised plan as default</string>
@@ -40,8 +38,6 @@
 
     <string name="enableGreeting">Enable greeting</string>
     <string name="justBeingNice">If you want me to be nice :)</string>
-    <string name="splan">\'s Plan</string>
-    <string name="nosplan">\' Plan</string>
 
     <string name="licences">Licences</string>
     <string name="whatItTook">What it took to create this app</string>
@@ -51,13 +47,10 @@
     <string name="reviewTac">Review this app\'s Terms &amp; Conditions</string>
     <string name="privacy">Privacy Policy</string>
     <string name="reviewPrivacy">Review this app\'s Privacy Policy</string>
-    <string name="noInfoAvailable">No information available</string>
     <string name="information">Information</string>
 
     <string name="madeBy">Made by Deniz :)</string>
 
-    <string name="openInfo">Open info panel on startup</string>
-    <string name="openInfoNoUserInput">Opens automatically without user input</string>
     <string name="autoRefresh">Refresh on startup</string>
     <string name="ifSyncNotWorking">In case the background sync doesn\'t work</string>
 
@@ -105,7 +98,6 @@
     <string name="chromeCompatibleNotFound">No Chrome-compatible browser found</string>
     <string name="youtubeNotFound">YouTube app not found</string>
     <string name="lastUpdated">Last updated:</string>
-    <string name="nightMode">Enables night mode</string>
     <string name="yourPlan">Your Plan</string>
 
     <string-array name="greetingsMorning">
@@ -142,13 +134,10 @@
     <string name="setRingtone">Customise notification ringtone</string>
     <string name="setRingtone2">Currently: %s</string>
     <string name="pickRingtone">Pick a notification ringtone</string>
-    <string name="noRingtonesFound">No ringtones found</string>
     <string name="deviceSettingsRedirect">Redirects to device settings</string>
     <string name="defaultRingtone">Default</string>
     <string name="permissionDenied">Please enable storage permissions</string>
     <string name="success">Success</string>
-    <string name="restoreFromFile">Restore from file</string>
-    <string name="or">you may also…</string>
     <string name="notReceivingNotifications1">Not receiving notifications?</string>
     <string name="notReceivingNotifications2">Click to see why</string>
     <string name="notReceivingNotificationsHelp">Note: on Huawei/Honor devices, there may not be a solution to this problem. You\'re welcome to try the tips provided.\n\nBattery saver functions often cause notifications to be delayed or not be received at all. Try setting any battery saving options to their default setting.\n\nSome devices restrict background usage of apps. Please go to your device app settings, select the app and check for a toggle named \"Restrict background usage\" (or similar) and verify that the setting is turned off.\n\nYou\'re also welcome to ask me for help.</string>

@@ -9,10 +9,8 @@
     <string name="substitutionPlan">Vertretungsplan</string>
     <string name="personal">Persönlich</string>
     <string name="settings">Einstellungen</string>
-    <string name="darkBackground">Dunkler Hintergrund</string>
     <string name="enableNotifications">Aktiviere Kursbenachrichtigungen</string>
     <string name="enablesBackgroundSync">Hat keinen Einfluss auf Mitteilungen</string>
-    <string name="personalPlan">Persönlicher Plan</string>
     <string name="personalise">Personalisieren</string>
     <string name="misc">Diverses</string>
     <string name="defaultsToPlan">Standardmäßig ansonsten allgemeiner Plan</string>
@@ -35,8 +33,6 @@
     <string name="haveFun">Viel Spaß!</string>
     <string name="enableGreeting">Aktiviere Begrüßungen</string>
     <string name="justBeingNice">Falls du möchtest, dass ich nett bin :)</string>
-    <string name="splan">s Plan</string>
-    <string name="nosplan">\' Plan</string>
     <string name="licences">Lizenzen</string>
     <string name="whatItTook">Was die App ausmacht (Englisch)</string>
     <string name="version">Versionsnummer</string>
@@ -44,11 +40,8 @@
     <string name="tac">AGB</string>
     <string name="reviewTac">Überprüfe die AGB der App (Englisch)</string>
     <string name="reviewPrivacy">Überprüfe die Datenschutzerklärung der App (Englisch)</string>
-    <string name="noInfoAvailable">Keine Informationen verfügbar</string>
     <string name="information">Informationen</string>
     <string name="madeBy">Entwickelt von Deniz :)</string>
-    <string name="openInfo">Öffne Info bei App-Start</string>
-    <string name="openInfoNoUserInput">Öffnet automatisch ohne Nutzereingabe</string>
     <string name="autoRefresh">Aktualisiere Plan bei App-Start</string>
     <string name="ifSyncNotWorking">Falls Hintergrund-Sync nicht funktioniert</string>
     <string name="enterCoursesHelpTitle">Wie du deine Kurse eintragen kannst</string>
@@ -93,7 +86,6 @@
     <string name="chromeCompatibleNotFound">Kein Chrome-kompatibler Browser gefunden</string>
     <string name="youtubeNotFound">YouTube-App nicht gefunden</string>
     <string name="lastUpdated">Zuletzt aktualisiert:</string>
-    <string name="nightMode">Aktiviert den Nachtmodus</string>
     <string name="yourPlan">Dein Plan</string>
     <string-array name="greetingsMorning">
         <item>Hallo, %s!</item>
@@ -129,13 +121,10 @@
     <string name="setRingtone">Benutzerdefinierter Benachrichtungston</string>
     <string name="setRingtone2">Derzeit: %s</string>
     <string name="pickRingtone">Wähle einen Benachrichtigungston</string>
-    <string name="noRingtonesFound">Keine Klingeltöne gefunden</string>
     <string name="deviceSettingsRedirect">Öffnet Geräteinstellungen</string>
     <string name="defaultRingtone">Standard</string>
     <string name="permissionDenied">Bitte erlaube Speicherzugriff</string>
     <string name="success">Erfolg</string>
-    <string name="restoreFromFile">von Datei wiederherstellen</string>
-    <string name="or">du kannst auch…</string>
     <string name="notReceivingNotifications1">Benachrichtigungen kommen nicht an?</string>
     <string name="notReceivingNotifications2">Klick hier um zu sehen, warum</string>
     <string name="notReceivingNotificationsHelp">Bemerke, dass diese Tipps insbesondere auf Huawei/Honor-Geräten nicht funktionieren könnten. Du kannst sie trotzdem ausprobieren.\n\nAkkusparfunktionen können dazu führen, dass Benachrichtigungen nicht ankommen. Versuche, Akkusparmodi auf deren Standardeinstellung zu setzen.\n\nEinige Geräte beschränken Apps im Hintergrund. Suche in deinen Geräteeinstellungen unter Apps die Vertretungsplan-App und schaue dann nach einer Einstellung namens \"Hintergrund-Services beschränken\" (oder ähnlich) und stelle sicher, dass diese ausgestellt ist.\n\nBei Schwierigkeiten kann ich auch gerne helfen.</string>
