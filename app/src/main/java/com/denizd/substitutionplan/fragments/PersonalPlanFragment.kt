@@ -39,7 +39,7 @@ internal class PersonalPlanFragment : PlanFragment() {
             }
             persPlanEmpty = (planCardList.size == 1 && planCardList[0].date.substring(0, 3) == "psa") || planCardList.isEmpty()
 
-            planCardList.sortWith(Comparator { lhs, rhs -> rhs.priority.compareTo(lhs.priority) })
+            planCardList.sortWith(Comparator { rhs, lhs -> rhs.priority.compareTo(lhs.priority) })
             recyclerView.scheduleLayoutAnimation()
             mAdapter.setSubst(planCardList)
 

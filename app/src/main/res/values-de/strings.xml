@@ -145,4 +145,9 @@
 
     <string name="noSPlan">\' Plan</string>
     <string name="SPlan">s Plan</string>
+
+    <plurals name="moreMessages">
+        <item quantity="one">,\nund %d weitere Nachricht</item>
+        <item quantity="other">,\nund %d weitere Nachrichten</item>
+    </plurals>
 </resources>

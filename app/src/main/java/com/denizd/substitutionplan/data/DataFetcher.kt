@@ -44,7 +44,6 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
     private var mContext = WeakReference(context)
     private var mApplication = application
     private var mView = WeakReference(parentView)
-    private var priority = 200
     private var notificationText = ""
     private var informational = ""
     private val prefs = PreferenceManager.getDefaultSharedPreferences(mContext.get())
@@ -120,7 +119,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
             }
             indices.add(foodElements.size)
 
-            for ((priority, l) in (0 until indices.size - 1).withIndex()) {
+            for (l in 0 until indices.size - 1) {
                 var s = ""
                 for (i2 in indices[l] until indices[l + 1]) {
                     if (s.isEmpty()) {
@@ -129,7 +128,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
                         s += "\n${foodElements[i2].text()}"
                     }
                 }
-                foodRepository.insert(Food(s, priority))
+                foodRepository.insert(Food(s, l))
             }
             edit.putString("newFoodTime", currentFoodTime).apply()
         }
@@ -171,13 +170,13 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
                     additional = cols[5].text(),
                     teacher = cols[6].text(),
                     type = cols[7].text(),
-                    priority = priority
+                    priority = i
                 )
                 substArray.add(subst)
                 substRepo.insert(subst)
-                priority--
             }
-
+            var countOfNotificationItems = 0
+            var countOfMoreNotificationItems = 0
             if (jobService && prefs.getBoolean("notif", true)) {
                 substArray.filter { substitution ->
                     HelperFunctions.checkPersonalSubstitutions(
@@ -187,7 +186,15 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
                         false
                     )
                 }.forEach { substItem ->
-                    notificationText += "${if (notificationText.isNotEmpty()) ",\n" else ""}${substItem.course}: ${if (substItem.additional.isNotEmpty()) substItem.additional else "---"}"
+                    if (countOfNotificationItems < 4) {
+                        notificationText += ("${if (notificationText.isNotEmpty()) ",\n" else ""}${substItem.course}: ${if (substItem.additional.isNotEmpty()) substItem.additional else "---"}")
+                        countOfNotificationItems += 1
+                    } else {
+                        countOfMoreNotificationItems += 1
+                    }
+                }
+                if (countOfMoreNotificationItems > 0) {
+                    notificationText += mContext.get()?.resources?.getQuantityString(R.plurals.moreMessages, countOfMoreNotificationItems, countOfMoreNotificationItems)
                 }
             }
 
