@@ -44,6 +44,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
     private var mContext = WeakReference(context)
     private var mApplication = application
     private var mView = WeakReference(parentView)
+    private var priority = 200
     private var notificationText = ""
     private var informational = ""
     private val prefs = PreferenceManager.getDefaultSharedPreferences(mContext.get())
@@ -170,10 +171,11 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
                     additional = cols[5].text(),
                     teacher = cols[6].text(),
                     type = cols[7].text(),
-                    priority = i
+                    priority = priority
                 )
                 substArray.add(subst)
                 substRepo.insert(subst)
+                priority--
             }
             var countOfNotificationItems = 0
             var countOfMoreNotificationItems = 0
