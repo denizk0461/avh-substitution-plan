@@ -27,9 +27,9 @@ internal class PersonalPlanFragment : PlanFragment() {
             persPlanEmpty = true
             recyclerView.visibility = View.VISIBLE
 
-            substitutions.filter { substitution ->
+            substitutions.filter { substItem ->
                 HelperFunctions.checkPersonalSubstitutions(
-                    substitution,
+                    substItem,
                     coursePreference,
                     classPreference,
                     true
@@ -38,8 +38,6 @@ internal class PersonalPlanFragment : PlanFragment() {
                 planCardList.add(substItem)
             }
             persPlanEmpty = (planCardList.size == 1 && planCardList[0].date.substring(0, 3) == "psa") || planCardList.isEmpty()
-
-            planCardList.sortWith(Comparator { lhs, rhs -> rhs.priority.compareTo(lhs.priority) })
             recyclerView.scheduleLayoutAnimation()
             mAdapter.setSubst(planCardList)
 

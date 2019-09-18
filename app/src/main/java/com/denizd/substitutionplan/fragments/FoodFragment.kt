@@ -23,7 +23,6 @@ internal class FoodFragment : Fragment(R.layout.food_layout) {
     private val mAdapter = FoodAdapter(foodArrayList)
     private lateinit var mContext: Context
     private lateinit var prefs: SharedPreferences
-    private lateinit var edit: SharedPreferences.Editor
     private lateinit var recyclerView: RecyclerView
     private lateinit var foodViewModel: FoodViewModel
 
@@ -31,7 +30,6 @@ internal class FoodFragment : Fragment(R.layout.food_layout) {
         super.onAttach(context)
         mContext = context
         prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
-        edit = prefs.edit()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,7 +39,7 @@ internal class FoodFragment : Fragment(R.layout.food_layout) {
         try {
             recyclerView = view.findViewById(R.id.linear_food)
             recyclerView.hasFixedSize()
-            recyclerView.layoutManager = GridLayoutManager(mContext, 1) // , RecyclerView.VERTICAL,false
+            recyclerView.layoutManager = GridLayoutManager(mContext, 1)
             recyclerView.adapter = mAdapter
 
             try {
@@ -61,29 +59,11 @@ internal class FoodFragment : Fragment(R.layout.food_layout) {
         })
 
         if (prefs.getBoolean("autoRefresh", false)) {
-            pullToRefresh.isRefreshing = true
-            DataFetcher(
-                isPlan = false,
-                isMenu = true,
-                isJobService = false,
-                context = mContext,
-                application = activity!!.application,
-                parentView = view.rootView,
-                forced = false
-            ).execute()
+            foodViewModel.refresh(swipeRefreshLayout = pullToRefresh, rootView = view.rootView)
         }
 
         pullToRefresh.setOnRefreshListener {
-            pullToRefresh.isRefreshing = true
-            DataFetcher(
-                isPlan = false,
-                isMenu = true,
-                isJobService = false,
-                context = mContext,
-                application = activity!!.application,
-                parentView = view.rootView,
-                forced = false
-            ).execute()
+            foodViewModel.refresh(swipeRefreshLayout = pullToRefresh, rootView = view.rootView)
         }
     }
 }

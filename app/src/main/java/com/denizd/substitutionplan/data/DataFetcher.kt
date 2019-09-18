@@ -99,7 +99,8 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
         mView.get()?.let {
             try {
                 it.findViewById<SwipeRefreshLayout>(R.id.pullToRefresh).isRefreshing = false
-            } catch (ignored: Exception) {}
+            } catch (ignored: Exception) {
+            }
         }
         mView.clear()
         mContext.clear()
@@ -108,8 +109,8 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
     private fun requestFoodMenuData() {
         val docFood = Jsoup.connect(foodUrl).get()
         currentFoodTime = docFood.select("h1")[0].text()
+        val foodRepository = FoodRepository(mApplication)
         if (currentFoodTime != prefs.getString("newFoodTime", "")) {
-            val foodRepository = FoodRepository(mApplication)
             val foodElements = docFood.select("th")
             foodRepository.deleteAll()
 
@@ -138,8 +139,8 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
     private fun requestSubstPlan() {
         val doc = Jsoup.connect(substUrl).get()
         currentTime = doc.select("h1")[0].text()
+        val substRepo = SubstRepository(mApplication)
         if (currentTime != prefs.getString("timeNew", "")) {
-            val substRepo = SubstRepository(mApplication)
             val rows = doc.select("tr")
             val paragraphs = doc.select("p")
             val substArray = ArrayList<Subst>()
@@ -180,9 +181,9 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
             var countOfNotificationItems = 0
             var countOfMoreNotificationItems = 0
             if (jobService && prefs.getBoolean("notif", true)) {
-                substArray.filter { substitution ->
+                substArray.filter { substItem ->
                     HelperFunctions.checkPersonalSubstitutions(
-                        substitution,
+                        substItem,
                         coursePreference,
                         classPreference,
                         false
@@ -209,31 +210,31 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
     }
 
     private fun sendNotification() {
-        mContext.get()?.let { c ->
-            val openApp = Intent(c, Main::class.java)
+        mContext.get()?.let { context ->
+            val openApp = Intent(context, Main::class.java)
             openApp.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             openApp.flags += Intent.FLAG_ACTIVITY_CLEAR_TASK
-            val openAppPending = PendingIntent.getActivity(c, 0, openApp, 0)
+            val openAppPending = PendingIntent.getActivity(context, 0, openApp, 0)
 
-            val notificationLayout = RemoteViews(c.packageName, R.layout.notification)
-            notificationLayout.setTextViewText(R.id.notification_title, c.getString(
+            val notificationLayout = RemoteViews(context.packageName, R.layout.notification)
+            notificationLayout.setTextViewText(R.id.notification_title, context.getString(
                 R.string.substitutionPlan
             ))
             notificationLayout.setTextViewText(R.id.notification_textview, notificationText)
 
-            val manager = c.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                HelperFunctions.getNotificationChannel(c, prefs)
+                HelperFunctions.getNotificationChannel(context, prefs)
             }
 
-            val notification = NotificationCompat.Builder(c, HelperFunctions.notificationChannelId)
+            val notification = NotificationCompat.Builder(context, HelperFunctions.notificationChannelId)
                 .setStyle(NotificationCompat.DecoratedCustomViewStyle())
                 .setCustomContentView(notificationLayout)
                 .setSmallIcon(R.drawable.ic_avh)
                 .setContentIntent(openAppPending)
                 .setAutoCancel(true)
-                .setColor(ContextCompat.getColor(c, R.color.colorAccent))
+                .setColor(ContextCompat.getColor(context, R.color.colorAccent))
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
                 val sound = if ((prefs.getString("ringtoneUri", "") ?: "").isNotEmpty()) {

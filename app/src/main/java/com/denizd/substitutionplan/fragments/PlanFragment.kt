@@ -24,7 +24,6 @@ import kotlin.collections.ArrayList
 internal open class PlanFragment : Fragment(R.layout.plan) {
     lateinit var recyclerView: RecyclerView
     lateinit var mAdapter: CardAdapter
-    private lateinit var layoutManager: GridLayoutManager
     var planCardList = ArrayList<Subst>()
     lateinit var substViewModel: SubstViewModel
     private lateinit var mContext: Context
@@ -44,48 +43,32 @@ internal open class PlanFragment : Fragment(R.layout.plan) {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        layoutManager = GridLayoutManager(mContext, getGridColumnCount(newConfig))
-        recyclerView.layoutManager = layoutManager
+        recyclerView.layoutManager = GridLayoutManager(mContext, getGridColumnCount(newConfig))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val pullToRefresh = view.findViewById<SwipeRefreshLayout>(R.id.pullToRefresh)
+        substViewModel = ViewModelProviders.of(this).get(SubstViewModel::class.java)
 
+        val pullToRefresh = view.findViewById<SwipeRefreshLayout>(R.id.pullToRefresh)
         recyclerView = view.findViewById(R.id.linearRecycler)
         recyclerView.hasFixedSize()
-        layoutManager = GridLayoutManager(mContext, getGridColumnCount(resources.configuration))
-        recyclerView.layoutManager = layoutManager
-
+        recyclerView.layoutManager = GridLayoutManager(mContext, getGridColumnCount(resources.configuration))
         mAdapter = CardAdapter(planCardList, prefs)
         recyclerView.adapter = mAdapter
 
         if (prefs.getInt("firstTimeOpening", 0) == 1) {
-            startFetch(view, pullToRefresh, true)
+            substViewModel.refresh(swipeRefreshLayout = pullToRefresh, rootView = view.rootView, refreshMenu = true)
             prefs.edit().putInt("firstTimeOpening", 2).apply()
         }
 
         if (prefs.getBoolean("autoRefresh", false)) {
-            startFetch(view, pullToRefresh, false)
+            substViewModel.refresh(swipeRefreshLayout = pullToRefresh, rootView = view.rootView, refreshMenu = false)
         }
-        substViewModel = ViewModelProviders.of(this).get(SubstViewModel::class.java)
 
         pullToRefresh.setOnRefreshListener {
-            startFetch(view, pullToRefresh, false)
+            substViewModel.refresh(swipeRefreshLayout = pullToRefresh, rootView = view.rootView, refreshMenu = false)
         }
-    }
-
-    private fun startFetch(view: View, pullToRefresh: SwipeRefreshLayout, refreshMenu: Boolean) {
-        pullToRefresh.isRefreshing = true
-        DataFetcher(
-            isPlan = true,
-            isMenu = refreshMenu,
-            isJobService = false,
-            context = mContext,
-            application = activity!!.application,
-            parentView = view.rootView,
-            forced = false
-        ).execute()
     }
 
     private fun getGridColumnCount(config: Configuration): Int {

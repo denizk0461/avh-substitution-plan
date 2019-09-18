@@ -29,7 +29,7 @@
     <string name="yourName">Your name</string>
     <string name="nextGrade">Next, tell me which grade you\'re in.</string>
     <string name="yourGrade">Your grade</string>
-    <string name="seniorCourses">If you\'re in senior phase, please also tell me which courses you\'re enrolled in.</string>
+    <string name="seniorCourses">If you\'re in senior phase (E-Phase, Q-Phase), please also tell me which courses you\'re enrolled in.</string>
     <string name="yourCourses">Your courses</string>
     <string name="moreSettings">Lastly, just a few more settings.</string>
     <string name="notificationsAndSync">Receive course notifications</string>

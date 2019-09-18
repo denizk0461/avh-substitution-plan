@@ -28,7 +28,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/colorAccent"
                 android:fontFamily="@font/manrope_extrabold"
-                android:textSize="24sp"
+                android:textSize="28sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -225,7 +225,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtMore"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layoutAnimation="@anim/layout_animation_fall_down">
 
                 <CheckBox
                     android:id="@+id/cbGreetings"
