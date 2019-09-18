@@ -190,7 +190,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
                     )
                 }.forEach { substItem ->
                     if (countOfNotificationItems < 4) {
-                        notificationText += ("${if (notificationText.isNotEmpty()) ",\n" else ""}${substItem.course}: ${if (substItem.additional.isNotEmpty()) substItem.additional else "---"}")
+                        notificationText += ("${if (notificationText.isNotEmpty()) ",\n" else ""}${substItem.course}: ${if (substItem.additional.isNotEmpty()) substItem.additional else if (substItem.type.isNotEmpty()) substItem.type else "---"}")
                         countOfNotificationItems += 1
                     } else {
                         countOfMoreNotificationItems += 1

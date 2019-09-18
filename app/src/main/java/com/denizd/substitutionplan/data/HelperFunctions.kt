@@ -142,17 +142,15 @@ internal object HelperFunctions {
             return true
         }
         if (coursePreference.isEmpty() && classPreference.isNotEmpty()) {
-            if (group.isNotEmpty() && group != "") {
+            if (group.isNotEmpty()) {
                 if (classPreference.contains(group) || group.contains(classPreference)) {
                     return true
                 }
             }
         } else if (classPreference.isNotEmpty() && coursePreference.isNotEmpty()) {
             if (group != "" && course != "") {
-                if (coursePreference.contains(course)) {
-                    if (classPreference.contains(group) || group.contains(classPreference)) {
-                        return true
-                    }
+                if ((classPreference.contains(group) || group.contains(classPreference)) && coursePreference.contains(course)) {
+                    return true
                 }
             }
         }
