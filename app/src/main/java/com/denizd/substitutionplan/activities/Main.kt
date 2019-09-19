@@ -109,7 +109,6 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
             textViewGreeting.text = if (prefs.getBoolean("greeting", true) && (prefs.getString("username", "") ?: "").isNotEmpty()) {
                 getGreetingString()
             } else {
-//                textViewGreeting.visibility = View.GONE
                 ""
             }
 
@@ -213,7 +212,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
 
     private fun openInfoDialog() {
         val dialog = AlertDialog.Builder(context)
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.simple_dialog, null)
+        val dialogView = View.inflate(context, R.layout.simple_dialog, null)
         dialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(
             R.string.information
         )
@@ -242,7 +241,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
         return if (prefs.getBoolean("greeting", true)) {
             getString(R.string.yourPlan)
         } else {
-            val user = (prefs.getString("username", "") ?: "").toString()
+            val user = prefs.getString("username", "") ?: ""
             if (user.endsWith("s", true) || user.endsWith("x", true) || user.endsWith("z", true)) {
                 "$user${getString(R.string.noSPlan)}"
             } else {

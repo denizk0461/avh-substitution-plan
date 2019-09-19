@@ -57,27 +57,29 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
         prefs = PreferenceManager.getDefaultSharedPreferences(context) as SharedPreferences
         val edit = prefs.edit()
         val fab = findViewById<ExtendedFloatingActionButton>(R.id.efab)
-        val start = Intent(this, Main::class.java)
-        val name = findViewById<TextInputEditText>(R.id.txtName)
-        val grade = findViewById<TextInputEditText>(R.id.txtClasses)
-        val courses = findViewById<TextInputEditText>(R.id.txtCourses)
-        val notif = findViewById<CheckBox>(R.id.cbNotif)
-        val dark = findViewById<CheckBox>(R.id.cbDark)
-        val pers = findViewById<CheckBox>(R.id.cbPersonalised)
-        val helpClasses = findViewById<ImageButton>(R.id.chipHelpClasses)
-        val helpCourses = findViewById<ImageButton>(R.id.chipHelpCourses)
-        val greeting = findViewById<CheckBox>(R.id.cbGreetings)
+        val mainActivity = Intent(this, Main::class.java)
+        val nameEditText = findViewById<TextInputEditText>(R.id.txtName)
+        val gradeEditText = findViewById<TextInputEditText>(R.id.txtClasses)
+        val courseEditText = findViewById<TextInputEditText>(R.id.txtCourses)
+        val helpGradeButton = findViewById<ImageButton>(R.id.chipHelpClasses)
+        val helpCoursesButton = findViewById<ImageButton>(R.id.chipHelpCourses)
+        val greetingCheckBox = findViewById<CheckBox>(R.id.cbGreetings)
+        val notificationCheckBox = findViewById<CheckBox>(R.id.cbNotif)
+        val darkModeCheckBox = findViewById<CheckBox>(R.id.cbDark)
+        val personalPlanCheckBox = findViewById<CheckBox>(R.id.cbPersonalised)
+
+        notificationCheckBox.isChecked = true
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-            dark.visibility = View.GONE
+            darkModeCheckBox.visibility = View.GONE
         }
 
-        helpClasses.setOnClickListener {
+        helpGradeButton.setOnClickListener {
             createDialog(getString(R.string.enterGradeHelpTitle), getString(
                 R.string.enterGradeHelp
             ))
         }
-        helpCourses.setOnClickListener {
+        helpCoursesButton.setOnClickListener {
             createDialog(getString(R.string.enterCoursesHelpTitle), getString(
                 R.string.enterCoursesHelp
             ))
@@ -89,22 +91,22 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
             fab.isClickable = false
 
             edit.putString("firstTimeDev", Calendar.getInstance().time.toString())
-                    .putString("username", name.text.toString())
-                    .putString("classes", grade.text.toString())
-                    .putString("courses", courses.text.toString())
+                    .putString("username", nameEditText.text.toString())
+                    .putString("classes", gradeEditText.text.toString())
+                    .putString("courses", courseEditText.text.toString())
             val themeInt = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
                 2
             } else {
-                if (dark.isChecked) {
+                if (darkModeCheckBox.isChecked) {
                     1
                 } else {
                     0
                 }
             }
             edit.putInt("themeInt", themeInt)
-            edit.putBoolean("notif", notif.isChecked)
-                    .putBoolean("greeting", greeting.isChecked)
-                    .putBoolean("defaultPersonalised", pers.isChecked)
+            edit.putBoolean("notif", notificationCheckBox.isChecked)
+                    .putBoolean("greeting", greetingCheckBox.isChecked)
+                    .putBoolean("defaultPersonalised", personalPlanCheckBox.isChecked)
                     .putBoolean("firstTime", false)
                     .putBoolean("colourTransferred", true)
                     .apply()
@@ -147,17 +149,15 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
                 }
             }, 1000)
             handler.postDelayed({
-                startActivity(start)
+                startActivity(mainActivity)
                 finish()
             }, 2000)
         }
     }
 
     private fun createDialog(title: String, text: String) {
-        val alertDialog = AlertDialog.Builder(context,
-            R.style.AlertDialog
-        )
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.simple_dialog, null)
+        val alertDialog = AlertDialog.Builder(context, R.style.AlertDialog)
+        val dialogView = View.inflate(context, R.layout.simple_dialog, null)
         val dialogTitle = dialogView.findViewById<TextView>(R.id.textviewtitle)
         val dialogText = dialogView.findViewById<TextView>(R.id.dialogtext)
         dialogTitle.text = title

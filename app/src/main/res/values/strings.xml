@@ -140,7 +140,7 @@
     <string name="success">Success</string>
     <string name="notReceivingNotifications1">Not receiving notifications?</string>
     <string name="notReceivingNotifications2">Click to see why</string>
-    <string name="notReceivingNotificationsHelp">Note: on Huawei/Honor devices, there may not be a solution to this problem. You\'re welcome to try the tips provided.\n\nBattery saver functions often cause notifications to be delayed or not be received at all. Try setting any battery saving options to their default setting.\n\nSome devices restrict background usage of apps. Please go to your device app settings, select the app and check for a toggle named \"Restrict background usage\" (or similar) and verify that the setting is turned off.\n\nYou\'re also welcome to ask me for help.</string>
+    <string name="notReceivingNotificationsHelp">Note: on some Chinese-branded devices, there may not be a solution to this problem. You\'re welcome to try the tips provided.\n\nBattery saver functions often cause notifications to be delayed or not be received at all. Try setting any battery saving options to their default setting.\n\nSome devices restrict background usage of apps. Please go to your device app settings, select the app and check for a toggle named \"Restrict background usage\" (or similar) and verify that the setting is turned off.\n\nYou\'re also welcome to ask me for help.</string>
     <string name="appTheme">App theme</string>
     <string-array name="themes">
         <item>Light</item>

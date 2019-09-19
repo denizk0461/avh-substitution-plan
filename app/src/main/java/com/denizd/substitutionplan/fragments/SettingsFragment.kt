@@ -14,7 +14,6 @@ import android.preference.PreferenceManager
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.widget.*
@@ -30,6 +29,7 @@ import com.denizd.substitutionplan.adapters.ColourAdapter
 import com.denizd.substitutionplan.adapters.RingtoneAdapter
 import com.denizd.substitutionplan.data.DataFetcher
 import com.denizd.substitutionplan.data.HelperFunctions
+import com.denizd.substitutionplan.data.Topic
 import com.denizd.substitutionplan.models.Colour
 import com.denizd.substitutionplan.models.Ringtone
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -45,7 +45,6 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
 
     private lateinit var mContext: Context
     private lateinit var prefs: SharedPreferences
-    private lateinit var edit: SharedPreferences.Editor
     private val builder = CustomTabsIntent.Builder()
     private val customTabsIntent = builder.build() as CustomTabsIntent
     private var cs: Int = 7
@@ -58,50 +57,47 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         super.onAttach(context)
         mContext = context
         prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
-        edit = prefs.edit()
-
         window = activity?.window
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val txtName = view.findViewById<TextInputEditText>(R.id.txtName)
-        val txtClasses = view.findViewById<TextInputEditText>(R.id.txtClasses)
-        val txtCourses = view.findViewById<TextInputEditText>(R.id.txtCourses)
+        val nameEditText = view.findViewById<TextInputEditText>(R.id.txtName)
+        val gradeEditText = view.findViewById<TextInputEditText>(R.id.txtClasses)
+        val courseEditText = view.findViewById<TextInputEditText>(R.id.txtCourses)
 
-        val switchDisableGreeting = view.findViewById<Switch>(R.id.switchDisableGreeting)
-//        val switchDark = view.findViewById<Switch>(R.id.switchDark)
-        val switchNotifications = view.findViewById<Switch>(R.id.switchNotifications)
-        val switchDefaultPlan = view.findViewById<Switch>(R.id.switchDefaultPlan)
-        val switchAutoRefresh = view.findViewById<Switch>(R.id.switchAutoRefresh)
-        val versionNumber = view.findViewById<TextView>(R.id.txtVersionTwo)
-        val helpCourses = view.findViewById<ImageButton>(R.id.chipHelpCourses)
-        val helpClasses = view.findViewById<ImageButton>(R.id.chipHelpClasses)
-        val btnCustomiseColours = view.findViewById<LinearLayout>(R.id.btnCustomiseColours)
-        val btnVersion = view.findViewById<LinearLayout>(R.id.btnVersion)
+        val greetingSwitch = view.findViewById<Switch>(R.id.switchDisableGreeting)
+        val notificationSwitch = view.findViewById<Switch>(R.id.switchNotifications)
+        val defaultPlanSwitch = view.findViewById<Switch>(R.id.switchDefaultPlan)
+        val autoRefreshSwitch = view.findViewById<Switch>(R.id.switchAutoRefresh)
+        val versionNumberText = view.findViewById<TextView>(R.id.txtVersionTwo)
+        val helpGradeButton = view.findViewById<ImageButton>(R.id.chipHelpClasses)
+        val helpCoursesButton = view.findViewById<ImageButton>(R.id.chipHelpCourses)
+        val colourCustomisationButton = view.findViewById<LinearLayout>(R.id.btnCustomiseColours)
+        val versionButton = view.findViewById<LinearLayout>(R.id.btnVersion)
         currentRingtone = view.findViewById(R.id.txtCustomiseRingtone2)
         setRingtoneText()
-        val btnForceRefresh = view.findViewById<LinearLayout>(R.id.btnForceRefresh)
+        val forceRefreshButton = view.findViewById<LinearLayout>(R.id.btnForceRefresh)
 
-        switchDisableGreeting.setOnCheckedChangeListener(this)
+        greetingSwitch.setOnCheckedChangeListener(this)
 //        switchDark.setOnCheckedChangeListener(this)
-        switchNotifications.setOnCheckedChangeListener(this)
-        switchDefaultPlan.setOnCheckedChangeListener(this)
-        switchAutoRefresh.setOnCheckedChangeListener(this)
-        helpCourses.setOnClickListener(this)
-        helpClasses.setOnClickListener(this)
-        btnCustomiseColours.setOnClickListener(this)
+        notificationSwitch.setOnCheckedChangeListener(this)
+        defaultPlanSwitch.setOnCheckedChangeListener(this)
+        autoRefreshSwitch.setOnCheckedChangeListener(this)
+        helpCoursesButton.setOnClickListener(this)
+        helpGradeButton.setOnClickListener(this)
+        colourCustomisationButton.setOnClickListener(this)
         view.findViewById<LinearLayout>(R.id.btnNoNotif).setOnClickListener(this)
         view.findViewById<LinearLayout>(R.id.btnCustomiseRingtone).setOnClickListener(this)
         view.findViewById<LinearLayout>(R.id.btnWebsite).setOnClickListener(this)
         view.findViewById<LinearLayout>(R.id.btnLicences).setOnClickListener(this)
         view.findViewById<LinearLayout>(R.id.btnTerms).setOnClickListener(this)
         view.findViewById<LinearLayout>(R.id.btnPrivacyP).setOnClickListener(this)
-        btnVersion.setOnClickListener(this)
-        btnForceRefresh.setOnClickListener(this)
-        btnForceRefresh.setOnLongClickListener {
-            edit.putString("timeNew", "").putString("newFoodTime", "").apply()
+        versionButton.setOnClickListener(this)
+        forceRefreshButton.setOnClickListener(this)
+        forceRefreshButton.setOnLongClickListener {
+            prefs.edit().putString("timeNew", "").putString("newFoodTime", "").apply()
             makeToast(mContext.getString(R.string.forcedRefreshTimes))
             true
         }
@@ -124,7 +120,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         darkModeDropDown.setText(darkModeDropDown.adapter.getItem(prefs.getInt("themeInt", 0)).toString(), false)
 
         darkModeDropDown.setOnItemClickListener { _, _, position, _ ->
-            edit.putInt("themeInt", position).apply()
+            prefs.edit().putInt("themeInt", position).apply()
 
             val bottomNav = view.rootView.findViewById<BottomNavigationView>(R.id.bottom_nav)
             when (position) {
@@ -153,42 +149,42 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
             }
         }
 
-        switchDisableGreeting.isChecked = prefs.getBoolean("greeting", true)
+        greetingSwitch.isChecked = prefs.getBoolean("greeting", true)
 
-        switchNotifications.isChecked = prefs.getBoolean("notif", false)
-        switchDefaultPlan.isChecked = prefs.getBoolean("defaultPersonalised", false)
-        switchAutoRefresh.isChecked = prefs.getBoolean("autoRefresh", false)
+        notificationSwitch.isChecked = prefs.getBoolean("notif", false)
+        defaultPlanSwitch.isChecked = prefs.getBoolean("defaultPersonalised", false)
+        autoRefreshSwitch.isChecked = prefs.getBoolean("autoRefresh", false)
 
-        versionNumber.text = BuildConfig.VERSION_NAME
+        versionNumberText.text = BuildConfig.VERSION_NAME
 
-        txtName.setText(prefs.getString("username", ""))
-        txtName.addTextChangedListener(object: TextWatcher {
+        nameEditText.setText(prefs.getString("username", ""))
+        nameEditText.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                edit.putString("username", txtName.text.toString().trim()).apply()
+                prefs.edit().putString("username", nameEditText.text.toString().trim()).apply()
             }
         })
 
-        txtClasses.setText(prefs.getString("classes", ""))
-        txtClasses.addTextChangedListener(object: TextWatcher {
+        gradeEditText.setText(prefs.getString("classes", ""))
+        gradeEditText.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                edit.putString("classes", txtClasses.text.toString()).apply()
+                prefs.edit().putString("classes", gradeEditText.text.toString()).apply()
             }
         })
 
-        txtCourses.setText(prefs.getString("courses", ""))
-        txtCourses.addTextChangedListener(object: TextWatcher {
+        courseEditText.setText(prefs.getString("courses", ""))
+        courseEditText.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                edit.putString("courses", txtCourses.text.toString()).apply()
+                prefs.edit().putString("courses", courseEditText.text.toString()).apply()
             }
         })
 
-        btnVersion.setOnLongClickListener {
+        versionButton.setOnLongClickListener {
             makeToast(getString(R.string.madeBy))
             debugMenu()
         }
@@ -282,31 +278,29 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
                 ).execute()
             }
         }
-        edit.apply()
     }
 
     override fun onCheckedChanged(v: CompoundButton?, isChecked: Boolean) {
         if (v?.isPressed == true) {
             when (v.id) {
                 R.id.switchDisableGreeting -> {
-                    edit.putBoolean("greeting", isChecked)
+                    prefs.edit().putBoolean("greeting", isChecked).apply()
                 }
                 R.id.switchNotifications -> {
-                    edit.putBoolean("notif", isChecked)
+                    prefs.edit().putBoolean("notif", isChecked).apply()
                     if (isChecked) {
-                        subToTopic("android")
+                        subscribeToTopic(Topic.ANDROID)
                     } else {
-                        unsubFromTopic("android")
+                        unsubscribeFromTopic(Topic.ANDROID)
                     }
                 }
                 R.id.switchDefaultPlan -> {
-                    edit.putBoolean("defaultPersonalised", isChecked)
+                    prefs.edit().putBoolean("defaultPersonalised", isChecked).apply()
                 }
                 R.id.switchAutoRefresh -> {
-                    edit.putBoolean("autoRefresh", isChecked)
+                    prefs.edit().putBoolean("autoRefresh", isChecked).apply()
                 }
             }
-            edit.apply()
         }
     }
 
@@ -314,7 +308,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         val alertDialog = AlertDialog.Builder(mContext,
             R.style.AlertDialog
         )
-        val dialogView = LayoutInflater.from(mContext).inflate(R.layout.simple_dialog, null)
+        val dialogView = View.inflate(mContext, R.layout.simple_dialog, null)
         dialogView.findViewById<TextView>(R.id.textviewtitle).text = title
         dialogView.findViewById<TextView>(R.id.dialogtext).text = text
         alertDialog.setView(dialogView).show()
@@ -323,7 +317,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
     private fun createColourDialog() {
         val colourCustomiserBuilder = AlertDialog.Builder(mContext, R.style.AlertDialog)
 
-        val dialogView = LayoutInflater.from(mContext).inflate(R.layout.recycler_dialog, null)
+        val dialogView = View.inflate(mContext, R.layout.recycler_dialog, null)
         val titleText = dialogView.findViewById<TextView>(R.id.empty_textviewtitle)
         titleText.text = getString(R.string.customiseColoursTitle)
         colourRecycler = dialogView.findViewById(R.id.recyclerView)
@@ -390,7 +384,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         } else {
             val ringtoneCustomiserBuilder = AlertDialog.Builder(mContext, R.style.AlertDialog)
 
-            val dialogView = LayoutInflater.from(mContext).inflate(R.layout.recycler_dialog, null)
+            val dialogView = View.inflate(mContext, R.layout.recycler_dialog, null)
             val titleText = dialogView.findViewById<TextView>(R.id.empty_textviewtitle)
             titleText.text = getString(R.string.pickRingtone)
 
@@ -454,12 +448,12 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
 
     override fun onClick(position: Int, title: String, titleNoLang: String) {
         val colourPickerBuilder = AlertDialog.Builder(mContext, R.style.AlertDialog)
-        val pickerDialogView = LayoutInflater.from(mContext).inflate(R.layout.empty_dialog, null)
+        val pickerDialogView = View.inflate(mContext, R.layout.empty_dialog, null)
         val pickerTitleText = pickerDialogView.findViewById<TextView>(R.id.empty_textviewtitle)
         val pickerLayout = pickerDialogView.findViewById<LinearLayout>(R.id.empty_linearlayout)
         pickerTitleText.text = title
 
-        val picker = LayoutInflater.from(mContext).inflate(R.layout.bg_colour_picker, null)
+        val picker = View.inflate(mContext, R.layout.bg_colour_picker, null)
         pickerLayout.addView(picker)
         colourPickerBuilder.setView(pickerDialogView)
         val colourPickerDialog: AlertDialog = colourPickerBuilder.create()
@@ -472,7 +466,6 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
 
         for (i2 in buttons.indices) {
             picker.findViewById<MaterialButton>(buttons[i2]).setOnClickListener {
-//                prefs.edit().putInt("bg$titleNoLang", colourIntegers[i2]).apply()
                 prefs.edit().putString("card$titleNoLang", colours[i2]).apply()
                 val recyclerViewState = colourRecycler.layoutManager?.onSaveInstanceState()
                 colourRecycler.adapter = ColourAdapter(getColourList(), this)
@@ -484,10 +477,8 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
     }
 
     private fun debugMenu(): Boolean {
-        val alertDialog = AlertDialog.Builder(mContext,
-            R.style.AlertDialog
-        )
-        val dialogView = LayoutInflater.from(mContext).inflate(R.layout.edittext_dialog, null)
+        val alertDialog = AlertDialog.Builder(mContext, R.style.AlertDialog)
+        val dialogView = View.inflate(mContext, R.layout.edittext_dialog, null)
         val dialogEditText = dialogView.findViewById<EditText>(R.id.dialog_edittext)
         val dialogButton = dialogView.findViewById<Button>(R.id.dialog_button)
 
@@ -501,7 +492,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
             when (dialogEditText.text.toString()) {
                 "_DIAGNOSTICS" -> {
                     val alertDialogDev = AlertDialog.Builder(mContext, R.style.AlertDialog)
-                    val devDialogView = LayoutInflater.from(mContext).inflate(R.layout.diagnostics_dialog, null)
+                    val devDialogView = View.inflate(mContext, R.layout.diagnostics_dialog, null)
                     val devDialogText = devDialogView.findViewById<TextView>(R.id.dialogtext)
                     val resetLaunchBtn = devDialogView.findViewById<Button>(R.id.btnResetLaunch)
                     val resetNotificationBtn = devDialogView.findViewById<Button>(R.id.btnResetNotif)
@@ -509,16 +500,16 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
                     devDialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(
                         R.string.diagnosticsMenu
                     )
-                    devDialogText.text = getDiagnosticsText(prefs)
+                    devDialogText.text = getDiagnosticsText()
 
                     resetLaunchBtn.setOnClickListener {
-                        edit.putInt("launchDev", 0).apply()
-                        devDialogText.text = getDiagnosticsText(prefs)
+                        prefs.edit().putInt("launchDev", 0).apply()
+                        devDialogText.text = getDiagnosticsText()
                     }
 
                     resetNotificationBtn.setOnClickListener {
-                        edit.putInt("pingFB", 0).apply()
-                        devDialogText.text = getDiagnosticsText(prefs)
+                        prefs.edit().putInt("pingFB", 0).apply()
+                        devDialogText.text = getDiagnosticsText()
                     }
 
                     alertDialogDev.setView(devDialogView)
@@ -534,34 +525,34 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
                     }
                 }
                 "_FIRSTTIME" -> {
-                    edit.putBoolean("firstTime", true).apply()
+                    prefs.edit().putBoolean("firstTime", true).apply()
                     makeToast("First time flag cleared")
                 }
                 "_TESTURLS" -> {
                     val currentTest = !prefs.getBoolean("testUrls", false)
-                    edit.putBoolean("testUrls", currentTest).apply()
+                    prefs.edit().putBoolean("testUrls", currentTest).apply()
                     makeToast("Test URLs set to $currentTest")
                 }
                 "_DEVCHANNEL" -> {
                     val subbed = if (prefs.getBoolean("subscribedToFBDebugChannel", false)) {
-                        unsubFromTopic("debug")
+                        unsubscribeFromTopic(Topic.DEVELOPMENT)
                         "Unsubscribed from"
                     } else {
-                        subToTopic("debug")
+                        subscribeToTopic(Topic.DEVELOPMENT)
                         "Subscribed to"
                     }
-                    edit.putBoolean("subscribedToFBDebugChannel", !prefs.getBoolean("subscribedToFBDebugChannel", false)).apply()
+                    prefs.edit().putBoolean("subscribedToFBDebugChannel", !prefs.getBoolean("subscribedToFBDebugChannel", false)).apply()
                     makeToast("$subbed Firebase development channel")
                 }
                 "_IOSCHANNEL" -> {
                     val subbed = if (prefs.getBoolean("subscribedToiOSChannel", false)) {
-                        unsubFromTopic("ios")
+                        unsubscribeFromTopic(Topic.IOS)
                         "Unsubscribed from"
                     } else {
-                        subToTopic("ios")
+                        subscribeToTopic(Topic.IOS)
                         "Subscribed to"
                     }
-                    edit.putBoolean("subscribedToiOSChannel", !prefs.getBoolean("subscribedToiOSChannel", false)).apply()
+                    prefs.edit().putBoolean("subscribedToiOSChannel", !prefs.getBoolean("subscribedToiOSChannel", false)).apply()
                     makeToast("$subbed iOS channel")
                 }
                 "_WRITE" -> HelperFunctions.writePrefsToXml(prefs, mContext, activity!!)
@@ -578,7 +569,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         Toast.makeText(mContext, text, Toast.LENGTH_LONG).show()
     }
 
-    private fun getDiagnosticsText(prefs: SharedPreferences): String {
+    private fun getDiagnosticsText(): String {
         return "First Launch: ${prefs.getString("firstTimeDev", "")}" +
                 "\n\nApp launched: ${prefs.getInt("launchDev", 0)}" +
                 "\n\nFirebase ping service fired: ${prefs.getInt("pingFB", 0)}" +
@@ -586,9 +577,10 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
                 "\n\nDevice Model: ${Build.MODEL}" +
                 "\n\nAndroid Version: ${Build.VERSION.RELEASE}" +
                 "\n\nSubscribed to notification channel: ${prefs.getBoolean("notif", false)}" +
+                "\n\nSubscribed to iOS channel: ${prefs.getBoolean("subscribedToiOSChannel", false)}" +
                 "\n\nSubscribed to dev channel: ${prefs.getBoolean("subscribedToFBDebugChannel", false)}"
     }
 
-    private fun subToTopic(topic: String) = FirebaseMessaging.getInstance().subscribeToTopic("substitutions-$topic")
-    private fun unsubFromTopic(topic: String) = FirebaseMessaging.getInstance().unsubscribeFromTopic("substitutions-$topic")
+    private fun subscribeToTopic(topic: Topic) = FirebaseMessaging.getInstance().subscribeToTopic(topic.tag)
+    private fun unsubscribeFromTopic(topic: Topic) = FirebaseMessaging.getInstance().unsubscribeFromTopic(topic.tag)
 }

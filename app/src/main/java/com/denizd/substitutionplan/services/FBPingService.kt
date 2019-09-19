@@ -3,6 +3,7 @@ package com.denizd.substitutionplan.services
 import android.app.job.JobParameters
 import android.app.job.JobService
 import android.preference.PreferenceManager
+import com.denizd.substitutionplan.data.Topic
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 
@@ -23,33 +24,29 @@ internal class FBPingService : JobService() {
 
     private fun doBackgroundWork(params: JobParameters) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-
         FirebaseApp.initializeApp(context)
-
         FirebaseMessaging.getInstance().apply {
-
             if (prefs.getBoolean("notif", true)) {
-                subscribeToTopic("substitutions-android")
+                subscribeToTopic(Topic.ANDROID.tag)
             } else {
-                unsubscribeFromTopic("substitutions-android")
+                unsubscribeFromTopic(Topic.ANDROID.tag)
             }
 
             if (prefs.getBoolean("subscribedToFBDebugChannel", false)) {
-                subscribeToTopic("substitutions-debug")
+                subscribeToTopic(Topic.DEVELOPMENT.tag)
             } else {
-                unsubscribeFromTopic("substitutions-debug")
+                unsubscribeFromTopic(Topic.DEVELOPMENT.tag)
             }
 
             if (prefs.getBoolean("subscribedToiOSChannel", false)) {
-                subscribeToTopic("substitutions-ios")
+                subscribeToTopic(Topic.IOS.tag)
             } else {
-                unsubscribeFromTopic("substitutions-ios")
+                unsubscribeFromTopic(Topic.IOS.tag)
             }
 
-            subscribeToTopic("substitutions-broadcast")
+            subscribeToTopic(Topic.BROADCAST.tag)
 
             prefs.edit().putInt("pingFB", prefs.getInt("pingFB", 0) + 1).apply()
-
         }
         jobFinished(params, false)
     }

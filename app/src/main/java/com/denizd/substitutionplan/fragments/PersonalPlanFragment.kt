@@ -12,19 +12,19 @@ internal class PersonalPlanFragment : PlanFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        smileydown = view.findViewById(R.id.smileydown)
-        smileydowntext = view.findViewById(R.id.smileydowntext)
-        linearsmiley = view.findViewById(R.id.linearsmiley)
+        personalPlanEmptyEmoticon = view.findViewById(R.id.smileydown)
+        personalPlanEmptyText = view.findViewById(R.id.smileydowntext)
+        personalPlanEmptyLayout = view.findViewById(R.id.linearsmiley)
 
         val coursePreference = prefs.getString("courses", "") ?: ""
         val classPreference = prefs.getString("classes", "") ?: ""
 
         substViewModel.allSubst?.observe(this, Observer<List<Subst>> { substitutions ->
             planCardList.clear()
-            smileydown.visibility = View.GONE
-            smileydowntext.visibility = View.GONE
-            linearsmiley.visibility = View.GONE
-            persPlanEmpty = true
+            personalPlanEmptyEmoticon.visibility = View.GONE
+            personalPlanEmptyText.visibility = View.GONE
+            personalPlanEmptyLayout.visibility = View.GONE
+            isPersonalPlanEmpty = true
             recyclerView.visibility = View.VISIBLE
 
             substitutions.filter { substItem ->
@@ -37,16 +37,16 @@ internal class PersonalPlanFragment : PlanFragment() {
             }.forEach { substItem ->
                 planCardList.add(substItem)
             }
-            persPlanEmpty = (planCardList.size == 1 && planCardList[0].date.substring(0, 3) == "psa") || planCardList.isEmpty()
+            isPersonalPlanEmpty = (planCardList.size == 1 && planCardList[0].date.substring(0, 3) == "psa") || planCardList.isEmpty()
             recyclerView.scheduleLayoutAnimation()
             mAdapter.setSubst(planCardList)
 
             handler.postDelayed({
-                if (persPlanEmpty) {
-                    smileydown.visibility = View.VISIBLE
-                    smileydowntext.visibility = View.VISIBLE
-                    linearsmiley.visibility = View.VISIBLE
-                    linearsmiley.scheduleLayoutAnimation()
+                if (isPersonalPlanEmpty) {
+                    personalPlanEmptyEmoticon.visibility = View.VISIBLE
+                    personalPlanEmptyText.visibility = View.VISIBLE
+                    personalPlanEmptyLayout.visibility = View.VISIBLE
+                    personalPlanEmptyLayout.scheduleLayoutAnimation()
                 }
             }, 64)
         })

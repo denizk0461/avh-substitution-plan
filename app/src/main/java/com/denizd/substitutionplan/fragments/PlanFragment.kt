@@ -18,7 +18,6 @@ import com.denizd.substitutionplan.*
 import com.denizd.substitutionplan.adapters.CardAdapter
 import com.denizd.substitutionplan.database.SubstViewModel
 import com.denizd.substitutionplan.models.Subst
-import com.denizd.substitutionplan.data.DataFetcher
 import kotlin.collections.ArrayList
 
 internal open class PlanFragment : Fragment(R.layout.plan) {
@@ -29,10 +28,10 @@ internal open class PlanFragment : Fragment(R.layout.plan) {
     private lateinit var mContext: Context
     lateinit var prefs: SharedPreferences
 
-    lateinit var smileydown: TextView
-    lateinit var smileydowntext: TextView
-    lateinit var linearsmiley: LinearLayout
-    var persPlanEmpty: Boolean = true
+    lateinit var personalPlanEmptyEmoticon: TextView
+    lateinit var personalPlanEmptyText: TextView
+    lateinit var personalPlanEmptyLayout: LinearLayout
+    var isPersonalPlanEmpty: Boolean = true
     val handler = Handler()
 
     override fun onAttach(context: Context) {

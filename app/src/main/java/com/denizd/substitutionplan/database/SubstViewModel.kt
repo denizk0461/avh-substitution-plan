@@ -10,8 +10,7 @@ import com.denizd.substitutionplan.models.Subst
 
 internal class SubstViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository: SubstRepository =
-        SubstRepository(application)
+    private val repository: SubstRepository = SubstRepository(application)
     val allSubst: LiveData<List<Subst>>?
     private val app = application
 

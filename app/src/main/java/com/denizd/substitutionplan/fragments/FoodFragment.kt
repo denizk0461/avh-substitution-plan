@@ -15,7 +15,6 @@ import com.denizd.substitutionplan.*
 import com.denizd.substitutionplan.adapters.FoodAdapter
 import com.denizd.substitutionplan.database.FoodViewModel
 import com.denizd.substitutionplan.models.Food
-import com.denizd.substitutionplan.data.DataFetcher
 
 internal class FoodFragment : Fragment(R.layout.food_layout) {
 

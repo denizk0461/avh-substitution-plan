@@ -231,7 +231,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
             val notification = NotificationCompat.Builder(context, HelperFunctions.notificationChannelId)
                 .setStyle(NotificationCompat.DecoratedCustomViewStyle())
                 .setCustomContentView(notificationLayout)
-                .setSmallIcon(R.drawable.ic_avh)
+                .setSmallIcon(R.drawable.ic_avhlogo)
                 .setContentIntent(openAppPending)
                 .setAutoCancel(true)
                 .setColor(ContextCompat.getColor(context, R.color.colorAccent))

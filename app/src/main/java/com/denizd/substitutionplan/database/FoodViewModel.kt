@@ -10,8 +10,7 @@ import com.denizd.substitutionplan.models.Food
 
 internal class FoodViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository: FoodRepository =
-        FoodRepository(application)
+    private val repository: FoodRepository = FoodRepository(application)
     val allFoods: LiveData<List<Food>>?
     private val app = application
 
