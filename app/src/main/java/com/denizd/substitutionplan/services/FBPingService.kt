@@ -25,28 +25,30 @@ internal class FBPingService : JobService() {
     private fun doBackgroundWork(params: JobParameters) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         FirebaseApp.initializeApp(context)
-        FirebaseMessaging.getInstance().apply {
-            if (prefs.getBoolean("notif", true)) {
-                subscribeToTopic(Topic.ANDROID.tag)
-            } else {
-                unsubscribeFromTopic(Topic.ANDROID.tag)
+        if (!prefs.getBoolean("firstTime", true)) {
+            FirebaseMessaging.getInstance().apply {
+                if (prefs.getBoolean("notif", true)) {
+                    subscribeToTopic(Topic.ANDROID.tag)
+                } else {
+                    unsubscribeFromTopic(Topic.ANDROID.tag)
+                }
+
+                if (prefs.getBoolean("subscribedToFBDebugChannel", false)) {
+                    subscribeToTopic(Topic.DEVELOPMENT.tag)
+                } else {
+                    unsubscribeFromTopic(Topic.DEVELOPMENT.tag)
+                }
+
+                if (prefs.getBoolean("subscribedToiOSChannel", false)) {
+                    subscribeToTopic(Topic.IOS.tag)
+                } else {
+                    unsubscribeFromTopic(Topic.IOS.tag)
+                }
+
+                subscribeToTopic(Topic.BROADCAST.tag)
+
+                prefs.edit().putInt("pingFB", prefs.getInt("pingFB", 0) + 1).apply()
             }
-
-            if (prefs.getBoolean("subscribedToFBDebugChannel", false)) {
-                subscribeToTopic(Topic.DEVELOPMENT.tag)
-            } else {
-                unsubscribeFromTopic(Topic.DEVELOPMENT.tag)
-            }
-
-            if (prefs.getBoolean("subscribedToiOSChannel", false)) {
-                subscribeToTopic(Topic.IOS.tag)
-            } else {
-                unsubscribeFromTopic(Topic.IOS.tag)
-            }
-
-            subscribeToTopic(Topic.BROADCAST.tag)
-
-            prefs.edit().putInt("pingFB", prefs.getInt("pingFB", 0) + 1).apply()
         }
         jobFinished(params, false)
     }

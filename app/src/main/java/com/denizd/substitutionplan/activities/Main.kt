@@ -43,13 +43,17 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
-        prefs = PreferenceManager.getDefaultSharedPreferences(context) as SharedPreferences
+        prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val edit = prefs.edit()
         val firstTime = Intent(context, FirstTime::class.java)
+        val login = Intent(context, Login::class.java)
         Crashlytics.setUserIdentifier(prefs.getString("username", "") ?: "")
 
-        if (prefs.getBoolean("firstTime", true)) {
-//        if (true) {
+        if (!prefs.getBoolean("successful_login", false)) {
+            startActivity(login)
+            finish()
+        } else if (prefs.getBoolean("firstTime", true)) {
+//        } else if (true) {
             startActivity(firstTime)
             finish()
         } else {
@@ -238,10 +242,10 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
     }
 
     private fun personalPlanTitle(): String {
-        return if (prefs.getBoolean("greeting", true)) {
+        val user = prefs.getString("username", "") ?: ""
+        return if (prefs.getBoolean("greeting", true) || user.isEmpty()) {
             getString(R.string.yourPlan)
         } else {
-            val user = prefs.getString("username", "") ?: ""
             if (user.endsWith("s", true) || user.endsWith("x", true) || user.endsWith("z", true)) {
                 "$user${getString(R.string.noSPlan)}"
             } else {

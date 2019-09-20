@@ -1,5 +1,6 @@
 package com.denizd.substitutionplan.activities
 
+import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -18,7 +19,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.denizd.substitutionplan.R
@@ -37,6 +38,9 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
 
         val window = this.window
         context = this
+
+        val parentLayout = findViewById<ConstraintLayout>(R.id.coordinatorLayout)
+        parentLayout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
         val barColour = when {
             Build.VERSION.SDK_INT < Build.VERSION_CODES.M -> ContextCompat.getColor(context, R.color.legacyBlack)
@@ -111,12 +115,11 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
                     .putBoolean("colourTransferred", true)
                     .apply()
 
-            val cLayout = findViewById<CoordinatorLayout>(R.id.coordinatorLayout)
             val linearInflation = findViewById<LinearLayout>(R.id.linearInflation)
 
             val x: Int = fab.right - fab.width / 2
-            val y: Int = fab.bottom- fab.height / 2
-            val endRadius = hypot(cLayout.width.toDouble(), cLayout.height.toDouble()).toInt()
+            val y: Int = fab.bottom - fab.height / 2
+            val endRadius = hypot(parentLayout.width.toDouble(), parentLayout.height.toDouble()).toInt()
             inflater.inflate(R.layout.welcome_screen, linearInflation, true)
             val anim = ViewAnimationUtils.createCircularReveal(linearInflation, x, y, 0F, endRadius.toFloat())
             val handler = Handler()
@@ -147,11 +150,11 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
                     val mImgCheck = findViewById<ImageView>(R.id.imageView).drawable as AnimatedVectorDrawableCompat
                     mImgCheck.start()
                 }
-            }, 1000)
+            }, 600)
             handler.postDelayed({
                 startActivity(mainActivity)
                 finish()
-            }, 2000)
+            }, 3000)
         }
     }
 

@@ -19,6 +19,13 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
+            android:name=".activities.Login"
+            android:label="Login"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme0.Launcher"
+            android:windowSoftInputMode="adjustPan"/>
+
+        <activity
             android:name=".activities.FirstTime"
             android:label="First Time"
             android:screenOrientation="portrait"

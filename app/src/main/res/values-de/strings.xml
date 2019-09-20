@@ -150,4 +150,12 @@
         <item quantity="one">,\nund %d weitere Nachricht</item>
         <item quantity="other">,\nund %d weitere Nachrichten</item>
     </plurals>
+    <string name="login_required">Bitte klicke die Schaltfäche unten und gib deinen Nutzernamen und dein Passwort ein, um zu zeigen, dass du am Alexander-von-Humboldt-Gymnasium beschäftigt bist.\n\nDieser Login ist nur einmalig und deine Informationen werden nicht mit anderen geteilt.</string>
+    <string name="hello">Hallo!</string>
+    <string name="username">Dein Nutzername</string>
+    <string name="password">Dein Password</string>
+    <string name="login">Einloggen</string>
+    <string name="logging_in">Einloggen…</string>
+    <string name="load_page_again">Lade Login-Seite erneut</string>
+    <string name="logged_in">Du bist eingeloggt!</string>
 </resources>

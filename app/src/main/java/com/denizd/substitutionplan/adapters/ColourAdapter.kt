@@ -29,10 +29,7 @@ internal class ColourAdapter(private var mColours: List<Colour>, onClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColourViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
-        return ColourViewHolder(
-            v,
-            mOnClickListener
-        )
+        return ColourViewHolder(v, mOnClickListener)
     }
 
     override fun onBindViewHolder(holder: ColourViewHolder, position: Int) {

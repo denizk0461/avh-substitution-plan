@@ -47,7 +47,6 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
     private lateinit var prefs: SharedPreferences
     private val builder = CustomTabsIntent.Builder()
     private val customTabsIntent = builder.build() as CustomTabsIntent
-    private var cs: Int = 7
     private var window: Window? = null
     private lateinit var colourRecycler: RecyclerView
     private lateinit var ringtoneCustomiserDialog: AlertDialog
@@ -252,19 +251,6 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
                         "\nIn case of questions or suggestions regarding this privacy policy, the user is advised to contact the developer of this app. Contact information is provided through the Play Store.\n" +
                         "\n---\n" +
                         "\nThis privacy policy was modified upon the template provided by privacypolicytemplate.net and App Privacy Policy Generator. These services are in no way affiliated with AvH Plan or the developer.")
-            }
-            R.id.btnVersion -> {
-                if (cs > 0) {
-                    cs--
-                } else {
-                    try {
-                        cs = 7
-                        customTabsIntent.launchUrl(mContext, Uri.parse("http://www.flussufer.de/gerd/person.htm"))
-                        makeToast(getString(R.string.dontTellHim))
-                    } catch (e: ActivityNotFoundException) {
-                        makeToast(getString(R.string.chromeCompatibleNotFound))
-                    }
-                }
             }
             R.id.btnForceRefresh -> {
                 DataFetcher(
