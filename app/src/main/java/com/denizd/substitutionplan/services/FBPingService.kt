@@ -7,6 +7,13 @@ import com.denizd.substitutionplan.data.Topic
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 
+/**
+ * This class regularly resubscribes to keep the app in the background. This is supposed to resolve
+ * issues regarding the app being force-closed in the background and not being able to receive
+ * notifications.
+ *
+ * I am unsure about its effectiveness, though notifications do seem to arrive
+ */
 internal class FBPingService : JobService() {
 
     private var jobCancelled = false

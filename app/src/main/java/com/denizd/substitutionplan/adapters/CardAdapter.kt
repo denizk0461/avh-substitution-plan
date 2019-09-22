@@ -130,6 +130,13 @@ internal class CardAdapter(private var mSubst: List<Subst>, private val prefs: S
                 else -> R.color.colorText
             }
         })
+
+        holder.iconView.visibility = if (icon == R.drawable.ic_empty) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+
         holder.card.setCardBackgroundColor(ContextCompat.getColor(holder.iconView.context, cardBackgroundColour))
         holder.iconView.setImageResource(icon)
         holder.iconView.setColorFilter(textColor)

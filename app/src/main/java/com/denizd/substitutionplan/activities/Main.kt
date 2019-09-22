@@ -35,6 +35,12 @@ import com.google.firebase.FirebaseApp
 import java.lang.IllegalArgumentException
 import java.util.*
 
+/**
+ * The main class of the app. This controls navigation and enables the user to navigate through the
+ * app's fragments and view the information provided on the substitution table. Theming as well as
+ * setting up Firebase Cloud Messaging and Crashlytics are handled here. Also checks whether
+ * the user has completed the setup (logging in, setting preferences)
+ */
 internal class Main : AppCompatActivity(R.layout.app_bar_main) {
 
     private lateinit var context: Context
@@ -49,11 +55,16 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
         val login = Intent(context, Login::class.java)
         Crashlytics.setUserIdentifier(prefs.getString("username", "") ?: "")
 
+        /**
+         * This cascade of if-else's allows the user to return to any point of the setup if they
+         * decide to postpone it, e.g. logging in but not setting up their preferences. Furthermore,
+         * it prevents existing users from upgrading from a previous version of the app and skip the
+         * mandatory login
+         */
         if (!prefs.getBoolean("successful_login", false)) {
             startActivity(login)
             finish()
         } else if (prefs.getBoolean("firstTime", true)) {
-//        } else if (true) {
             startActivity(firstTime)
             finish()
         } else {
@@ -199,6 +210,12 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
         }
     }
 
+    /**
+     * Picks a greeting according to the time of day to present to the user if they choose to
+     * enable greetings
+     *
+     * @return the greeting
+     */
     private fun getGreetingString(): String {
         val gen = Random()
         return String.format(when (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
@@ -230,6 +247,9 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
         return true
     }
 
+    /**
+     * Triggers FBPingService.kt to re-subscribe to the selected Firebase topics every 15 minutes
+     */
     private fun pingFirebaseTopics() {
         val componentName = ComponentName(this, FBPingService::class.java)
         val info = JobInfo.Builder(42, componentName)
@@ -241,6 +261,12 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
         scheduler.schedule(info)
     }
 
+    /**
+     * Decides on the title for PersonalPlanFragment.kt. Picks a generic "Your plan" if greetings
+     * are enabled or "$user's Plan" if they are disabled
+     *
+     * @return the title
+     */
     private fun personalPlanTitle(): String {
         val user = prefs.getString("username", "") ?: ""
         return if (prefs.getBoolean("greeting", true) || user.isEmpty()) {

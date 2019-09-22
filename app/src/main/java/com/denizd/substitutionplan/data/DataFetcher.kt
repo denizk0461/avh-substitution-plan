@@ -32,7 +32,13 @@ import kotlin.collections.ArrayList
  *
  *  @param isPlan           substitution plan will be downloaded and persisted in the database if true
  *  @param isMenu           food menu will be downloaded and persisted in the database if true
- *  @param isJobService     a notification will be prepared and sent if this and isPlan is true
+ *  @param isJobService     enables sending of a notification if true
+ *  @param context          the context of the application that will be stored as a WeakReference
+ *                          to avoid memory leakage
+ *  @param application      a reference to the application that will be stored as a WeakReference
+ *  @param parentView       a reference to the parent view that will be stored as a WeakReference
+ *  @param forced           if true, times for food menu and substitution table will be overwritten
+ *                          with empty values to enable a forced refresh
  */
 internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boolean, context: Context, application: Application, parentView: View?, forced: Boolean) : AsyncTask<Void, Void, Void>() {
 

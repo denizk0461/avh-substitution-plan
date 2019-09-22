@@ -39,8 +39,8 @@
     <string name="greeting_title">Enable greeting</string>
     <string name="greeting_desc">If you want me to be nice :)</string>
 
-    <string name="licences_title">Licences</string>
-    <string name="licences_desc">What it took to create this app</string>
+    <string name="licences_title">Licences and contributors</string>
+    <string name="licences_desc">What went into making this app</string>
     <string name="version">Version Number</string>
 
     <string name="terms_and_conditions_title">Terms &amp; Conditions</string>

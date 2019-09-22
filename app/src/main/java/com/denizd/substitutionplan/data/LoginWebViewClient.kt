@@ -5,7 +5,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 
 /**
- * class that extends WebViewClient to provide a function that checks the webpage's cookies to
+ * Class that extends WebViewClient to provide a function that checks the webpage's cookies to
  * verify a login
  *
  * @param successListener   a reference to the OnLoginSuccessListener implemented in an activity
@@ -15,7 +15,7 @@ internal class LoginWebViewClient(successListener: OnLoginSuccessListener) : Web
     private val mSuccessListener = successListener
 
     /**
-     * onPageFinished has been overridden to check if the cookie "joomla_user_state=logged_in"
+     * OnPageFinished has been overridden to check if the cookie "joomla_user_state=logged_in"
      * exists, and returns true to the OnLoginSuccessListener
      *
      * @param view  a reference to the WebView
@@ -32,14 +32,14 @@ internal class LoginWebViewClient(successListener: OnLoginSuccessListener) : Web
     }
 
     /**
-     * the interface that provides onLoginSucceeded to the activity or fragment that implements it
+     * The interface that provides onLoginSucceeded to the activity or fragment that implements it
      */
     internal interface OnLoginSuccessListener {
 
         /**
-         * this function can be overridden to execute code when a login has been successful
+         * This function can be overridden to execute code when a login has been successful
          *
-         * @param success   boolean value that returns true if the cookie could be found,
+         * @param success   boolean value that is set to true if the cookie could be found,
          *                  false otherwise
          */
         fun onLoginSucceeded(success: Boolean)

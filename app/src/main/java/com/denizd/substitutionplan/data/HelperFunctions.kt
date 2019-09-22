@@ -1,6 +1,7 @@
 package com.denizd.substitutionplan.data
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -8,9 +9,14 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import android.os.Environment
+import android.view.View
+import android.view.Window
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat.requestPermissions
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.FragmentActivity
 import com.denizd.substitutionplan.R
@@ -21,14 +27,24 @@ import java.io.FileOutputStream
 import java.io.OutputStreamWriter
 import javax.xml.parsers.DocumentBuilderFactory
 
+/**
+ * An object class used for declaring functions and variables used by multiple classes throughout
+ * the project. As it is an object class, it can be accessed statically without initialisation
+ */
 internal object HelperFunctions {
 
+    /**
+     * A language-independent list of all courses that is used to save the custom colours of any
+     * course in SharedPreferences without depending on the user's device language
+     */
     val languageIndependentCourses = arrayOf("German", "English", "French", "Spanish", "Latin", "Turkish", "Chinese", "Arts", "Music",
             "Theatre", "Geography", "History", "Politics", "Philosophy", "Religion", "Maths", "Biology", "Chemistry",
             "Physics", "CompSci", "PhysEd", "GLL", "WAT", "Forder", "WP")
+
     val colourNames = arrayOf("default", "red", "orange", "yellow", "green", "teal", "cyan", "blue", "purple", "pink",
             "brown", "grey", "pureWhite", "salmon", "tangerine", "banana", "flora", "spindrift", "sky", "orchid",
             "lavender", "carnation", "brown2", "pureBlack")
+
     private val colourIntegers = intArrayOf(
         0,
         R.color.bgRed,
@@ -119,6 +135,14 @@ internal object HelperFunctions {
         }
     }
 
+    /**
+     * This function served as a way to transfer a deprecated method of storing user-defined
+     * course colours to a new method. It is not required otherwise, but still remains in
+     * the code, as users from older versions (2.1.3 and below) may wish to upgrade without
+     * losing their settings
+     *
+     * @param prefs     a reference to the app's SharedPreferences
+     */
     fun transferOldColourIntsToString(prefs: SharedPreferences) {
         var colour = ""
         val edit = prefs.edit()
@@ -135,6 +159,17 @@ internal object HelperFunctions {
         edit.apply()
     }
 
+    /**
+     * This function serves for checking whether a course on the substitution plan is relevant to
+     * the user and should be shown on their personal plan as well as in their notifications
+     *
+     * @param subst             the substitution item
+     * @param coursePreference  a string that represents the courses the user is enrolled in
+     * @param classPreference   a string that represents the group the user is in
+     * @param psa               decide whether or not any PSA items should be included in the filter
+     *
+     * @return true if the substitution is relevant to the user, false otherwise
+     */
     fun checkPersonalSubstitutions(subst: Subst, coursePreference: String, classPreference: String, psa: Boolean): Boolean {
         val group = subst.group
         val course = subst.course
@@ -157,6 +192,38 @@ internal object HelperFunctions {
         return false
     }
 
+    /**
+     * This function is used throughout some classes to set the theme according to the device's
+     * Android version before an app theme may be picked in the settings. As Main.kt as well as
+     * SettingsFragment.kt are only accessible after the inital setup and serve slightly
+     * different purposes, they use their own implementations
+     */
+    fun setTheme(window: Window, context: Context) {
+        val barColour = when {
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.M -> ContextCompat.getColor(context, R.color.legacyBlack)
+            Build.VERSION.SDK_INT <= Build.VERSION_CODES.P -> ContextCompat.getColor(context, R.color.colorBackground)
+            else -> 0
+        }
+        if (barColour != 0) {
+            window.navigationBarColor = barColour
+            window.statusBarColor = barColour
+        }
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+            if (Build.VERSION.SDK_INT in 23..28) {
+                @SuppressLint("InlinedApi")
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
+        }
+    }
+
+    /**
+     * Returns the notification channel that is reponsible for handling substitution notifications
+     * on Android Oreo and above. If it does not exist, this function creates it
+     *
+     * @param context               the context used for gathering the notification system service
+     * @param prefs                 a reference to the app's SharedPreferences
+     * @return the notification channel
+     */
     @TargetApi(26)
     fun getNotificationChannel(context: Context, prefs: SharedPreferences): NotificationChannel {
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -175,6 +242,21 @@ internal object HelperFunctions {
         }
     }
 
+    fun checkStringForArray(s: String, checking: Array<String>): Boolean {
+        checking.forEach { check ->
+            if (s.contains(check)) return true
+        }
+        return false
+    }
+
+    /**
+     * The code below is used for saving and restoring user settings. However, it is currently
+     * inaccessible to the end user without entering a code in the hidden settings menu,
+     * as no interface has been created for it and it is not built around Android's Scoped Storage
+     * (which deprecates java.io.File and is likely to be required for file access on Android 11
+     * and above). The functions can still be accessed by entering "_READ" and "_WRITE"
+     * respectively in the hidden settings menu
+     */
     private val prefKeys = arrayOf("username", "classes", "courses", "greeting", "themeInt", "notif",
         "defaultPersonalised", "autoRefresh", "firstTimeDev", "launchDev", "pingFB",
         "subscribedToFBDebugChannel", "subscribedToiOSChannel")
@@ -254,12 +336,5 @@ internal object HelperFunctions {
             Toast.makeText(context, context.getString(R.string.permission_denied), Toast.LENGTH_LONG).show()
             requestPermissions(activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 42)
         }
-    }
-
-    fun checkStringForArray(s: String, checking: Array<String>): Boolean {
-        checking.forEach { check ->
-            if (s.contains(check)) return true
-        }
-        return false
     }
 }
