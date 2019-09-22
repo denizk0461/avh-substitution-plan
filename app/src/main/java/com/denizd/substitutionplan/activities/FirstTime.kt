@@ -79,14 +79,12 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
         }
 
         helpGradeButton.setOnClickListener {
-            createDialog(getString(R.string.enterGradeHelpTitle), getString(
-                R.string.enterGradeHelp
+            createDialog(getString(R.string.grade_help_dialog_title), getString(
+                R.string.grade_help_dialog_text
             ))
         }
         helpCoursesButton.setOnClickListener {
-            createDialog(getString(R.string.enterCoursesHelpTitle), getString(
-                R.string.enterCoursesHelp
-            ))
+            createDialog(getString(R.string.courses_help_dialog_title), getString(R.string.courses_help_dialog_text))
         }
 
         val inflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

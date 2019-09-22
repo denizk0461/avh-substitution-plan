@@ -47,7 +47,7 @@ internal class CardAdapter(private var mSubst: List<Subst>, private val prefs: S
                     CustomTabsIntent.Builder().build().launchUrl(card.context,
                             Uri.parse(date.text.toString().substring(3)))
                 } catch (e: ActivityNotFoundException) {
-                    Toast.makeText(card.context, card.context.getString(R.string.chromeCompatibleNotFound), Toast.LENGTH_LONG).show()
+                    Toast.makeText(card.context, card.context.getString(R.string.chrome_not_found), Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -95,7 +95,7 @@ internal class CardAdapter(private var mSubst: List<Subst>, private val prefs: S
 
         holder.date.visibility = if (currentItem.date.isNotEmpty() && currentItem.date.substring(0, 3) == "psa") {
             psa = true
-            holder.time.text = " "
+            holder.time.text = "   " // creating a margin on the right side
             icon = R.drawable.ic_idea
             cardBackgroundColour = R.color.colorAccent
             View.GONE

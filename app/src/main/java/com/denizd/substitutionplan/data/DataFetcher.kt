@@ -74,12 +74,12 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
 
             if (plan || menu) {
                 mView.get()?.let { v: View ->
-                    var snackText = "${mContext.get()?.getText(R.string.lastUpdated)} ${when {
+                    var snackText = "${mContext.get()?.getText(R.string.last_updated)} ${when {
                         plan -> currentTime
                         menu -> currentFoodTime
                         else -> "---"
                     }}"
-                    snackText = if (forceRefresh) mContext.get()?.getString(R.string.forcedRefresh) ?: "" else snackText
+                    snackText = if (forceRefresh) mContext.get()?.getString(R.string.force_refresh_successful) ?: "" else snackText
                     val snackBarView = v.findViewById<View>(R.id.coordination)
                     Snackbar.make(snackBarView, snackText, Snackbar.LENGTH_LONG).show()
                 }
@@ -87,7 +87,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
         } catch (e: Exception) {
             mView.get()?.let { v: View ->
                 val snackBarView = v.findViewById<View>(R.id.coordination)
-                Snackbar.make(snackBarView, mContext.get()?.getString(R.string.noInternet) ?: "", Snackbar.LENGTH_LONG).setBackgroundTint(ContextCompat.getColor(mContext.get()!!,
+                Snackbar.make(snackBarView, mContext.get()?.getString(R.string.no_internet_connection) ?: "", Snackbar.LENGTH_LONG).setBackgroundTint(ContextCompat.getColor(mContext.get()!!,
                     R.color.colorError
                 )).show()
             }
@@ -197,7 +197,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
                     }
                 }
                 if (countOfMoreNotificationItems > 0) {
-                    notificationText += mContext.get()?.resources?.getQuantityString(R.plurals.moreMessages, countOfMoreNotificationItems, countOfMoreNotificationItems)
+                    notificationText += mContext.get()?.resources?.getQuantityString(R.plurals.notification_more_messages, countOfMoreNotificationItems, countOfMoreNotificationItems)
                 }
             }
 
@@ -218,7 +218,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
 
             val notificationLayout = RemoteViews(context.packageName, R.layout.notification)
             notificationLayout.setTextViewText(R.id.notification_title, context.getString(
-                R.string.substitutionPlan
+                R.string.substitution_plan
             ))
             notificationLayout.setTextViewText(R.id.notification_textview, notificationText)
 

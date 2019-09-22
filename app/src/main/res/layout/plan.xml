@@ -33,7 +33,7 @@
                 android:id="@+id/smileydowntext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/noSubstitutionsForYou"
+                android:text="@string/no_personal_substitutions"
                 app:layout_anchor="@+id/smileydown"
                 android:layout_gravity="bottom|center_horizontal"
                 android:textColor="@color/colorHint"

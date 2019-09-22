@@ -1,93 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="appName">AvH-Plan</string>
+    <string name="app_name">AvH-Plan</string>
     <string name="filters">Filter</string>
-    <string name="noInternet">Keine Internetverbindung</string>
+    <string name="no_internet_connection">Keine Internetverbindung</string>
     <string name="general">Allgemein</string>
     <string name="grade">Klasse</string>
     <string name="courses">Kurse</string>
-    <string name="substitutionPlan">Vertretungsplan</string>
+    <string name="substitution_plan">Vertretungsplan</string>
     <string name="personal">Persönlich</string>
     <string name="settings">Einstellungen</string>
-    <string name="enableNotifications">Aktiviere Kursbenachrichtigungen</string>
-    <string name="enablesBackgroundSync">Hat keinen Einfluss auf Mitteilungen</string>
+    <string name="enable_course_notifications_title">Aktiviere Kursbenachrichtigungen</string>
+    <string name="enable_course_notifications_desc">Hat keinen Einfluss auf Mitteilungen</string>
     <string name="personalise">Personalisieren</string>
     <string name="misc">Diverses</string>
-    <string name="defaultsToPlan">Standardmäßig ansonsten allgemeiner Plan</string>
-    <string name="personalised">Persönlicher Plan als Standard</string>
-    <string name="visitWebsite">Besuche die Schulwebsite</string>
-    <string name="ifYouNeedTo">Falls nötig</string>
+    <string name="default_plan_desc">Standardmäßig ansonsten allgemeiner Plan</string>
+    <string name="default_plan_title">Persönlicher Plan als Standard</string>
+    <string name="visit_website_title">Besuche die Schulwebsite</string>
+    <string name="visit_website_desc">Falls nötig</string>
     <string name="menu">Menü</string>
-    <string name="foodMenu">Speiseplan</string>
-    <string name="letsGo">Los geht\'s!</string>
+    <string name="food_menu">Speiseplan</string>
+    <string name="lets_go">Los geht\'s!</string>
     <string name="welcome">Willkommen!</string>
-    <string name="firstSomeThings">Lass uns erst einige Sachen einrichten.</string>
-    <string name="tellMeYourName">Nenne mir deinen Namen.</string>
-    <string name="yourName">Dein Name</string>
-    <string name="nextGrade">Sag mir als nächstes, in welcher Klasse du bist.</string>
-    <string name="yourGrade">Deine Klasse</string>
-    <string name="seniorCourses">Falls du in der Oberstufe bist, nenne mir bitte auch deine Kurse.</string>
-    <string name="yourCourses">Deine Kurse</string>
-    <string name="moreSettings">Nur noch ein paar weitere Einstellungen.</string>
-    <string name="enableDarkMode">Dunklen Hintergrund aktivieren</string>
-    <string name="haveFun">Viel Spaß!</string>
-    <string name="enableGreeting">Aktiviere Begrüßungen</string>
-    <string name="justBeingNice">Falls du möchtest, dass ich nett bin :)</string>
-    <string name="licences">Lizenzen</string>
-    <string name="whatItTook">Was die App ausmacht (Englisch)</string>
+    <string name="first_setup_text">Lass uns erst einige Sachen einrichten.</string>
+    <string name="name_text">Nenne mir deinen Namen.</string>
+    <string name="your_name">Dein Name</string>
+    <string name="grade_text">Sag mir als nächstes, in welcher Klasse du bist.</string>
+    <string name="your_grade">Deine Klasse</string>
+    <string name="senior_courses_text">Falls du in der Oberstufe bist, nenne mir bitte auch deine Kurse.</string>
+    <string name="your_courses">Deine Kurse</string>
+    <string name="more_settings_text">Nur noch ein paar weitere Einstellungen.</string>
+    <string name="enable_dark_mode">Dunklen Hintergrund aktivieren</string>
+    <string name="setup_successful">Viel Spaß!</string>
+    <string name="greeting_title">Aktiviere Begrüßungen</string>
+    <string name="greeting_desc">Falls du möchtest, dass ich nett bin :)</string>
+    <string name="licences_title">Lizenzen</string>
+    <string name="licences_desc">Was die App ausmacht (Englisch)</string>
     <string name="version">Versionsnummer</string>
-    <string name="privacy">Datenschutzerklärung</string>
-    <string name="tac">AGB</string>
-    <string name="reviewTac">Überprüfe die AGB der App (Englisch)</string>
-    <string name="reviewPrivacy">Überprüfe die Datenschutzerklärung der App (Englisch)</string>
+    <string name="privacy_policy_title">Datenschutzerklärung</string>
+    <string name="terms_and_conditions_title">AGB</string>
+    <string name="terms_and_conditions_desc">Überprüfe die AGB der App (Englisch)</string>
+    <string name="privacy_policy_desc">Überprüfe die Datenschutzerklärung der App (Englisch)</string>
     <string name="information">Informationen</string>
-    <string name="madeBy">Entwickelt von Deniz :)</string>
-    <string name="autoRefresh">Aktualisiere Plan bei App-Start</string>
-    <string name="ifSyncNotWorking">Falls Hintergrund-Sync nicht funktioniert</string>
-    <string name="enterCoursesHelpTitle">Wie du deine Kurse eintragen kannst</string>
-    <string name="enterGradeHelpTitle">Wie du deine Klasse eintragen kannst</string>
-    <string name="enterCoursesHelp">Trag die Kürzel für die Kurse ein, welche in deinem persönlichen Plan auftauchen sollen und über welche du benachrichtigt werden möchtest. Du kannst diese auf deinem Stundenplan finden.\n\nHier sind einige Beispiele:\n\nMathe in der 5. Klasse (Mittelstufe) wäre MAT.\n\nDer Englisch-Profilkurs in der E-Phase könnte ENP1 sein.\n\nDer Bio-Grundkurs in der Q1 ist z.B. bio1.\n\nMeist müssen Kurse für Mittelstufenschüler nicht eingetragen werden.\nTrenne mehrere Kurse mit Leerzeichen, Kommas sind optional.\nGroß- und Kleinschreibung wird beachtet.</string>
-    <string name="enterGradeHelp">Trage deine derzeitige Klasse ein, damit sie in deinem persönlichen Plan auftaucht und über Aktualisierungen informiert zu werden.\n\nAnmerkung:\n\nIn der Mittelstufe müssen Nummer und Buchstabe zusammen geschrieben werden, Beispiel: \"5a\".\n\nIn der E-Phase müssen diese durch ein Leerzeichen getrennt werden, Beispiel: \"18 a\".\n\nIn der Q1/Q2 sollen nur die Nummern eingetragen werden, Beispiel: \"17\".\n\nMehrere Klassen können nur eingetragen werden, wenn keine Kurse eingetragen sind.</string>
-    <string name="dontTellHim">Er darf das nicht erfahren :0</string>
-    <string name="menuForTests">Dieses Menü ist derzeit nur für Tests gedacht. Zusätzliche Funktionalität könnte in der Zukunft hinzugefügt werden. Probier\' gerne zufällige Codes aus.</string>
+    <string name="made_by_deniz">Entwickelt von Deniz :)</string>
+    <string name="auto_refresh_title">Aktualisiere Plan bei App-Start</string>
+    <string name="auto_refresh_desc">Falls Hintergrund-Sync nicht funktioniert</string>
+    <string name="courses_help_dialog_title">Wie du deine Kurse eintragen kannst</string>
+    <string name="grade_help_dialog_title">Wie du deine Klasse eintragen kannst</string>
+    <string name="courses_help_dialog_text">Trag die Kürzel für die Kurse ein, welche in deinem persönlichen Plan auftauchen sollen und über welche du benachrichtigt werden möchtest. Du kannst diese auf deinem Stundenplan finden.\n\nHier sind einige Beispiele:\n\nMathe in der 5. Klasse (Mittelstufe) wäre MAT.\n\nDer Englisch-Profilkurs in der E-Phase könnte ENP1 sein.\n\nDer Bio-Grundkurs in der Q1 ist z.B. bio1.\n\nMeist müssen Kurse für Mittelstufenschüler nicht eingetragen werden.\nTrenne mehrere Kurse mit Leerzeichen, Kommas sind optional.\nGroß- und Kleinschreibung wird beachtet.</string>
+    <string name="grade_help_dialog_text">Trage deine derzeitige Klasse ein, damit sie in deinem persönlichen Plan auftaucht und über Aktualisierungen informiert zu werden.\n\nAnmerkung:\n\nIn der Mittelstufe müssen Nummer und Buchstabe zusammen geschrieben werden, Beispiel: \"5a\".\n\nIn der E-Phase müssen diese durch ein Leerzeichen getrennt werden, Beispiel: \"18 a\".\n\nIn der Q1/Q2 sollen nur die Nummern eingetragen werden, Beispiel: \"17\".\n\nMehrere Klassen können nur eingetragen werden, wenn keine Kurse eingetragen sind.</string>
+    <string name="experimental_menu_dialog_text">Dieses Menü ist derzeit nur für Tests gedacht. Zusätzliche Funktionalität könnte in der Zukunft hinzugefügt werden. Probier\' gerne zufällige Codes aus.</string>
     <string name="apply">Anwenden</string>
-    <string name="invalidCode">Ungültiger Code</string>
-    <string name="experimentalMenu">Experimentalmenü</string>
-    <string name="diagnosticsMenu">Diagnosemenü</string>
-    <string name="notificationsAndSync">Kursbenachrichtigungen aktivieren</string>
-    <string name="noSubstitutionsForYou">Kein Entfall für dich</string>
-    <string name="customiseColoursTitle">Benutzerdefinierte Farben</string>
-    <string name="customiseColoursIndividually">Farben für jedes Fach einstellen</string>
-    <string name="courseDeu">Deutsch (+ DAZ)</string>
-    <string name="courseMat">Mathematik</string>
-    <string name="courseEng">Englisch (+ ENA)</string>
-    <string name="courseSpo">Sport</string>
-    <string name="coursePol">Politik</string>
-    <string name="courseDar">Darstellendes Spiel</string>
-    <string name="coursePhy">Physik</string>
-    <string name="courseBio">Biologie &amp; Naturwissenschaften</string>
-    <string name="courseChe">Chemie</string>
-    <string name="coursePhi">Philosophie</string>
-    <string name="courseLat">Latein</string>
-    <string name="courseSpa">Spanisch</string>
-    <string name="courseFra">Französisch</string>
-    <string name="courseInf">Informatik</string>
-    <string name="courseGes">Geschichte</string>
-    <string name="courseRel">Religion</string>
-    <string name="courseGeg">Geographie &amp; WUK</string>
-    <string name="courseKun">Kunst</string>
-    <string name="courseMus">Musik</string>
-    <string name="courseTue">Türkisch</string>
-    <string name="courseChi">Chinesisch</string>
-    <string name="courseGll">GLL</string>
-    <string name="courseWat">WAT</string>
-    <string name="courseFor">Förderunterricht</string>
-    <string name="courseWp">WP &amp; Methodenstunde</string>
-    <string name="chromeCompatibleNotFound">Kein Chrome-kompatibler Browser gefunden</string>
-    <string name="youtubeNotFound">YouTube-App nicht gefunden</string>
-    <string name="lastUpdated">Zuletzt aktualisiert:</string>
+    <string name="invalid_code">Ungültiger Code</string>
+    <string name="experimental_menu_dialog_title">Experimentalmenü</string>
+    <string name="diagnostics_dialog_title">Diagnosemenü</string>
+    <string name="enable_course_notifications">Kursbenachrichtigungen aktivieren</string>
+    <string name="no_personal_substitutions">Kein Entfall für dich</string>
+    <string name="customise_colours_title">Benutzerdefinierte Farben</string>
+    <string name="customise_colours_desc">Farben für jedes Fach einstellen</string>
+    <string name="course_deu">Deutsch (+ DAZ)</string>
+    <string name="course_mat">Mathematik</string>
+    <string name="course_eng">Englisch (+ ENA)</string>
+    <string name="course_spo">Sport</string>
+    <string name="course_pol">Politik</string>
+    <string name="course_dar">Darstellendes Spiel</string>
+    <string name="course_phy">Physik</string>
+    <string name="course_bio">Biologie &amp; Naturwissenschaften</string>
+    <string name="course_che">Chemie</string>
+    <string name="course_phi">Philosophie</string>
+    <string name="course_lat">Latein</string>
+    <string name="course_spa">Spanisch</string>
+    <string name="course_fra">Französisch</string>
+    <string name="course_inf">Informatik</string>
+    <string name="course_ges">Geschichte</string>
+    <string name="course_rel">Religion</string>
+    <string name="course_geg">Geographie &amp; WUK</string>
+    <string name="course_kun">Kunst</string>
+    <string name="course_mus">Musik</string>
+    <string name="course_tue">Türkisch</string>
+    <string name="course_chi">Chinesisch</string>
+    <string name="course_gll">GLL</string>
+    <string name="course_wat">WAT</string>
+    <string name="course_foer">Förderunterricht</string>
+    <string name="course_wp">WP &amp; Methodenstunde</string>
+    <string name="chrome_not_found">Kein Chrome-kompatibler Browser gefunden</string>
+    <string name="youtube_not_found">YouTube-App nicht gefunden</string>
+    <string name="last_updated">Zuletzt aktualisiert:</string>
     <string name="yourPlan">Dein Plan</string>
-    <string-array name="greetingsMorning">
+    <string-array name="greetings_morning">
         <item>Hallo, %s!</item>
         <item>Guten Morgen, %s!</item>
         <item>Hab einen schönen Tag, %s.</item>
@@ -98,7 +97,7 @@
         <item>Schön dich zu sehen, %s.</item>
         <item>Wie geht\'s dir so, %s?</item>
     </string-array>
-    <string-array name="greetingsNoon">
+    <string-array name="greetings_noon">
         <item>Hallo, %s!</item>
         <item>Guten Tag, %s!</item>
         <item>Einen schönen Tag noch, %s.</item>
@@ -109,7 +108,7 @@
         <item>Schön dich zu sehen, %s.</item>
         <item>Genieß\' deinen Tag, %s.</item>
     </string-array>
-    <string-array name="greetingsEvening">
+    <string-array name="greetings_evening">
         <item>Hallo, %s!</item>
         <item>Schönen Abend, %s!</item>
         <item>Genieß\' deinen Abend, %s.</item>
@@ -118,39 +117,39 @@
         <item>Hi %s!</item>
     </string-array>
 
-    <string name="setRingtone">Benutzerdefinierter Benachrichtungston</string>
-    <string name="setRingtone2">Derzeit: %s</string>
-    <string name="pickRingtone">Wähle einen Benachrichtigungston</string>
-    <string name="deviceSettingsRedirect">Öffnet Geräteinstellungen</string>
-    <string name="defaultRingtone">Standard</string>
-    <string name="permissionDenied">Bitte erlaube Speicherzugriff</string>
+    <string name="pick_ringtone_title">Benutzerdefinierter Benachrichtungston</string>
+    <string name="pick_ringtone_desc">Derzeit: %s</string>
+    <string name="pick_ringtone_dialog_title">Wähle einen Benachrichtigungston</string>
+    <string name="pick_ringtone_desc_o">Öffnet Geräteinstellungen</string>
+    <string name="default_ringtone">Standard</string>
+    <string name="permission_denied">Bitte erlaube Speicherzugriff</string>
     <string name="success">Erfolg</string>
-    <string name="notReceivingNotifications1">Benachrichtigungen kommen nicht an?</string>
-    <string name="notReceivingNotifications2">Klick hier um zu sehen, warum</string>
-    <string name="notReceivingNotificationsHelp">Bemerke, dass diese Tipps insbesondere auf einigen Geräten chinesischer Hersteller nicht funktionieren könnten. Du kannst sie trotzdem ausprobieren.\n\nAkkusparfunktionen können dazu führen, dass Benachrichtigungen nicht ankommen. Versuche, Akkusparmodi auf deren Standardeinstellung zu setzen.\n\nEinige Geräte beschränken Apps im Hintergrund. Suche in deinen Geräteeinstellungen unter Apps die Vertretungsplan-App und schaue dann nach einer Einstellung namens \"Hintergrund-Services beschränken\" (oder ähnlich) und stelle sicher, dass diese ausgestellt ist.\n\nBei Schwierigkeiten kann ich auch gerne helfen.</string>
-    <string name="appTheme">App-Design</string>
+    <string name="no_notifications_title">Benachrichtigungen kommen nicht an?</string>
+    <string name="no_notifications_desc">Klick hier um zu sehen, warum</string>
+    <string name="no_notifications_dialog_text">Bemerke, dass diese Tipps insbesondere auf einigen Geräten chinesischer Hersteller nicht funktionieren könnten. Du kannst sie trotzdem ausprobieren.\n\nAkkusparfunktionen können dazu führen, dass Benachrichtigungen nicht ankommen. Versuche, Akkusparmodi auf deren Standardeinstellung zu setzen.\n\nEinige Geräte beschränken Apps im Hintergrund. Suche in deinen Geräteeinstellungen unter Apps die Vertretungsplan-App und schaue dann nach einer Einstellung namens \"Hintergrund-Services beschränken\" (oder ähnlich) und stelle sicher, dass diese ausgestellt ist.\n\nBei Schwierigkeiten kann ich auch gerne helfen.</string>
+    <string name="app_theme">App-Design</string>
     <string-array name="themes">
         <item>Hell</item>
         <item>Dunkel</item>
         <item>System folgen</item>
     </string-array>
-    <string-array name="themesPreQ">
+    <string-array name="themes_pre_q">
         <item>Hell</item>
         <item>Dunkel</item>
     </string-array>
-    <string name="forcedRefresh">Aktualisierung erfolgreich</string>
-    <string name="forcedRefreshTimes">Aktualisierungszeiten wurden gelöscht</string>
-    <string name="forceRefreshTxt">Erzwinge eine Aktualisierung</string>
-    <string name="forceRefreshTxt2">Nutz dies falls du Plan oder Speisemenü nicht sehen kannst</string>
+    <string name="force_refresh_successful">Aktualisierung erfolgreich</string>
+    <string name="force_refresh_cleared_times">Aktualisierungszeiten wurden gelöscht</string>
+    <string name="force_refresh_title">Erzwinge eine Aktualisierung</string>
+    <string name="force_refresh_desc">Nutz dies falls du Plan oder Speisemenü nicht sehen kannst</string>
 
-    <string name="noSPlan">\' Plan</string>
-    <string name="SPlan">s Plan</string>
+    <string name="no_s_plan">\' Plan</string>
+    <string name="s_plan">s Plan</string>
 
-    <plurals name="moreMessages">
+    <plurals name="notification_more_messages">
         <item quantity="one">,\nund %d weitere Nachricht</item>
         <item quantity="other">,\nund %d weitere Nachrichten</item>
     </plurals>
-    <string name="login_required">Bitte klicke die Schaltfäche unten und gib deinen Nutzernamen und dein Passwort ein, um zu zeigen, dass du am Alexander-von-Humboldt-Gymnasium beschäftigt bist.\n\nDieser Login ist nur einmalig und deine Informationen werden nicht mit anderen geteilt.</string>
+    <string name="login_required">Bitte klicke die Schaltfäche unten und gib deinen Nutzernamen und dein Passwort ein, um zu zeigen, dass du am Alexander-von-Humboldt-Gymnasium beschäftigt bist.\n\nDieser Login ist nur einmalig und deine Informationen werden nicht mit anderen geteilt.\n\nFalls du dich erfolgreich eingeloggt hast, die Einrichtung aber nicht fortfährt, dann geh bitte zurück und versuche es noch mal.</string>
     <string name="hello">Hallo!</string>
     <string name="username">Dein Nutzername</string>
     <string name="password">Dein Password</string>

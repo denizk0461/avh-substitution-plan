@@ -17,7 +17,6 @@ import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -70,7 +69,6 @@ internal class Login : AppCompatActivity(R.layout.activity_login_webview), Login
                 webView.webViewClient = LoginWebViewClient(this@Login)
                 openLoginPage(webView)
                 handler.postDelayed({
-                    webView.scrollY = -4000
                 }, 2000)
             }
         }

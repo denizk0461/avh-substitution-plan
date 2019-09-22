@@ -23,6 +23,7 @@ internal class LoginWebViewClient(successListener: OnLoginSuccessListener) : Web
      */
     override fun onPageFinished(view: WebView?, url: String?) {
         super.onPageFinished(view, url)
+        view?.scrollY = -4000
         val cookies = CookieManager.getInstance().getCookie(url)
 
         if (cookies.contains("joomla_user_state=logged_in")) {
@@ -36,7 +37,7 @@ internal class LoginWebViewClient(successListener: OnLoginSuccessListener) : Web
     internal interface OnLoginSuccessListener {
 
         /**
-         * the function that can be overridden to check whether a successful login has occurred
+         * this function can be overridden to execute code when a login has been successful
          *
          * @param success   boolean value that returns true if the cookie could be found,
          *                  false otherwise

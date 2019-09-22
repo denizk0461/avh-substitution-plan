@@ -105,7 +105,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
 
             if (!prefs.getBoolean("autoRefresh", false) && prefs.getInt("firstTimeOpening", 0) != 0) {
                 try {
-                    Snackbar.make(contextView, "${getString(R.string.lastUpdated)} ${prefs.getString("timeNew", "")}", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(contextView, "${getString(R.string.last_updated)} ${prefs.getString("timeNew", "")}", Snackbar.LENGTH_LONG).show()
                 } catch (e: IllegalArgumentException) {}
             }
 
@@ -128,7 +128,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
             } else {
                 defaultFragment = GeneralPlanFragment()
                 bottomNav.selectedItemId = R.id.plan
-                toolbarTxt.text = getString(R.string.appName)
+                toolbarTxt.text = getString(R.string.app_name)
             }
             loadFragment(defaultFragment)
 
@@ -138,7 +138,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
                 when (item.itemId) {
                     R.id.plan -> {
                         fragment = GeneralPlanFragment()
-                        toolbarTxt.text = getString(R.string.appName)
+                        toolbarTxt.text = getString(R.string.app_name)
                     }
                     R.id.personal -> {
                         fragment = PersonalPlanFragment()
@@ -146,7 +146,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
                     }
                     R.id.menu -> {
                         fragment = FoodFragment()
-                        toolbarTxt.text = getString(R.string.foodMenu)
+                        toolbarTxt.text = getString(R.string.food_menu)
                     }
                     R.id.openinfopanel -> {
                         openInfoDialog()
@@ -202,14 +202,14 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
     private fun getGreetingString(): String {
         val gen = Random()
         return String.format(when (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
-            in 5..10 -> resources.getStringArray(R.array.greetingsMorning)[gen.nextInt(resources.getStringArray(
-                R.array.greetingsMorning
+            in 5..10 -> resources.getStringArray(R.array.greetings_morning)[gen.nextInt(resources.getStringArray(
+                R.array.greetings_morning
             ).size)]
-            in 11..17 -> resources.getStringArray(R.array.greetingsNoon)[gen.nextInt(resources.getStringArray(
-                R.array.greetingsNoon
+            in 11..17 -> resources.getStringArray(R.array.greetings_noon)[gen.nextInt(resources.getStringArray(
+                R.array.greetings_noon
             ).size)]
-            else -> resources.getStringArray(R.array.greetingsEvening)[gen.nextInt(resources.getStringArray(
-                R.array.greetingsEvening
+            else -> resources.getStringArray(R.array.greetings_evening)[gen.nextInt(resources.getStringArray(
+                R.array.greetings_evening
             ).size)]
         }, prefs.getString("username", ""))
     }
@@ -220,7 +220,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
         dialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(
             R.string.information
         )
-        val dialogText = "${getString(R.string.lastUpdated)} ${prefs.getString("timeNew", "")}.\n\n${prefs.getString("informational", "")}".trim()
+        val dialogText = "${getString(R.string.last_updated)} ${prefs.getString("timeNew", "")}.\n\n${prefs.getString("informational", "")}".trim()
         dialogView.findViewById<TextView>(R.id.dialogtext).text = dialogText
         dialog.setView(dialogView).show()
     }
@@ -247,9 +247,9 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
             getString(R.string.yourPlan)
         } else {
             if (user.endsWith("s", true) || user.endsWith("x", true) || user.endsWith("z", true)) {
-                "$user${getString(R.string.noSPlan)}"
+                "$user${getString(R.string.no_s_plan)}"
             } else {
-                "$user${getString(R.string.SPlan)}"
+                "$user${getString(R.string.s_plan)}"
             }
         }
     }

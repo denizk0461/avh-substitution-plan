@@ -225,7 +225,7 @@ internal object HelperFunctions {
             out.close()
             Toast.makeText(context, context.getString(R.string.success), Toast.LENGTH_LONG).show()
         } else {
-            Toast.makeText(context, context.getString(R.string.permissionDenied), Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context.getString(R.string.permission_denied), Toast.LENGTH_LONG).show()
             requestPermissions(activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 42)
         }
     }
@@ -251,7 +251,7 @@ internal object HelperFunctions {
             }
             Toast.makeText(context, context.getString(R.string.success), Toast.LENGTH_LONG).show()
         } else {
-            Toast.makeText(context, context.getString(R.string.permissionDenied), Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context.getString(R.string.permission_denied), Toast.LENGTH_LONG).show()
             requestPermissions(activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 42)
         }
     }
