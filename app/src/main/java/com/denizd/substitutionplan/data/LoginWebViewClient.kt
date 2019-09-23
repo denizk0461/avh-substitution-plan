@@ -23,7 +23,8 @@ internal class LoginWebViewClient(private val successListener: OnLoginSuccessLis
         super.onPageStarted(view, url, favicon)
 
         if (url != "https://307.joomla.schule.bremen.de/index.php/component/users/profile?Itemid=171"
-            && url != "https://307.joomla.schule.bremen.de/index.php/component/users/#top") {
+            && url != "https://307.joomla.schule.bremen.de/index.php/component/users/#top"
+            && url != "https://307.joomla.schule.bremen.de/index.php/component/users/?task=user.login&Itemid=171") {
             reloadLoginPage(webView = view)
         }
     }
