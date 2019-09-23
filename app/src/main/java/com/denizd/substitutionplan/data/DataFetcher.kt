@@ -50,7 +50,6 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
     private var mContext = WeakReference(context)
     private var mApplication = application
     private var mView = WeakReference(parentView)
-    private var priority = 200
     private var notificationText = ""
     private var informational = ""
     private val prefs = PreferenceManager.getDefaultSharedPreferences(mContext.get())
@@ -91,6 +90,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
                 }
             }
         } catch (e: Exception) {
+            e.printStackTrace()
             mView.get()?.let { v: View ->
                 val snackBarView = v.findViewById<View>(R.id.coordination)
                 Snackbar.make(snackBarView, mContext.get()?.getString(R.string.no_internet_connection) ?: "", Snackbar.LENGTH_LONG).setBackgroundTint(ContextCompat.getColor(mContext.get()!!,
@@ -169,20 +169,22 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
                 val row = rows[i]
                 val cols = row.select("th")
 
+                val group = cols[0].text()
+                val date = cols[1].text()
                 val subst = Substitution(
-                    group = cols[0].text(),
-                    date = cols[1].text(),
+                    group = group,
+                    date = date,
                     time = cols[2].text(),
                     course = cols[3].text(),
                     room = cols[4].text(),
                     additional = cols[5].text(),
                     teacher = cols[6].text(),
                     type = cols[7].text(),
-                    priority = priority
+                    priority = HelperFunctions.assignRanking(group, date.substring(0, 3) == "psa"),
+                    date_priority = HelperFunctions.assignDatePriority(date)
                 )
                 substArray.add(subst)
                 substRepo.insert(subst)
-                priority--
             }
             var countOfNotificationItems = 0
             var countOfMoreNotificationItems = 0

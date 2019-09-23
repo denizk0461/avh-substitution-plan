@@ -25,6 +25,7 @@ import java.util.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
+import java.lang.NumberFormatException
 import javax.xml.parsers.DocumentBuilderFactory
 
 /**
@@ -307,6 +308,52 @@ internal object HelperFunctions {
             if (s.contains(check)) return true
         }
         return false
+    }
+
+    /**
+     * Assigns an integer to a given group used to sort the substitution plan in SQL.
+     * The ranking is stored as 'priority' in the database
+     *
+     * @param group     the group string that should be assigned a ranking
+     * @param isPSA     used to determine a PSA, assigns lowest value if true, therefore putting
+     *                  the PSA at the top
+     *
+     * @return the ranking as an integer
+     */
+    fun assignRanking(group: String, isPSA: Boolean): Int {
+        val juniors = arrayOf("5", "6", "7", "8", "9")
+        if (isPSA) return -31
+        return try {
+            when {
+                checkStringForArray(group.substring(0, 1), juniors) -> -30
+                group.substring(0, 1) == "1" || group.substring(0, 1) == "2" -> {
+                    val a = group.substring(1, 2).toInt()
+                    a - (a * 2)
+                }
+                else -> -29
+            }
+        } catch (e: StringIndexOutOfBoundsException) {
+            0
+        }
+    }
+
+    /**
+     * Assigns a date priority to circumvent the event of the 1.12. being shown before the
+     * 31.11., essentially
+     *
+     * @param date      the date to be analysed
+     *
+     * @return an integer value to determine the ranking in the database
+     */
+    fun assignDatePriority(date: String): Int {
+        val periodIndex = date.indexOf('.', 0, true)
+        return try {
+            date.substring(periodIndex + 1, date.length - 1).toInt()
+        } catch (e: StringIndexOutOfBoundsException) {
+            0
+        } catch (n: NumberFormatException) {
+            -1
+        }
     }
 
     /**

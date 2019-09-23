@@ -8,8 +8,7 @@ import com.denizd.substitutionplan.models.Substitution
 @Dao
 internal interface SubstDao {
 
-//    @get:Query("SELECT * FROM subst_table ORDER BY date ASC, `group` ASC, time ASC, priority DESC")
-    @get:Query("SELECT * FROM subst_table ORDER BY priority DESC")
+    @get:Query("SELECT * FROM subst_table ORDER BY date_priority ASC, priority ASC, `group` ASC, time ASC")
     val allSubstitutions: LiveData<List<Substitution>>
 
     @Insert
