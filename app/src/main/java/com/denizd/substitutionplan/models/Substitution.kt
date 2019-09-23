@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "subst_table")
-internal data class Subst(
+internal data class Substitution(
     val group: String,
     val date: String,
     val time: String,

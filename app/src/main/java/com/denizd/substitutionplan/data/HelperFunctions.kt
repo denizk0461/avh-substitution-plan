@@ -20,7 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.FragmentActivity
 import com.denizd.substitutionplan.R
-import com.denizd.substitutionplan.models.Subst
+import com.denizd.substitutionplan.models.Substitution
 import java.util.*
 import java.io.File
 import java.io.FileOutputStream
@@ -44,6 +44,12 @@ internal object HelperFunctions {
     val colourNames = arrayOf("default", "red", "orange", "yellow", "green", "teal", "cyan", "blue", "purple", "pink",
             "brown", "grey", "pureWhite", "salmon", "tangerine", "banana", "flora", "spindrift", "sky", "orchid",
             "lavender", "carnation", "brown2", "pureBlack")
+
+    /**
+     * A list of all phrases used to describe that a course has been cancelled. Expand this
+     * if necessary. No further code changes required if this is expanded
+     */
+    val cancellations = arrayOf("eigenverantwortliches arbeiten", "entfall", "entfällt", "fällt aus", "freisetzung", "vtr. ohne lehrer")
 
     private val colourIntegers = intArrayOf(
         0,
@@ -136,6 +142,60 @@ internal object HelperFunctions {
     }
 
     /**
+     * This function returns a string that is used to get the colour set for a specific course
+     * from Shared Preferences
+     *
+     * @param course    the course abbreviation as a string
+     *
+     * @return the string used to store the course's colour in Shared Preferences
+     */
+    fun getColourString(course: String): String {
+        var colorCheck: String
+        return try {
+            colorCheck = course.toLowerCase(Locale.ROOT).substring(0, 3)
+            when (colorCheck) {
+                "deu", "dep", "daz", "fda" -> "German"
+                "mat", "map" -> "Maths"
+                "eng", "enp", "ena" -> "English"
+                "spo", "spp", "spth" -> "PhysEd"
+                "pol", "pop" -> "Politics"
+                "dar", "dap" -> "Theatre"
+                "phy", "php" -> "Physics"
+                "bio", "bip", "nw1", "nw2", "nw3", "nw4" -> "Biology"
+                "che", "chp" -> "Chemistry"
+                "phi", "psp" -> "Philosophy"
+                "laa", "laf", "lat" -> "Latin"
+                "spa", "spf" -> "Spanish"
+                "fra", "frf", "frz" -> "French"
+                "inf" -> "CompSci"
+                "ges" -> "History"
+                "rel" -> "Religion"
+                "geg" -> "Geography"
+                "kun" -> "Arts"
+                "mus" -> "Music"
+                "tue" -> "Turkish"
+                "chi" -> "Chinese"
+                "gll" -> "GLL"
+                "wat" -> "WAT"
+                "för" -> "Forder"
+                "met", "wpb" -> "WP"
+                else -> ""
+            }
+        } catch (e: StringIndexOutOfBoundsException) {
+            try {
+                colorCheck = course.toLowerCase(Locale.ROOT).substring(0, 2)
+                when (colorCheck) {
+                    "nw" -> "Biology"
+                    "wp" -> "WP"
+                    else -> ""
+                }
+            } catch (e2: StringIndexOutOfBoundsException) {
+                ""
+            }
+        }
+    }
+
+    /**
      * This function served as a way to transfer a deprecated method of storing user-defined
      * course colours to a new method. It is not required otherwise, but still remains in
      * the code, as users from older versions (2.1.3 and below) may wish to upgrade without
@@ -163,17 +223,17 @@ internal object HelperFunctions {
      * This function serves for checking whether a course on the substitution plan is relevant to
      * the user and should be shown on their personal plan as well as in their notifications
      *
-     * @param subst             the substitution item
+     * @param substitution             the substitution item
      * @param coursePreference  a string that represents the courses the user is enrolled in
      * @param classPreference   a string that represents the group the user is in
      * @param psa               decide whether or not any PSA items should be included in the filter
      *
      * @return true if the substitution is relevant to the user, false otherwise
      */
-    fun checkPersonalSubstitutions(subst: Subst, coursePreference: String, classPreference: String, psa: Boolean): Boolean {
-        val group = subst.group
-        val course = subst.course
-        if (psa && subst.date.isNotEmpty() && subst.date.substring(0, 3) == "psa") {
+    fun checkPersonalSubstitutions(substitution: Substitution, coursePreference: String, classPreference: String, psa: Boolean): Boolean {
+        val group = substitution.group
+        val course = substitution.course
+        if (psa && substitution.date.isNotEmpty() && substitution.date.substring(0, 3) == "psa") {
             return true
         }
         if (coursePreference.isEmpty() && classPreference.isNotEmpty()) {

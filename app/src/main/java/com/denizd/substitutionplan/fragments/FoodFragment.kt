@@ -35,17 +35,10 @@ internal class FoodFragment : Fragment(R.layout.food_layout) {
         super.onViewCreated(view, savedInstanceState)
         val pullToRefresh = view.findViewById<SwipeRefreshLayout>(R.id.pullToRefresh)
 
-        try {
-            recyclerView = view.findViewById(R.id.linear_food)
-            recyclerView.hasFixedSize()
-            recyclerView.layoutManager = GridLayoutManager(mContext, 1)
-            recyclerView.adapter = mAdapter
-
-            try {
-                recyclerView.removeAllViews()
-            } catch (ignored: NullPointerException) {}
-
-        } catch (ignored: NullPointerException) {}
+        recyclerView = view.findViewById(R.id.linear_food)
+        recyclerView.hasFixedSize()
+        recyclerView.layoutManager = GridLayoutManager(mContext, 1)
+        recyclerView.adapter = mAdapter
 
         foodViewModel = ViewModelProviders.of(this).get(FoodViewModel::class.java)
         foodViewModel.allFoods?.observe(this, Observer<List<Food>> { foodList ->

@@ -15,15 +15,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.denizd.substitutionplan.*
-import com.denizd.substitutionplan.adapters.CardAdapter
+import com.denizd.substitutionplan.adapters.SubstitutionAdapter
 import com.denizd.substitutionplan.database.SubstViewModel
-import com.denizd.substitutionplan.models.Subst
+import com.denizd.substitutionplan.models.Substitution
 import kotlin.collections.ArrayList
 
 internal open class PlanFragment : Fragment(R.layout.plan) {
     lateinit var recyclerView: RecyclerView
-    lateinit var mAdapter: CardAdapter
-    var planCardList = ArrayList<Subst>()
+    lateinit var mAdapter: SubstitutionAdapter
+    var planCardList = ArrayList<Substitution>()
     lateinit var substViewModel: SubstViewModel
     private lateinit var mContext: Context
     lateinit var prefs: SharedPreferences
@@ -53,7 +53,7 @@ internal open class PlanFragment : Fragment(R.layout.plan) {
         recyclerView = view.findViewById(R.id.linearRecycler)
         recyclerView.hasFixedSize()
         recyclerView.layoutManager = GridLayoutManager(mContext, getGridColumnCount(resources.configuration))
-        mAdapter = CardAdapter(planCardList, prefs)
+        mAdapter = SubstitutionAdapter(planCardList, prefs)
         recyclerView.adapter = mAdapter
 
         if (prefs.getInt("firstTimeOpening", 0) == 1) {

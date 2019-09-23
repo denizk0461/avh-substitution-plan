@@ -7,9 +7,9 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.denizd.substitutionplan.models.Food
-import com.denizd.substitutionplan.models.Subst
+import com.denizd.substitutionplan.models.Substitution
 
-@Database(entities = [Subst::class, Food::class], version = 7, exportSchema = false)
+@Database(entities = [Substitution::class, Food::class], version = 7, exportSchema = false)
 internal abstract class SubstDatabase : RoomDatabase() {
 
     abstract fun substDao(): SubstDao

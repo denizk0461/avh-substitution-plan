@@ -11,29 +11,33 @@ import com.denizd.substitutionplan.models.Colour
 import com.denizd.substitutionplan.R
 import com.google.android.material.card.MaterialCardView
 
-internal class ColourAdapter(private var mColours: List<Colour>, onClickListener: OnClickListener) : RecyclerView.Adapter<ColourAdapter.ColourViewHolder>() {
+/**
+ * Adapter class used for displaying the courses as well as their associated colours in the
+ * customisation dialog. Used in SettingsFragment.kt
+ *
+ * @param colours           a list of all courses and their associated colour
+ * @param onClickListener   a reference to an OnClickListener
+ */
+internal class ColourAdapter(private var colours: List<Colour>, private val onClickListener: OnClickListener) : RecyclerView.Adapter<ColourAdapter.ColourViewHolder>() {
 
-    private val mOnClickListener = onClickListener
-
-    class ColourViewHolder(view: View, clickListener: OnClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    internal class ColourViewHolder(view: View, private val clickListener: OnClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val title: TextView = view.findViewById(R.id.item_text)
         var image: ImageView = view.findViewById(R.id.item_image)
         val titleNoLang: TextView = view.findViewById(R.id.item_text_no_lang)
         val cardView: MaterialCardView = view.findViewById(R.id.cardView)
-        private val mClickListener = clickListener
         init { view.setOnClickListener(this) }
 
-        override fun onClick(v: View?) { mClickListener.onClick(adapterPosition, title.text.toString(), titleNoLang.text.toString()) }
+        override fun onClick(v: View?) { clickListener.onClick(adapterPosition, title.text.toString(), titleNoLang.text.toString()) }
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColourViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
-        return ColourViewHolder(v, mOnClickListener)
+        return ColourViewHolder(v, onClickListener)
     }
 
     override fun onBindViewHolder(holder: ColourViewHolder, position: Int) {
-        val currentItem = mColours[position]
+        val currentItem = colours[position]
 
         holder.title.text = currentItem.title
         holder.titleNoLang.text = currentItem.titleNoLang
@@ -54,7 +58,7 @@ internal class ColourAdapter(private var mColours: List<Colour>, onClickListener
         holder.title.setTextColor(ContextCompat.getColor(holder.title.context, textColor))
     }
 
-    override fun getItemCount(): Int = mColours.size
+    override fun getItemCount(): Int = colours.size
 
     internal interface OnClickListener {
         fun onClick(position: Int, title: String, titleNoLang: String)

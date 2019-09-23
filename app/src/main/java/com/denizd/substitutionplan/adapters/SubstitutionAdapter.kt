@@ -1,6 +1,7 @@
 package com.denizd.substitutionplan.adapters
 
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.text.SpannableString
@@ -16,18 +17,20 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.denizd.substitutionplan.data.HelperFunctions
 import com.denizd.substitutionplan.R
-import com.denizd.substitutionplan.models.Subst
+import com.denizd.substitutionplan.models.Substitution
 import com.google.android.material.card.MaterialCardView
 import java.util.*
 
-internal class CardAdapter(private var mSubst: List<Subst>, private val prefs: SharedPreferences) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
+/**
+ * Adapter class for the Recycler View used to display the substitution plan in
+ * PlanFragment.kt and its subclasses
+ *
+ * @param substitutions a list of all substitutions of data type Substitution
+ * @param prefs         a reference to the app's Shared Preferences used to get user-set colours
+ */
+internal class SubstitutionAdapter(private var substitutions: List<Substitution>, private val prefs: SharedPreferences) : RecyclerView.Adapter<SubstitutionAdapter.CardViewHolder>() {
 
-    private var colour = 0
-    private var colourString = ""
-    private var colorCheck = ""
-    private val cancellations = arrayOf("eigenverantwortliches arbeiten", "entfall", "entfällt", "fällt aus", "freisetzung", "vtr. ohne lehrer")
-
-    class CardViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    internal class CardViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
         var iconView: ImageView = view.findViewById(R.id.iconView)
         var group: TextView = view.findViewById(R.id.group)
@@ -38,16 +41,16 @@ internal class CardAdapter(private var mSubst: List<Subst>, private val prefs: S
         var additional: TextView = view.findViewById(R.id.additional)
         var teacher: TextView = view.findViewById(R.id.teacher)
         var spacer: TextView = view.findViewById(R.id.spacer)
-
         var card: MaterialCardView = view.findViewById(R.id.planCard)
+        val context: Context = card.context
         init { view.setOnClickListener(this) }
         override fun onClick(v: View?) {
             if (date.text.toString().length > 7 && date.text.toString().substring(3, 7) == "http") {
                 try {
-                    CustomTabsIntent.Builder().build().launchUrl(card.context,
-                            Uri.parse(date.text.toString().substring(3)))
+                    CustomTabsIntent.Builder().build().launchUrl(context,
+                            Uri.parse(date.text.substring(3)))
                 } catch (e: ActivityNotFoundException) {
-                    Toast.makeText(card.context, card.context.getString(R.string.chrome_not_found), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, context.getString(R.string.chrome_not_found), Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -59,12 +62,13 @@ internal class CardAdapter(private var mSubst: List<Subst>, private val prefs: S
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        val currentItem = mSubst[position]
+        val currentItem = substitutions[position]
         var psa = false
         val strings = arrayOf(SpannableString(currentItem.group), SpannableString(currentItem.time),
                 SpannableString(currentItem.course), SpannableString(currentItem.room),
             SpannableString(currentItem.teacher))
-        var cardBackgroundColour = 0
+        val cardBackgroundColour: Int
+        var colour = 0
 
         for (string in strings) {
             val questionMarkIndex = string.indexOf("?")
@@ -76,11 +80,11 @@ internal class CardAdapter(private var mSubst: List<Subst>, private val prefs: S
         val add = currentItem.additional.toLowerCase(Locale.ROOT)
         val type = currentItem.type.toLowerCase(Locale.ROOT)
         if (add.isNotEmpty()) {
-            if (HelperFunctions.checkStringForArray(add, cancellations)) {
+            if (HelperFunctions.checkStringForArray(add, HelperFunctions.cancellations)) {
                 strikeThrough(strings)
             }
         } else {
-            if (HelperFunctions.checkStringForArray(type, cancellations)) {
+            if (HelperFunctions.checkStringForArray(type, HelperFunctions.cancellations)) {
                 strikeThrough(strings)
             }
         }
@@ -100,7 +104,7 @@ internal class CardAdapter(private var mSubst: List<Subst>, private val prefs: S
             cardBackgroundColour = R.color.colorAccent
             View.GONE
         } else {
-            colourString = getColourString(holder.course.text.toString())
+            val colourString = HelperFunctions.getColourString(holder.course.text.toString())
             val colourPrefsInt = if (colourString.isNotEmpty()) {
                 prefs.getString("card$colourString", "") ?: ""
             } else {
@@ -150,56 +154,11 @@ internal class CardAdapter(private var mSubst: List<Subst>, private val prefs: S
         holder.teacher.setTextColor(textColor)
     }
 
-    override fun getItemCount(): Int = mSubst.size
+    override fun getItemCount(): Int = substitutions.size
 
-    fun setSubst(subst: List<Subst>) {
-        mSubst = subst
+    fun setSubst(substitutions: List<Substitution>) {
+        this.substitutions = substitutions
         notifyDataSetChanged()
-    }
-
-    private fun getColourString(course: String): String {
-        return try {
-            colorCheck = course.toLowerCase(Locale.ROOT).substring(0, 3)
-            when (colorCheck) {
-                "deu", "dep", "daz", "fda" -> "German"
-                "mat", "map" -> "Maths"
-                "eng", "enp", "ena" -> "English"
-                "spo", "spp", "spth" -> "PhysEd"
-                "pol", "pop" -> "Politics"
-                "dar", "dap" -> "Theatre"
-                "phy", "php" -> "Physics"
-                "bio", "bip", "nw1", "nw2", "nw3", "nw4" -> "Biology"
-                "che", "chp" -> "Chemistry"
-                "phi", "psp" -> "Philosophy"
-                "laa", "laf", "lat" -> "Latin"
-                "spa", "spf" -> "Spanish"
-                "fra", "frf", "frz" -> "French"
-                "inf" -> "CompSci"
-                "ges" -> "History"
-                "rel" -> "Religion"
-                "geg" -> "Geography"
-                "kun" -> "Arts"
-                "mus" -> "Music"
-                "tue" -> "Turkish"
-                "chi" -> "Chinese"
-                "gll" -> "GLL"
-                "wat" -> "WAT"
-                "för" -> "Forder"
-                "met", "wpb" -> "WP"
-                else -> ""
-            }
-        } catch (e: StringIndexOutOfBoundsException) {
-            try {
-                colorCheck = course.toLowerCase(Locale.ROOT).substring(0, 2)
-                when (colorCheck) {
-                    "nw" -> "Biology"
-                    "wp" -> "WP"
-                    else -> ""
-                }
-            } catch (e2: StringIndexOutOfBoundsException) {
-                ""
-            }
-        }
     }
 
     private fun strikeThrough(strings: Array<SpannableString>) {

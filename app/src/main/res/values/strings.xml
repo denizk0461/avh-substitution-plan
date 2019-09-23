@@ -10,7 +10,6 @@
     <string name="personal">Personal</string>
     <string name="settings">Settings</string>
 
-    <!-- for Settings fragment -->
     <string name="enable_course_notifications_title">Enable course notifications</string>
     <string name="enable_course_notifications_desc">This does not affect broadcasts</string>
 
@@ -39,7 +38,7 @@
     <string name="greeting_title">Enable greeting</string>
     <string name="greeting_desc">If you want me to be nice :)</string>
 
-    <string name="licences_title">Licences and contributors</string>
+    <string name="licences_title">Licences &amp; contributors</string>
     <string name="licences_desc">What went into making this app</string>
     <string name="version">Version Number</string>
 
@@ -59,7 +58,7 @@
     <string name="courses_help_dialog_title">How to enter your courses</string>
     <string name="courses_help_dialog_text">You need to enter the course abbreviation for every course you want in your personal plan and want to be notified about. You can find them on your time table.\n\nHere\'s a few examples:\n\nMathematics in 5th grade (juniors) would be MAT.\n\nAdvanced English in E-Phase (seniors) for the English profile may be ENP1.\n\nBasic Biology in Q1 could be bio1.\n\nIn most cases, entering courses while in junior phase is redundant.\nSeparate multiple courses by spaces, commas are optional.\nCapitalisation is required.</string>
     <string name="experimental_menu_dialog_title">Experimental Menu</string>
-    <string name="diagnostics_dialog_title">Diagnostics Menu</string>
+    <string name="statistics_dialog_title">Statistics Menu</string>
     <string name="experimental_menu_dialog_text">This menu is currently intended for testing only. Additional features may be added in the future. Feel free to try arbitrary codes.</string>
     <string name="apply">Apply</string>
     <string name="invalid_code">Invalid code</string>

@@ -5,39 +5,38 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 
-import java.util.ArrayList
 import androidx.recyclerview.widget.RecyclerView
 import com.denizd.substitutionplan.models.Food
 import com.denizd.substitutionplan.R
 
-internal class FoodAdapter(food: ArrayList<Food>) : RecyclerView.Adapter<FoodAdapter.CardViewHolder>() {
-    private var mFood: List<Food>? = null
+/**
+ * Adapter class used in FoodFragment.kt to display the food menu to the user
+ *
+ * @param foods     a list of all food entries on the menu
+ */
+internal class FoodAdapter(private var foods: List<Food>) : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
 
-    class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var mFood: TextView = itemView.findViewById(R.id.cardInfoText)
+    internal class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var text: TextView = itemView.findViewById(R.id.cardInfoText)
     }
 
-    init {
-        mFood = food
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.just_a_card, parent, false)
-        return CardViewHolder(v)
+        return FoodViewHolder(v)
     }
 
-    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        val currentItem = mFood!![position]
+    override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
+        val currentItem = foods[position]
 
-        holder.mFood.text = currentItem.food
+        holder.text.text = currentItem.food
     }
 
     override fun getItemCount(): Int {
-        return mFood!!.size
+        return foods.size
     }
 
-    fun setFood(food: List<Food>) {
-        mFood = food
+    fun setFood(foods: List<Food>) {
+        this.foods = foods
         notifyDataSetChanged()
     }
 }

@@ -33,7 +33,7 @@
     <string name="setup_successful">Viel Spaß!</string>
     <string name="greeting_title">Aktiviere Begrüßungen</string>
     <string name="greeting_desc">Falls du möchtest, dass ich nett bin :)</string>
-    <string name="licences_title">Lizenzen und Mitwirkende</string>
+    <string name="licences_title">Lizenzen &amp; Mitwirkende</string>
     <string name="licences_desc">Was die App ausmacht (Englisch)</string>
     <string name="version">Versionsnummer</string>
     <string name="privacy_policy_title">Datenschutzerklärung</string>
@@ -52,7 +52,7 @@
     <string name="apply">Anwenden</string>
     <string name="invalid_code">Ungültiger Code</string>
     <string name="experimental_menu_dialog_title">Experimentalmenü</string>
-    <string name="diagnostics_dialog_title">Diagnosemenü</string>
+    <string name="statistics_dialog_title">Statistikmenü</string>
     <string name="enable_course_notifications">Kursbenachrichtigungen aktivieren</string>
     <string name="no_personal_substitutions">Kein Entfall für dich</string>
     <string name="customise_colours_title">Benutzerdefinierte Farben</string>

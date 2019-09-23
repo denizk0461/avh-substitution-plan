@@ -188,69 +188,6 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         }
     }
 
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.chipHelpCourses -> createDialog(getString(R.string.courses_help_dialog_title), getString(R.string.courses_help_dialog_text))
-            R.id.chipHelpClasses -> createDialog(getString(R.string.grade_help_dialog_title), getString(
-                R.string.grade_help_dialog_text
-            ))
-            R.id.btnCustomiseColours -> createColourDialog()
-            R.id.btnNoNotif -> createDialog(mContext.getString(R.string.no_notifications_title), mContext.getString(R.string.no_notifications_dialog_text))
-            R.id.btnCustomiseRingtone -> createRingtoneDialog()
-            R.id.btnWebsite -> {
-                try {
-                    customTabsIntent.launchUrl(mContext, Uri.parse("http://307.joomla.schule.bremen.de"))
-                } catch (e: ActivityNotFoundException) {
-                    makeToast(getString(R.string.chrome_not_found))
-                }
-            }
-            R.id.btnLicences -> {
-                createDialog(mContext.getString(R.string.licences_title), licences)
-            }
-            R.id.btnTerms -> {
-                createDialog("Terms & Conditions", termsAndConditions)
-            }
-            R.id.btnPrivacyP -> {
-                createDialog("Privacy Policy", privacyPolicy)
-            }
-            R.id.btnForceRefresh -> {
-                DataFetcher(
-                    isPlan = true,
-                    isMenu = true,
-                    isJobService = false,
-                    context = mContext,
-                    application = activity!!.application,
-                    parentView = view!!.rootView,
-                    forced = true
-                ).execute()
-            }
-        }
-    }
-
-    override fun onCheckedChanged(v: CompoundButton?, isChecked: Boolean) {
-        if (v?.isPressed == true) {
-            when (v.id) {
-                R.id.switchDisableGreeting -> {
-                    prefs.edit().putBoolean("greeting", isChecked).apply()
-                }
-                R.id.switchNotifications -> {
-                    prefs.edit().putBoolean("notif", isChecked).apply()
-                    if (isChecked) {
-                        subscribeToTopic(Topic.ANDROID)
-                    } else {
-                        unsubscribeFromTopic(Topic.ANDROID)
-                    }
-                }
-                R.id.switchDefaultPlan -> {
-                    prefs.edit().putBoolean("defaultPersonalised", isChecked).apply()
-                }
-                R.id.switchAutoRefresh -> {
-                    prefs.edit().putBoolean("autoRefresh", isChecked).apply()
-                }
-            }
-        }
-    }
-
     private fun createDialog(title: String, text: String) {
         val alertDialog = AlertDialog.Builder(mContext,
             R.style.AlertDialog
@@ -262,7 +199,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
     }
 
     private fun createColourDialog() {
-        val colourCustomiserBuilder = AlertDialog.Builder(mContext, R.style.AlertDialog)
+        val colourCustomisationDialogBuilder = AlertDialog.Builder(mContext, R.style.AlertDialog)
 
         val dialogView = View.inflate(mContext, R.layout.recycler_dialog, null)
         val titleText = dialogView.findViewById<TextView>(R.id.empty_textviewtitle)
@@ -273,9 +210,9 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
             layoutManager = GridLayoutManager(mContext, 1)
             adapter = ColourAdapter(getColourList(), this@SettingsFragment)
         }
-        colourCustomiserBuilder.setView(dialogView)
-        val colourCustomiserDialog = colourCustomiserBuilder.create()
-        colourCustomiserDialog.show()
+        colourCustomisationDialogBuilder.setView(dialogView)
+        val colourCustomisationDialog = colourCustomisationDialogBuilder.create()
+        colourCustomisationDialog.show()
     }
 
     private fun getColourList(): ArrayList<Colour> {
@@ -371,15 +308,6 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         return alarms
     }
 
-    override fun onRingtoneClick(position: Int, name: String, uri: String) {
-        prefs.edit().apply {
-            putString("ringtoneName", name)
-            putString("ringtoneUri", uri)
-        }.apply()
-        setRingtoneText()
-        ringtoneCustomiserDialog.dismiss()
-    }
-
     private fun setRingtoneText() {
         currentRingtone.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mContext.getString(R.string.pick_ringtone_desc_o)
@@ -391,36 +319,6 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
             }
             mContext.getString(R.string.pick_ringtone_desc, tone)
         }
-    }
-
-    override fun onClick(position: Int, title: String, titleNoLang: String) {
-        val colourPickerBuilder = AlertDialog.Builder(mContext, R.style.AlertDialog)
-        val pickerDialogView = View.inflate(mContext, R.layout.empty_dialog, null)
-        val pickerTitleText = pickerDialogView.findViewById<TextView>(R.id.empty_textviewtitle)
-        val pickerLayout = pickerDialogView.findViewById<LinearLayout>(R.id.empty_linearlayout)
-        pickerTitleText.text = title
-
-        val picker = View.inflate(mContext, R.layout.bg_colour_picker, null)
-        pickerLayout.addView(picker)
-        colourPickerBuilder.setView(pickerDialogView)
-        val colourPickerDialog: AlertDialog = colourPickerBuilder.create()
-
-        val buttons = intArrayOf(R.id.def, R.id.red, R.id.orange, R.id.yellow, R.id.green,
-            R.id.teal, R.id.cyan, R.id.blue, R.id.purple, R.id.pink, R.id.brown, R.id.grey,
-            R.id.pureWhite, R.id.salmon, R.id.tangerine, R.id.banana, R.id.flora, R.id.spindrift,
-            R.id.sky, R.id.orchid, R.id.lavender, R.id.carnation, R.id.brown2, R.id.pureBlack)
-        val colours = HelperFunctions.colourNames
-
-        for (i2 in buttons.indices) {
-            picker.findViewById<MaterialButton>(buttons[i2]).setOnClickListener {
-                prefs.edit().putString("card$titleNoLang", colours[i2]).apply()
-                val recyclerViewState = colourRecycler.layoutManager?.onSaveInstanceState()
-                colourRecycler.adapter = ColourAdapter(getColourList(), this)
-                colourRecycler.layoutManager?.onRestoreInstanceState(recyclerViewState)
-                colourPickerDialog.dismiss()
-            }
-        }
-        colourPickerDialog.show()
     }
 
     private fun debugMenu(): Boolean {
@@ -437,16 +335,14 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         )
         dialogButton.setOnClickListener {
             when (dialogEditText.text.toString()) {
-                "_DIAGNOSTICS" -> {
+                "_STATISTICS" -> {
                     val alertDialogDev = AlertDialog.Builder(mContext, R.style.AlertDialog)
                     val devDialogView = View.inflate(mContext, R.layout.diagnostics_dialog, null)
                     val devDialogText = devDialogView.findViewById<TextView>(R.id.dialogtext)
                     val resetLaunchBtn = devDialogView.findViewById<Button>(R.id.btnResetLaunch)
                     val resetNotificationBtn = devDialogView.findViewById<Button>(R.id.btnResetNotif)
 
-                    devDialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(
-                        R.string.diagnostics_dialog_title
-                    )
+                    devDialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.statistics_dialog_title)
                     devDialogText.text = getDiagnosticsText()
 
                     resetLaunchBtn.setOnClickListener {
@@ -462,14 +358,18 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
                     alertDialogDev.setView(devDialogView)
                     alertDialogDev.show()
                 }
-                "2018-04-20" -> {
+                "2019-06-06" -> {
                     try {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=Jc2xfYuLWgE")) // Freak
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=Jc2xfYuLWgE")) // 'Freak'
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).setPackage("com.google.android.youtube")
                         startActivity(intent)
                     } catch (e: ActivityNotFoundException) {
                         makeToast(getString(R.string.youtube_not_found))
                     }
+                }
+                "_LOGIN" -> {
+                    prefs.edit().putBoolean("successful_login", false).apply()
+                    makeToast("Login flag cleared")
                 }
                 "_FIRSTTIME" -> {
                     prefs.edit().putBoolean("firstTime", true).apply()
@@ -530,6 +430,115 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
 
     private fun subscribeToTopic(topic: Topic) = FirebaseMessaging.getInstance().subscribeToTopic(topic.tag)
     private fun unsubscribeFromTopic(topic: Topic) = FirebaseMessaging.getInstance().unsubscribeFromTopic(topic.tag)
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.chipHelpCourses -> createDialog(getString(R.string.courses_help_dialog_title), getString(R.string.courses_help_dialog_text))
+            R.id.chipHelpClasses -> createDialog(getString(R.string.grade_help_dialog_title), getString(
+                R.string.grade_help_dialog_text
+            ))
+            R.id.btnCustomiseColours -> createColourDialog()
+            R.id.btnNoNotif -> createDialog(mContext.getString(R.string.no_notifications_title), mContext.getString(R.string.no_notifications_dialog_text))
+            R.id.btnCustomiseRingtone -> createRingtoneDialog()
+            R.id.btnWebsite -> {
+                try {
+                    customTabsIntent.launchUrl(mContext, Uri.parse("http://307.joomla.schule.bremen.de"))
+                } catch (e: ActivityNotFoundException) {
+                    makeToast(getString(R.string.chrome_not_found))
+                }
+            }
+            R.id.btnLicences -> {
+                createDialog(mContext.getString(R.string.licences_title), licences)
+            }
+            R.id.btnTerms -> {
+                createDialog("Terms & Conditions", termsAndConditions)
+            }
+            R.id.btnPrivacyP -> {
+                createDialog("Privacy Policy", privacyPolicy)
+            }
+            R.id.btnForceRefresh -> {
+                DataFetcher(
+                    isPlan = true,
+                    isMenu = true,
+                    isJobService = false,
+                    context = mContext,
+                    application = activity!!.application,
+                    parentView = view!!.rootView,
+                    forced = true
+                ).execute()
+            }
+        }
+    }
+
+    override fun onRingtoneClick(position: Int, name: String, uri: String) {
+        prefs.edit().apply {
+            putString("ringtoneName", name)
+            putString("ringtoneUri", uri)
+        }.apply()
+        setRingtoneText()
+        ringtoneCustomiserDialog.dismiss()
+    }
+
+    /**
+     * OnClick method for colour customisation dialog
+     * @param position      the position of the clicked item
+     * @param title         the title of the clicked course
+     * @param titleNoLang   the language-independent string used for storing the course's colour in
+     *                      Shared Preferences
+     */
+    override fun onClick(position: Int, title: String, titleNoLang: String) {
+        val colourPickerBuilder = AlertDialog.Builder(mContext, R.style.AlertDialog)
+        val pickerDialogView = View.inflate(mContext, R.layout.empty_dialog, null)
+        val pickerTitleText = pickerDialogView.findViewById<TextView>(R.id.empty_textviewtitle)
+        val pickerLayout = pickerDialogView.findViewById<LinearLayout>(R.id.empty_linearlayout)
+        pickerTitleText.text = title
+
+        val picker = View.inflate(mContext, R.layout.bg_colour_picker, null)
+        pickerLayout.addView(picker)
+        colourPickerBuilder.setView(pickerDialogView)
+        val colourPickerDialog: AlertDialog = colourPickerBuilder.create()
+
+        val buttons = intArrayOf(R.id.def, R.id.red, R.id.orange, R.id.yellow, R.id.green,
+            R.id.teal, R.id.cyan, R.id.blue, R.id.purple, R.id.pink, R.id.brown, R.id.grey,
+            R.id.pureWhite, R.id.salmon, R.id.tangerine, R.id.banana, R.id.flora, R.id.spindrift,
+            R.id.sky, R.id.orchid, R.id.lavender, R.id.carnation, R.id.brown2, R.id.pureBlack)
+        val colours = HelperFunctions.colourNames
+
+        for (i2 in buttons.indices) {
+            picker.findViewById<MaterialButton>(buttons[i2]).setOnClickListener {
+                prefs.edit().putString("card$titleNoLang", colours[i2]).apply()
+                val recyclerViewState = colourRecycler.layoutManager?.onSaveInstanceState()
+                colourRecycler.adapter = ColourAdapter(getColourList(), this)
+                colourRecycler.layoutManager?.onRestoreInstanceState(recyclerViewState)
+                colourPickerDialog.dismiss()
+            }
+        }
+        colourPickerDialog.show()
+    }
+
+    override fun onCheckedChanged(v: CompoundButton?, isChecked: Boolean) {
+        if (v?.isPressed == true) {
+            when (v.id) {
+                R.id.switchDisableGreeting -> {
+                    prefs.edit().putBoolean("greeting", isChecked).apply()
+                }
+                R.id.switchNotifications -> {
+                    prefs.edit().putBoolean("notif", isChecked).apply()
+                    if (isChecked) {
+                        subscribeToTopic(Topic.ANDROID)
+                    } else {
+                        unsubscribeFromTopic(Topic.ANDROID)
+                    }
+                }
+                R.id.switchDefaultPlan -> {
+                    prefs.edit().putBoolean("defaultPersonalised", isChecked).apply()
+                }
+                R.id.switchAutoRefresh -> {
+                    prefs.edit().putBoolean("autoRefresh", isChecked).apply()
+                }
+            }
+        }
+    }
 
     private val licences = "Libraries:" +
             "\n • jsoup HTML parser © 2009-2018 Jonathan Hedley, licensed under the open source MIT Licence" +

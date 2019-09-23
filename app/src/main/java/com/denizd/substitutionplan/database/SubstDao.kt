@@ -3,23 +3,23 @@ package com.denizd.substitutionplan.database
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.denizd.substitutionplan.models.Food
-import com.denizd.substitutionplan.models.Subst
+import com.denizd.substitutionplan.models.Substitution
 
 @Dao
 internal interface SubstDao {
 
 //    @get:Query("SELECT * FROM subst_table ORDER BY date ASC, `group` ASC, time ASC, priority DESC")
     @get:Query("SELECT * FROM subst_table ORDER BY priority DESC")
-    val allSubst: LiveData<List<Subst>>
+    val allSubstitutions: LiveData<List<Substitution>>
 
     @Insert
-    fun insertSubst(subst: Subst)
+    fun insertSubst(substitution: Substitution)
 
     @Update
-    fun updateSubst(subst: Subst)
+    fun updateSubst(substitution: Substitution)
 
     @Delete
-    fun deleteSubst(subst: Subst)
+    fun deleteSubst(substitution: Substitution)
 
     @Query("DELETE FROM subst_table")
     fun deleteAllSubst()

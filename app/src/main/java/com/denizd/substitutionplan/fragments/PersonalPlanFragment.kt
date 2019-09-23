@@ -5,7 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.denizd.substitutionplan.data.HelperFunctions
 import com.denizd.substitutionplan.R
-import com.denizd.substitutionplan.models.Subst
+import com.denizd.substitutionplan.models.Substitution
 
 internal class PersonalPlanFragment : PlanFragment() {
 
@@ -19,7 +19,7 @@ internal class PersonalPlanFragment : PlanFragment() {
         val coursePreference = prefs.getString("courses", "") ?: ""
         val classPreference = prefs.getString("classes", "") ?: ""
 
-        substViewModel.allSubst?.observe(this, Observer<List<Subst>> { substitutions ->
+        substViewModel.allSubstitutions?.observe(this, Observer<List<Substitution>> { substitutions ->
             planCardList.clear()
             personalPlanEmptyEmoticon.visibility = View.GONE
             personalPlanEmptyText.visibility = View.GONE

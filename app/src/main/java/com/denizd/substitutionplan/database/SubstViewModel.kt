@@ -6,16 +6,16 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.denizd.substitutionplan.data.DataFetcher
-import com.denizd.substitutionplan.models.Subst
+import com.denizd.substitutionplan.models.Substitution
 
 internal class SubstViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: SubstRepository = SubstRepository(application)
-    val allSubst: LiveData<List<Subst>>?
+    val allSubstitutions: LiveData<List<Substitution>>?
     private val app = application
 
     init {
-        allSubst = repository.allSubst
+        allSubstitutions = repository.allSubstitutions
     }
 
     fun refresh(swipeRefreshLayout: SwipeRefreshLayout, rootView: View, refreshMenu: Boolean) {

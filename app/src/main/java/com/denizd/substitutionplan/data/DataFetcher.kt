@@ -18,7 +18,7 @@ import com.denizd.substitutionplan.R
 import com.denizd.substitutionplan.database.SubstRepository
 import com.denizd.substitutionplan.activities.Main
 import com.denizd.substitutionplan.models.Food
-import com.denizd.substitutionplan.models.Subst
+import com.denizd.substitutionplan.models.Substitution
 import com.google.android.material.snackbar.Snackbar
 import org.jsoup.Jsoup
 import java.lang.ref.WeakReference
@@ -57,7 +57,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
     private val edit = prefs.edit()
     private var currentTime = ""
     private var currentFoodTime = ""
-    private var substUrl = "https://djd4rkn355.github.io/subst.html"
+    private var substUrl = "https://djd4rkn355.github.io/avh_substitutions.html"
     private var foodUrl = "https://djd4rkn355.github.io/food.html"
 
     override fun doInBackground(vararg params: Void?): Void? {
@@ -149,7 +149,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
         if (currentTime != prefs.getString("timeNew", "")) {
             val rows = doc.select("tr")
             val paragraphs = doc.select("p")
-            val substArray = ArrayList<Subst>()
+            val substArray = ArrayList<Substitution>()
 
             val coursePreference = prefs.getString("courses", "") ?: ""
             val classPreference = prefs.getString("classes", "") ?: ""
@@ -169,7 +169,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
                 val row = rows[i]
                 val cols = row.select("th")
 
-                val subst = Subst(
+                val subst = Substitution(
                     group = cols[0].text(),
                     date = cols[1].text(),
                     time = cols[2].text(),
@@ -237,10 +237,11 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
             val notification = NotificationCompat.Builder(context, HelperFunctions.notificationChannelId)
                 .setStyle(NotificationCompat.DecoratedCustomViewStyle())
                 .setCustomContentView(notificationLayout)
-                .setSmallIcon(R.drawable.ic_avhlogo)
                 .setContentIntent(openAppPending)
                 .setAutoCancel(true)
                 .setColor(ContextCompat.getColor(context, R.color.colorAccent))
+
+            notification.setSmallIcon(if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) R.drawable.ic_avh else R.drawable.ic_avhlogo)
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
                 val sound = if ((prefs.getString("ringtoneUri", "") ?: "").isNotEmpty()) {
