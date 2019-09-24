@@ -9,7 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.denizd.substitutionplan.models.Food
 import com.denizd.substitutionplan.models.Substitution
 
-@Database(entities = [Substitution::class, Food::class], version = 8, exportSchema = false)
+@Database(entities = [Substitution::class, Food::class], version = 9, exportSchema = false)
 internal abstract class SubstDatabase : RoomDatabase() {
 
     abstract fun substDao(): SubstDao
@@ -32,6 +32,11 @@ internal abstract class SubstDatabase : RoomDatabase() {
                 database.execSQL("ALTER TABLE subst_table ADD COLUMN date_priority INTEGER NOT NULL DEFAULT 0")
             }
         }
+        private val addWebsitePriorityColumn = object : Migration(8, 9) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE subst_table ADD COLUMN website_priority INTEGER NOT NULL DEFAULT 0")
+            }
+        }
 
         fun getInstance(context: Context): SubstDatabase? {
             if (instance == null) {
@@ -39,7 +44,7 @@ internal abstract class SubstDatabase : RoomDatabase() {
                     instance = Room.databaseBuilder(context.applicationContext,
                         SubstDatabase::class.java,
                         "subst_database")
-                        .addMigrations(addTeacherColumn, addTypeColumn, addDatePriorityColumn)
+                        .addMigrations(addTeacherColumn, addTypeColumn, addDatePriorityColumn, addWebsitePriorityColumn)
                         .fallbackToDestructiveMigration()
                         .build()
                 }

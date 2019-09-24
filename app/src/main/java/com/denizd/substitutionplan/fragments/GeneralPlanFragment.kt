@@ -10,7 +10,7 @@ internal class GeneralPlanFragment : PlanFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        substViewModel.allSubstitutions?.observe(this, Observer<List<Substitution>> { substitutions ->
+        substitutionPlan?.observe(this, Observer<List<Substitution>> { substitutions ->
             mAdapter.setSubst(substitutions)
             recyclerView.scheduleLayoutAnimation()
         })

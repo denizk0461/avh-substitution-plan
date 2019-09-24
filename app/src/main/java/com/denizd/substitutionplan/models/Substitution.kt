@@ -14,7 +14,8 @@ internal data class Substitution(
     val teacher: String,
     val type: String,
     val priority: Int,
-    val date_priority: Int
+    val date_priority: Int,
+    val website_priority: Int
 ) {
 
     @PrimaryKey(autoGenerate = true)

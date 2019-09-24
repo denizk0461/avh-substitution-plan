@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,18 +22,19 @@ import com.denizd.substitutionplan.models.Substitution
 import kotlin.collections.ArrayList
 
 internal open class PlanFragment : Fragment(R.layout.plan) {
-    lateinit var recyclerView: RecyclerView
-    lateinit var mAdapter: SubstitutionAdapter
-    var planCardList = ArrayList<Substitution>()
-    lateinit var substViewModel: SubstViewModel
+    internal lateinit var recyclerView: RecyclerView
+    internal lateinit var mAdapter: SubstitutionAdapter
+    internal var planCardList = ArrayList<Substitution>()
+    private lateinit var substViewModel: SubstViewModel
     private lateinit var mContext: Context
-    lateinit var prefs: SharedPreferences
+    internal lateinit var prefs: SharedPreferences
 
-    lateinit var personalPlanEmptyEmoticon: TextView
-    lateinit var personalPlanEmptyText: TextView
-    lateinit var personalPlanEmptyLayout: LinearLayout
-    var isPersonalPlanEmpty: Boolean = true
-    val handler = Handler()
+    internal lateinit var personalPlanEmptyEmoticon: TextView
+    internal lateinit var personalPlanEmptyText: TextView
+    internal lateinit var personalPlanEmptyLayout: LinearLayout
+    internal var isPersonalPlanEmpty: Boolean = true
+    internal val handler = Handler()
+    internal var substitutionPlan: LiveData<List<Substitution>>? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -48,6 +50,11 @@ internal open class PlanFragment : Fragment(R.layout.plan) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         substViewModel = ViewModelProviders.of(this).get(SubstViewModel::class.java)
+        substitutionPlan = if (prefs.getBoolean("app_specific_sorting", true)) {
+            substViewModel.allSubstitutionsSorted
+        } else {
+            substViewModel.allSubstitutionsOriginal
+        }
 
         val pullToRefresh = view.findViewById<SwipeRefreshLayout>(R.id.pullToRefresh)
         recyclerView = view.findViewById(R.id.linearRecycler)

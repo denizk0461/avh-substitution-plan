@@ -58,6 +58,7 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
     private var currentFoodTime = ""
     private var substUrl = "https://djd4rkn355.github.io/avh_substitutions.html"
     private var foodUrl = "https://djd4rkn355.github.io/food.html"
+    private var websitePriority = 0
 
     override fun doInBackground(vararg params: Void?): Void? {
         try {
@@ -181,10 +182,12 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
                     teacher = cols[6].text(),
                     type = cols[7].text(),
                     priority = HelperFunctions.assignRanking(group, date.substring(0, 3) == "psa"),
-                    date_priority = HelperFunctions.assignDatePriority(date)
+                    date_priority = HelperFunctions.assignDatePriority(date),
+                    website_priority = websitePriority
                 )
                 substArray.add(subst)
                 substRepo.insert(subst)
+                websitePriority += 1
             }
             var countOfNotificationItems = 0
             var countOfMoreNotificationItems = 0

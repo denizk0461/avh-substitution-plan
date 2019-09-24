@@ -86,6 +86,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         autoRefreshSwitch.setOnCheckedChangeListener(this)
         helpCoursesButton.setOnClickListener(this)
         helpGradeButton.setOnClickListener(this)
+        view.findViewById<ImageButton>(R.id.chip_help_ordering).setOnClickListener(this)
         colourCustomisationButton.setOnClickListener(this)
         view.findViewById<LinearLayout>(R.id.btnNoNotif).setOnClickListener(this)
         view.findViewById<LinearLayout>(R.id.btnCustomiseRingtone).setOnClickListener(this)
@@ -146,6 +147,23 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
             } else {
                 bottomNav.selectedItemId = R.id.plan
             }
+        }
+
+        val orderingDropDownText = view.findViewById<AutoCompleteTextView>(R.id.order_drop_down_text)
+
+        val orderingArrayAdapter = ArrayAdapter.createFromResource(
+            mContext,
+            R.array.ordering_systems,
+            R.layout.dropdown_item
+        )
+        orderingArrayAdapter.setDropDownViewResource(R.layout.dropdown_item)
+        orderingDropDownText.setAdapter(orderingArrayAdapter)
+
+        val selectedOrderingOption = if (prefs.getBoolean("app_specific_sorting", true)) 0 else 1
+        orderingDropDownText.setText(orderingDropDownText.adapter.getItem(selectedOrderingOption).toString(), false)
+
+        orderingDropDownText.setOnItemClickListener { _, _, position, _ ->
+            prefs.edit().putBoolean("app_specific_sorting", position == 0).apply()
         }
 
         greetingSwitch.isChecked = prefs.getBoolean("greeting", true)
@@ -437,6 +455,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
             R.id.chipHelpClasses -> createDialog(getString(R.string.grade_help_dialog_title), getString(
                 R.string.grade_help_dialog_text
             ))
+            R.id.chip_help_ordering -> createDialog(getString(R.string.ordering_systems_dialog_title), getString(R.string.ordering_systems_dialog_text))
             R.id.btnCustomiseColours -> createColourDialog()
             R.id.btnNoNotif -> createDialog(mContext.getString(R.string.no_notifications_title), mContext.getString(R.string.no_notifications_dialog_text))
             R.id.btnCustomiseRingtone -> createRingtoneDialog()

@@ -363,7 +363,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
                         android:hint="@string/courses"
                         android:importantForAutofill="no"
                         android:textColorHint="@color/colorHint"
@@ -371,7 +370,6 @@
                         app:boxStrokeWidth="1dp"
                         app:layout_constraintStart_toStartOf="@+id/txtLayoutClasses"
                         app:layout_constraintTop_toBottomOf="@+id/txtLayoutClasses"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/chipHelpCourses">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -400,6 +398,42 @@
                         app:layout_constraintBottom_toBottomOf="@+id/txtLayoutCourses"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/txtLayoutCourses" />
+
+                    <com.google.android.material.textfield.TextInputLayout android:id="@+id/order_drop_down"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/chip_help_ordering"
+                        app:layout_constraintTop_toBottomOf="@+id/txtLayoutCourses">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/order_drop_down_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:editable="false"
+                            android:hint="@string/ordering_system_hint"
+                            android:textColor="@color/colorText"
+                            android:textSize="14sp"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageButton
+                        android:id="@+id/chip_help_ordering"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/ic_qmark"
+                        android:tint="@color/colorText"
+                        android:backgroundTint="@android:color/transparent"
+                        app:layout_constraintBottom_toBottomOf="@+id/order_drop_down"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/order_drop_down" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

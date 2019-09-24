@@ -19,7 +19,7 @@ internal class PersonalPlanFragment : PlanFragment() {
         val coursePreference = prefs.getString("courses", "") ?: ""
         val classPreference = prefs.getString("classes", "") ?: ""
 
-        substViewModel.allSubstitutions?.observe(this, Observer<List<Substitution>> { substitutions ->
+        substitutionPlan?.observe(this, Observer<List<Substitution>> { substitutions ->
             planCardList.clear()
             personalPlanEmptyEmoticon.visibility = View.GONE
             personalPlanEmptyText.visibility = View.GONE

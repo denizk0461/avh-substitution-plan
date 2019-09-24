@@ -11,11 +11,13 @@ import com.denizd.substitutionplan.models.Substitution
 internal class SubstViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: SubstRepository = SubstRepository(application)
-    val allSubstitutions: LiveData<List<Substitution>>?
+    val allSubstitutionsSorted: LiveData<List<Substitution>>?
+    val allSubstitutionsOriginal: LiveData<List<Substitution>>?
     private val app = application
 
     init {
-        allSubstitutions = repository.allSubstitutions
+        allSubstitutionsSorted = repository.allSubstitutionsSorted
+        allSubstitutionsOriginal = repository.allSubstitutionsOriginal
     }
 
     fun refresh(swipeRefreshLayout: SwipeRefreshLayout, rootView: View, refreshMenu: Boolean) {
