@@ -321,7 +321,6 @@ internal object HelperFunctions {
      * @return the ranking as an integer
      */
     fun assignRanking(group: String, isPSA: Boolean): Int {
-        val juniors = arrayOf("5", "6", "7", "8", "9")
         if (isPSA) return -31
         return try {
             when {
@@ -333,6 +332,9 @@ internal object HelperFunctions {
                 else -> -29
             }
         } catch (e: StringIndexOutOfBoundsException) {
+            0
+        } catch (e: Exception) {
+            e.printStackTrace()
             0
         }
     }
