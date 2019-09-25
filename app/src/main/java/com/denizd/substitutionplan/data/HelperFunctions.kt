@@ -52,6 +52,8 @@ internal object HelperFunctions {
      */
     val cancellations = arrayOf("eigenverantwortliches arbeiten", "entfall", "entfällt", "fällt aus", "freisetzung", "vtr. ohne lehrer")
 
+    private val juniors = arrayOf("5", "6", "7", "8", "9")
+
     private val colourIntegers = intArrayOf(
         0,
         R.color.bgRed,
@@ -256,7 +258,7 @@ internal object HelperFunctions {
     /**
      * This function is used throughout some classes to set the theme according to the device's
      * Android version before an app theme may be picked in the settings. As Main.kt as well as
-     * SettingsFragment.kt are only accessible after the inital setup and serve slightly
+     * SettingsFragment.kt are only accessible after the initial setup and serve slightly
      * different purposes, they use their own implementations
      */
     fun setTheme(window: Window, context: Context) {
@@ -278,7 +280,7 @@ internal object HelperFunctions {
     }
 
     /**
-     * Returns the notification channel that is reponsible for handling substitution notifications
+     * Returns the notification channel that is responsible for handling substitution notifications
      * on Android Oreo and above. If it does not exist, this function creates it
      *
      * @param context               the context used for gathering the notification system service
@@ -331,10 +333,7 @@ internal object HelperFunctions {
                 }
                 else -> -29
             }
-        } catch (e: StringIndexOutOfBoundsException) {
-            0
         } catch (e: Exception) {
-            e.printStackTrace()
             0
         }
     }
