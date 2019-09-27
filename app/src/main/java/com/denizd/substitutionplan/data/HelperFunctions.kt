@@ -323,15 +323,15 @@ internal object HelperFunctions {
      * @return the ranking as an integer
      */
     fun assignRanking(group: String, isPSA: Boolean): Int {
-        if (isPSA) return -31
+        if (isPSA) return -102
         return try {
             when {
-                checkStringForArray(group.substring(0, 1), juniors) -> -30
-                group.substring(0, 1) == "1" || group.substring(0, 1) == "2" -> {
-                    val a = group.substring(1, 2).toInt()
-                    a - (a * 2)
+                group.substring(0, 2).toIntOrNull() != null -> {
+                    val a = group.substring(0, 2).toInt()
+                    -a
                 }
-                else -> -29
+                checkStringForArray(group.substring(0, 1), juniors) -> -101
+                else -> -100
             }
         } catch (e: Exception) {
             0

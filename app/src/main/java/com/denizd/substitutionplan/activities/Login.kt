@@ -18,11 +18,13 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.denizd.substitutionplan.R
 import com.denizd.substitutionplan.data.HelperFunctions
 import com.denizd.substitutionplan.data.LoginWebViewClient
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import kotlin.math.hypot
 
 /**
@@ -34,11 +36,13 @@ internal class Login : AppCompatActivity(R.layout.activity_login_webview), Login
     private lateinit var prefs: SharedPreferences
     private lateinit var parentLayout: ConstraintLayout
     private lateinit var logInButton: ExtendedFloatingActionButton
+    private lateinit var snackBarLayout: CoordinatorLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme0)
         parentLayout = findViewById(R.id.constraintLayout)
+        snackBarLayout = findViewById(R.id.snackBarLayout)
         parentLayout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         val title = findViewById<TextView>(R.id.txtWelcome)
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
@@ -65,6 +69,8 @@ internal class Login : AppCompatActivity(R.layout.activity_login_webview), Login
     override fun onLoginSucceeded(success: Boolean) {
         if (success) {
             success()
+        } else {
+            Snackbar.make(snackBarLayout, getString(R.string.error_please_try_again), Snackbar.LENGTH_LONG).show()
         }
     }
 

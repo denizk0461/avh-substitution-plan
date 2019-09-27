@@ -15,6 +15,10 @@ import java.lang.IllegalStateException
  */
 internal class LoginWebViewClient(private val successListener: OnLoginSuccessListener) : WebViewClient() {
 
+    private val schoolUrls = arrayOf("https://307.joomla.schule.bremen.de/index.php/component/users/#top",
+        "https://307.joomla.schule.bremen.de/index.php/component/users/?task=user.login&Itemid=171",
+        "https://307.joomla.schule.bremen.de/index.php/component/users/profile?Itemid=171")
+
     /**
      * onPageStarted has been overridden to prevent users from reaching a domain different from
      * the school's login page
@@ -22,9 +26,7 @@ internal class LoginWebViewClient(private val successListener: OnLoginSuccessLis
     override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
         super.onPageStarted(view, url, favicon)
 
-        if (url != "https://307.joomla.schule.bremen.de/index.php/component/users/profile?Itemid=171"
-            && url != "https://307.joomla.schule.bremen.de/index.php/component/users/#top"
-            && url != "https://307.joomla.schule.bremen.de/index.php/component/users/?task=user.login&Itemid=171") {
+        if (!HelperFunctions.checkStringForArray(url.toString(), schoolUrls)) {
             reloadLoginPage(webView = view)
         }
     }
@@ -39,7 +41,10 @@ internal class LoginWebViewClient(private val successListener: OnLoginSuccessLis
 
         val cookies = CookieManager.getInstance().getCookie(url)
 
-        if (cookies.contains("joomla_user_state=logged_in")) {
+        if (cookies == null) {
+            reloadLoginPage(webView = view)
+            successListener.onLoginSucceeded(false)
+        } else if (cookies.contains("joomla_user_state=logged_in")) {
             successListener.onLoginSucceeded(true)
         }
     }
@@ -54,10 +59,10 @@ internal class LoginWebViewClient(private val successListener: OnLoginSuccessLis
     internal interface OnLoginSuccessListener {
 
         /**
-         * This function can be overridden to execute code when a login has been successful
+         * This function returns a boolean value depending on the success status of the login process
          *
          * @param success   boolean value that is set to true if the cookie could be found,
-         *                  false otherwise
+         *                  false if an error occurred
          */
         fun onLoginSucceeded(success: Boolean)
     }
