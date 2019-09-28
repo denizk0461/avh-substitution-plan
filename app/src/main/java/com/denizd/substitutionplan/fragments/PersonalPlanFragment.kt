@@ -51,5 +51,4 @@ internal class PersonalPlanFragment : PlanFragment() {
             }, 64)
         })
     }
-
 }

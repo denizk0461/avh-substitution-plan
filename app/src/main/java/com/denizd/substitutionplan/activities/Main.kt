@@ -131,15 +131,15 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
                 edit.putInt("firstTimeOpening", prefs.getInt("firstTimeOpening", 0) + 1).apply()
             }
 
-            lateinit var defaultFragment: Fragment
-            if (prefs.getBoolean("defaultPersonalised", false)) {
-                defaultFragment = PersonalPlanFragment()
+            /// Launch the user-specified fragment (general or personal plan)
+            val defaultFragment = if (prefs.getBoolean("defaultPersonalised", false)) {
                 bottomNav.selectedItemId = R.id.personal
                 toolbarTxt.text = personalPlanTitle()
+                PersonalPlanFragment()
             } else {
-                defaultFragment = GeneralPlanFragment()
                 bottomNav.selectedItemId = R.id.plan
                 toolbarTxt.text = getString(R.string.app_name)
+                GeneralPlanFragment()
             }
             loadFragment(defaultFragment)
 

@@ -635,84 +635,10 @@
                         android:focusable="true"
                         style="@style/SelectableItemBackground"
                         android:orientation="vertical"
-                        app:layout_constraintBottom_toTopOf="@+id/txtTerms"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txtWeb" />
-
-                    <TextView
-                        android:id="@+id/txtTerms"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/terms_and_conditions_title"
-                        android:textColor="@color/colorText"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="@+id/txtLicences"
-                        app:layout_constraintTop_toBottomOf="@+id/txtWhatittook"/>
-
-                    <TextView
-                        android:id="@+id/txtTermsTwo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/terms_and_conditions_desc"
-                        android:textColor="@color/colorHint"
-                        android:textSize="12sp"
-                        app:layout_constraintStart_toStartOf="@+id/txtTerms"
-                        app:layout_constraintTop_toBottomOf="@+id/txtTerms" />
-
-                    <LinearLayout
-                        android:id="@+id/btnTerms"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="0dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        style="@style/SelectableItemBackground"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toTopOf="@+id/txtPrivacyP"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txtWhatittook"/>
-
-                    <TextView
-                        android:id="@+id/txtPrivacyP"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/privacy_policy_title"
-                        android:textColor="@color/colorText"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="@+id/txtTermsTwo"
-                        app:layout_constraintTop_toBottomOf="@+id/txtTermsTwo" />
-
-                    <TextView
-                        android:id="@+id/txtPrivacyPTwo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/privacy_policy_desc"
-                        android:textColor="@color/colorHint"
-                        android:textSize="12sp"
-                        app:layout_constraintStart_toStartOf="@+id/txtPrivacyP"
-                        app:layout_constraintTop_toBottomOf="@+id/txtPrivacyP" />
-
-                    <LinearLayout
-                        android:id="@+id/btnPrivacyP"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="0dp"
-                        android:layout_marginBottom="8dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        style="@style/SelectableItemBackground"
-                        android:orientation="vertical"
                         app:layout_constraintBottom_toTopOf="@+id/txtVersion"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txtTermsTwo" />
+                        app:layout_constraintTop_toBottomOf="@+id/txtWeb" />
 
                     <TextView
                         android:id="@+id/txtVersion"
@@ -722,8 +648,8 @@
                         android:text="@string/version"
                         android:textColor="@color/colorText"
                         android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="@+id/txtPrivacyPTwo"
-                        app:layout_constraintTop_toBottomOf="@+id/txtPrivacyPTwo" />
+                        app:layout_constraintStart_toStartOf="@+id/txtWhatittook"
+                        app:layout_constraintTop_toBottomOf="@+id/txtWhatittook" />
 
                     <TextView
                         android:id="@+id/txtVersionTwo"
@@ -751,7 +677,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txtPrivacyPTwo" />
+                        app:layout_constraintTop_toBottomOf="@+id/txtWhatittook" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

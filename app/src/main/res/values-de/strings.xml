@@ -33,13 +33,9 @@
     <string name="setup_successful">Viel Spaß!</string>
     <string name="greeting_title">Aktiviere Begrüßungen</string>
     <string name="greeting_desc">Falls du möchtest, dass ich nett bin :)</string>
-    <string name="licences_title">Lizenzen &amp; Mitwirkende</string>
+    <string name="licences_title">Lizenzen</string>
     <string name="licences_desc">Was die App ausmacht (Englisch)</string>
     <string name="version">Versionsnummer</string>
-    <string name="privacy_policy_title">Datenschutzerklärung</string>
-    <string name="terms_and_conditions_title">AGB</string>
-    <string name="terms_and_conditions_desc">Überprüfe die AGB der App (Englisch)</string>
-    <string name="privacy_policy_desc">Überprüfe die Datenschutzerklärung der App (Englisch)</string>
     <string name="information">Informationen</string>
     <string name="made_by_deniz">Entwickelt von Deniz :)</string>
     <string name="auto_refresh_title">Aktualisiere Plan bei App-Start</string>
@@ -47,7 +43,7 @@
     <string name="courses_help_dialog_title">Wie du deine Kurse eintragen kannst</string>
     <string name="grade_help_dialog_title">Wie du deine Klasse eintragen kannst</string>
     <string name="courses_help_dialog_text">Trag die Kürzel für die Kurse ein, welche in deinem persönlichen Plan auftauchen sollen und über welche du benachrichtigt werden möchtest. Du kannst diese auf deinem Stundenplan finden.\n\nHier sind einige Beispiele:\n\nMathe in der 5. Klasse (Mittelstufe) wäre MAT.\n\nDer Englisch-Profilkurs in der E-Phase könnte ENP1 sein.\n\nDer Bio-Grundkurs in der Q1 ist z.B. bio1.\n\nMeist müssen Kurse für Mittelstufenschüler nicht eingetragen werden.\nTrenne mehrere Kurse mit Leerzeichen, Kommas sind optional.\nGroß- und Kleinschreibung wird beachtet.</string>
-    <string name="grade_help_dialog_text">Trage deine derzeitige Klasse ein, damit sie in deinem persönlichen Plan auftaucht und über Aktualisierungen informiert zu werden.\n\nAnmerkung:\n\nIn der Mittelstufe müssen Nummer und Buchstabe zusammen geschrieben werden, Beispiel: \"5a\".\n\nIn der E-Phase müssen diese durch ein Leerzeichen getrennt werden, Beispiel: \"18 a\".\n\nIn der Q1/Q2 sollen nur die Nummern eingetragen werden, Beispiel: \"17\".\n\nMehrere Klassen können nur eingetragen werden, wenn keine Kurse eingetragen sind.</string>
+    <string name="grade_help_dialog_text">Trage deine derzeitige Klasse ein, damit sie in deinem persönlichen Plan auftaucht und über Aktualisierungen informiert zu werden.\n\nAnmerkung:\n\nIn der Mittelstufe müssen Nummer und Buchstabe zusammen geschrieben werden, Beispiel: \"5a\".\n\nIn der E-Phase müssen diese durch ein Leerzeichen getrennt werden, Beispiel: \"18 a\".\n\nIn der Q1/Q2 sollen nur die Nummern eingetragen werden, Beispiel: \"17\".\n\nMehrere Klassen einzutragen ist nicht empfohlen.</string>
     <string name="experimental_menu_dialog_text">Dieses Menü ist derzeit nur für Tests gedacht. Zusätzliche Funktionalität könnte in der Zukunft hinzugefügt werden. Probier\' gerne zufällige Codes aus.</string>
     <string name="apply">Anwenden</string>
     <string name="invalid_code">Ungültiger Code</string>
