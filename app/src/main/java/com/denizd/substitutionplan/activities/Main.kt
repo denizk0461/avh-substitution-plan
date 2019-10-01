@@ -86,8 +86,10 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
             val contextView = findViewById<View>(R.id.coordination)
             val window = this.window
 
+            /// Sets the theme explicitly to dismiss the splash screen
             setTheme(R.style.AppTheme0)
 
+            /// Sets the system bar's colours according to the current Android version
             val barColour = when {
                 Build.VERSION.SDK_INT < Build.VERSION_CODES.M -> ContextCompat.getColor(context, R.color.legacyBlack)
                 Build.VERSION.SDK_INT <= Build.VERSION_CODES.P -> ContextCompat.getColor(context, R.color.colorBackground)
@@ -98,6 +100,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
                 window.statusBarColor = barColour
             }
 
+            /// Applies theming with additional workarounds for API levels 23-28 (M-P)
             when (prefs.getInt("themeInt", 0)) {
                 0 -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -114,12 +117,18 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
                 }
             }
 
+            /// Displays the date and time of the last refresh of the substitution plan in a snack bar
             if (!prefs.getBoolean("autoRefresh", false) && prefs.getInt("firstTimeOpening", 0) != 0) {
                 try {
                     Snackbar.make(contextView, "${getString(R.string.last_updated)} ${prefs.getString("timeNew", "")}", Snackbar.LENGTH_LONG).show()
                 } catch (e: IllegalArgumentException) {}
             }
 
+            /**
+             *  Retrieves the greeting string if enabled by the user, sets it empty otherwise.
+             *  Don't set the text view of the greeting string to View.GONE, as that will mess
+             *  with the constraints
+             */
             val textViewGreeting = findViewById<TextView>(R.id.text_greeting)
             textViewGreeting.text = if (prefs.getBoolean("greeting", true) && (prefs.getString("username", "") ?: "").isNotEmpty()) {
                 getGreetingString()
@@ -127,6 +136,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
                 ""
             }
 
+            /// Legacy function
             if (prefs.getInt("firstTimeOpening", 0) == 0) {
                 edit.putInt("firstTimeOpening", prefs.getInt("firstTimeOpening", 0) + 1).apply()
             }
@@ -143,6 +153,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
             }
             loadFragment(defaultFragment)
 
+            /// Opens the corresponding fragment or the info dialog
             bottomNav.setOnNavigationItemSelectedListener { item: MenuItem ->
                 var fragmentLoading = true
                 lateinit var fragment: Fragment
@@ -176,6 +187,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
                 }
             }
 
+            /// Scrolls to the top of any currently displayed fragment
             bottomNav.setOnNavigationItemReselectedListener { item: MenuItem ->
                 when (item.itemId) {
                     R.id.plan, R.id.personal -> {
@@ -231,6 +243,10 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
         }, prefs.getString("username", ""))
     }
 
+    /**
+     * Retrieves the strings provided in the substitution plan's info boxes  as well as the
+     * refresh date and time from Shared Preferences and displays them in a dialog
+     */
     private fun openInfoDialog() {
         val dialog = AlertDialog.Builder(context)
         val dialogView = View.inflate(context, R.layout.simple_dialog, null)
@@ -247,9 +263,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
         return true
     }
 
-    /**
-     * Triggers FBPingService.kt to re-subscribe to the selected Firebase topics every 15 minutes
-     */
+    /// Triggers FBPingService.kt to re-subscribe to the selected Firebase topics every 15 minutes
     private fun pingFirebaseTopics() {
         val componentName = ComponentName(this, FBPingService::class.java)
         val info = JobInfo.Builder(42, componentName)

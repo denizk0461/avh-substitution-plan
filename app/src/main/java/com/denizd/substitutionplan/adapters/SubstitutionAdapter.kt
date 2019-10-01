@@ -30,6 +30,13 @@ import java.util.*
  */
 internal class SubstitutionAdapter(private var substitutions: List<Substitution>, private val prefs: SharedPreferences) : RecyclerView.Adapter<SubstitutionAdapter.CardViewHolder>() {
 
+    /**
+     * The ViewHolder class used by SubstitutionAdapter.kt to resolve references to views in
+     * course_card.xml that will be inflated and populated with data in
+     * SubstitutionAdapter#onBindViewHolder
+     *
+     * @param view      a reference to the xml that is to be inflated
+     */
     internal class CardViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
         var iconView: ImageView = view.findViewById(R.id.iconView)
@@ -43,7 +50,9 @@ internal class SubstitutionAdapter(private var substitutions: List<Substitution>
         var spacer: TextView = view.findViewById(R.id.spacer)
         var card: MaterialCardView = view.findViewById(R.id.planCard)
         val context: Context = card.context
+
         init { view.setOnClickListener(this) }
+
         override fun onClick(v: View?) {
             if (date.text.toString().length > 7 && date.text.toString().substring(3, 7) == "http") {
                 try {
@@ -77,14 +86,14 @@ internal class SubstitutionAdapter(private var substitutions: List<Substitution>
             }
         }
 
-        val add = currentItem.additional.toLowerCase(Locale.ROOT)
+        val add = currentItem.additional
         val type = currentItem.type.toLowerCase(Locale.ROOT)
         if (add.isNotEmpty()) {
-            if (HelperFunctions.checkStringForArray(add, HelperFunctions.cancellations)) {
+            if (HelperFunctions.checkStringForArray(add, HelperFunctions.cancellations, true)) {
                 strikeThrough(strings)
             }
         } else {
-            if (HelperFunctions.checkStringForArray(type, HelperFunctions.cancellations)) {
+            if (HelperFunctions.checkStringForArray(type, HelperFunctions.cancellations, true)) {
                 strikeThrough(strings)
             }
         }
@@ -161,6 +170,7 @@ internal class SubstitutionAdapter(private var substitutions: List<Substitution>
         notifyDataSetChanged()
     }
 
+    /// Strikes through the strings for course, room and teacher
     private fun strikeThrough(strings: Array<SpannableString>) {
         for (i in 2..4) { strings[i].setSpan(StrikethroughSpan(), 0, strings[i].length, 0) }
     }

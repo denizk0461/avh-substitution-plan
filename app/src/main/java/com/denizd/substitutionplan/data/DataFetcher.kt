@@ -122,9 +122,9 @@ internal class DataFetcher(isPlan: Boolean, isMenu: Boolean, isJobService: Boole
             foodRepository.deleteAll()
 
             val indices = ArrayList<Int>()
-            val daysAndVon = arrayOf("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "von")
+            val daysAndVon = arrayOf("montag", "dienstag", "mittwoch", "donnerstag", "freitag", "von", "wünschen")
             for (i in 0 until foodElements.size) {
-                if (HelperFunctions.checkStringForArray(foodElements[i].text(), daysAndVon)) indices.add(i)
+                if (HelperFunctions.checkStringForArray(foodElements[i].text(), daysAndVon, true)) indices.add(i)
             }
             indices.add(foodElements.size)
 

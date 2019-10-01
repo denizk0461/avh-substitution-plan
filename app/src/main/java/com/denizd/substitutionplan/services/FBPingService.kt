@@ -12,7 +12,7 @@ import com.google.firebase.messaging.FirebaseMessaging
  * issues regarding the app being force-closed in the background and not being able to receive
  * notifications.
  *
- * I am unsure about its effectiveness, though notifications do seem to arrive
+ * I am unsure about its effectiveness, though notifications do seem to arrive relatively reliably
  */
 internal class FBPingService : JobService() {
 

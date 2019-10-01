@@ -47,8 +47,8 @@ internal object HelperFunctions {
             "lavender", "carnation", "brown2", "pureBlack")
 
     /**
-     * A list of all phrases used to describe that a course has been cancelled. Expand this
-     * if necessary. No further code changes required if this is expanded
+     * A lowercased list of all phrases used to describe that a course has been cancelled. Expand
+     * this if necessary. No further code changes required if this is expanded
      */
     val cancellations = arrayOf("eigenverantwortliches arbeiten", "entfall", "entfällt", "fällt aus", "freisetzung", "vtr. ohne lehrer")
 
@@ -305,8 +305,9 @@ internal object HelperFunctions {
         }
     }
 
-    fun checkStringForArray(s: String, checking: Array<String>): Boolean {
-        checking.forEach { check ->
+    fun checkStringForArray(checkedString: String, checkingArray: Array<String>, lowerCased: Boolean): Boolean {
+        val s = if (lowerCased) checkedString.toLowerCase(Locale.ROOT) else checkedString
+        checkingArray.forEach { check ->
             if (s.contains(check)) return true
         }
         return false
@@ -330,7 +331,7 @@ internal object HelperFunctions {
                     val a = group.substring(0, 2).toInt()
                     -a
                 }
-                checkStringForArray(group.substring(0, 1), juniors) -> -101
+                checkStringForArray(group.substring(0, 1), juniors, false) -> -101
                 else -> -100
             }
         } catch (e: Exception) {

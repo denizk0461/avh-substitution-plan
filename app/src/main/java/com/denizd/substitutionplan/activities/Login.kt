@@ -25,6 +25,7 @@ import com.denizd.substitutionplan.data.HelperFunctions
 import com.denizd.substitutionplan.data.LoginWebViewClient
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import java.lang.Exception
 import kotlin.math.hypot
 
 /**
@@ -80,45 +81,49 @@ internal class Login : AppCompatActivity(R.layout.activity_login_webview), Login
 
     private fun success() {
         prefs.edit().putBoolean("successful_login", true).apply()
-
-        val layoutAfterCircleReveal = findViewById<LinearLayout>(R.id.layoutAfterCircleReveal)
-
-        val x: Int = logInButton.right - logInButton.width / 2
-        val y: Int = logInButton.bottom - logInButton.height / 2
-        val endRadius = hypot(parentLayout.width.toDouble(), parentLayout.height.toDouble()).toInt()
-        View.inflate(this, R.layout.unlock_screen, layoutAfterCircleReveal)
-        val anim = ViewAnimationUtils.createCircularReveal(layoutAfterCircleReveal, x, y, 0F, endRadius.toFloat())
         val handler = Handler()
-        val animOut = AnimationUtils.loadAnimation(this, R.anim.fade_out_short)
-        anim.duration = 600
-        val colour = findViewById<LinearLayout>(R.id.colourLayout)
-        layoutAfterCircleReveal.visibility = View.VISIBLE
-        anim.start()
-        logInButton.hide()
+        try {
+            val layoutAfterCircleReveal = findViewById<LinearLayout>(R.id.layoutAfterCircleReveal)
 
-        handler.postDelayed({
-            colour.startAnimation(animOut)
-        }, 400)
-        animOut.setAnimationListener(object: Animation.AnimationListener {
-            override fun onAnimationStart(arg0: Animation) {}
-            override fun onAnimationRepeat(arg0: Animation) {}
-            override fun onAnimationEnd(arg0: Animation) {
-                colour.visibility = View.GONE
-            }
-        })
-        handler.postDelayed({
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-                val mImgCheck = findViewById<ImageView>(R.id.imageView).drawable as AnimatedVectorDrawable
-                mImgCheck.start()
-            } else {
-                val mImgCheck = findViewById<ImageView>(R.id.imageView).drawable as AnimatedVectorDrawableCompat
-                mImgCheck.start()
-            }
-        }, 600)
-        handler.postDelayed({
-            val main = Intent(this, Main::class.java)
-            startActivity(main)
-            finish()
-        }, 3000)
+            val x: Int = logInButton.right - logInButton.width / 2
+            val y: Int = logInButton.bottom - logInButton.height / 2
+            val endRadius = hypot(parentLayout.width.toDouble(), parentLayout.height.toDouble()).toInt()
+            View.inflate(this, R.layout.unlock_screen, layoutAfterCircleReveal)
+            val anim = ViewAnimationUtils.createCircularReveal(layoutAfterCircleReveal, x, y, 0F, endRadius.toFloat())
+            val animOut = AnimationUtils.loadAnimation(this, R.anim.fade_out_short)
+            anim.duration = 600
+            val colour = findViewById<LinearLayout>(R.id.colourLayout)
+            layoutAfterCircleReveal.visibility = View.VISIBLE
+            anim.start()
+            logInButton.hide()
+
+            handler.postDelayed({
+                colour.startAnimation(animOut)
+            }, 400)
+            animOut.setAnimationListener(object: Animation.AnimationListener {
+                override fun onAnimationStart(arg0: Animation) {}
+                override fun onAnimationRepeat(arg0: Animation) {}
+                override fun onAnimationEnd(arg0: Animation) {
+                    colour.visibility = View.GONE
+                }
+            })
+            handler.postDelayed({
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+                    val mImgCheck = findViewById<ImageView>(R.id.imageView).drawable as AnimatedVectorDrawable
+                    mImgCheck.start()
+                } else {
+                    val mImgCheck = findViewById<ImageView>(R.id.imageView).drawable as AnimatedVectorDrawableCompat
+                    mImgCheck.start()
+                }
+            }, 600)
+        } catch (e: Exception) {
+        } finally {
+            handler.postDelayed({
+                val main = Intent(this, Main::class.java)
+                startActivity(main)
+                finish()
+            }, 3000)
+        }
+
     }
 }
