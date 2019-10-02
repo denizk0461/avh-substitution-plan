@@ -161,4 +161,5 @@
     <string name="ordering_systems_dialog_title">Informationen über Sortierweisen</string>
     <string name="ordering_systems_dialog_text">Du kannst zwischen zwei Sortierweisen auswählen, welche die Reihenfolge der Einträge auf dem Vertretungsplan bestimmen.\n\nStandardmäßig ist \'App-spezifisch\' ausgewählt; dies bietet einen konsistenten Plan sortiert nach Klassen, dann nach Stunden.\n\n\'Website-Original\' bietet die Original-Reihenfolge der Website. Diese ist jedoch nicht konsistent, weswegen \'App-spezifisch\' standardmäßig ausgewählt ist.</string>
     <string name="error_please_try_again">Ein Fehler ist aufgetreten, bitte versuche es erneut</string>
+    <string name="thanks_for_using">Danke, dass du die App nutzt!</string>
 </resources>

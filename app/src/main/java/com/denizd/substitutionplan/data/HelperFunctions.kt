@@ -341,20 +341,23 @@ internal object HelperFunctions {
 
     /**
      * Assigns a date priority to circumvent the event of the 1.12. being shown before the
-     * 31.11., essentially
+     * 31.11., essentially. Return value is based on the month, not the day
      *
      * @param date      the date to be analysed
      *
      * @return an integer value to determine the ranking in the database
      */
     fun assignDatePriority(date: String): Int {
-        val periodIndex = date.indexOf('.', 0, true)
+        if (date.isEmpty()) return 13
         return try {
+            val periodIndex = date.indexOf('.', 0, true)
             date.substring(periodIndex + 1, date.length - 1).toInt()
         } catch (e: StringIndexOutOfBoundsException) {
             0
         } catch (n: NumberFormatException) {
             -1
+        } catch (e: Exception) {
+            13
         }
     }
 

@@ -93,7 +93,7 @@ internal class SettingsFragment : Fragment(R.layout.content_settings), View.OnCl
         colourCustomisationButton.setOnLongClickListener {
             if (!longPressed) {
                 colourTextTitle.text = getString(R.string.made_by_deniz)
-                colourTextDesc.text = "---"
+                colourTextDesc.text = getString(R.string.thanks_for_using)
             } else {
                 colourTextTitle.text = getString(R.string.customise_colours_title)
                 colourTextDesc.text = getString(R.string.customise_colours_desc)

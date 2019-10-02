@@ -26,7 +26,7 @@ internal class LoginWebViewClient(private val successListener: OnLoginSuccessLis
     override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
         super.onPageStarted(view, url, favicon)
 
-        if (!HelperFunctions.checkStringForArray(url.toString(), schoolUrls)) {
+        if (!HelperFunctions.checkStringForArray(url.toString(), schoolUrls, false)) {
             reloadLoginPage(webView = view)
         }
     }
