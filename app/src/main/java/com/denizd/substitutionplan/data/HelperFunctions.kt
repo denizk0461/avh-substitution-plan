@@ -47,7 +47,7 @@ internal object HelperFunctions {
             "lavender", "carnation", "brown2", "pureBlack")
 
     /**
-     * A lowercased list of all phrases used to describe that a course has been cancelled. Expand
+     * A lower-cased list of all phrases used to describe that a course has been cancelled. Expand
      * this if necessary. No further code changes required if this is expanded
      */
     val cancellations = arrayOf("eigenverantwortliches arbeiten", "entfall", "entfällt", "fällt aus", "freisetzung", "vtr. ohne lehrer")
@@ -80,6 +80,7 @@ internal object HelperFunctions {
         R.color.bgBrown2,
         R.color.bgPureBlack
     )
+
     const val notificationChannelId = "general"
 
     fun getColourForString(name: String): Int {
@@ -314,8 +315,8 @@ internal object HelperFunctions {
     }
 
     /**
-     * Assigns an integer to a given group used to sort the substitution plan in SQL.
-     * The ranking is stored as 'priority' in the database
+     * Assigns an integer to a given group used to sort the substitution plan when retrieving from
+     * Room database. The ranking is stored as 'priority' in the database
      *
      * @param group     the group string that should be assigned a ranking
      * @param isPSA     used to determine a PSA, assigns lowest value if true, therefore putting
@@ -377,7 +378,7 @@ internal object HelperFunctions {
 
     private fun getPrefValue(prefs: SharedPreferences, type: String, key: String): Any {
         return when (type) {
-            "string" -> prefs.getString(key, "")
+            "string" -> prefs.getString(key, "") ?: ""
             "int" -> prefs.getInt(key, 0)
             "bool" -> prefs.getBoolean(key, false)
             else -> ""
@@ -404,6 +405,8 @@ internal object HelperFunctions {
                 localPrefKeys.add("card${languageIndependentCourses[i]}")
                 localPrefTypes.add("string")
             }
+            // if bothered, replace this with an API 29-friendly solution
+            // if not, who cares really, this is not even accessible without special codes
             val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
             val file = File(dir, "avh_plan_data.xml")
             val out = OutputStreamWriter(FileOutputStream(file, false))
@@ -414,9 +417,11 @@ internal object HelperFunctions {
                         "\n\t<value>${getPrefValue(prefs, localPrefTypes[i], localPrefKeys[i])}</value>"
             }
             input += "\n</items>"
-            out.write(input)
-            out.flush()
-            out.close()
+            out.apply {
+                write(input)
+                flush()
+                close()
+            }
             Toast.makeText(context, context.getString(R.string.success), Toast.LENGTH_LONG).show()
         } else {
             Toast.makeText(context, context.getString(R.string.permission_denied), Toast.LENGTH_LONG).show()

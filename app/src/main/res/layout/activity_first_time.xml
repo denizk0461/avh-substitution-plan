@@ -59,7 +59,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtsetupthings" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtLayoutClasses"
+                android:id="@+id/textinputlayout_group"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:boxStrokeColor="@color/colorAccent"
                 app:boxStrokeWidth="1dp"
@@ -75,7 +75,7 @@
                 android:importantForAutofill="no">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtName"
+                    android:id="@+id/edittext_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -100,9 +100,9 @@
                 android:text="@string/grade_text"
                 android:textColor="@color/colorText"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="@+id/txtLayoutClasses"
-                app:layout_constraintStart_toStartOf="@+id/txtLayoutClasses"
-                app:layout_constraintTop_toBottomOf="@+id/txtLayoutClasses" />
+                app:layout_constraintEnd_toEndOf="@+id/textinputlayout_group"
+                app:layout_constraintStart_toStartOf="@+id/textinputlayout_group"
+                app:layout_constraintTop_toBottomOf="@+id/textinputlayout_group" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtLayoutClass"
@@ -114,13 +114,13 @@
                 android:layout_marginTop="8dp"
                 android:hint="@string/your_grade"
                 android:textColorHint="@color/colorHint"
-                app:layout_constraintEnd_toStartOf="@+id/chipHelpClasses"
+                app:layout_constraintEnd_toStartOf="@+id/button_group_help"
                 app:layout_constraintStart_toStartOf="@+id/txtNextClass"
                 app:layout_constraintTop_toBottomOf="@+id/txtNextClass"
                 android:importantForAutofill="no">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtClasses"
+                    android:id="@+id/edittext_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -137,7 +137,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageButton
-                android:id="@+id/chipHelpClasses"
+                android:id="@+id/button_group_help"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -156,12 +156,12 @@
                 android:gravity="start"
                 android:layout_marginTop="16dp"
                 android:textColor="@color/colorText"
-                app:layout_constraintEnd_toEndOf="@+id/txtLayoutClasses"
-                app:layout_constraintStart_toStartOf="@+id/txtLayoutClasses"
+                app:layout_constraintEnd_toEndOf="@+id/textinputlayout_group"
+                app:layout_constraintStart_toStartOf="@+id/textinputlayout_group"
                 app:layout_constraintTop_toBottomOf="@+id/txtLayoutClass" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtLayoutCourses"
+                android:id="@+id/textinputlayout_courses"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:boxStrokeColor="@color/colorAccent"
                 app:boxStrokeWidth="1dp"
@@ -170,12 +170,12 @@
                 android:layout_marginTop="8dp"
                 android:hint="@string/your_courses"
                 android:textColorHint="@color/colorHint"
-                app:layout_constraintEnd_toStartOf="@+id/chipHelpCourses"
+                app:layout_constraintEnd_toStartOf="@+id/button_courses_help"
                 app:layout_constraintStart_toStartOf="@+id/txtSenior"
                 app:layout_constraintTop_toBottomOf="@+id/txtSenior">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtCourses"
+                    android:id="@+id/edittext_courses"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -193,16 +193,16 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageButton
-                android:id="@+id/chipHelpCourses"
+                android:id="@+id/button_courses_help"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:backgroundTint="@android:color/transparent"
                 android:src="@drawable/ic_qmark"
                 android:tint="@color/colorText"
-                app:layout_constraintBottom_toBottomOf="@+id/txtLayoutCourses"
+                app:layout_constraintBottom_toBottomOf="@+id/textinputlayout_courses"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txtLayoutCourses" />
+                app:layout_constraintTop_toTopOf="@+id/textinputlayout_courses" />
 
             <TextView
                 android:id="@+id/txtMore"
@@ -211,9 +211,9 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/more_settings_text"
                 android:textColor="@color/colorText"
-                app:layout_constraintEnd_toEndOf="@+id/txtLayoutClasses"
-                app:layout_constraintStart_toStartOf="@+id/txtLayoutClasses"
-                app:layout_constraintTop_toBottomOf="@+id/txtLayoutCourses" />
+                app:layout_constraintEnd_toEndOf="@+id/textinputlayout_group"
+                app:layout_constraintStart_toStartOf="@+id/textinputlayout_group"
+                app:layout_constraintTop_toBottomOf="@+id/textinputlayout_courses" />
 
             <LinearLayout
                 android:layout_width="0dp"

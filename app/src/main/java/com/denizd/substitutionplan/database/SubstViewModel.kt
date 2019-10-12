@@ -28,8 +28,7 @@ internal class SubstViewModel(application: Application) : AndroidViewModel(appli
             isJobService = false,
             context = app,
             application = app,
-            parentView = rootView,
-            forced = false
+            parentView = rootView
         ).execute()
     }
 }

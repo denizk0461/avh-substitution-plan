@@ -12,7 +12,7 @@ internal class GeneralPlanFragment : PlanFragment() {
 
         substitutionPlan?.observe(this, Observer<List<Substitution>> { substitutions ->
             mAdapter.setSubst(substitutions)
-            recyclerView.scheduleLayoutAnimation()
+            binding.recyclerView.scheduleLayoutAnimation()
         })
     }
 }

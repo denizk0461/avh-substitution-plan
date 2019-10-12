@@ -18,16 +18,16 @@ import com.google.android.material.card.MaterialCardView
  * @param colours           a list of all courses and their associated colour
  * @param onClickListener   a reference to an OnClickListener
  */
-internal class ColourAdapter(private var colours: List<Colour>, private val onClickListener: OnClickListener) : RecyclerView.Adapter<ColourAdapter.ColourViewHolder>() {
+internal class ColourAdapter(private var colours: List<Colour>, private val onClickListener: OnColourClickListener) : RecyclerView.Adapter<ColourAdapter.ColourViewHolder>() {
 
-    internal class ColourViewHolder(view: View, private val clickListener: OnClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    internal class ColourViewHolder(view: View, private val clickListener: OnColourClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val title: TextView = view.findViewById(R.id.item_text)
         var image: ImageView = view.findViewById(R.id.item_image)
-        val titleNoLang: TextView = view.findViewById(R.id.item_text_no_lang)
+        var titleNoLang: String = ""
         val cardView: MaterialCardView = view.findViewById(R.id.cardView)
         init { view.setOnClickListener(this) }
 
-        override fun onClick(v: View?) { clickListener.onClick(adapterPosition, title.text.toString(), titleNoLang.text.toString()) }
+        override fun onClick(v: View?) { clickListener.onColourClick(adapterPosition, title.text.toString(), titleNoLang) }
 
     }
 
@@ -40,7 +40,7 @@ internal class ColourAdapter(private var colours: List<Colour>, private val onCl
         val currentItem = colours[position]
 
         holder.title.text = currentItem.title
-        holder.titleNoLang.text = currentItem.titleNoLang
+        holder.titleNoLang = currentItem.titleNoLang
         holder.image.setImageDrawable(ContextCompat.getDrawable(holder.image.context, currentItem.icon))
         val colour = if (currentItem.colour != 0) {
             currentItem.colour
@@ -60,7 +60,7 @@ internal class ColourAdapter(private var colours: List<Colour>, private val onCl
 
     override fun getItemCount(): Int = colours.size
 
-    internal interface OnClickListener {
-        fun onClick(position: Int, title: String, titleNoLang: String)
+    internal interface OnColourClickListener {
+        fun onColourClick(position: Int, title: String, titleNoLang: String)
     }
 }

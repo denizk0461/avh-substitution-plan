@@ -3,6 +3,7 @@ package com.denizd.substitutionplan.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -17,15 +18,16 @@ import com.google.android.material.card.MaterialCardView
  * @param ringtones         a list of all ringtones including their URI
  * @param onClickListener   a reference to an OnClickListener to set the ringtone
  */
-internal class RingtoneAdapter(private val ringtones: List<Ringtone>, private val onClickListener: OnClickListener) : RecyclerView.Adapter<RingtoneAdapter.RingtoneViewHolder>() {
+internal class RingtoneAdapter(private val ringtones: List<Ringtone>, private val onClickListener: OnRingtoneClickListener) : RecyclerView.Adapter<RingtoneAdapter.RingtoneViewHolder>() {
 
-    internal class RingtoneViewHolder(view: View, private val clickListener: OnClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    internal class RingtoneViewHolder(view: View, private val clickListener: OnRingtoneClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val name: TextView = view.findViewById(R.id.item_text)
-        val uri: TextView = view.findViewById(R.id.item_text_no_lang)
+        val imageView: ImageView = view.findViewById(R.id.item_image)
+        var uri: String = ""
         val cardView: MaterialCardView = view.findViewById(R.id.cardView)
         init { view.setOnClickListener(this) }
 
-        override fun onClick(v: View?) { clickListener.onRingtoneClick(adapterPosition, name.text.toString(), uri.text.toString()) }
+        override fun onClick(v: View?) { clickListener.onRingtoneClick(adapterPosition, name.text.toString(), uri) }
 
     }
 
@@ -38,13 +40,14 @@ internal class RingtoneAdapter(private val ringtones: List<Ringtone>, private va
         val currentItem = ringtones[position]
 
         holder.name.text = currentItem.name
-        holder.uri.text = currentItem.uri
-        holder.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.cardView.context, R.color.colorBackground))
+        holder.imageView.visibility = View.GONE
+        holder.uri = currentItem.uri
+        holder.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.cardView.context, R.color.colorBackgroundLight))
     }
 
     override fun getItemCount(): Int = ringtones.size
 
-    internal interface OnClickListener {
+    internal interface OnRingtoneClickListener {
         fun onRingtoneClick(position: Int, name: String, uri: String)
     }
 }

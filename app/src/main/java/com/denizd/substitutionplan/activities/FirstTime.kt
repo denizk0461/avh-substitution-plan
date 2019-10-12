@@ -8,7 +8,7 @@ import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
@@ -50,11 +50,11 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
         val edit = prefs.edit()
         val fab = findViewById<ExtendedFloatingActionButton>(R.id.efab)
         val mainActivity = Intent(this, Main::class.java)
-        val nameEditText = findViewById<TextInputEditText>(R.id.txtName)
-        val gradeEditText = findViewById<TextInputEditText>(R.id.txtClasses)
-        val courseEditText = findViewById<TextInputEditText>(R.id.txtCourses)
-        val helpGradeButton = findViewById<ImageButton>(R.id.chipHelpClasses)
-        val helpCoursesButton = findViewById<ImageButton>(R.id.chipHelpCourses)
+        val nameEditText = findViewById<TextInputEditText>(R.id.edittext_name)
+        val gradeEditText = findViewById<TextInputEditText>(R.id.edittext_group)
+        val courseEditText = findViewById<TextInputEditText>(R.id.edittext_courses)
+        val helpGradeButton = findViewById<ImageButton>(R.id.button_group_help)
+        val helpCoursesButton = findViewById<ImageButton>(R.id.button_courses_help)
         val greetingCheckBox = findViewById<CheckBox>(R.id.cbGreetings)
         val notificationCheckBox = findViewById<CheckBox>(R.id.cbNotif)
         val darkModeCheckBox = findViewById<CheckBox>(R.id.cbDark)

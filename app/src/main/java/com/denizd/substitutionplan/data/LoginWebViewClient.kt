@@ -8,7 +8,7 @@ import android.webkit.WebViewClient
 import java.lang.IllegalStateException
 
 /**
- * Class that extends WebViewClient to provide a function that checks the webpage's cookies to
+ * Class that extends WebViewClient to provide a function that checks the website's cookies to
  * verify a login
  *
  * @param successListener   a reference to the OnLoginSuccessListener implemented in an activity

@@ -2,7 +2,7 @@ package com.denizd.substitutionplan.services
 
 import android.app.job.JobParameters
 import android.app.job.JobService
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import com.denizd.substitutionplan.data.Topic
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging

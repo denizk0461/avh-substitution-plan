@@ -26,8 +26,7 @@ internal class FoodViewModel(application: Application) : AndroidViewModel(applic
             isJobService = false,
             context = app,
             application = app,
-            parentView = rootView,
-            forced = false
+            parentView = rootView
         ).execute()
     }
 }
