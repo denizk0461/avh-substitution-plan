@@ -21,26 +21,10 @@ internal class SubstRepository(application: Application) {
     }
 
     fun insert(substitution: Substitution) {
-        InsertSubstAsync(substDao).execute(substitution)
+        substDao?.insertSubst(substitution)
     }
 
     fun deleteAllSubst() {
-        DeleteAllSubstAsync(substDao).execute()
-    }
-
-    class InsertSubstAsync(substDao: SubstDao?) : AsyncTask<Substitution, Void, Void>() {
-        private val mSubstDao = substDao
-        override fun doInBackground(vararg substitutions: Substitution): Void? {
-            mSubstDao?.insertSubst(substitutions[0])
-            return null
-        }
-    }
-
-    class DeleteAllSubstAsync(substDao: SubstDao?) : AsyncTask<Void, Void, Void>() {
-        private val mSubstDao = substDao
-        override fun doInBackground(vararg voids: Void): Void? {
-            mSubstDao?.deleteAllSubst()
-            return null
-        }
+        substDao?.deleteAllSubst()
     }
 }
