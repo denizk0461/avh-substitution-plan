@@ -40,7 +40,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlin.collections.ArrayList
 
-internal class SettingsFragment : Fragment(), View.OnClickListener,
+internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListener,
         CompoundButton.OnCheckedChangeListener, ColourAdapter.OnColourClickListener,
         RingtoneAdapter.OnRingtoneClickListener {
 
@@ -49,7 +49,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener,
     private val customTabsIntent = CustomTabsIntent.Builder().build() as CustomTabsIntent
     private var window: Window? = null
     private var longPressed = false
-    private var courseHelpClicks = 0
+    private var versionCount = 0
 
     private val ringtones: List<Ringtone> by lazy {
         getRingtones()
@@ -59,6 +59,8 @@ internal class SettingsFragment : Fragment(), View.OnClickListener,
     private lateinit var ringtoneDialog: AlertDialog
 
     private lateinit var binding: ContentSettingsBinding
+    private lateinit var textCustomiseColoursTitle: TextView
+    private lateinit var textCustomiseColoursDesc: TextView
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -77,6 +79,9 @@ internal class SettingsFragment : Fragment(), View.OnClickListener,
 
         binding.apply {
             val thisFragment = this@SettingsFragment
+
+            thisFragment.textCustomiseColoursTitle = textCustomiseColoursTitle
+            thisFragment.textCustomiseColoursDesc = textCustomiseColoursDesc
 
             // Set text
             setRingtoneText()
@@ -98,27 +103,12 @@ internal class SettingsFragment : Fragment(), View.OnClickListener,
             buttonVersion.setOnClickListener(thisFragment)
 
             // Set on long click listeners
-            buttonCustomiseColours.setOnLongClickListener {
-                if (!longPressed) {
-                    textCustomiseColoursTitle.text = getString(R.string.made_by_deniz)
-                    textCustomiseColoursDesc.text = getString(R.string.thanks_for_using)
-                } else {
-                    textCustomiseColoursTitle.text = getString(R.string.customise_colours_title)
-                    textCustomiseColoursDesc.text = getString(R.string.customise_colours_desc)
-                }
-                longPressed = !longPressed
-                true
-            }
+            buttonCustomiseColours.setOnLongClickListener(thisFragment)
 
-            buttonForcedRefresh.setOnLongClickListener {
-                prefs.edit().putString("timeNew", "").putString("newFoodTime", "").apply()
-                makeToast(mContext.getString(R.string.force_refresh_cleared_times))
-                true
-            }
+            buttonCoursesHelp.setOnLongClickListener(thisFragment)
+            buttonOrderHelp.setOnLongClickListener(thisFragment)
 
-            buttonVersion.setOnLongClickListener {
-                debugMenu()
-            }
+            buttonForcedRefresh.setOnLongClickListener(thisFragment)
 
             // Set on checked change listeners
             switchGreeting.setOnCheckedChangeListener(thisFragment)
@@ -214,7 +204,6 @@ internal class SettingsFragment : Fragment(), View.OnClickListener,
         }
     }
 
-
     // Functions for handling touch events in this fragment
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -224,22 +213,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener,
             R.id.button_group_help -> createDialog(getString(R.string.grade_help_dialog_title), getString(
                     R.string.grade_help_dialog_text
             ))
-            R.id.button_courses_help -> {
-                if (courseHelpClicks < 11) {
-                    courseHelpClicks += 1
-                    createDialog(getString(R.string.courses_help_dialog_title), getString(R.string.courses_help_dialog_text))
-                } else {
-                    courseHelpClicks = 0
-                    try {
-                        makeToast(String(Character.toChars(0x2764)))
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=Jc2xfYuLWgE")) // 'Freak'
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).setPackage("com.google.android.youtube")
-                        startActivity(intent)
-                    } catch (e: ActivityNotFoundException) {
-                        makeToast(getString(R.string.youtube_not_found))
-                    }
-                }
-            }
+            R.id.button_courses_help -> createDialog(getString(R.string.courses_help_dialog_title), getString(R.string.courses_help_dialog_text))
             R.id.button_order_help -> createDialog(getString(R.string.ordering_systems_dialog_title), getString(R.string.ordering_systems_dialog_text))
             R.id.button_forced_refresh -> {
                 DataFetcher(
@@ -261,6 +235,54 @@ internal class SettingsFragment : Fragment(), View.OnClickListener,
             R.id.button_licences -> {
                 createDialog(mContext.getString(R.string.licences_title), licences)
             }
+            R.id.button_version -> {
+                if (versionCount == 7) {
+                    makeToast(getString(R.string.congratulations_for_nothing))
+                }
+                versionCount += 1
+            }
+        }
+    }
+
+    override fun onLongClick(v: View?): Boolean {
+        return when (v?.id) {
+            R.id.button_customise_colours -> {
+                if (!longPressed) {
+                    textCustomiseColoursTitle.text = getString(R.string.made_by_deniz)
+                    textCustomiseColoursDesc.text = getString(R.string.thanks_for_using)
+                } else {
+                    textCustomiseColoursTitle.text = getString(R.string.customise_colours_title)
+                    textCustomiseColoursDesc.text = getString(R.string.customise_colours_desc)
+                }
+                longPressed = !longPressed
+                true
+            }
+            R.id.button_courses_help -> {
+                val link = Uri.parse("https://www.youtube.com/watch?v=Jc2xfYuLWgE") // 'Freak'
+                makeToast(String(Character.toChars(0x2764)))
+                try {
+                    val intent = Intent(Intent.ACTION_VIEW, link)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).setPackage("com.google.android.youtube")
+                    startActivity(intent)
+                } catch (e: ActivityNotFoundException) {
+                    try {
+                        customTabsIntent.launchUrl(mContext, link)
+                    } catch (e: ActivityNotFoundException) {
+                        makeToast(getString(R.string.youtube_not_found))
+                    }
+                }
+                true
+            }
+            R.id.button_order_help -> {
+                debugMenu()
+                true
+            }
+            R.id.button_forced_refresh -> {
+                prefs.edit().putString("timeNew", "").putString("newFoodTime", "").apply()
+                makeToast(mContext.getString(R.string.force_refresh_cleared_times))
+                true
+            }
+            else -> false
         }
     }
 
@@ -290,7 +312,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener,
 
     // Functions for handling touch events for recycler view elements
     override fun onColourClick(position: Int, title: String, titleNoLang: String) {
-        val colourPickerBuilder = AlertDialog.Builder(mContext, R.style.AlertDialog)
+        val colourPickerBuilder = AlertDialog.Builder(mContext)
         val pickerDialogView = View.inflate(mContext, R.layout.empty_dialog, null)
         val pickerTitleText = pickerDialogView.findViewById<TextView>(R.id.empty_textviewtitle)
         val pickerLayout = pickerDialogView.findViewById<LinearLayout>(R.id.empty_linearlayout)
@@ -330,9 +352,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener,
 
     // Functions for handling dialog creation
     private fun createDialog(title: String, text: String) {
-        val alertDialog = AlertDialog.Builder(mContext,
-            R.style.AlertDialog
-        )
+        val alertDialog = AlertDialog.Builder(mContext)
         val dialogView = View.inflate(mContext, R.layout.simple_dialog, null)
         dialogView.findViewById<TextView>(R.id.textviewtitle).text = title
         dialogView.findViewById<TextView>(R.id.dialogtext).text = text
@@ -340,7 +360,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener,
     }
 
     private fun createColourDialog() {
-        val colourCustomisationDialogBuilder = AlertDialog.Builder(mContext, R.style.AlertDialog)
+        val colourCustomisationDialogBuilder = AlertDialog.Builder(mContext)
 
         val dialogView = View.inflate(mContext, R.layout.recycler_dialog, null)
         val titleText = dialogView.findViewById<TextView>(R.id.empty_textviewtitle)
@@ -365,7 +385,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener,
             }
             startActivity(intent)
         } else {
-            val ringtoneCustomiserBuilder = AlertDialog.Builder(mContext, R.style.AlertDialog)
+            val ringtoneCustomiserBuilder = AlertDialog.Builder(mContext)
 
             val dialogView = View.inflate(mContext, R.layout.recycler_dialog, null)
             val titleText = dialogView.findViewById<TextView>(R.id.empty_textviewtitle)
@@ -380,18 +400,14 @@ internal class SettingsFragment : Fragment(), View.OnClickListener,
 
             ringtoneDialog = ringtoneCustomiserBuilder.setView(dialogView).create()
             ringtoneDialog.show()
-
-//            recycler.postDelayed({
-//                recycler.
-//            }, 100)
         }
     }
 
     private fun debugMenu(): Boolean {
-        val alertDialog = AlertDialog.Builder(mContext, R.style.AlertDialog)
+        val alertDialog = AlertDialog.Builder(mContext)
         val dialogView = View.inflate(mContext, R.layout.edittext_dialog, null)
         val dialogEditText = dialogView.findViewById<EditText>(R.id.dialog_edittext)
-        val dialogButton = dialogView.findViewById<Button>(R.id.dialog_button)
+        val dialogButton = dialogView.findViewById<MaterialButton>(R.id.dialog_button)
 
         dialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(
                 R.string.experimental_menu_dialog_title
@@ -402,11 +418,11 @@ internal class SettingsFragment : Fragment(), View.OnClickListener,
         dialogButton.setOnClickListener {
             when (dialogEditText.text.toString()) {
                 "_STATISTICS" -> {
-                    val alertDialogDev = AlertDialog.Builder(mContext, R.style.AlertDialog)
+                    val alertDialogDev = AlertDialog.Builder(mContext)
                     val devDialogView = View.inflate(mContext, R.layout.diagnostics_dialog, null)
                     val devDialogText = devDialogView.findViewById<TextView>(R.id.dialogtext)
-                    val resetLaunchBtn = devDialogView.findViewById<Button>(R.id.btnResetLaunch)
-                    val resetNotificationBtn = devDialogView.findViewById<Button>(R.id.btnResetNotif)
+                    val resetLaunchBtn = devDialogView.findViewById<MaterialButton>(R.id.btnResetLaunch)
+                    val resetNotificationBtn = devDialogView.findViewById<MaterialButton>(R.id.btnResetNotif)
 
                     devDialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.statistics_dialog_title)
                     devDialogText.text = getDiagnosticsText()

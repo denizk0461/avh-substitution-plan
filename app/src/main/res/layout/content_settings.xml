@@ -61,7 +61,11 @@
                         app:boxStrokeWidth="1dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/header_personalise">
+                        app:layout_constraintTop_toBottomOf="@+id/header_personalise"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edittext_name"
@@ -120,7 +124,11 @@
                         android:layout_marginEnd="8dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/switch_greeting">
+                        app:layout_constraintTop_toBottomOf="@+id/switch_greeting"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp">
 
                         <AutoCompleteTextView
                             android:id="@+id/autocomplete_dark_mode"
@@ -328,7 +336,11 @@
                         app:layout_constraintEnd_toStartOf="@+id/button_group_help"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/header_filter"
-                        android:importantForAutofill="no">
+                        android:importantForAutofill="no"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edittext_group"
@@ -371,7 +383,11 @@
                         app:boxStrokeWidth="1dp"
                         app:layout_constraintStart_toStartOf="@+id/textinputlayout_group"
                         app:layout_constraintTop_toBottomOf="@+id/textinputlayout_group"
-                        app:layout_constraintEnd_toStartOf="@+id/button_courses_help">
+                        app:layout_constraintEnd_toStartOf="@+id/button_courses_help"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edittext_courses"
@@ -412,7 +428,11 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/button_order_help"
-                        app:layout_constraintTop_toBottomOf="@+id/textinputlayout_courses">
+                        app:layout_constraintTop_toBottomOf="@+id/textinputlayout_courses"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp">
 
                         <AutoCompleteTextView
                             android:id="@+id/autocomplete_order"

@@ -19,11 +19,7 @@
         <item name="android:statusBarColor">@color/colorBackground</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">@bool/isLight</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="27">@bool/isLight</item>
-    </style>
-
-    <style name="AlertDialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
-        <item name="android:background">@color/colorBackgroundLight</item>
-        <item name="android:textColorPrimary">@color/colorText</item>
+        <item name="alertDialogTheme">@style/AppTheme0.AlertDialogTheme</item>
     </style>
 
     <!-- Launch / splash screen -->
@@ -31,6 +27,10 @@
         <item name="android:windowBackground">@drawable/launch_screen</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="AppTheme0.AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="dialogCornerRadius">12dp</item>
     </style>
 
 </resources>

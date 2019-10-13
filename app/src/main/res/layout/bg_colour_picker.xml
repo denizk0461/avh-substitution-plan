@@ -6,7 +6,8 @@
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
     android:paddingBottom="8dp"
-    android:scrollbars="vertical">
+    android:scrollbars="vertical"
+    android:background="@color/colorBackgroundLight">
 
     <TableRow
         android:layout_width="match_parent"

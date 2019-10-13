@@ -148,7 +148,7 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
     }
 
     private fun createDialog(title: String, text: String) {
-        val alertDialog = AlertDialog.Builder(context, R.style.AlertDialog)
+        val alertDialog = AlertDialog.Builder(context)
         val dialogView = View.inflate(context, R.layout.simple_dialog, null)
         val dialogTitle = dialogView.findViewById<TextView>(R.id.textviewtitle)
         val dialogText = dialogView.findViewById<TextView>(R.id.dialogtext)

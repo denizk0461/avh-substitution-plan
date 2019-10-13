@@ -49,7 +49,6 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
-//        prefs = PreferenceManager.getDefaultSharedPreferences(context)
         prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val edit = prefs.edit()
 

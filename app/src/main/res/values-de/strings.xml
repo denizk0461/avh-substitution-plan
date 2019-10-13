@@ -44,10 +44,10 @@
     <string name="grade_help_dialog_title">Wie du deine Klasse eintragen kannst</string>
     <string name="courses_help_dialog_text">Trag die Kürzel für die Kurse ein, welche in deinem persönlichen Plan auftauchen sollen und über welche du benachrichtigt werden möchtest. Du kannst diese auf deinem Stundenplan finden.\n\nHier sind einige Beispiele:\n\nMathe in der 5. Klasse (Mittelstufe) wäre MAT.\n\nDer Englisch-Profilkurs in der E-Phase könnte ENP1 sein.\n\nDer Bio-Grundkurs in der Q1 ist z.B. bio1.\n\nMeist müssen Kurse für Mittelstufenschüler nicht eingetragen werden.\nTrenne mehrere Kurse mit Leerzeichen, Kommas sind optional.\nGroß- und Kleinschreibung wird beachtet.</string>
     <string name="grade_help_dialog_text">Trage deine derzeitige Klasse ein, damit sie in deinem persönlichen Plan auftaucht und über Aktualisierungen informiert zu werden.\n\nAnmerkung:\n\nIn der Mittelstufe müssen Nummer und Buchstabe zusammen geschrieben werden, Beispiel: \"5a\".\n\nIn der E-Phase müssen diese durch ein Leerzeichen getrennt werden, Beispiel: \"18 a\".\n\nIn der Q1/Q2 sollen nur die Nummern eingetragen werden, Beispiel: \"17\".\n\nMehrere Klassen einzutragen ist nicht empfohlen.</string>
-    <string name="experimental_menu_dialog_text">Dieses Menü ist derzeit nur für Tests gedacht. Zusätzliche Funktionalität könnte in der Zukunft hinzugefügt werden. Probier\' gerne zufällige Codes aus.</string>
+    <string name="experimental_menu_dialog_text">Dieses Menü dient für Tests.</string>
     <string name="apply">Anwenden</string>
     <string name="invalid_code">Ungültiger Code</string>
-    <string name="experimental_menu_dialog_title">Experimentalmenü</string>
+    <string name="experimental_menu_dialog_title">Testmenü</string>
     <string name="statistics_dialog_title">Statistikmenü</string>
     <string name="enable_course_notifications">Kursbenachrichtigungen aktivieren</string>
     <string name="no_personal_substitutions">Kein Entfall für dich</string>
@@ -162,4 +162,5 @@
     <string name="ordering_systems_dialog_text">Du kannst zwischen zwei Sortierweisen auswählen, welche die Reihenfolge der Einträge auf dem Vertretungsplan bestimmen.\n\nStandardmäßig ist \'App-spezifisch\' ausgewählt; dies bietet einen konsistenten Plan sortiert nach Klassen, dann nach Stunden.\n\n\'Website-Original\' bietet die Original-Reihenfolge der Website. Diese ist jedoch nicht konsistent, weswegen \'App-spezifisch\' standardmäßig ausgewählt ist.</string>
     <string name="error_please_try_again">Ein Fehler ist aufgetreten, bitte versuche es erneut</string>
     <string name="thanks_for_using">Danke, dass du die App nutzt!</string>
+    <string name="congratulations_for_nothing">Gratulation! Du hast nichts erreicht.</string>
 </resources>
