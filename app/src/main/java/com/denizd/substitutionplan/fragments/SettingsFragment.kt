@@ -155,7 +155,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
             })
 
             // Set spinners (+ listeners)
-            val darkModeList = if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+            val darkModeList = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
                 R.array.themes_pre_q
             } else {
                 R.array.themes
@@ -178,7 +178,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                             window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.colorBackground)
                         }
                     }
-                    2 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) // only accessible on API 29+
+                    2 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) // only accessible on API 28+
                     else -> {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
@@ -415,7 +415,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
         )
         dialogButton.setOnClickListener {
             when (dialogEditText.text.toString()) {
-                "_STATISTICS" -> {
+                "_statistics" -> {
                     val alertDialogDev = AlertDialog.Builder(mContext)
                     val devDialogView = View.inflate(mContext, R.layout.diagnostics_dialog, null)
                     val devDialogText = devDialogView.findViewById<TextView>(R.id.dialogtext)
@@ -438,20 +438,20 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                     alertDialogDev.setView(devDialogView)
                     alertDialogDev.show()
                 }
-                "_LOGIN" -> {
+                "_login" -> {
                     prefs.edit().putBoolean("successful_login", false).apply()
                     makeToast("Login flag cleared")
                 }
-                "_FIRSTTIME" -> {
+                "_firsttime" -> {
                     prefs.edit().putBoolean("firstTime", true).apply()
                     makeToast("First time flag cleared")
                 }
-                "_TESTURLS" -> {
+                "_testurls" -> {
                     val currentTest = !prefs.getBoolean("testUrls", false)
                     prefs.edit().putBoolean("testUrls", currentTest).apply()
                     makeToast("Test URLs set to $currentTest")
                 }
-                "_DEVCHANNEL" -> {
+                "_devchannel" -> {
                     val subbed = if (prefs.getBoolean("subscribedToFBDebugChannel", false)) {
                         unsubscribeFromTopic(Topic.DEVELOPMENT)
                         "Unsubscribed from"
@@ -462,7 +462,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                     prefs.edit().putBoolean("subscribedToFBDebugChannel", !prefs.getBoolean("subscribedToFBDebugChannel", false)).apply()
                     makeToast("$subbed Firebase development channel")
                 }
-                "_IOSCHANNEL" -> {
+                "_ioschannel" -> {
                     val subbed = if (prefs.getBoolean("subscribedToiOSChannel", false)) {
                         unsubscribeFromTopic(Topic.IOS)
                         "Unsubscribed from"
@@ -473,8 +473,8 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                     prefs.edit().putBoolean("subscribedToiOSChannel", !prefs.getBoolean("subscribedToiOSChannel", false)).apply()
                     makeToast("$subbed iOS channel")
                 }
-                "_WRITE" -> HelperFunctions.writePrefsToXml(prefs, mContext, activity!!)
-                "_READ" -> HelperFunctions.readPrefsFromXml(prefs, mContext, activity!!)
+                "_write" -> HelperFunctions.writePrefsToXml(prefs, mContext, activity!!)
+                "_read" -> HelperFunctions.readPrefsFromXml(prefs, mContext, activity!!)
                 else -> makeToast(getString(R.string.invalid_code))
             }
         }

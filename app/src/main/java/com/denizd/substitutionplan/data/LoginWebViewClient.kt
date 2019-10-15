@@ -1,11 +1,9 @@
 package com.denizd.substitutionplan.data
 
 import android.graphics.Bitmap
-import android.util.Log
 import android.webkit.CookieManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import java.lang.IllegalStateException
 
 /**
  * Class that extends WebViewClient to provide a function that checks the website's cookies to

@@ -43,10 +43,6 @@ internal object HelperFunctions {
             "Theatre", "Geography", "History", "Politics", "Philosophy", "Religion", "Maths", "Biology", "Chemistry",
             "Physics", "CompSci", "PhysEd", "GLL", "WAT", "Forder", "WP")
 
-    val colourNames = arrayOf("default", "red", "orange", "yellow", "green", "teal", "cyan", "blue", "purple", "pink",
-            "brown", "grey", "salmon", "tangerine", "banana", "flora", "spindrift", "sky", "orchid",
-            "lavender", "carnation", "brown2", "pureWhite", "pureBlack")
-
     /**
      * A lower-cased list of all phrases used to describe that a course has been cancelled. Expand
      * this if necessary. No further code changes required if this is expanded
@@ -84,8 +80,16 @@ internal object HelperFunctions {
 
     const val notificationChannelId = "general"
 
-    fun getColourArray(c: Context): Array<Colour> {
-        val titles = c.resources.getStringArray(R.array.colour_names)
+    /**
+     * This function returns an array that contains all data relevant to tinting individual entries
+     * on the substitution plan
+     *
+     * @param context   a context reference to resolve the R.array reference
+     *
+     * @return the array of type Colour
+     */
+    fun getColourArray(context: Context): Array<Colour> {
+        val titles = context.resources.getStringArray(R.array.colour_names)
         return arrayOf(
             Colour(titles[0], "default", 0, 0),
             Colour(titles[1], "red", 0, R.color.bgRed),
@@ -216,13 +220,13 @@ internal object HelperFunctions {
      *
      * @param prefs     a reference to the app's SharedPreferences
      */
-    fun transferOldColourIntsToString(prefs: SharedPreferences) {
+    fun transferOldColourIntsToString(prefs: SharedPreferences, context: Context) {
         var colour = ""
         val edit = prefs.edit()
         for (course in languageIndependentCourses) {
             for (i in colourIntegers.indices) {
                 if (prefs.getInt("bg$course", 0) == colourIntegers[i]) {
-                    colour = colourNames[i]
+                    colour = getColourArray(context)[i].titleNoLang
                     break
                 }
                 colour = ""

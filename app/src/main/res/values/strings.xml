@@ -14,9 +14,9 @@
     <string name="enable_course_notifications_title">Enable course notifications</string>
     <string name="enable_course_notifications_desc">This does not affect broadcasts</string>
 
-    <string name="personalise">Personalise</string>
+    <string name="personalise">Personalize</string>
     <string name="misc">Miscellaneous</string>
-    <string name="default_plan_title">Set personalised plan as default</string>
+    <string name="default_plan_title">Set personalized plan as default</string>
     <string name="default_plan_desc">Defaults to general plan otherwise</string>
     <string name="visit_website_title">Visit the school\'s website</string>
     <string name="visit_website_desc">In case you need to</string>
@@ -39,7 +39,7 @@
     <string name="greeting_title">Enable greeting</string>
     <string name="greeting_desc">If you want me to be nice :)</string>
 
-    <string name="licences_title">Licences</string>
+    <string name="licences_title">Licenses</string>
     <string name="licences_desc">What went into making this app</string>
     <string name="version">Version Number</string>
 
@@ -53,7 +53,7 @@
     <string name="grade_help_dialog_title">How to enter your grade</string>
     <string name="grade_help_dialog_text">Enter your current grade to have it appear in your personal plan and be notified about any information.\n\nNote:\n\nIn junior phase, put the number and letter together, as in \"5a\".\n\nIn E-Phase, separate them by a space, as in \"18 a\".\n\nIn Q1/Q2, only put in the number, as in \"17\".\n\nEntering multiple grades is not recommended.</string>
     <string name="courses_help_dialog_title">How to enter your courses</string>
-    <string name="courses_help_dialog_text">You need to enter the course abbreviation for every course you want in your personal plan and want to be notified about. You can find them on your time table.\n\nHere\'s a few examples:\n\nMathematics in 5th grade (juniors) would be MAT.\n\nAdvanced English in E-Phase (seniors) for the English profile may be ENP1.\n\nBasic Biology in Q1 could be bio1.\n\nIn most cases, entering courses while in junior phase is redundant.\nSeparate multiple courses by spaces, commas are optional.\nCapitalisation is required.</string>
+    <string name="courses_help_dialog_text">You need to enter the course abbreviation for every course you want in your personal plan and want to be notified about. You can find them on your time table.\n\nHere\'s a few examples:\n\nMathematics in 5th grade (juniors) would be MAT.\n\nAdvanced English in E-Phase (seniors) for the English profile may be ENP1.\n\nBasic Biology in Q1 could be bio1.\n\nIn most cases, entering courses while in junior phase is redundant.\nSeparate multiple courses by spaces, commas are optional.\nCapitalization is required.</string>
     <string name="experimental_menu_dialog_title">Testing Menu</string>
     <string name="statistics_dialog_title">Statistics Menu</string>
     <string name="experimental_menu_dialog_text">This menu is intended for testing only.</string>
@@ -61,8 +61,8 @@
     <string name="invalid_code">Invalid code</string>
     <string name="no_personal_substitutions">No substitutions for you</string>
 
-    <string name="customise_colours_title">Customise colours</string>
-    <string name="customise_colours_desc">Customise every subject individually</string>
+    <string name="customise_colours_title">Customize colors</string>
+    <string name="customise_colours_desc">Customize every subject individually</string>
 
     <string name="course_deu">German (+ as a second language)</string>
     <string name="course_mat">Mathematics</string>
@@ -126,7 +126,7 @@
         <item>Hi %s!</item>
     </string-array>
 
-    <string name="pick_ringtone_title">Customise notification ringtone</string>
+    <string name="pick_ringtone_title">Customize notification ringtone</string>
     <string name="pick_ringtone_desc">Currently: %s</string>
     <string name="pick_ringtone_dialog_title">Pick a notification ringtone</string>
     <string name="pick_ringtone_desc_o">Redirects to device settings</string>
@@ -172,7 +172,7 @@
     </string-array>
     <string name="ordering_system_hint">Ordering system</string>
     <string name="ordering_systems_dialog_title">Information on ordering systems</string>
-    <string name="ordering_systems_dialog_text">You may pick between two ordering systems that dictate the order in which the items on the substitution plan will appear in.\n\nThe default \'app-specific\' is an algorithm implemented in this app that provides a consistently-sorted substitution plan ordered just like the substitution plan on the website used to; sorted by classes, then by time.\n\n\'Website original\' offers the items on the substitution plan just like they\'re presented on the school website, but since these are not guaranteed to be consistent, \'app-specific\' is picked by default.</string>
+    <string name="ordering_systems_dialog_text">You may pick between two ordering systems that decide the order in which the items on the substitution plan will appear in.\n\nThe default \'app-specific\' is an algorithm implemented in this app that provides a consistently-sorted substitution plan ordered just like the substitution plan on the website used to; sorted by classes, then by time.\n\n\'Website original\' offers the items on the substitution plan just like they\'re presented on the school website, but since these are not guaranteed to be consistent, \'app-specific\' is picked by default.</string>
     <string name="error_please_try_again">An error occurred, please try again</string>
     <string name="thanks_for_using">Thanks for using the app!</string>
     <string name="congratulations_for_nothing">Congratulations! You have achieved nothing.</string>

@@ -70,7 +70,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
             else -> { // launch the app
 
                 if (!prefs.getBoolean("colourTransferred", false)) {
-                    HelperFunctions.transferOldColourIntsToString(prefs)
+                    HelperFunctions.transferOldColourIntsToString(prefs, context)
                     edit.putBoolean("colourTransferred", true).apply()
                 }
 
