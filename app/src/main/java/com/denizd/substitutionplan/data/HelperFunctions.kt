@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.FragmentActivity
 import com.denizd.substitutionplan.R
+import com.denizd.substitutionplan.models.Colour
 import com.denizd.substitutionplan.models.Substitution
 import java.util.*
 import java.io.File
@@ -43,8 +44,8 @@ internal object HelperFunctions {
             "Physics", "CompSci", "PhysEd", "GLL", "WAT", "Forder", "WP")
 
     val colourNames = arrayOf("default", "red", "orange", "yellow", "green", "teal", "cyan", "blue", "purple", "pink",
-            "brown", "grey", "pureWhite", "salmon", "tangerine", "banana", "flora", "spindrift", "sky", "orchid",
-            "lavender", "carnation", "brown2", "pureBlack")
+            "brown", "grey", "salmon", "tangerine", "banana", "flora", "spindrift", "sky", "orchid",
+            "lavender", "carnation", "brown2", "pureWhite", "pureBlack")
 
     /**
      * A lower-cased list of all phrases used to describe that a course has been cancelled. Expand
@@ -83,33 +84,41 @@ internal object HelperFunctions {
 
     const val notificationChannelId = "general"
 
-    fun getColourForString(name: String): Int {
-        return when (name) {
-            "red" -> R.color.bgRed
-            "orange" -> R.color.bgOrange
-            "yellow" -> R.color.bgYellow
-            "green" -> R.color.bgGreen
-            "teal" -> R.color.bgTeal
-            "cyan" -> R.color.bgCyan
-            "blue" -> R.color.bgBlue
-            "purple" -> R.color.bgPurple
-            "pink" -> R.color.bgPink
-            "brown" -> R.color.bgBrown
-            "grey" -> R.color.bgGrey
-            "pureWhite" -> R.color.bgPureWhite
-            "salmon" -> R.color.bgSalmon
-            "tangerine" -> R.color.bgTangerine
-            "banana" -> R.color.bgBanana
-            "flora" -> R.color.bgFlora
-            "spindrift" -> R.color.bgSpindrift
-            "sky" -> R.color.bgSky
-            "orchid" -> R.color.bgOrchid
-            "lavender" -> R.color.bgLavender
-            "carnation" -> R.color.bgCarnation
-            "brown2" -> R.color.bgBrown2
-            "pureBlack" -> R.color.bgPureBlack
-            else -> R.color.colorBackgroundLight
+    fun getColourArray(c: Context): Array<Colour> {
+        val titles = c.resources.getStringArray(R.array.colour_names)
+        return arrayOf(
+            Colour(titles[0], "default", 0, 0),
+            Colour(titles[1], "red", 0, R.color.bgRed),
+            Colour(titles[2], "orange", 0, R.color.bgOrange),
+            Colour(titles[3], "yellow", 0, R.color.bgYellow),
+            Colour(titles[4], "green", 0, R.color.bgGreen),
+            Colour(titles[5], "teal", 0, R.color.bgTeal),
+            Colour(titles[6], "cyan", 0, R.color.bgCyan),
+            Colour(titles[7], "blue", 0, R.color.bgBlue),
+            Colour(titles[8], "purple", 0, R.color.bgPurple),
+            Colour(titles[9], "pink", 0, R.color.bgPink),
+            Colour(titles[10], "brown", 0, R.color.bgBrown),
+            Colour(titles[11], "grey", 0, R.color.bgGrey),
+            Colour(titles[12], "salmon", 0, R.color.bgSalmon),
+            Colour(titles[13], "tangerine", 0, R.color.bgTangerine),
+            Colour(titles[14], "banana", 0, R.color.bgBanana),
+            Colour(titles[15], "flora", 0, R.color.bgFlora),
+            Colour(titles[16], "spindrift", 0, R.color.bgSpindrift),
+            Colour(titles[17], "sky", 0, R.color.bgSky),
+            Colour(titles[18], "orchid", 0, R.color.bgOrchid),
+            Colour(titles[19], "lavender", 0, R.color.bgLavender),
+            Colour(titles[20], "carnation", 0, R.color.bgCarnation),
+            Colour(titles[21], "brown2", 0, R.color.bgBrown2),
+            Colour(titles[22], "pureWhite", 0, R.color.bgPureWhite),
+            Colour(titles[23], "pureBlack", 0, R.color.bgPureBlack)
+        )
+    }
+
+    fun getColourForString(name: String, context: Context): Int {
+        for (colour in getColourArray(context)) {
+            if (colour.titleNoLang == name) return colour.colour
         }
+        return 0
     }
 
     fun getIconForCourse(course: String): Int {

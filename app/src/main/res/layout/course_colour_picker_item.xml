@@ -26,10 +26,9 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="8dp"
-            android:tint="@color/colorText"
             app:layout_constraintBottom_toBottomOf="@+id/item_text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/item_text" />
+            app:layout_constraintTop_toTopOf="@+id/item_text"/>
 
         <TextView
             android:id="@+id/item_text"

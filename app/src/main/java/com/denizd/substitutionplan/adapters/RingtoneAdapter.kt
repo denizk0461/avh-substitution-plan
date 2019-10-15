@@ -32,7 +32,7 @@ internal class RingtoneAdapter(private val ringtones: List<Ringtone>, private va
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RingtoneViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.course_colour_picker_item, parent, false)
         return RingtoneViewHolder(v, onClickListener)
     }
 

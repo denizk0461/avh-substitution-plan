@@ -119,7 +119,7 @@ internal class SubstitutionAdapter(private var substitutions: List<Substitution>
             } else {
                 ""
             }
-            colour = HelperFunctions.getColourForString(colourPrefsInt)
+            colour = HelperFunctions.getColourForString(colourPrefsInt, holder.context)
             cardBackgroundColour = if (colour != 0) {
                 colour
             } else {

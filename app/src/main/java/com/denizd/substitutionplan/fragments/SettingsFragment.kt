@@ -27,7 +27,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.denizd.substitutionplan.*
-import com.denizd.substitutionplan.adapters.ColourAdapter
+import com.denizd.substitutionplan.adapters.ColourPickerAdapter
+import com.denizd.substitutionplan.adapters.CourseColourAdapter
 import com.denizd.substitutionplan.adapters.RingtoneAdapter
 import com.denizd.substitutionplan.data.DataFetcher
 import com.denizd.substitutionplan.data.HelperFunctions
@@ -41,8 +42,8 @@ import com.google.firebase.messaging.FirebaseMessaging
 import kotlin.collections.ArrayList
 
 internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListener,
-        CompoundButton.OnCheckedChangeListener, ColourAdapter.OnColourClickListener,
-        RingtoneAdapter.OnRingtoneClickListener {
+        CompoundButton.OnCheckedChangeListener, CourseColourAdapter.OnCourseColourClickListener,
+        RingtoneAdapter.OnRingtoneClickListener, ColourPickerAdapter.OnColourClickListener {
 
     private lateinit var mContext: Context
     private lateinit var prefs: SharedPreferences
@@ -50,6 +51,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
     private var window: Window? = null
     private var longPressed = false
     private var versionCount = 0
+    private var currentCourseSelectedInColourPicker = ""
 
     private val ringtones: List<Ringtone> by lazy {
         getRingtones()
@@ -57,6 +59,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
 
     private lateinit var colourRecycler: RecyclerView
     private lateinit var ringtoneDialog: AlertDialog
+    private lateinit var colourPickerDialog: AlertDialog
 
     private lateinit var binding: ContentSettingsBinding
     private lateinit var textCustomiseColoursTitle: TextView
@@ -311,34 +314,29 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
     }
 
     // Functions for handling touch events for recycler view elements
-    override fun onColourClick(position: Int, title: String, titleNoLang: String) {
+    override fun onCourseClick(position: Int, title: String, titleNoLang: String) {
+        currentCourseSelectedInColourPicker = titleNoLang
+
         val colourPickerBuilder = AlertDialog.Builder(mContext)
-        val pickerDialogView = View.inflate(mContext, R.layout.empty_dialog, null)
-        val pickerTitleText = pickerDialogView.findViewById<TextView>(R.id.empty_textviewtitle)
-        val pickerLayout = pickerDialogView.findViewById<LinearLayout>(R.id.empty_linearlayout)
-        pickerTitleText.text = title
-
-        val picker = View.inflate(mContext, R.layout.bg_colour_picker, null)
-        pickerLayout.addView(picker)
-        colourPickerBuilder.setView(pickerDialogView)
-        val colourPickerDialog: AlertDialog = colourPickerBuilder.create()
-
-        val buttons = intArrayOf(R.id.def, R.id.red, R.id.orange, R.id.yellow, R.id.green,
-                R.id.teal, R.id.cyan, R.id.blue, R.id.purple, R.id.pink, R.id.brown, R.id.grey,
-                R.id.pureWhite, R.id.salmon, R.id.tangerine, R.id.banana, R.id.flora, R.id.spindrift,
-                R.id.sky, R.id.orchid, R.id.lavender, R.id.carnation, R.id.brown2, R.id.pureBlack)
-        val colours = HelperFunctions.colourNames
-
-        for (i2 in buttons.indices) {
-            picker.findViewById<MaterialButton>(buttons[i2]).setOnClickListener {
-                prefs.edit().putString("card$titleNoLang", colours[i2]).apply()
-                val recyclerViewState = colourRecycler.layoutManager?.onSaveInstanceState()
-                colourRecycler.adapter = ColourAdapter(getColourList(), this)
-                colourRecycler.layoutManager?.onRestoreInstanceState(recyclerViewState)
-                colourPickerDialog.dismiss()
-            }
+        val dialogView = View.inflate(mContext, R.layout.recycler_dialog, null)
+        val titleText = dialogView.findViewById<TextView>(R.id.empty_textviewtitle)
+        titleText.text = title
+        val colourRecycler = dialogView.findViewById<RecyclerView>(R.id.recyclerView)
+        colourRecycler.apply {
+            hasFixedSize()
+            layoutManager = GridLayoutManager(mContext, 1)
+            adapter = ColourPickerAdapter(HelperFunctions.getColourArray(mContext).toList(), this@SettingsFragment)
         }
+        colourPickerDialog = colourPickerBuilder.setView(dialogView).create()
         colourPickerDialog.show()
+    }
+
+    override fun onColourClick(position: Int, colourNoLang: String) {
+        prefs.edit().putString("card$currentCourseSelectedInColourPicker", colourNoLang).apply()
+        val recyclerViewState = colourRecycler.layoutManager?.onSaveInstanceState()
+        colourRecycler.adapter = CourseColourAdapter(getColourList(), this)
+        colourRecycler.layoutManager?.onRestoreInstanceState(recyclerViewState)
+        colourPickerDialog.dismiss()
     }
 
     override fun onRingtoneClick(position: Int, name: String, uri: String) {
@@ -365,11 +363,11 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
         val dialogView = View.inflate(mContext, R.layout.recycler_dialog, null)
         val titleText = dialogView.findViewById<TextView>(R.id.empty_textviewtitle)
         titleText.text = getString(R.string.customise_colours_title)
-        val colourRecycler = dialogView.findViewById<RecyclerView>(R.id.recyclerView)
+        colourRecycler = dialogView.findViewById(R.id.recyclerView)
         colourRecycler.apply {
             hasFixedSize()
             layoutManager = GridLayoutManager(mContext, 1)
-            adapter = ColourAdapter(getColourList(), this@SettingsFragment)
+            adapter = CourseColourAdapter(getColourList(), this@SettingsFragment)
         }
         colourCustomisationDialogBuilder.setView(dialogView)
         val colourCustomisationDialog = colourCustomisationDialogBuilder.create()
@@ -550,7 +548,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                     courses[i],
                     coursesNoLang[i],
                     coursesIcons[i],
-                    HelperFunctions.getColourForString(prefs.getString("card${coursesNoLang[i]}", "") ?: "")
+                    HelperFunctions.getColourForString(prefs.getString("card${coursesNoLang[i]}", "") ?: "", mContext)
                 )
             )
         }

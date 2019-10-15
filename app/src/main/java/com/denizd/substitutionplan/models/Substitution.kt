@@ -17,7 +17,6 @@ internal data class Substitution(
     val date_priority: Int,
     val website_priority: Int
 ) {
-
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 }

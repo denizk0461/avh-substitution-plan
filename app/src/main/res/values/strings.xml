@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">AvH Plan</string>
     <string name="substitution_plan">Substitution Plan</string>
@@ -175,4 +176,31 @@
     <string name="error_please_try_again">An error occurred, please try again</string>
     <string name="thanks_for_using">Thanks for using the app!</string>
     <string name="congratulations_for_nothing">Congratulations! You have achieved nothing.</string>
+
+    <string-array name="colour_names">
+        <item>Default</item>
+        <item>Red</item>
+        <item>Orange</item>
+        <item>Yellow</item>
+        <item>Green</item>
+        <item>Cyan</item>
+        <item>Light blue</item>
+        <item>Blue</item>
+        <item>Purple</item>
+        <item>Pink</item>
+        <item>Brown</item>
+        <item>Grey</item>
+        <item>Red (iOS)</item>
+        <item>Orange (iOS)</item>
+        <item>Yellow (iOS)</item>
+        <item>Green (iOS)</item>
+        <item>Cyan (iOS)</item>
+        <item>Light blue (iOS)</item>
+        <item>Blue (iOS)</item>
+        <item>Purple (iOS)</item>
+        <item>Pink (iOS)</item>
+        <item>Brown (iOS)</item>
+        <item>White</item>
+        <item>Black</item>
+    </string-array>
 </resources>

@@ -5,6 +5,7 @@
     <color name="colorAccent">#64b5f6</color>
     <color name="colorText">#e0e0e0</color>
     <color name="colorHint">#9e9e9e</color>
+    <color name="colorHintReversed">#757575</color>
     <color name="colorHintLight">#313131</color>
 
     <color name="bgRed">#5B2B2A</color>

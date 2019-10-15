@@ -163,4 +163,31 @@
     <string name="error_please_try_again">Ein Fehler ist aufgetreten, bitte versuche es erneut</string>
     <string name="thanks_for_using">Danke, dass du die App nutzt!</string>
     <string name="congratulations_for_nothing">Gratulation! Du hast nichts erreicht.</string>
+
+    <string-array name="colour_names">
+        <item>Standard</item>
+        <item>Rot</item>
+        <item>Orange</item>
+        <item>Gelb</item>
+        <item>Grün</item>
+        <item>Cyan</item>
+        <item>Hellblau</item>
+        <item>Blau</item>
+        <item>Violett</item>
+        <item>Pink</item>
+        <item>Braun</item>
+        <item>Grau</item>
+        <item>Rot (iOS)</item>
+        <item>Orange (iOS)</item>
+        <item>Gelb (iOS)</item>
+        <item>Grün (iOS)</item>
+        <item>Cyan (iOS)</item>
+        <item>Hellblau (iOS)</item>
+        <item>Blau (iOS)</item>
+        <item>Violett (iOS)</item>
+        <item>Pink (iOS)</item>
+        <item>Braun (iOS)</item>
+        <item>Weiß</item>
+        <item>Schwarz</item>
+    </string-array>
 </resources>
