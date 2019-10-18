@@ -59,7 +59,9 @@
     <string name="experimental_menu_dialog_text">This menu is intended for testing only.</string>
     <string name="apply">Apply</string>
     <string name="invalid_code">Invalid code</string>
-    <string name="no_personal_substitutions">No substitutions for you</string>
+    <string name="plan_empty">The substitution plan is empty</string>
+    <string name="personal_plan_empty">Your plan is empty :(</string>
+    <string name="food_menu_empty">The food menu is empty</string>
 
     <string name="customise_colours_title">Customize colors</string>
     <string name="customise_colours_desc">Customize every subject individually</string>

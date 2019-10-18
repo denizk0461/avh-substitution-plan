@@ -24,7 +24,7 @@ internal open class PlanFragment : Fragment() {
     internal lateinit var mAdapter: SubstitutionAdapter
     internal var planCardList = ArrayList<Substitution>()
     private lateinit var substViewModel: SubstViewModel
-    private lateinit var mContext: Context
+    internal lateinit var mContext: Context
     internal lateinit var prefs: SharedPreferences
 
     internal var isPersonalPlanEmpty: Boolean = true

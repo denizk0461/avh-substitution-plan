@@ -50,7 +50,9 @@
     <string name="experimental_menu_dialog_title">Testmenü</string>
     <string name="statistics_dialog_title">Statistikmenü</string>
     <string name="enable_course_notifications">Kursbenachrichtigungen aktivieren</string>
-    <string name="no_personal_substitutions">Kein Entfall für dich</string>
+    <string name="plan_empty">Der Vertretungsplan ist leer</string>
+    <string name="personal_plan_empty">Dein Plan ist leer :(</string>
+    <string name="food_menu_empty">Der Speiseplan ist leer</string>
     <string name="customise_colours_title">Benutzerdefinierte Farben</string>
     <string name="customise_colours_desc">Farben für jedes Fach einstellen</string>
     <string name="course_deu">Deutsch (+ DAZ)</string>

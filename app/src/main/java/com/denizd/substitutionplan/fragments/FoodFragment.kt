@@ -12,14 +12,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.denizd.substitutionplan.adapters.FoodAdapter
+import com.denizd.substitutionplan.data.HelperFunctions
 import com.denizd.substitutionplan.database.FoodViewModel
 import com.denizd.substitutionplan.databinding.FoodLayoutBinding
 import com.denizd.substitutionplan.models.Food
 
 internal class FoodFragment : Fragment() {
 
-    private val foodArrayList = ArrayList<Food>()
-    private val mAdapter = FoodAdapter(foodArrayList)
+    private val mAdapter = FoodAdapter(ArrayList())
     private lateinit var mContext: Context
     private lateinit var prefs: SharedPreferences
     private lateinit var foodViewModel: FoodViewModel
@@ -48,12 +48,12 @@ internal class FoodFragment : Fragment() {
 
         foodViewModel = ViewModelProviders.of(this).get(FoodViewModel::class.java)
         foodViewModel.allFoods?.observe(this, Observer<List<Food>> { foodList ->
-            foodArrayList.clear()
-            for (item in foodList) {
-                foodArrayList.add(item)
-            }
             binding.recyclerView.scheduleLayoutAnimation()
-            mAdapter.setFood(foodArrayList)
+            mAdapter.setFood(if (foodList.isEmpty()) {
+                HelperFunctions.getEmptyFoodMenu(mContext)
+            } else {
+                foodList
+            })
         })
 
         if (prefs.getBoolean("autoRefresh", false)) {

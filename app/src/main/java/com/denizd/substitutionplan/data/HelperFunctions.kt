@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.FragmentActivity
 import com.denizd.substitutionplan.R
 import com.denizd.substitutionplan.models.Colour
+import com.denizd.substitutionplan.models.Food
 import com.denizd.substitutionplan.models.Substitution
 import java.util.*
 import java.io.File
@@ -79,6 +80,17 @@ internal object HelperFunctions {
     )
 
     const val notificationChannelId = "general"
+
+    fun getEmptyGeneralSubstitution(context: Context) = arrayOf(
+            Substitution("", "", "", context.getString(R.string.plan_empty), "", "", "", "", 0, 0, 0)
+    ).toList()
+
+    fun getEmptyPersonalSubstitution(context: Context) =
+            Substitution("", "", "", context.getString(R.string.personal_plan_empty), "", "", "", "", 0, 0, 0)
+
+    fun getEmptyFoodMenu(context: Context) = arrayOf(
+            Food("\n${context.getString(R.string.food_menu_empty)}\n", 0)
+    ).toList()
 
     /**
      * This function returns an array that contains all data relevant to tinting individual entries
