@@ -414,68 +414,83 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                 R.string.experimental_menu_dialog_text
         )
         dialogButton.setOnClickListener {
-            when (dialogEditText.text.toString()) {
-                "_statistics" -> {
-                    val alertDialogDev = AlertDialog.Builder(mContext)
-                    val devDialogView = View.inflate(mContext, R.layout.diagnostics_dialog, null)
-                    val devDialogText = devDialogView.findViewById<TextView>(R.id.dialogtext)
-                    val resetLaunchBtn = devDialogView.findViewById<MaterialButton>(R.id.btnResetLaunch)
-                    val resetNotificationBtn = devDialogView.findViewById<MaterialButton>(R.id.btnResetNotif)
+            with (dialogEditText.text.toString()) {
+                when {
+                    this == "_statistics" -> {
+                        val alertDialogDev = AlertDialog.Builder(mContext)
+                        val devDialogView = View.inflate(mContext, R.layout.diagnostics_dialog, null)
+                        val devDialogText = devDialogView.findViewById<TextView>(R.id.dialogtext)
+                        val resetLaunchBtn = devDialogView.findViewById<MaterialButton>(R.id.btnResetLaunch)
+                        val resetNotificationBtn = devDialogView.findViewById<MaterialButton>(R.id.btnResetNotif)
 
-                    devDialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.statistics_dialog_title)
-                    devDialogText.text = getDiagnosticsText()
-
-                    resetLaunchBtn.setOnClickListener {
-                        prefs.edit().putInt("launchDev", 0).apply()
+                        devDialogView.findViewById<TextView>(R.id.textviewtitle).text = getString(R.string.statistics_dialog_title)
                         devDialogText.text = getDiagnosticsText()
-                    }
 
-                    resetNotificationBtn.setOnClickListener {
-                        prefs.edit().putInt("pingFB", 0).apply()
-                        devDialogText.text = getDiagnosticsText()
-                    }
+                        resetLaunchBtn.setOnClickListener {
+                            prefs.edit().putInt("launchDev", 0).apply()
+                            devDialogText.text = getDiagnosticsText()
+                        }
 
-                    alertDialogDev.setView(devDialogView)
-                    alertDialogDev.show()
-                }
-                "_login" -> {
-                    prefs.edit().putBoolean("successful_login", false).apply()
-                    makeToast("Login flag cleared")
-                }
-                "_firsttime" -> {
-                    prefs.edit().putBoolean("firstTime", true).apply()
-                    makeToast("First time flag cleared")
-                }
-                "_testurls" -> {
-                    val currentTest = !prefs.getBoolean("testUrls", false)
-                    prefs.edit().putBoolean("testUrls", currentTest).apply()
-                    makeToast("Test URLs set to $currentTest")
-                }
-                "_devchannel" -> {
-                    val subbed = if (prefs.getBoolean("subscribedToFBDebugChannel", false)) {
-                        unsubscribeFromTopic(Topic.DEVELOPMENT)
-                        "Unsubscribed from"
-                    } else {
-                        subscribeToTopic(Topic.DEVELOPMENT)
-                        "Subscribed to"
+                        resetNotificationBtn.setOnClickListener {
+                            prefs.edit().putInt("pingFB", 0).apply()
+                            devDialogText.text = getDiagnosticsText()
+                        }
+
+                        alertDialogDev.setView(devDialogView)
+                        alertDialogDev.show()
                     }
-                    prefs.edit().putBoolean("subscribedToFBDebugChannel", !prefs.getBoolean("subscribedToFBDebugChannel", false)).apply()
-                    makeToast("$subbed Firebase development channel")
-                }
-                "_ioschannel" -> {
-                    val subbed = if (prefs.getBoolean("subscribedToiOSChannel", false)) {
-                        unsubscribeFromTopic(Topic.IOS)
-                        "Unsubscribed from"
-                    } else {
-                        subscribeToTopic(Topic.IOS)
-                        "Subscribed to"
+                    this == "_login" -> {
+                        prefs.edit().putBoolean("successful_login", false).apply()
+                        makeToast("Login flag cleared")
                     }
-                    prefs.edit().putBoolean("subscribedToiOSChannel", !prefs.getBoolean("subscribedToiOSChannel", false)).apply()
-                    makeToast("$subbed iOS channel")
+                    this == "_firsttime" -> {
+                        prefs.edit().putBoolean("firstTime", true).apply()
+                        makeToast("First time flag cleared")
+                    }
+                    this == "_testurls" -> {
+                        val currentTest = !prefs.getBoolean("testUrls", false)
+                        prefs.edit().putBoolean("testUrls", currentTest)
+                            .putString("custom_test_url", "").apply()
+                        makeToast("Cleared custom URL")
+                        makeToast("Test URLs set to $currentTest")
+                    }
+                    length > 4 && substring(0, 4) == "_url" -> {
+                        prefs.edit().putString("custom_test_url", substring(4, length)).apply()
+                        makeToast("Successfully entered custom URL")
+                    }
+                    length == 4 && substring(0, 4) == "_url" -> {
+                        prefs.edit().putString("custom_test_url", "").apply()
+                        makeToast("Cleared custom URL")
+                    }
+                    this == "_devchannel" -> {
+                        val subbed = if (prefs.getBoolean("subscribedToFBDebugChannel", false)) {
+                            unsubscribeFromTopic(Topic.DEVELOPMENT)
+                            "Unsubscribed from"
+                        } else {
+                            subscribeToTopic(Topic.DEVELOPMENT)
+                            "Subscribed to"
+                        }
+                        prefs.edit().putBoolean("subscribedToFBDebugChannel", !prefs.getBoolean("subscribedToFBDebugChannel", false)).apply()
+                        makeToast("$subbed Firebase development channel")
+                    }
+                    this == "_ioschannel" -> {
+                        val subbed = if (prefs.getBoolean("subscribedToiOSChannel", false)) {
+                            unsubscribeFromTopic(Topic.IOS)
+                            "Unsubscribed from"
+                        } else {
+                            subscribeToTopic(Topic.IOS)
+                            "Subscribed to"
+                        }
+                        prefs.edit().putBoolean("subscribedToiOSChannel", !prefs.getBoolean("subscribedToiOSChannel", false)).apply()
+                        makeToast("$subbed iOS channel")
+                    }
+                    this == "_viewstacktrace" -> {
+                        createDialog("Debug Stack Trace", prefs.getString("debug_recent_exception", "") ?: "")
+                    }
+                    this == "_write" -> HelperFunctions.writePrefsToXml(prefs, mContext, activity!!)
+                    this == "_read" -> HelperFunctions.readPrefsFromXml(prefs, mContext, activity!!)
+                    else -> makeToast(getString(R.string.invalid_code))
                 }
-                "_write" -> HelperFunctions.writePrefsToXml(prefs, mContext, activity!!)
-                "_read" -> HelperFunctions.readPrefsFromXml(prefs, mContext, activity!!)
-                else -> makeToast(getString(R.string.invalid_code))
             }
         }
         alertDialog.setView(dialogView)

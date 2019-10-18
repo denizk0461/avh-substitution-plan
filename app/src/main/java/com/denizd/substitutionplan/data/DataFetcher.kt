@@ -7,9 +7,12 @@ import android.media.RingtoneManager
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
+import android.util.Log
 import androidx.preference.PreferenceManager
 import android.view.View
 import android.widget.RemoteViews
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -73,6 +76,8 @@ internal class DataFetcher(
             if (prefs.getBoolean("testUrls", false)) {
                 substUrl = "https://djd4rkn355.github.io/subst_test.html"
                 foodUrl = "https://djd4rkn355.github.io/food_test.html"
+            } else if ((prefs.getString("custom_test_url", "") ?: "").isNotEmpty()) {
+                substUrl = "https://djd4rkn355.github.io/${prefs.getString("custom_test_url", "")}"
             }
 
             if (forceRefresh) {
@@ -99,13 +104,13 @@ internal class DataFetcher(
                 }
             }
         } catch (e: Exception) {
-            e.printStackTrace()
             mView.get()?.let { v: View ->
                 val snackBarView = v.findViewById<View>(R.id.coordination)
                 Snackbar.make(snackBarView, mContext.get()?.getString(R.string.no_internet_connection) ?: "", Snackbar.LENGTH_LONG).setBackgroundTint(ContextCompat.getColor(mContext.get()!!,
                     R.color.colorError
                 )).show()
             }
+            prefs.edit().putString("debug_recent_exception", Log.getStackTraceString(e)).apply()
         }
         return null
     }
@@ -157,7 +162,7 @@ internal class DataFetcher(
         val substRepo = SubstRepository(mApplication)
         if (currentTime != prefs.getString("timeNew", "")) {
             val rows = doc.select("tr")
-            val paragraphs = doc.select("p")
+            val paragraphs = doc.select("h6")
             val substArray = ArrayList<Substitution>()
 
             val coursePreference = prefs.getString("courses", "") ?: ""
@@ -165,9 +170,9 @@ internal class DataFetcher(
 
             for (i in 0 until paragraphs.size) {
                 if (i == 0) {
-                    informational = paragraphs[i].text()
+                    informational = formatElement(paragraphs[i].html())
                 } else {
-                    informational += "\n\n" + paragraphs[i].text()
+                    informational += "\n\n" + formatElement(paragraphs[i].html())
                 }
             }
             edit.putString("informational", informational).apply()
@@ -189,7 +194,7 @@ internal class DataFetcher(
                     additional = cols[5].text(),
                     teacher = cols[6].text(),
                     type = cols[7].text(),
-                    priority = HelperFunctions.assignRanking(group, date.substring(0, 3) == "psa"),
+                    priority = HelperFunctions.assignRanking(group, (date.length > 2 && date.substring(0, 3) == "psa")),
                     date_priority = HelperFunctions.assignDatePriority(date),
                     website_priority = websitePriority
                 )
@@ -267,5 +272,10 @@ internal class DataFetcher(
 
             manager.notify(1, notification.build())
         }
+    }
+
+    private fun formatElement(element: String): String {
+        return element
+                .replace("<br>", "\n")
     }
 }
