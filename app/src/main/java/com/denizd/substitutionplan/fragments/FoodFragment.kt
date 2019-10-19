@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.denizd.substitutionplan.adapters.FoodAdapter
-import com.denizd.substitutionplan.data.HelperFunctions
+import com.denizd.substitutionplan.data.SubstUtil
 import com.denizd.substitutionplan.database.FoodViewModel
 import com.denizd.substitutionplan.databinding.FoodLayoutBinding
 import com.denizd.substitutionplan.models.Food
@@ -50,7 +50,7 @@ internal class FoodFragment : Fragment() {
         foodViewModel.allFoods?.observe(this, Observer<List<Food>> { foodList ->
             binding.recyclerView.scheduleLayoutAnimation()
             mAdapter.setFood(if (foodList.isEmpty()) {
-                HelperFunctions.getEmptyFoodMenu(mContext)
+                SubstUtil.getEmptyFoodMenu(mContext)
             } else {
                 foodList
             })

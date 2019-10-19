@@ -20,7 +20,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
-import com.denizd.substitutionplan.data.HelperFunctions
+import com.denizd.substitutionplan.data.SubstUtil
 import com.denizd.substitutionplan.R
 import com.denizd.substitutionplan.fragments.FoodFragment
 import com.denizd.substitutionplan.fragments.GeneralPlanFragment
@@ -70,7 +70,7 @@ internal class Main : AppCompatActivity(R.layout.app_bar_main) {
             else -> { // launch the app
 
                 if (!prefs.getBoolean("colourTransferred", false)) {
-                    HelperFunctions.transferOldColourIntsToString(prefs, context)
+                    SubstUtil.transferOldColourIntsToString(prefs, context)
                     edit.putBoolean("colourTransferred", true).apply()
                 }
 

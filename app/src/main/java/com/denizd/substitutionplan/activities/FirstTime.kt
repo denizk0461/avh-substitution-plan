@@ -20,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.denizd.substitutionplan.R
-import com.denizd.substitutionplan.data.HelperFunctions
+import com.denizd.substitutionplan.data.SubstUtil
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import java.util.*
@@ -44,7 +44,7 @@ internal class FirstTime : AppCompatActivity(R.layout.activity_first_time) {
         val parentLayout = findViewById<ConstraintLayout>(R.id.coordinatorLayout)
         parentLayout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
-        HelperFunctions.setTheme(window = window, context = context)
+        SubstUtil.setTheme(window = window, context = context)
 
         prefs = PreferenceManager.getDefaultSharedPreferences(context) as SharedPreferences
         val edit = prefs.edit()

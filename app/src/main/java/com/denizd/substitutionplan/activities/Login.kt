@@ -21,7 +21,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.denizd.substitutionplan.R
-import com.denizd.substitutionplan.data.HelperFunctions
+import com.denizd.substitutionplan.data.SubstUtil
 import com.denizd.substitutionplan.data.LoginWebViewClient
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -48,7 +48,7 @@ internal class Login : AppCompatActivity(R.layout.activity_login_webview), Login
         val title = findViewById<TextView>(R.id.txtWelcome)
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
 
-        HelperFunctions.setTheme(window = window, context = this)
+        SubstUtil.setTheme(window = window, context = this)
 
         logInButton = findViewById(R.id.loginFab)
         logInButton.setOnClickListener {

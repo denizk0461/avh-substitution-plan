@@ -31,7 +31,7 @@ import com.denizd.substitutionplan.adapters.ColourPickerAdapter
 import com.denizd.substitutionplan.adapters.CourseColourAdapter
 import com.denizd.substitutionplan.adapters.RingtoneAdapter
 import com.denizd.substitutionplan.data.DataFetcher
-import com.denizd.substitutionplan.data.HelperFunctions
+import com.denizd.substitutionplan.data.SubstUtil
 import com.denizd.substitutionplan.data.Topic
 import com.denizd.substitutionplan.databinding.ContentSettingsBinding
 import com.denizd.substitutionplan.models.Colour
@@ -325,7 +325,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
         colourRecycler.apply {
             hasFixedSize()
             layoutManager = GridLayoutManager(mContext, 1)
-            adapter = ColourPickerAdapter(HelperFunctions.getColourArray(mContext).toList(), this@SettingsFragment)
+            adapter = ColourPickerAdapter(SubstUtil.getColourArray(mContext).toList(), this@SettingsFragment)
         }
         colourPickerDialog = colourPickerBuilder.setView(dialogView).create()
         colourPickerDialog.show()
@@ -376,7 +376,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
 
     private fun createRingtoneDialog() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            HelperFunctions.getNotificationChannel(mContext, prefs)
+            SubstUtil.getNotificationChannel(mContext, prefs)
             val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
                 putExtra(Settings.EXTRA_APP_PACKAGE, mContext.applicationContext.packageName)
                 putExtra(Settings.EXTRA_CHANNEL_ID, "general")
@@ -487,8 +487,8 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                     this == "_viewstacktrace" -> {
                         createDialog("Debug Stack Trace", prefs.getString("debug_recent_exception", "") ?: "")
                     }
-                    this == "_write" -> HelperFunctions.writePrefsToXml(prefs, mContext, activity!!)
-                    this == "_read" -> HelperFunctions.readPrefsFromXml(prefs, mContext, activity!!)
+                    this == "_write" -> SubstUtil.writePrefsToXml(prefs, mContext, activity!!)
+                    this == "_read" -> SubstUtil.readPrefsFromXml(prefs, mContext, activity!!)
                     else -> makeToast(getString(R.string.invalid_code))
                 }
             }
@@ -501,7 +501,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
     // Functions for retrieving data
     private fun getColourList(): ArrayList<Colour> {
         val colours = ArrayList<Colour>()
-        val coursesNoLang = HelperFunctions.languageIndependentCourses
+        val coursesNoLang = SubstUtil.languageIndependentCourses
         val courses = arrayOf(
                 getString(R.string.course_deu),
                 getString(R.string.course_eng),
@@ -563,7 +563,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                     courses[i],
                     coursesNoLang[i],
                     coursesIcons[i],
-                    HelperFunctions.getColourForString(prefs.getString("card${coursesNoLang[i]}", "") ?: "", mContext)
+                    SubstUtil.getColourForString(prefs.getString("card${coursesNoLang[i]}", "") ?: "", mContext)
                 )
             )
         }

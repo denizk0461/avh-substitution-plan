@@ -11,8 +11,6 @@ import android.util.Log
 import androidx.preference.PreferenceManager
 import android.view.View
 import android.widget.RemoteViews
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -137,7 +135,7 @@ internal class DataFetcher(
             val indices = ArrayList<Int>()
             val daysAndVon = arrayOf("montag", "dienstag", "mittwoch", "donnerstag", "freitag", "von", "wünschen")
             for (i in 0 until foodElements.size) {
-                if (HelperFunctions.checkStringForArray(foodElements[i].text(), daysAndVon, true)) indices.add(i)
+                if (SubstUtil.checkStringForArray(foodElements[i].text(), daysAndVon, true)) indices.add(i)
             }
             indices.add(foodElements.size)
 
@@ -194,8 +192,8 @@ internal class DataFetcher(
                     additional = cols[5].text(),
                     teacher = cols[6].text(),
                     type = cols[7].text(),
-                    priority = HelperFunctions.assignRanking(group, (date.length > 2 && date.substring(0, 3) == "psa")),
-                    date_priority = HelperFunctions.assignDatePriority(date),
+                    priority = SubstUtil.assignRanking(group, (date.length > 2 && date.substring(0, 3) == "psa")),
+                    date_priority = SubstUtil.assignDatePriority(date),
                     website_priority = websitePriority
                 )
                 substArray.add(subst)
@@ -206,7 +204,7 @@ internal class DataFetcher(
             var countOfMoreNotificationItems = 0
             if (jobService && prefs.getBoolean("notif", true)) {
                 substArray.filter { substItem ->
-                    HelperFunctions.checkPersonalSubstitutions(
+                    SubstUtil.checkPersonalSubstitutions(
                         substItem,
                         coursePreference,
                         classPreference,
@@ -249,10 +247,10 @@ internal class DataFetcher(
             val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                HelperFunctions.getNotificationChannel(context, prefs)
+                SubstUtil.getNotificationChannel(context, prefs)
             }
 
-            val notification = NotificationCompat.Builder(context, HelperFunctions.notificationChannelId)
+            val notification = NotificationCompat.Builder(context, SubstUtil.notificationChannelId)
                 .setStyle(NotificationCompat.DecoratedCustomViewStyle())
                 .setCustomContentView(notificationLayout)
                 .setContentIntent(openAppPending)

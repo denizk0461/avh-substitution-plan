@@ -16,7 +16,6 @@ internal abstract class SubstDatabase : RoomDatabase() {
 
     companion object {
 
-        private var instance: SubstDatabase? = null
         private val addTeacherColumn = object : Migration(5, 6) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE subst_table ADD COLUMN teacher TEXT NOT NULL DEFAULT ''")
@@ -37,6 +36,8 @@ internal abstract class SubstDatabase : RoomDatabase() {
                 database.execSQL("ALTER TABLE subst_table ADD COLUMN website_priority INTEGER NOT NULL DEFAULT 0")
             }
         }
+
+        private var instance: SubstDatabase? = null
 
         fun getInstance(context: Context): SubstDatabase? {
             if (instance == null) {

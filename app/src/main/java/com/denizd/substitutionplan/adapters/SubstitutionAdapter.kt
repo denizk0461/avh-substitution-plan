@@ -15,7 +15,7 @@ import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.denizd.substitutionplan.data.HelperFunctions
+import com.denizd.substitutionplan.data.SubstUtil
 import com.denizd.substitutionplan.R
 import com.denizd.substitutionplan.models.Substitution
 import com.google.android.material.card.MaterialCardView
@@ -89,16 +89,16 @@ internal class SubstitutionAdapter(private var substitutions: List<Substitution>
         val add = currentItem.additional
         val type = currentItem.type.toLowerCase(Locale.ROOT)
         if (add.isNotEmpty()) {
-            if (HelperFunctions.checkStringForArray(add, HelperFunctions.cancellations, true)) {
-                strikeThrough(strings)
+            if (SubstUtil.checkStringForArray(add, SubstUtil.cancellations, true)) {
+                strings.strikeThrough()
             }
         } else {
-            if (HelperFunctions.checkStringForArray(type, HelperFunctions.cancellations, true)) {
-                strikeThrough(strings)
+            if (SubstUtil.checkStringForArray(type, SubstUtil.cancellations, true)) {
+                strings.strikeThrough()
             }
         }
 
-        var icon = HelperFunctions.getIconForCourse(currentItem.course)
+        var icon = SubstUtil.getIconForCourse(currentItem.course)
         holder.group.setText(strings[0], TextView.BufferType.SPANNABLE)
         holder.time.setText(strings[1], TextView.BufferType.SPANNABLE)
         holder.course.setText(strings[2], TextView.BufferType.SPANNABLE)
@@ -113,13 +113,13 @@ internal class SubstitutionAdapter(private var substitutions: List<Substitution>
             cardBackgroundColour = R.color.colorAccent
             View.GONE
         } else {
-            val colourString = HelperFunctions.getColourString(holder.course.text.toString())
+            val colourString = SubstUtil.getColourString(holder.course.text.toString())
             val colourPrefsInt = if (colourString.isNotEmpty()) {
                 prefs.getString("card$colourString", "") ?: ""
             } else {
                 ""
             }
-            colour = HelperFunctions.getColourForString(colourPrefsInt, holder.context)
+            colour = SubstUtil.getColourForString(colourPrefsInt, holder.context)
             cardBackgroundColour = if (colour != 0) {
                 colour
             } else {
@@ -171,7 +171,7 @@ internal class SubstitutionAdapter(private var substitutions: List<Substitution>
     }
 
     /// Strikes through the strings for course, room and teacher
-    private fun strikeThrough(strings: Array<SpannableString>) {
-        for (i in 2..4) { strings[i].setSpan(StrikethroughSpan(), 0, strings[i].length, 0) }
+    private fun Array<SpannableString>.strikeThrough() {
+        for (i in 2..4) { this[i].setSpan(StrikethroughSpan(), 0, this[i].length, 0) }
     }
 }

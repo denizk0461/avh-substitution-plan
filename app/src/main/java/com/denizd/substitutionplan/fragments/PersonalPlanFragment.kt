@@ -3,7 +3,7 @@ package com.denizd.substitutionplan.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import com.denizd.substitutionplan.data.HelperFunctions
+import com.denizd.substitutionplan.data.SubstUtil
 import com.denizd.substitutionplan.models.Substitution
 
 internal class PersonalPlanFragment : PlanFragment() {
@@ -20,7 +20,7 @@ internal class PersonalPlanFragment : PlanFragment() {
             binding.recyclerView.visibility = View.VISIBLE
 
             substitutions.filter { substItem ->
-                HelperFunctions.checkPersonalSubstitutions(
+                SubstUtil.checkPersonalSubstitutions(
                     substItem,
                     coursePreference,
                     classPreference,
@@ -31,7 +31,7 @@ internal class PersonalPlanFragment : PlanFragment() {
             }
             isPersonalPlanEmpty = (planCardList.size == 1 && planCardList[0].date.substring(0, 3) == "psa") || planCardList.isEmpty()
             if (isPersonalPlanEmpty) {
-                planCardList.add(HelperFunctions.getEmptyPersonalSubstitution(mContext))
+                planCardList.add(SubstUtil.getEmptyPersonalSubstitution(mContext))
             }
             binding.recyclerView.scheduleLayoutAnimation()
             mAdapter.setSubst(planCardList)

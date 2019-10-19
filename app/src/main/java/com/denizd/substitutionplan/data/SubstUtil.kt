@@ -34,7 +34,7 @@ import javax.xml.parsers.DocumentBuilderFactory
  * An object class used for declaring functions and variables used by multiple classes throughout
  * the project. As it is an object class, it can be accessed statically without initialisation
  */
-internal object HelperFunctions {
+internal object SubstUtil {
 
     /**
      * A language-independent list of all courses that is used to save the custom colours of any
@@ -401,20 +401,20 @@ internal object HelperFunctions {
     private val prefTypes = arrayOf("string", "string", "string", "bool", "int", "bool", "bool", "bool",
         "string", "int", "int", "bool", "bool")
 
-    private fun getPrefValue(prefs: SharedPreferences, type: String, key: String): Any {
+    private fun SharedPreferences.getPrefValue(type: String, key: String): Any {
         return when (type) {
-            "string" -> prefs.getString(key, "") ?: ""
-            "int" -> prefs.getInt(key, 0)
-            "bool" -> prefs.getBoolean(key, false)
+            "string" -> getString(key, "") ?: ""
+            "int" -> getInt(key, 0)
+            "bool" -> getBoolean(key, false)
             else -> ""
         }
     }
 
-    private fun setPrefValue(prefs: SharedPreferences, key: String, value: String, type: String) {
+    private fun SharedPreferences.setPrefValue(key: String, value: String, type: String) {
         when (type) {
-            "int" -> prefs.edit().putInt(key, value.toInt()).apply()
-            "string" -> prefs.edit().putString(key, value).apply()
-            "bool" -> prefs.edit().putBoolean(key, value.toBoolean()).apply()
+            "int" -> edit().putInt(key, value.toInt()).apply()
+            "string" -> edit().putString(key, value).apply()
+            "bool" -> edit().putBoolean(key, value.toBoolean()).apply()
         }
     }
 
@@ -439,7 +439,7 @@ internal object HelperFunctions {
             var input = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<items>"
             for (i in localPrefKeys.indices) {
                 input += "\n\t<key>${localPrefKeys[i]}</key>" +
-                        "\n\t<value>${getPrefValue(prefs, localPrefTypes[i], localPrefKeys[i])}</value>"
+                        "\n\t<value>${prefs.getPrefValue(localPrefTypes[i], localPrefKeys[i])}</value>"
             }
             input += "\n</items>"
             out.apply {
@@ -471,7 +471,7 @@ internal object HelperFunctions {
             for (i in localPrefTypes.indices) {
                 val key = document.getElementsByTagName("key").item(i).textContent
                 val value = document.getElementsByTagName("value").item(i).textContent
-                setPrefValue(prefs, key, value, localPrefTypes[i])
+                prefs.setPrefValue(key, value, localPrefTypes[i])
             }
             Toast.makeText(context, context.getString(R.string.success), Toast.LENGTH_LONG).show()
         } else {

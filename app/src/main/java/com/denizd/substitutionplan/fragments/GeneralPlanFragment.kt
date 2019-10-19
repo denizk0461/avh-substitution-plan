@@ -3,7 +3,7 @@ package com.denizd.substitutionplan.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import com.denizd.substitutionplan.data.HelperFunctions
+import com.denizd.substitutionplan.data.SubstUtil
 import com.denizd.substitutionplan.models.Substitution
 
 internal class GeneralPlanFragment : PlanFragment() {
@@ -13,7 +13,7 @@ internal class GeneralPlanFragment : PlanFragment() {
 
         substitutionPlan?.observe(this, Observer<List<Substitution>> { substitutions ->
             mAdapter.setSubst(if (substitutions.isEmpty()) {
-                HelperFunctions.getEmptyGeneralSubstitution(mContext)
+                SubstUtil.getEmptyGeneralSubstitution(mContext)
             } else {
                 substitutions
             })
