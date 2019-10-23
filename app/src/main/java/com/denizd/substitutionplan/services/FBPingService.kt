@@ -3,7 +3,7 @@ package com.denizd.substitutionplan.services
 import android.app.job.JobParameters
 import android.app.job.JobService
 import androidx.preference.PreferenceManager
-import com.denizd.substitutionplan.data.Topic
+import com.denizd.substitutionplan.data.SubstUtil
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 
@@ -35,24 +35,24 @@ internal class FBPingService : JobService() {
         if (!prefs.getBoolean("firstTime", true)) {
             FirebaseMessaging.getInstance().apply {
                 if (prefs.getBoolean("notif", true)) {
-                    subscribeToTopic(Topic.ANDROID.tag)
+                    subscribeToTopic(SubstUtil.FB_TOPIC_ANDROID)
                 } else {
-                    unsubscribeFromTopic(Topic.ANDROID.tag)
+                    unsubscribeFromTopic(SubstUtil.FB_TOPIC_ANDROID)
                 }
 
                 if (prefs.getBoolean("subscribedToFBDebugChannel", false)) {
-                    subscribeToTopic(Topic.DEVELOPMENT.tag)
+                    subscribeToTopic(SubstUtil.FB_TOPIC_DEVELOPMENT)
                 } else {
-                    unsubscribeFromTopic(Topic.DEVELOPMENT.tag)
+                    unsubscribeFromTopic(SubstUtil.FB_TOPIC_DEVELOPMENT)
                 }
 
                 if (prefs.getBoolean("subscribedToiOSChannel", false)) {
-                    subscribeToTopic(Topic.IOS.tag)
+                    subscribeToTopic(SubstUtil.FB_TOPIC_IOS)
                 } else {
-                    unsubscribeFromTopic(Topic.IOS.tag)
+                    unsubscribeFromTopic(SubstUtil.FB_TOPIC_IOS)
                 }
 
-                subscribeToTopic(Topic.BROADCAST.tag)
+                subscribeToTopic(SubstUtil.FB_TOPIC_BROADCAST)
 
                 prefs.edit().putInt("pingFB", prefs.getInt("pingFB", 0) + 1).apply()
             }

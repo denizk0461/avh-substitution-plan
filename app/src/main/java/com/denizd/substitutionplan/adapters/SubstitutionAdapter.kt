@@ -2,7 +2,6 @@ package com.denizd.substitutionplan.adapters
 
 import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.SharedPreferences
 import android.net.Uri
 import android.text.SpannableString
 import android.text.style.StrikethroughSpan
@@ -26,9 +25,9 @@ import java.util.*
  * PlanFragment.kt and its subclasses
  *
  * @param substitutions a list of all substitutions of data type Substitution
- * @param prefs         a reference to the app's Shared Preferences used to get user-set colours
+ * @param colours       a map of all user-defined colours for the individual courses
  */
-internal class SubstitutionAdapter(private var substitutions: List<Substitution>, private val prefs: SharedPreferences) : RecyclerView.Adapter<SubstitutionAdapter.CardViewHolder>() {
+internal class SubstitutionAdapter(private var substitutions: List<Substitution>, private val colours: Map<String, String>) : RecyclerView.Adapter<SubstitutionAdapter.CardViewHolder>() {
 
     /**
      * The ViewHolder class used by SubstitutionAdapter.kt to resolve references to views in
@@ -114,11 +113,7 @@ internal class SubstitutionAdapter(private var substitutions: List<Substitution>
             View.GONE
         } else {
             val colourString = SubstUtil.getColourString(holder.course.text.toString())
-            val colourPrefsInt = if (colourString.isNotEmpty()) {
-                prefs.getString("card$colourString", "") ?: ""
-            } else {
-                ""
-            }
+            val colourPrefsInt = colours[colourString] ?: ""
             colour = SubstUtil.getColourForString(colourPrefsInt, holder.context)
             cardBackgroundColour = if (colour != 0) {
                 colour

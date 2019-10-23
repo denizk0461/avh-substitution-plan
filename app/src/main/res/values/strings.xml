@@ -3,7 +3,7 @@
     <string name="app_name">AvH Plan</string>
     <string name="substitution_plan">Substitution Plan</string>
     <string name="filters">Filters</string>
-    <string name="no_internet_connection">No internet connection</string>
+    <string name="an_error_occurred">An error has occurred</string>
     <string name="general">General</string>
     <string name="grade">Grade</string>
     <string name="courses">Courses</string>
@@ -205,4 +205,6 @@
         <item>White</item>
         <item>Black</item>
     </string-array>
+    <string name="plan_updated">The plan has been updated</string>
+    <string name="food_menu_updated">The food menu has been updated</string>
 </resources>

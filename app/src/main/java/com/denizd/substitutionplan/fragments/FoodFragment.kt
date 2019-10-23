@@ -1,36 +1,29 @@
 package com.denizd.substitutionplan.fragments
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import com.denizd.substitutionplan.R
 import com.denizd.substitutionplan.adapters.FoodAdapter
-import com.denizd.substitutionplan.data.SubstUtil
-import com.denizd.substitutionplan.database.FoodViewModel
+import com.denizd.substitutionplan.viewmodels.FoodViewModel
 import com.denizd.substitutionplan.databinding.FoodLayoutBinding
 import com.denizd.substitutionplan.models.Food
+import com.google.android.material.snackbar.Snackbar
 
 internal class FoodFragment : Fragment() {
 
     private val mAdapter = FoodAdapter(ArrayList())
-    private lateinit var mContext: Context
-    private lateinit var prefs: SharedPreferences
-    private lateinit var foodViewModel: FoodViewModel
+    private lateinit var viewModel: FoodViewModel
 
     private lateinit var binding: FoodLayoutBinding
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mContext = context
-        prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
-    }
+    private lateinit var snackBarContainer: CoordinatorLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FoodLayoutBinding.inflate(inflater, container, false)
@@ -40,28 +33,41 @@ internal class FoodFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        snackBarContainer = view.rootView.findViewById(R.id.coordination) // TODO replace findViewById with ViewBinding
+
         binding.recyclerView.apply {
             hasFixedSize()
-            layoutManager = GridLayoutManager(mContext, 1)
+            layoutManager = GridLayoutManager(requireContext(), 1)
             adapter = mAdapter
         }
 
-        foodViewModel = ViewModelProviders.of(this).get(FoodViewModel::class.java)
-        foodViewModel.allFoods?.observe(this, Observer<List<Food>> { foodList ->
+        viewModel = ViewModelProviders.of(this).get(FoodViewModel::class.java)
+        viewModel.allFoodItems?.observe(this, Observer<List<Food>> { foodList ->
             binding.recyclerView.scheduleLayoutAnimation()
             mAdapter.setFood(if (foodList.isEmpty()) {
-                SubstUtil.getEmptyFoodMenu(mContext)
+                viewModel.emptyFoodMenu
             } else {
                 foodList
             })
         })
 
-        if (prefs.getBoolean("autoRefresh", false)) {
-            foodViewModel.refresh(swipeRefreshLayout = binding.swipeRefreshLayout, rootView = view.rootView)
+        if (viewModel.shouldAutoRefresh) {
+            refreshAndDisplaySnackBar()
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener {
-            foodViewModel.refresh(swipeRefreshLayout = binding.swipeRefreshLayout, rootView = view.rootView)
+            refreshAndDisplaySnackBar()
+        }
+    }
+
+    private fun refreshAndDisplaySnackBar() {
+        viewModel.refresh { result, error ->
+            val snackBar = Snackbar.make(snackBarContainer, result, Snackbar.LENGTH_LONG)
+            if (error) {
+                snackBar.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.colorError))
+            }
+            snackBar.show()
+            binding.swipeRefreshLayout.isRefreshing = false
         }
     }
 }

@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">AvH-Plan</string>
     <string name="filters">Filter</string>
-    <string name="no_internet_connection">Keine Internetverbindung</string>
+    <string name="an_error_occurred">Ein Fehler ist aufgetreten</string>
     <string name="general">Allgemein</string>
     <string name="grade">Klasse</string>
     <string name="courses">Kurse</string>
@@ -192,4 +192,6 @@
         <item>Weiß</item>
         <item>Schwarz</item>
     </string-array>
+    <string name="plan_updated">Der Plan wurde aktualisiert</string>
+    <string name="food_menu_updated">Der Speiseplan wurde aktualisiert</string>
 </resources>

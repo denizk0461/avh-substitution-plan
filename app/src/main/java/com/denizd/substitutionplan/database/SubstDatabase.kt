@@ -37,12 +37,12 @@ internal abstract class SubstDatabase : RoomDatabase() {
             }
         }
 
-        private var instance: SubstDatabase? = null
+        private var substInstance: SubstDatabase? = null
 
-        fun getInstance(context: Context): SubstDatabase? {
-            if (instance == null) {
+        fun getSubstInstance(context: Context): SubstDatabase? {
+            if (substInstance == null) {
                 synchronized (SubstDatabase::class) {
-                    instance = Room.databaseBuilder(context.applicationContext,
+                    substInstance = Room.databaseBuilder(context.applicationContext,
                         SubstDatabase::class.java,
                         "subst_database")
                         .addMigrations(addTeacherColumn, addTypeColumn, addDatePriorityColumn, addWebsitePriorityColumn)
@@ -50,7 +50,7 @@ internal abstract class SubstDatabase : RoomDatabase() {
                         .build()
                 }
             }
-            return instance
+            return substInstance
         }
 
         private var foodInstance: SubstDatabase? = null

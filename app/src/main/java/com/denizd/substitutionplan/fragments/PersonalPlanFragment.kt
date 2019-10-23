@@ -3,7 +3,6 @@ package com.denizd.substitutionplan.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import com.denizd.substitutionplan.data.SubstUtil
 import com.denizd.substitutionplan.models.Substitution
 
 internal class PersonalPlanFragment : PlanFragment() {
@@ -11,30 +10,28 @@ internal class PersonalPlanFragment : PlanFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val coursePreference = prefs.getString("courses", "") ?: ""
-        val classPreference = prefs.getString("classes", "") ?: ""
+        val coursePreference = viewModel.getNonNullString("courses")
+        val classPreference = viewModel.getNonNullString("classes")
 
         substitutionPlan?.observe(this, Observer<List<Substitution>> { substitutions ->
-            planCardList.clear()
-            isPersonalPlanEmpty = true
-            binding.recyclerView.visibility = View.VISIBLE
+            val list = ArrayList<Substitution>()
 
             substitutions.filter { substItem ->
-                SubstUtil.checkPersonalSubstitutions(
+                viewModel.checkIfSubstitutionPersonal(
                     substItem,
-                    coursePreference,
                     classPreference,
+                    coursePreference,
                     true
                 )
             }.forEach { substItem ->
-                planCardList.add(substItem)
+                list.add(substItem)
             }
-            isPersonalPlanEmpty = (planCardList.size == 1 && planCardList[0].date.substring(0, 3) == "psa") || planCardList.isEmpty()
+            val isPersonalPlanEmpty = (list.size == 1 && list[0].date.substring(0, 3) == "psa") || list.isEmpty()
             if (isPersonalPlanEmpty) {
-                planCardList.add(SubstUtil.getEmptyPersonalSubstitution(mContext))
+                list.add(viewModel.emptyPersonalSubstitution)
             }
             binding.recyclerView.scheduleLayoutAnimation()
-            mAdapter.setSubst(planCardList)
+            mAdapter.setSubst(list)
         })
     }
 }

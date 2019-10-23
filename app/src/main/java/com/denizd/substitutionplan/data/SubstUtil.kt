@@ -81,16 +81,11 @@ internal object SubstUtil {
 
     const val notificationChannelId = "general"
 
-    fun getEmptyGeneralSubstitution(context: Context) = arrayOf(
-            Substitution("", "", "", context.getString(R.string.plan_empty), "", "", "", "", 0, 0, 0)
-    ).toList()
-
-    fun getEmptyPersonalSubstitution(context: Context) =
-            Substitution("", "", "", context.getString(R.string.personal_plan_empty), "", "", "", "", 0, 0, 0)
-
-    fun getEmptyFoodMenu(context: Context) = arrayOf(
-            Food("\n${context.getString(R.string.food_menu_empty)}\n", 0)
-    ).toList()
+    // Constants for Firebase Cloud Messaging Topics
+    const val FB_TOPIC_ANDROID = "substitutions-android"
+    const val FB_TOPIC_BROADCAST = "substitutions-broadcast"
+    const val FB_TOPIC_IOS = "substitutions-ios"
+    const val FB_TOPIC_DEVELOPMENT = "substitutions-debug"
 
     /**
      * This function returns an array that contains all data relevant to tinting individual entries
@@ -246,39 +241,6 @@ internal object SubstUtil {
             edit.putString("card$course", colour)
         }
         edit.apply()
-    }
-
-    /**
-     * This function serves for checking whether a course on the substitution plan is relevant to
-     * the user and should be shown on their personal plan as well as in their notifications
-     *
-     * @param substitution             the substitution item
-     * @param coursePreference  a string that represents the courses the user is enrolled in
-     * @param classPreference   a string that represents the group the user is in
-     * @param psa               decide whether or not any PSA items should be included in the filter
-     *
-     * @return true if the substitution is relevant to the user, false otherwise
-     */
-    fun checkPersonalSubstitutions(substitution: Substitution, coursePreference: String, classPreference: String, psa: Boolean): Boolean {
-        val group = substitution.group
-        val course = substitution.course
-        if (psa && substitution.date.isNotEmpty() && substitution.date.substring(0, 3) == "psa") {
-            return true
-        }
-        if (coursePreference.isEmpty() && classPreference.isNotEmpty()) {
-            if (group.isNotEmpty()) {
-                if (classPreference.contains(group) || group.contains(classPreference)) {
-                    return true
-                }
-            }
-        } else if (classPreference.isNotEmpty() && coursePreference.isNotEmpty()) {
-            if (group != "" && course != "") {
-                if ((classPreference.contains(group) || group.contains(classPreference)) && coursePreference.contains(course)) {
-                    return true
-                }
-            }
-        }
-        return false
     }
 
     /**

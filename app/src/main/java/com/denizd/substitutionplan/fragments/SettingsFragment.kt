@@ -5,8 +5,6 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.database.Cursor
-import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -17,25 +15,23 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.denizd.substitutionplan.*
 import com.denizd.substitutionplan.adapters.ColourPickerAdapter
 import com.denizd.substitutionplan.adapters.CourseColourAdapter
 import com.denizd.substitutionplan.adapters.RingtoneAdapter
-import com.denizd.substitutionplan.data.DataFetcher
 import com.denizd.substitutionplan.data.SubstUtil
-import com.denizd.substitutionplan.data.Topic
 import com.denizd.substitutionplan.databinding.ContentSettingsBinding
 import com.denizd.substitutionplan.models.Colour
-import com.denizd.substitutionplan.models.Ringtone
+import com.denizd.substitutionplan.viewmodels.SettingsViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.messaging.FirebaseMessaging
@@ -48,28 +44,21 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
     private lateinit var mContext: Context
     private lateinit var prefs: SharedPreferences
     private val customTabsIntent = CustomTabsIntent.Builder().build() as CustomTabsIntent
-    private var window: Window? = null
-    private var longPressed = false
+    private var customiseColoursButtonLongPressed = false
     private var versionCount = 0
     private var currentCourseSelectedInColourPicker = ""
-
-    private val ringtones: List<Ringtone> by lazy {
-        getRingtones()
-    }
 
     private lateinit var colourRecycler: RecyclerView
     private lateinit var ringtoneDialog: AlertDialog
     private lateinit var colourPickerDialog: AlertDialog
 
     private lateinit var binding: ContentSettingsBinding
-    private lateinit var textCustomiseColoursTitle: TextView
-    private lateinit var textCustomiseColoursDesc: TextView
+    private lateinit var viewModel: SettingsViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
         prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
-        window = activity?.window
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -80,11 +69,10 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProviders.of(this)[SettingsViewModel::class.java]
+
         binding.apply {
             val thisFragment = this@SettingsFragment
-
-            thisFragment.textCustomiseColoursTitle = textCustomiseColoursTitle
-            thisFragment.textCustomiseColoursDesc = textCustomiseColoursDesc
 
             // Set text
             setRingtoneText()
@@ -174,15 +162,15 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                         if (Build.VERSION.SDK_INT in 23..28) {
                             @SuppressLint("InlinedApi")
-                            window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                            window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.colorBackground)
+                            activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                            activity?.window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.colorBackground)
                         }
                     }
                     2 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) // only accessible on API 28+
                     else -> {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-                            window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.colorBackground)
+                            activity?.window?.navigationBarColor = ContextCompat.getColor(mContext, R.color.colorBackground)
                         }
                     }
                 }
@@ -219,14 +207,14 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
             R.id.button_courses_help -> createDialog(getString(R.string.courses_help_dialog_title), getString(R.string.courses_help_dialog_text))
             R.id.button_order_help -> createDialog(getString(R.string.ordering_systems_dialog_title), getString(R.string.ordering_systems_dialog_text))
             R.id.button_forced_refresh -> {
-                DataFetcher(
-                        isPlan = true,
-                        isMenu = true,
-                        forced = true,
-                        context = mContext,
-                        application = activity!!.application,
-                        parentView = view!!.rootView
-                ).execute()
+//                val repo = SubstRepository(activity?.application!!)
+//                repo.putAndApplyString("timeNew", "")
+//                repo.putAndApplyString("newFoodTime", "")
+//                repo.fetchDataOnline(Caller.SETTINGS)
+                // TODO needs async
+                // TODO put in viewModel
+                // TODO create viewModel
+                // TODO remove TODOs
             }
             R.id.button_visit_website -> {
                 try {
@@ -250,14 +238,14 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
     override fun onLongClick(v: View?): Boolean {
         return when (v?.id) {
             R.id.button_customise_colours -> {
-                if (!longPressed) {
-                    textCustomiseColoursTitle.text = getString(R.string.made_by_deniz)
-                    textCustomiseColoursDesc.text = getString(R.string.thanks_for_using)
+                if (!customiseColoursButtonLongPressed) {
+                    binding.textCustomiseColoursTitle.text = getString(R.string.made_by_deniz)
+                    binding.textCustomiseColoursDesc.text = getString(R.string.thanks_for_using)
                 } else {
-                    textCustomiseColoursTitle.text = getString(R.string.customise_colours_title)
-                    textCustomiseColoursDesc.text = getString(R.string.customise_colours_desc)
+                    binding.textCustomiseColoursTitle.text = getString(R.string.customise_colours_title)
+                    binding.textCustomiseColoursDesc.text = getString(R.string.customise_colours_desc)
                 }
-                longPressed = !longPressed
+                customiseColoursButtonLongPressed = !customiseColoursButtonLongPressed
                 true
             }
             R.id.button_courses_help -> {
@@ -298,9 +286,9 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                 R.id.switch_notifications -> {
                     prefs.edit().putBoolean("notif", isChecked).apply()
                     if (isChecked) {
-                        subscribeToTopic(Topic.ANDROID)
+                        subscribeToTopic(SubstUtil.FB_TOPIC_ANDROID)
                     } else {
-                        unsubscribeFromTopic(Topic.ANDROID)
+                        unsubscribeFromTopic(SubstUtil.FB_TOPIC_ANDROID)
                     }
                 }
                 R.id.switch_personalised_plan -> {
@@ -389,11 +377,14 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
             val titleText = dialogView.findViewById<TextView>(R.id.empty_textviewtitle)
             titleText.text = getString(R.string.pick_ringtone_dialog_title)
 
-            val recycler = dialogView.findViewById<RecyclerView>(R.id.recyclerView)
-            recycler.apply {
+            dialogView.findViewById<RecyclerView>(R.id.recyclerView).apply {
                 hasFixedSize()
                 layoutManager = GridLayoutManager(mContext, 1)
-                adapter = RingtoneAdapter(ringtones, this@SettingsFragment)
+                if (!viewModel.ringtonesInitialised) {
+                    viewModel.getRingtones {
+                        adapter = RingtoneAdapter(viewModel.ringtones, this@SettingsFragment)
+                    }
+                }
             }
 
             ringtoneDialog = ringtoneCustomiserBuilder.setView(dialogView).create()
@@ -464,10 +455,10 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                     }
                     this == "_devchannel" -> {
                         val subbed = if (prefs.getBoolean("subscribedToFBDebugChannel", false)) {
-                            unsubscribeFromTopic(Topic.DEVELOPMENT)
+                            unsubscribeFromTopic(SubstUtil.FB_TOPIC_DEVELOPMENT)
                             "Unsubscribed from"
                         } else {
-                            subscribeToTopic(Topic.DEVELOPMENT)
+                            subscribeToTopic(SubstUtil.FB_TOPIC_DEVELOPMENT)
                             "Subscribed to"
                         }
                         prefs.edit().putBoolean("subscribedToFBDebugChannel", !prefs.getBoolean("subscribedToFBDebugChannel", false)).apply()
@@ -475,10 +466,10 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                     }
                     this == "_ioschannel" -> {
                         val subbed = if (prefs.getBoolean("subscribedToiOSChannel", false)) {
-                            unsubscribeFromTopic(Topic.IOS)
+                            unsubscribeFromTopic(SubstUtil.FB_TOPIC_IOS)
                             "Unsubscribed from"
                         } else {
-                            subscribeToTopic(Topic.IOS)
+                            subscribeToTopic(SubstUtil.FB_TOPIC_IOS)
                             "Subscribed to"
                         }
                         prefs.edit().putBoolean("subscribedToiOSChannel", !prefs.getBoolean("subscribedToiOSChannel", false)).apply()
@@ -570,26 +561,6 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
         return colours
     }
 
-    private fun getRingtones(): ArrayList<Ringtone> {
-        lateinit var ringtoneCursor: Cursor
-        val ringtoneManager = RingtoneManager(activity).apply {
-            setType(RingtoneManager.TYPE_NOTIFICATION)
-            ringtoneCursor = cursor
-        }
-        val alarms = ArrayList<Ringtone>()
-
-        while (!ringtoneCursor.isAfterLast && ringtoneCursor.moveToNext()) {
-            val position = ringtoneCursor.position
-            alarms.add(
-                Ringtone(
-                    ringtoneManager.getRingtone(position).getTitle(mContext),
-                    ringtoneManager.getRingtoneUri(position).toString()
-                )
-            )
-        }
-        return alarms
-    }
-
     // Functions for handling other things
     private fun setRingtoneText() {
         binding.textCustomiseRingtoneDesc.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -620,16 +591,20 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                 "\n\nSubscribed to dev channel: ${prefs.getBoolean("subscribedToFBDebugChannel", false)}"
     }
 
-    private fun subscribeToTopic(topic: Topic) = FirebaseMessaging.getInstance().subscribeToTopic(topic.tag)
-    private fun unsubscribeFromTopic(topic: Topic) = FirebaseMessaging.getInstance().unsubscribeFromTopic(topic.tag)
+    private fun subscribeToTopic(topic: String) = FirebaseMessaging.getInstance().subscribeToTopic(topic)
+    private fun unsubscribeFromTopic(topic: String) = FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
 
     // Below this point follow string literals that I didn't bother putting in /res/values/strings
 
-    private val licences = "Libraries:" +
-            "\n • jsoup HTML parser © 2009-2018 Jonathan Hedley, licensed under the open source MIT Licence" +
-            "\n\nFont:" +
-            "\n • Manrope © 2018-2019 Michael Sharanda, licensed under the SIL Open Font Licence 1.1" +
-            "\n\nIcons:" +
-            "\n • bqlqn\n • fjstudio\n • Freepik\n • Smashicons" +
-            "\n • © 2013-2019 Freepik Company S.L., licensed under Creative Commons BY 3.0"
+    // TODO check if this is displayed properly
+    private val licences = """Libraries:
+                               • jsoup HTML parser © 2009-2018 Jonathan Hedley, licensed under the open source MIT Licence
+                              Font:
+                               • Manrope © 2018-2019 Michael Sharanda, licensed under the SIL Open Font Licence 1.1
+                              Icons:
+                               • bqlqn
+                               • fjstudio
+                               • Freepik
+                               • Smashicons
+                               • © 2013-2019 Freepik Company S.L., licensed under Creative Commons BY 3.0""".trimIndent()
 }
