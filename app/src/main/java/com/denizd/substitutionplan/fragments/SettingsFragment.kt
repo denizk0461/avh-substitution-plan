@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import androidx.preference.PreferenceManager
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
@@ -42,7 +40,6 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
         RingtoneAdapter.OnRingtoneClickListener, ColourPickerAdapter.OnColourClickListener {
 
     private lateinit var mContext: Context
-    private lateinit var prefs: SharedPreferences
     private val customTabsIntent = CustomTabsIntent.Builder().build() as CustomTabsIntent
     private var customiseColoursButtonLongPressed = false
     private var versionCount = 0
@@ -58,7 +55,6 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
-        prefs = PreferenceManager.getDefaultSharedPreferences(mContext)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -108,37 +104,37 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
             switchAutoRefresh.setOnCheckedChangeListener(thisFragment)
 
             // Set checked
-            switchGreeting.isChecked = prefs.getBoolean("greeting", true)
-            switchNotifications.isChecked = prefs.getBoolean("notif", false)
+            switchGreeting.isChecked = viewModel.shouldGreet
+            switchNotifications.isChecked = viewModel.shouldReceiveNotifications
 
-            switchPersonalisedPlan.isChecked = prefs.getBoolean("defaultPersonalised", false)
-            switchAutoRefresh.isChecked = prefs.getBoolean("autoRefresh", false)
+            switchPersonalisedPlan.isChecked = viewModel.shouldOpenPersonalisedPlan
+            switchAutoRefresh.isChecked = viewModel.shouldAutoRefresh
 
             // Set edit text (+ listeners)
-            edittextName.setText(prefs.getString("username", ""))
+            edittextName.setText(viewModel.username)
             edittextName.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable) {}
                 override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    prefs.edit().putString("username", edittextName.text.toString().trim()).apply()
+                    viewModel.username = edittextName.text.toString().trim()
                 }
             })
 
-            edittextGroup.setText(prefs.getString("classes", ""))
+            edittextGroup.setText(viewModel.group)
             edittextGroup.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable) {}
                 override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    prefs.edit().putString("classes", edittextGroup.text.toString()).apply()
+                    viewModel.group = edittextGroup.text.toString()
                 }
             })
 
-            edittextCourses.setText(prefs.getString("courses", ""))
+            edittextCourses.setText(viewModel.courses)
             edittextCourses.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable) {}
                 override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    prefs.edit().putString("courses", edittextCourses.text.toString()).apply()
+                    viewModel.courses = edittextCourses.text.toString()
                 }
             })
 
@@ -154,9 +150,9 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                     R.layout.dropdown_item
             )
             autocompleteDarkMode.setAdapter(darkModeAdapter)
-            autocompleteDarkMode.setText(autocompleteDarkMode.adapter.getItem(prefs.getInt("themeInt", 0)).toString(), false)
+            autocompleteDarkMode.setText(autocompleteDarkMode.adapter.getItem(viewModel.currentTheme).toString(), false)
             autocompleteDarkMode.setOnItemClickListener { _, _, position, _ ->
-                prefs.edit().putInt("themeInt", position).apply()
+                viewModel.currentTheme = position
                 when (position) {
                     0 -> {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -174,14 +170,14 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                         }
                     }
                 }
-                view.rootView.findViewById<BottomNavigationView>(R.id.bottom_nav).selectedItemId = if (prefs.getBoolean("defaultPersonalised", false)) {
+                view.rootView.findViewById<BottomNavigationView>(R.id.bottom_nav).selectedItemId = if (viewModel.shouldOpenPersonalisedPlan) {
                     R.id.personal
                 } else {
                     R.id.plan
                 }
             }
 
-            val selectedOrderingOption = if (prefs.getBoolean("app_specific_sorting", true)) 0 else 1
+            val selectedOrderingOption = if (viewModel.shouldUseAppSorting) 0 else 1
             val orderingArrayAdapter = ArrayAdapter.createFromResource(
                     mContext,
                     R.array.ordering_systems,
@@ -190,7 +186,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
             autocompleteOrder.setAdapter(orderingArrayAdapter)
             autocompleteOrder.setText(autocompleteOrder.adapter.getItem(selectedOrderingOption).toString(), false)
             autocompleteOrder.setOnItemClickListener { _, _, position, _ ->
-                prefs.edit().putBoolean("app_specific_sorting", position == 0).apply()
+                viewModel.shouldUseAppSorting = position == 0
             }
         }
     }
@@ -269,7 +265,8 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                 true
             }
             R.id.button_forced_refresh -> {
-                prefs.edit().putString("timeNew", "").putString("newFoodTime", "").apply()
+                viewModel.setAndApplyString("timeNew", "")
+                viewModel.setAndApplyString("newFoodTime", "")
                 makeToast(mContext.getString(R.string.force_refresh_cleared_times))
                 true
             }
@@ -281,10 +278,10 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
         if (v?.isPressed == true) {
             when (v.id) {
                 R.id.switch_greeting -> {
-                    prefs.edit().putBoolean("greeting", isChecked).apply()
+                    viewModel.shouldGreet = isChecked
                 }
                 R.id.switch_notifications -> {
-                    prefs.edit().putBoolean("notif", isChecked).apply()
+                    viewModel.shouldReceiveNotifications = isChecked
                     if (isChecked) {
                         subscribeToTopic(SubstUtil.FB_TOPIC_ANDROID)
                     } else {
@@ -292,10 +289,10 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                     }
                 }
                 R.id.switch_personalised_plan -> {
-                    prefs.edit().putBoolean("defaultPersonalised", isChecked).apply()
+                    viewModel.shouldOpenPersonalisedPlan = isChecked
                 }
                 R.id.switch_auto_refresh -> {
-                    prefs.edit().putBoolean("autoRefresh", isChecked).apply()
+                    viewModel.shouldAutoRefresh = isChecked
                 }
             }
         }
@@ -320,7 +317,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
     }
 
     override fun onColourClick(position: Int, colourNoLang: String) {
-        prefs.edit().putString("card$currentCourseSelectedInColourPicker", colourNoLang).apply()
+        viewModel.setAndApplyString("card$currentCourseSelectedInColourPicker", colourNoLang)
         val recyclerViewState = colourRecycler.layoutManager?.onSaveInstanceState()
         colourRecycler.adapter = CourseColourAdapter(getColourList(), this)
         colourRecycler.layoutManager?.onRestoreInstanceState(recyclerViewState)
@@ -328,10 +325,8 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
     }
 
     override fun onRingtoneClick(position: Int, name: String, uri: String) {
-        prefs.edit().apply {
-            putString("ringtoneName", name)
-            putString("ringtoneUri", uri)
-        }.apply()
+        viewModel.setAndApplyString("ringtoneName", name)
+        viewModel.setAndApplyString("ringtoneUri", uri)
         setRingtoneText()
         ringtoneDialog.dismiss()
     }
@@ -364,7 +359,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
 
     private fun createRingtoneDialog() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            SubstUtil.getNotificationChannel(mContext, prefs)
+            viewModel.notificationChannel
             val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
                 putExtra(Settings.EXTRA_APP_PACKAGE, mContext.applicationContext.packageName)
                 putExtra(Settings.EXTRA_CHANNEL_ID, "general")
@@ -418,12 +413,12 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                         devDialogText.text = getDiagnosticsText()
 
                         resetLaunchBtn.setOnClickListener {
-                            prefs.edit().putInt("launchDev", 0).apply()
+                            viewModel.setAndApplyInt("launchDev", 0)
                             devDialogText.text = getDiagnosticsText()
                         }
 
                         resetNotificationBtn.setOnClickListener {
-                            prefs.edit().putInt("pingFB", 0).apply()
+                            viewModel.setAndApplyInt("pingFB", 0)
                             devDialogText.text = getDiagnosticsText()
                         }
 
@@ -431,55 +426,65 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                         alertDialogDev.show()
                     }
                     this == "_login" -> {
-                        prefs.edit().putBoolean("successful_login", false).apply()
+                        viewModel.setAndApplyBool("successful_login", false)
                         makeToast("Login flag cleared")
                     }
                     this == "_firsttime" -> {
-                        prefs.edit().putBoolean("firstTime", true).apply()
+                        viewModel.setAndApplyBool("firstTime", true)
                         makeToast("First time flag cleared")
                     }
                     this == "_testurls" -> {
-                        val currentTest = !prefs.getBoolean("testUrls", false)
-                        prefs.edit().putBoolean("testUrls", currentTest)
-                            .putString("custom_test_url", "").apply()
-                        makeToast("Cleared custom URL")
+                        val currentTest = !viewModel.getBool("testUrls", false)
+                        viewModel.setAndApplyBool("testUrls", currentTest)
+                        if (viewModel.getString("custom_test_url") != "") {
+                            viewModel.setAndApplyString("custom_test_url", "")
+                            makeToast("Cleared custom URL")
+                        }
                         makeToast("Test URLs set to $currentTest")
                     }
                     length > 4 && substring(0, 4) == "_url" -> {
-                        prefs.edit().putString("custom_test_url", substring(4, length)).apply()
+                        viewModel.setAndApplyString("custom_test_url", substring(4, length))
                         makeToast("Successfully entered custom URL")
                     }
                     length == 4 && substring(0, 4) == "_url" -> {
-                        prefs.edit().putString("custom_test_url", "").apply()
+                        viewModel.setAndApplyString("custom_test_url", "")
                         makeToast("Cleared custom URL")
                     }
                     this == "_devchannel" -> {
-                        val subbed = if (prefs.getBoolean("subscribedToFBDebugChannel", false)) {
+                        val subscribedToDevelopmentChannel = viewModel.getBool("subscribedToFBDebugChannel")
+                        val subbedText = if (subscribedToDevelopmentChannel) {
                             unsubscribeFromTopic(SubstUtil.FB_TOPIC_DEVELOPMENT)
                             "Unsubscribed from"
                         } else {
                             subscribeToTopic(SubstUtil.FB_TOPIC_DEVELOPMENT)
                             "Subscribed to"
                         }
-                        prefs.edit().putBoolean("subscribedToFBDebugChannel", !prefs.getBoolean("subscribedToFBDebugChannel", false)).apply()
-                        makeToast("$subbed Firebase development channel")
+                        viewModel.setAndApplyBool("subscribedToFBDebugChannel", !subscribedToDevelopmentChannel)
+                        makeToast("$subbedText Firebase development channel")
                     }
                     this == "_ioschannel" -> {
-                        val subbed = if (prefs.getBoolean("subscribedToiOSChannel", false)) {
+                        val subscribedToIosChannel = viewModel.getBool("subscribedToiOSChannel")
+                        val subbed = if (subscribedToIosChannel) {
                             unsubscribeFromTopic(SubstUtil.FB_TOPIC_IOS)
                             "Unsubscribed from"
                         } else {
                             subscribeToTopic(SubstUtil.FB_TOPIC_IOS)
                             "Subscribed to"
                         }
-                        prefs.edit().putBoolean("subscribedToiOSChannel", !prefs.getBoolean("subscribedToiOSChannel", false)).apply()
+                        viewModel.setAndApplyBool("subscribedToiOSChannel", !subscribedToIosChannel)
                         makeToast("$subbed iOS channel")
                     }
                     this == "_viewstacktrace" -> {
-                        createDialog("Debug Stack Trace", prefs.getString("debug_recent_exception", "") ?: "")
+                        createDialog("Debug Stack Trace", viewModel.getString("debug_recent_exception"))
                     }
-                    this == "_write" -> SubstUtil.writePrefsToXml(prefs, mContext, activity!!)
-                    this == "_read" -> SubstUtil.readPrefsFromXml(prefs, mContext, activity!!)
+//                    this == "_write" -> SubstUtil.writePrefsToXml(prefs, mContext, requireActivity())
+//                    this == "_read" -> {
+//                        if (!SubstUtil.readPrefsFromXml(prefs, mContext)) {
+//                            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 42)
+//                        } else {
+//                            TODO("Figure this out or remove it outright as it is outdated")
+//                        }
+//                    }
                     else -> makeToast(getString(R.string.invalid_code))
                 }
             }
@@ -545,7 +550,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                 R.drawable.ic_gll,
                 R.drawable.ic_wat,
                 R.drawable.ic_help,
-                R.drawable.ic_pencil
+                R.drawable.ic_met
         )
 
         for (i in coursesNoLang.indices) {
@@ -554,7 +559,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                     courses[i],
                     coursesNoLang[i],
                     coursesIcons[i],
-                    SubstUtil.getColourForString(prefs.getString("card${coursesNoLang[i]}", "") ?: "", mContext)
+                    SubstUtil.getColourForString(viewModel.getString("card${coursesNoLang[i]}", ""), mContext)
                 )
             )
         }
@@ -566,8 +571,8 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
         binding.textCustomiseRingtoneDesc.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mContext.getString(R.string.pick_ringtone_desc_o)
         } else {
-            val tone = if ((prefs.getString("ringtoneName", "") ?: "").isNotEmpty()) {
-                prefs.getString("ringtoneName", "")
+            val tone = if ((viewModel.getString("ringtoneName")).isNotEmpty()) {
+                viewModel.getString("ringtoneName")
             } else {
                 mContext.getString(R.string.default_ringtone)
             }
@@ -580,15 +585,15 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
     }
 
     private fun getDiagnosticsText(): String {
-        return "First Launch: ${prefs.getString("firstTimeDev", "")}" +
-                "\n\nApp launched: ${prefs.getInt("launchDev", 0)}" +
-                "\n\nFirebase ping service fired: ${prefs.getInt("pingFB", 0)}" +
+        return "First Launch: ${viewModel.getString("firstTimeDev", "")}" +
+                "\n\nApp launched: ${viewModel.getInt("launchDev", 0)}" +
+                "\n\nFirebase ping service fired: ${viewModel.getInt("pingFB", 0)}" +
                 "\n\nDevice Name: ${Build.DEVICE}" +
                 "\n\nDevice Model: ${Build.MODEL}" +
                 "\n\nAndroid Version: ${Build.VERSION.RELEASE}" +
-                "\n\nSubscribed to notification channel: ${prefs.getBoolean("notif", false)}" +
-                "\n\nSubscribed to iOS channel: ${prefs.getBoolean("subscribedToiOSChannel", false)}" +
-                "\n\nSubscribed to dev channel: ${prefs.getBoolean("subscribedToFBDebugChannel", false)}"
+                "\n\nSubscribed to notification channel: ${viewModel.getBool("notif", false)}" +
+                "\n\nSubscribed to iOS channel: ${viewModel.getBool("subscribedToiOSChannel", false)}" +
+                "\n\nSubscribed to dev channel: ${viewModel.getBool("subscribedToFBDebugChannel", false)}"
     }
 
     private fun subscribeToTopic(topic: String) = FirebaseMessaging.getInstance().subscribeToTopic(topic)

@@ -21,8 +21,6 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.FragmentActivity
 import com.denizd.substitutionplan.R
 import com.denizd.substitutionplan.models.Colour
-import com.denizd.substitutionplan.models.Food
-import com.denizd.substitutionplan.models.Substitution
 import java.util.*
 import java.io.File
 import java.io.FileOutputStream
@@ -132,6 +130,7 @@ internal object SubstUtil {
         return 0
     }
 
+    // Could be merged with getColourString
     fun getIconForCourse(course: String): Int {
         return with (course.toLowerCase(Locale.ROOT)) {
             when {
@@ -159,7 +158,7 @@ internal object SubstUtil {
                 contains("gll") -> R.drawable.ic_gll
                 contains("wat") -> R.drawable.ic_wat
                 contains("för") -> R.drawable.ic_help
-                contains("wp") || contains("met") -> R.drawable.ic_pencil
+                contains("wp") || contains("met") -> R.drawable.ic_met
                 else -> R.drawable.ic_empty
             }
         }
@@ -416,8 +415,8 @@ internal object SubstUtil {
         }
     }
 
-    fun readPrefsFromXml(prefs: SharedPreferences, context: Context, activity: FragmentActivity) {
-        if (checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+    fun readPrefsFromXml(prefs: SharedPreferences, context: Context): Boolean {
+        return if (checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             val localPrefTypes = ArrayList<String>()
             for (i in prefKeys.indices) {
                 localPrefTypes.add(prefTypes[i])
@@ -436,9 +435,10 @@ internal object SubstUtil {
                 prefs.setPrefValue(key, value, localPrefTypes[i])
             }
             Toast.makeText(context, context.getString(R.string.success), Toast.LENGTH_LONG).show()
+            true
         } else {
             Toast.makeText(context, context.getString(R.string.permission_denied), Toast.LENGTH_LONG).show()
-            requestPermissions(activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 42)
+            false
         }
     }
 }

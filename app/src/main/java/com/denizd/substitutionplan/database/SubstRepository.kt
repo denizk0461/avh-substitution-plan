@@ -156,9 +156,19 @@ internal class SubstRepository(private val application: Application) {
                             return true
                         }
                     } else {
-                        if (coursePreference.contains(course.substring(0, questionMark - 1))
-                            || coursePreference.contains(course.substring(questionMark + 1))) {
-                            return true
+                        try {
+                            /*
+                            These if statements are separated for if, for example, this shows up:
+                            "INF7?"
+                            if they were nested in a single if statement, the function may not be
+                            able to recognise the course and throw an exception instead
+                            */
+                            if (coursePreference.contains(course.substring(0, questionMark - 1))) {
+                                return true
+                            } else if (coursePreference.contains(course.substring(questionMark + 1))) {
+                                return true
+                            }
+                        } catch (e: Exception) {
                         }
                     }
                 }
