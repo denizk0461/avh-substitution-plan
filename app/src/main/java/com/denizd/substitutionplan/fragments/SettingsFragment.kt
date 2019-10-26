@@ -17,6 +17,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -32,6 +33,7 @@ import com.denizd.substitutionplan.models.Colour
 import com.denizd.substitutionplan.viewmodels.SettingsViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlin.collections.ArrayList
 
@@ -51,6 +53,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
 
     private lateinit var binding: ContentSettingsBinding
     private lateinit var viewModel: SettingsViewModel
+    private lateinit var snackBarContainer: CoordinatorLayout
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -66,6 +69,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProviders.of(this)[SettingsViewModel::class.java]
+        snackBarContainer = view.rootView.findViewById(R.id.coordination) // TODO replace findViewById with ViewBinding
 
         binding.apply {
             val thisFragment = this@SettingsFragment
@@ -92,7 +96,6 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
             // Set on long click listeners
             buttonCustomiseColours.setOnLongClickListener(thisFragment)
 
-            buttonCoursesHelp.setOnLongClickListener(thisFragment)
             buttonOrderHelp.setOnLongClickListener(thisFragment)
 
             buttonForcedRefresh.setOnLongClickListener(thisFragment)
@@ -203,14 +206,13 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
             R.id.button_courses_help -> createDialog(getString(R.string.courses_help_dialog_title), getString(R.string.courses_help_dialog_text))
             R.id.button_order_help -> createDialog(getString(R.string.ordering_systems_dialog_title), getString(R.string.ordering_systems_dialog_text))
             R.id.button_forced_refresh -> {
-//                val repo = SubstRepository(activity?.application!!)
-//                repo.putAndApplyString("timeNew", "")
-//                repo.putAndApplyString("newFoodTime", "")
-//                repo.fetchDataOnline(Caller.SETTINGS)
-                // TODO needs async
-                // TODO put in viewModel
-                // TODO create viewModel
-                // TODO remove TODOs
+                viewModel.forceRefresh { result, error ->
+                    val snackBar = Snackbar.make(snackBarContainer, result, Snackbar.LENGTH_LONG)
+                    if (error) {
+                        snackBar.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.colorError))
+                    }
+                    snackBar.show()
+                }
             }
             R.id.button_visit_website -> {
                 try {
@@ -244,29 +246,12 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                 customiseColoursButtonLongPressed = !customiseColoursButtonLongPressed
                 true
             }
-            R.id.button_courses_help -> {
-                val link = Uri.parse("https://www.youtube.com/watch?v=Jc2xfYuLWgE") // 'Freak'
-                makeToast(String(Character.toChars(0x2764)))
-                try {
-                    val intent = Intent(Intent.ACTION_VIEW, link)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).setPackage("com.google.android.youtube")
-                    startActivity(intent)
-                } catch (e: ActivityNotFoundException) {
-                    try {
-                        customTabsIntent.launchUrl(mContext, link)
-                    } catch (e: ActivityNotFoundException) {
-                        makeToast(getString(R.string.youtube_not_found))
-                    }
-                }
-                true
-            }
             R.id.button_order_help -> {
                 debugMenu()
                 true
             }
             R.id.button_forced_refresh -> {
-                viewModel.setAndApplyString("timeNew", "")
-                viewModel.setAndApplyString("newFoodTime", "")
+                viewModel.clearTimes()
                 makeToast(mContext.getString(R.string.force_refresh_cleared_times))
                 true
             }
@@ -332,6 +317,8 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
     }
 
     // Functions for handling dialog creation
+    // TODO put this in view model layer
+    // TODO possibly replace with DialogFragment
     private fun createDialog(title: String, text: String) {
         val alertDialog = AlertDialog.Builder(mContext)
         val dialogView = View.inflate(mContext, R.layout.simple_dialog, null)
@@ -359,7 +346,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
 
     private fun createRingtoneDialog() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            viewModel.notificationChannel
+            viewModel.getNotificationChannel()
             val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
                 putExtra(Settings.EXTRA_APP_PACKAGE, mContext.applicationContext.packageName)
                 putExtra(Settings.EXTRA_CHANNEL_ID, "general")
@@ -602,14 +589,15 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
     // Below this point follow string literals that I didn't bother putting in /res/values/strings
 
     // TODO check if this is displayed properly
-    private val licences = """Libraries:
-                               • jsoup HTML parser © 2009-2018 Jonathan Hedley, licensed under the open source MIT Licence
-                              Font:
-                               • Manrope © 2018-2019 Michael Sharanda, licensed under the SIL Open Font Licence 1.1
-                              Icons:
-                               • bqlqn
-                               • fjstudio
-                               • Freepik
-                               • Smashicons
-                               • © 2013-2019 Freepik Company S.L., licensed under Creative Commons BY 3.0""".trimIndent()
+    private val licences = """
+        Libraries:
+         • jsoup HTML parser © 2009-2018 Jonathan Hedley, licensed under the open source MIT Licence
+         
+        Font:
+         • Manrope © 2018-2019 Michael Sharanda, licensed under the SIL Open Font Licence 1.1
+         
+        Icons:
+         • Authors: bqlqn, fjstudio, Freepik, Smashicons
+         • © 2013-2019 Freepik Company S.L., licensed under Creative Commons BY 3.0
+         """.trimIndent()
 }

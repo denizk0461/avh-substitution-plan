@@ -1,16 +1,20 @@
 package com.denizd.substitutionplan.database
 
+import android.annotation.TargetApi
 import android.app.Application
 import android.database.Cursor
 import android.media.RingtoneManager
 import androidx.preference.PreferenceManager
+import com.denizd.substitutionplan.data.Caller
 import com.denizd.substitutionplan.data.SubstUtil
 import com.denizd.substitutionplan.models.Ringtone
 
 internal class SettingsRepository(private val application: Application) {
 
     private val prefs = PreferenceManager.getDefaultSharedPreferences(application)
-    val notificationChannel = SubstUtil.getNotificationChannel(application, prefs)
+
+    @TargetApi(26)
+    fun getNotificationChannel() = SubstUtil.getNotificationChannel(application, prefs)
 
     val ringtones: List<Ringtone> by lazy {
         lateinit var ringtoneCursor: Cursor
@@ -56,5 +60,12 @@ internal class SettingsRepository(private val application: Application) {
         prefs.edit().putString(key, value).apply()
     }
 
+    fun clearTimes() {
+        prefs.edit().putString("timeNew", "").putString("newFoodTime", "").apply()
+    }
 
+    fun forceRefresh(): Pair<String, Boolean> {
+        clearTimes()
+        return SubstRepository(application).fetchDataOnline(Caller.SETTINGS)
+    }
 }

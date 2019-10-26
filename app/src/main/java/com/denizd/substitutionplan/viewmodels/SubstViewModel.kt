@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.res.Configuration
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import com.denizd.substitutionplan.data.Caller
 import com.denizd.substitutionplan.database.SubstRepository
 import com.denizd.substitutionplan.models.Substitution
@@ -37,11 +38,9 @@ internal class SubstViewModel(application: Application) : AndroidViewModel(appli
         return repo.getGridColumnCount(config)
     }
 
-    fun refresh(updateUi: (result: String, error: Boolean) -> Unit)  {
-        GlobalScope.launch {
-            val task = GlobalScope.async { repo.fetchDataOnline(Caller.SUBSTITUTION) }
-            val result = task.await()
-            updateUi(result.first, result.second)
-        }
+    fun refresh(updateUi: (result: String, error: Boolean) -> Unit) = GlobalScope.launch {
+        val task = async { repo.fetchDataOnline(Caller.SUBSTITUTION) }
+        val result = task.await()
+        launch(Dispatchers.Main) { updateUi(result.first, result.second) }
     }
 }

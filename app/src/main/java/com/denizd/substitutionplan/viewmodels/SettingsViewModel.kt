@@ -1,10 +1,11 @@
 package com.denizd.substitutionplan.viewmodels
 
+import android.annotation.TargetApi
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.denizd.substitutionplan.data.SubstUtil
 import com.denizd.substitutionplan.database.SettingsRepository
 import com.denizd.substitutionplan.models.Ringtone
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -25,7 +26,7 @@ internal class SettingsViewModel(application: Application) : AndroidViewModel(ap
         get() = repo.getBool("autoRefresh")
         set(it) = repo.setAndApplyBool("autoRefresh", it)
     var shouldUseAppSorting: Boolean
-        get() = repo.getBool("app_specific_sorting")
+        get() = repo.getBool("app_specific_sorting", true)
         set(it) = repo.setAndApplyBool("app_specific_sorting", it)
 
 
@@ -43,16 +44,17 @@ internal class SettingsViewModel(application: Application) : AndroidViewModel(ap
         get() = repo.getInt("themeInt")
         set(it) = repo.setAndApplyInt("themeInt", it)
 
-    val notificationChannel = repo.notificationChannel
+    @TargetApi(26)
+    fun getNotificationChannel() = repo.getNotificationChannel()
 
     lateinit var ringtones: List<Ringtone>
     val ringtonesInitialised = ::ringtones.isInitialized
 
     fun getRingtones(updateUi: () -> Unit) {
         GlobalScope.launch {
-            val task = GlobalScope.async { repo.ringtones }
+            val task = async { repo.ringtones }
             ringtones = task.await()
-            updateUi()
+            launch(Dispatchers.Main) { updateUi() }
         }
     }
 
@@ -62,4 +64,11 @@ internal class SettingsViewModel(application: Application) : AndroidViewModel(ap
     fun setAndApplyBool(key: String, value: Boolean) = repo.setAndApplyBool(key, value)
     fun getString(key: String, default: String = "", ifNull: String = "") = repo.getString(key, default) ?: ifNull
     fun setAndApplyString(key: String, value: String) = repo.setAndApplyString(key, value)
+
+    fun clearTimes() = repo.clearTimes()
+    fun forceRefresh(updateUi: (result: String, error: Boolean) -> Unit) = GlobalScope.launch {
+        val task = async { repo.forceRefresh() }
+        val result = task.await()
+        launch(Dispatchers.Main) { updateUi(result.first, result.second) }
+    }
 }

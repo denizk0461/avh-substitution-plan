@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import com.denizd.substitutionplan.data.Caller
 import com.denizd.substitutionplan.database.SubstRepository
 import com.denizd.substitutionplan.models.Food
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -23,9 +24,9 @@ internal class FoodViewModel(application: Application) : AndroidViewModel(applic
 
     fun refresh(updateUi: (result: String, error: Boolean) -> Unit)  {
         GlobalScope.launch {
-            val task = GlobalScope.async { repo.fetchDataOnline(Caller.FOODMENU) }
+            val task = async { repo.fetchDataOnline(Caller.FOODMENU) }
             val result = task.await()
-            updateUi(result.first, result.second)
+            launch(Dispatchers.Main) { updateUi(result.first, result.second) }
         }
     }
 }
