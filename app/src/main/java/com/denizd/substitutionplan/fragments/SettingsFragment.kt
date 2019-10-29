@@ -209,7 +209,7 @@ internal class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongC
                 viewModel.forceRefresh { result, error ->
                     val snackBar = Snackbar.make(snackBarContainer, result, Snackbar.LENGTH_LONG)
                     if (error) {
-                        snackBar.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.colorError))
+                        snackBar.setBackgroundTint(ContextCompat.getColor(mContext, R.color.colorError))
                     }
                     snackBar.show()
                 }

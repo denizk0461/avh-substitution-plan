@@ -1,5 +1,6 @@
 package com.denizd.substitutionplan.fragments
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,6 +29,12 @@ internal open class PlanFragment : Fragment() {
     internal var substitutionPlan: LiveData<List<Substitution>>? = null
     internal lateinit var binding: PlanBinding
     private lateinit var snackBarContainer: CoordinatorLayout
+    private lateinit var mContext: Context
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = PlanBinding.inflate(inflater, container, false)
@@ -36,7 +43,7 @@ internal open class PlanFragment : Fragment() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), viewModel.getGridColumnCount(newConfig))
+        binding.recyclerView.layoutManager = GridLayoutManager(mContext, viewModel.getGridColumnCount(newConfig))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,7 +60,7 @@ internal open class PlanFragment : Fragment() {
 
         binding.recyclerView.apply {
             hasFixedSize()
-            layoutManager = GridLayoutManager(requireContext(), viewModel.getGridColumnCount(resources.configuration))
+            layoutManager = GridLayoutManager(mContext, viewModel.getGridColumnCount(resources.configuration))
             adapter = mAdapter
         }
 
@@ -76,7 +83,7 @@ internal open class PlanFragment : Fragment() {
         viewModel.refresh { result, error ->
             val snackBar = Snackbar.make(snackBarContainer, result, Snackbar.LENGTH_LONG)
             if (error) {
-                snackBar.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.colorError)) // TODO check if requireContext() is dangerous ;(
+                snackBar.setBackgroundTint(ContextCompat.getColor(mContext, R.color.colorError)) // TODO check if mContext is dangerous ;(
             }
             snackBar.show()
             binding.swipeRefreshLayout.isRefreshing = false

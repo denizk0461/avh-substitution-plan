@@ -1,5 +1,6 @@
 package com.denizd.substitutionplan.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,12 @@ internal class FoodFragment : Fragment() {
 
     private lateinit var binding: FoodLayoutBinding
     private lateinit var snackBarContainer: CoordinatorLayout
+    private lateinit var mContext: Context
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FoodLayoutBinding.inflate(inflater, container, false)
@@ -37,7 +44,7 @@ internal class FoodFragment : Fragment() {
 
         binding.recyclerView.apply {
             hasFixedSize()
-            layoutManager = GridLayoutManager(requireContext(), 1)
+            layoutManager = GridLayoutManager(mContext, 1)
             adapter = mAdapter
         }
 
@@ -64,7 +71,7 @@ internal class FoodFragment : Fragment() {
         viewModel.refresh { result, error ->
             val snackBar = Snackbar.make(snackBarContainer, result, Snackbar.LENGTH_LONG)
             if (error) {
-                snackBar.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.colorError))
+                snackBar.setBackgroundTint(ContextCompat.getColor(mContext, R.color.colorError))
             }
             snackBar.show()
             binding.swipeRefreshLayout.isRefreshing = false
